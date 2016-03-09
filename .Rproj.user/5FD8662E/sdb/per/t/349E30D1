@@ -1,0 +1,18 @@
+{
+    "contents" : "#' Partial Dependence (Two Variables)\n#'\n#' One- and two-dimensional partial dependence plots for objects of class\n#' \\code{mertree}.\n#'\n#' @param object A \\code{mertree} object.\n#' @param x1.name Character string giving the name of the first independent\n#'   variable of interest.\n#' @param x2.name Character string giving the name of the second independent\n#'   variable of interest.\n#' @param n1 Integer giving the number of unique data points to use in\n#'   computing the partial dependence values for \\code{x1.name}.\n#' @param n2 Integer giving the number of unique data points to use in\n#'   computing the partial dependence values for \\code{x2.name}.\n#' @param x1.class Character string specifying the class for \\code{x1.name}.\n#' @param x2.class Character string specifying the class for \\code{x2.name}.\n#' @param newdata An optional data frame.\n#' @param ... Additional optional arguments passed onto \\code{aaply}.\n#' @note\n#' It may be necessary to supply values for \\code{x1.class} or \\code{x2.class}\n#' when \\code{n1} or \\code{n2}, respectively, are supplied. This is usually the\n#' case when \\code{object} is of class \\code{\"BinaryTree\"} or \\code{\"mertree\"}\n#' (with \\code{unbiased = TRUE}).\n#' @importFrom plyr adply\n#' @export\npartial_2d <- function(object, x1.name, x2.name, n1, n2, x1.class, x2.class,\n                       newdata, ...) {\n\n  # Data frame\n  .data <- if (missing(newdata)) eval(object$call$data) else newdata\n\n  # Sorted unique values of the first independent variable\n  sux1 <- sort(unique(.data[[x1.name]]))\n  if (!missing(n1)) {\n    sux1 <- seq(from = min(sux1), to = max(sux1), length = n1)\n  }\n\n  # Sorted unique values of the second independent variable\n  sux2 <- sort(unique(.data[[x2.name]]))\n  if (!missing(n2)) {\n    sux2 <- seq(from = min(sux2), to = max(sux2), length = n2)\n  }\n\n  # Data frame of unique combinations\n  xgrid <- expand.grid(\"x1\" = sux1, \"x2\" = sux2)\n\n  # Make sure x1 and x2 have the specified class\n  if (!missing(x1.class)) {\n    class(xgrid$x1) <- x1.class\n  }\n  if (!missing(x2.class)) {\n    class(xgrid$x2) <- x2.class\n  }\n\n  # Compute average prediction for each unique value\n  pd_df <- adply(xgrid, .margins = 1, .fun = function(x) {\n    temp <- .data\n    temp[[x1.name]] <- x[[1]]\n    temp[[x2.name]] <- x[[2]]\n    mean(predict(object, newdata = temp))\n  }, ...)\n\n  # Return data frame of partial dependence values\n  names(pd_df) <- c(x1.name, x2.name, \"y\")\n  pd_df\n\n}\n",
+    "created" : 1457011856171.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "354094431",
+    "id" : "349E30D1",
+    "lastKnownWriteTime" : 1457011900,
+    "path" : "~/Desktop/Dropbox/devel/partial/R/partial_2d.R",
+    "project_path" : "R/partial_2d.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

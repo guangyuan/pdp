@@ -1,3 +1,16 @@
+#' Pipe operator
+#'
+#' See \code{\link[magrittr]{\%>\%}} for more details.
+#'
+#' @name %>%
+#' @rdname pipe
+#' @keywords internal
+#' @export
+#' @importFrom magrittr %>%
+#' @usage lhs \%>\% rhs
+NULL
+
+
 #' @keywords internal
 avgLogit <- function(x, which.class = 1L) {
   stopifnot(is.matrix(x))  # x should be a nclass by n probability matrix

@@ -2,9 +2,13 @@
 % Please edit documentation in R/partial_1d.R
 \name{partial_1d}
 \alias{partial_1d}
+\alias{partial_1d.default}
 \title{Partial Dependence (One Variable)}
 \usage{
 partial_1d(object, x.name, x.values, n, newdata, which.class = 1L, ...)
+
+\method{partial_1d}{default}(object, x.name, x.values, n, newdata,
+  which.class = 1L, ...)
 }
 \arguments{
 \item{object}{A \code{mertree} object.}

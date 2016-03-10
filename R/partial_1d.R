@@ -17,6 +17,7 @@
 #' supplied. This is usually the case when \code{object} is of class
 #' \code{"BinaryTree"} or \code{"mertree"} (with \code{unbiased = TRUE}).
 #' @importFrom plyr laply
+#' @rdname partial_1d
 #' @export
 partial_1d <- function(object, x.name, x.values, n, newdata, which.class = 1L,
                        ...) {
@@ -24,7 +25,10 @@ partial_1d <- function(object, x.name, x.values, n, newdata, which.class = 1L,
 }
 
 
-partial_1d.default <- function(object, x.name, x.values, n, newdata, ...) {
+#' @rdname partial_1d
+#' @export
+partial_1d.default <- function(object, x.name, x.values, n, newdata,
+                               which.class = 1L, ...) {
 
   # Data frame
   newdata <- if (missing(newdata)) eval(object$call$data) else newdata

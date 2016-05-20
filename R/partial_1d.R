@@ -55,7 +55,7 @@ partial_1d.default <- function(object, x.name, x.values, n, newdata,
     pd <- laply(x.values, .fun = function(x) {
       temp <- newdata
       temp[[x.name]] <- x
-      mean(predict(object, newdata = temp))
+      mean(predict(object, newdata = temp), na.rm = TRUE)
     }, ...)
   } else if (super.type == "classification") {
     pd <- laply(x.values, .fun = function(x) {

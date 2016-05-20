@@ -78,5 +78,3 @@ superType.RandomForest <- function(object) {
     "regression"
   }
 }
-
-

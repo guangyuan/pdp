@@ -25,8 +25,7 @@
 #' @importFrom plyr laply
 #' @rdname partial_1d
 #' @export
-partial_1d <- function(object, x.name, x.values, n, newdata, which.class = 1L,
-                       super.type, ...) {
+partial_1d <- function(object, ...) {
   UseMethod("partial_1d")
 }
 
@@ -34,7 +33,8 @@ partial_1d <- function(object, x.name, x.values, n, newdata, which.class = 1L,
 #' @rdname partial_1d
 #' @export
 partial_1d.default <- function(object, x.name, x.values, n, newdata,
-                               which.class = 1L, check.class = TRUE, ...) {
+                               which.class = 1L, super.type, check.class = TRUE, 
+                               ...) {
   
   # Data frame
   newdata <- if (missing(newdata)) eval(object$call$data) else newdata

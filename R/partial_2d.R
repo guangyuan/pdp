@@ -55,8 +55,8 @@ partial_2d <- function(object, x1.name, x2.name, n1, n2, x1.class, x2.class,
   # Compute average prediction for each unique value
   pd_df <- adply(xgrid, .margins = 1, .fun = function(x) {
     temp <- .data
-    temp[[x1.name]] <- x[[1]]
-    temp[[x2.name]] <- x[[2]]
+    temp[[x1.name]] <- x[[1L]]
+    temp[[x2.name]] <- x[[2L]]
     mean(predict(object, newdata = temp))
   }, ...)
 

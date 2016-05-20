@@ -27,6 +27,12 @@ superType <- function(object) {
 
 
 #' @keywords internal
+superType.lm <- function(object) {
+  "regression"
+}
+
+
+#' @keywords internal
 superType.rpart <- function(object) {
   if (object$method == "anova") {
     "regression"

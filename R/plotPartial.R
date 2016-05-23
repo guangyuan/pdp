@@ -7,17 +7,24 @@
 #'   (\code{TRUE}) or \code{lattice::wireframe} (\code{FALSE}). Default is \code{TRUE}.
 #' @param ... Additional optional arguments to be passed onto \code{lattice}
 #'   plotting functions.
+#' @rdname plotPartial
 #' @export
 plotPartial <- function(x, ...) {
   UseMethod("plotPartial")
 }
 
 
+#' @rdname plotPartial
+#' @export
+#' @method plotPartial partial_1d
 plotPartial.partial_1d <- function(x, ...) {
   plot(x, ...)
 }
 
 
+#' @rdname plotPartial
+#' @export
+#' @method plotPartial partial_2d
 plotPartial.partial_2d <- function(x, contour = TRUE, ...) {
   form <- as.formula(paste("y ~", paste(names(x)[1:2], collapse = "*")))
   if (contour) {

@@ -88,6 +88,7 @@ partial_1d.default <- function(object, x.name, x.values, n, newdata,
   # Return data frame of partial dependence values
   pd_df <- data.frame(x = x.values, y = pd)
   names(pd_df) <- c(x.name, "y")
+  class(pd_df) <- c("data.frame", "partial_1d")
   pd_df
   
 }

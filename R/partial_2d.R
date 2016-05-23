@@ -62,6 +62,7 @@ partial_2d <- function(object, x1.name, x2.name, n1, n2, x1.class, x2.class,
 
   # Return data frame of partial dependence values
   names(pd_df) <- c(x1.name, x2.name, "y")
+  class(pd_df) <- c("data.frame", "partial_2d")
   pd_df
 
 }

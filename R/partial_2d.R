@@ -57,7 +57,7 @@ partial_2d <- function(object, x1.name, x2.name, n1, n2, x1.class, x2.class,
     temp <- .data
     temp[[x1.name]] <- x[[1L]]
     temp[[x2.name]] <- x[[2L]]
-    mean(predict(object, newdata = temp))
+    mean(predict(object, newdata = temp), na.rm = TRUE)
   }, ...)
 
   # Return data frame of partial dependence values

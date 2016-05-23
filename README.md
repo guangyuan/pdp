@@ -36,7 +36,8 @@ varImpPlot(ozone.rf)
 
 # Is there an interaction between Temp and Wind?
 pd.temp.wind <- partial_2d(ozone.rf, "Temp", "Wind")
-plotPartial(pd.temp.wind, contour = FALSE, 
+plotPartial(pd.temp.wind, 
+            contour = FALSE,  # use lattice::wireframe 
             drape = TRUE,
             # shade = TRUE, 
             screen = list(z = 110, x = -60))

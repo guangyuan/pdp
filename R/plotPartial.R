@@ -7,6 +7,8 @@
 #'   (\code{TRUE}) or \code{lattice::wireframe} (\code{FALSE}). Default is \code{TRUE}.
 #' @param ... Additional optional arguments to be passed onto \code{lattice}
 #'   plotting functions.
+#'
+#' importFrom lattice levelplot wireframe xyplot
 #' @rdname plotPartial
 #' @export
 plotPartial <- function(x, ...) {
@@ -18,7 +20,7 @@ plotPartial <- function(x, ...) {
 #' @export
 #' @method plotPartial partial_1d
 plotPartial.partial_1d <- function(x, ...) {
-  plot(x, ...)
+  xyplot(as.formula(paste("y ~", names(x)[1L])), ...)
 }
 
 
@@ -26,7 +28,7 @@ plotPartial.partial_1d <- function(x, ...) {
 #' @export
 #' @method plotPartial partial_2d
 plotPartial.partial_2d <- function(x, contour = TRUE, ...) {
-  form <- as.formula(paste("y ~", paste(names(x)[1:2], collapse = "*")))
+  form <- as.formula(paste("y ~", paste(names(x)[1L:2L], collapse = "*")))
   if (contour) {
     levelplot(form, data = x, ...)
   } else {

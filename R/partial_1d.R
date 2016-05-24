@@ -39,17 +39,20 @@ partial_1d.default <- function(object, x.name, x.values, n, newdata,
   # Data frame
   newdata <- if (missing(newdata)) eval(object$call$data) else newdata
   
-  x.class <- class(newdata[[x.name]])
-  
   # Predictor values of interest
   x.values <- if (missing(x.values)) {
-    if (x.class == "factor") {
+    if (is.factor(newdata[[x.name]])) {
       levels(newdata[[x.name]])
     } else if (missing(n)) {
       sort(unique(newdata[[x.name]]))
     } else {
       seq(from = min(newdata[[x.name]]), to = max(newdata[[x.name]]), length = n)
     }
+  }
+  
+  # Make sure x.values has the correct x.class
+  if (check.class) {
+    class(x.values) <- class(newdata[[x.name]])
   }
   
   # Determine the type of supervised learning used
@@ -59,11 +62,6 @@ partial_1d.default <- function(object, x.name, x.values, n, newdata,
     if (!(super.type %in% c("regression", "classification"))) {
       stop("Only regression and classification are supported.")
     }
-  }
-  
-  # Make sure x.values has the correct x.class
-  if (check.class) {
-    class(x.values) <- x.class
   }
   
   # Calculate partial dependence values

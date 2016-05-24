@@ -5,13 +5,15 @@
 \alias{partial_1d.default}
 \title{Partial Dependence (One Variable)}
 \usage{
-partial_1d(object, x.name, x.values, n, newdata, which.class = 1L, ...)
+partial_1d(object, ...)
 
 \method{partial_1d}{default}(object, x.name, x.values, n, newdata,
-  which.class = 1L, ...)
+  which.class = 1L, super.type, check.class = TRUE, ...)
 }
 \arguments{
 \item{object}{A \code{mertree} object.}
+
+\item{...}{Additional optional arguments passed onto \code{aaply}.}
 
 \item{x.name}{Character string giving the name of the independent variable of
 interest.}
@@ -21,11 +23,15 @@ computing the partial dependence values.}
 
 \item{newdata}{An optional data frame.}
 
-\item{...}{Additional optional arguments passed onto \code{aaply}.}
+\item{super.type}{Character string specifying the type of supervised
+learning. Current options are \code{"regression"} or 
+\code{"classification"}. For tree-based models (e.g., \code{"rpart"}), the
+function can usually extract the necessary information from \code{object}.}
+
+\item{check.class}{Logical indicating whether or not to check the class of
+the predictor variables of interest.}
 
 \item{x.class}{Character string specifying the class for \code{x.name}.}
-
-\item{type}{Character string}
 }
 \description{
 One- and two-dimensional partial dependence plots for objects of class

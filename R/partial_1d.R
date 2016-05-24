@@ -7,17 +7,20 @@
 #' @param object A \code{mertree} object.
 #' @param x.name Character string giving the name of the independent variable of
 #'   interest.
+#' @param x.values Vector of predictor values to use in computing the partial 
+#'   dependence function.
 #' @param n Integer giving the number of unique data points to use in
 #'   computing the partial dependence values.
-#' @param x.class Character string specifying the class for \code{x.name}.
 #' @param newdata An optional data frame.
+#' @param which.class Integer specifying which column of the matrix of predicted 
+#'   probabilities to use as the "focus" class. Default is to use the first class.
 #' @param super.type Character string specifying the type of supervised
 #'   learning. Current options are \code{"regression"} or 
 #'   \code{"classification"}. For tree-based models (e.g., \code{"rpart"}), the
 #'   function can usually extract the necessary information from \code{object}.
 #' @param check.class Logical indicating whether or not to check the class of
-#'   the predictor variables of interest.
-#' @param ... Additional optional arguments passed onto \code{aaply}.
+#'   the predictor variable of interest. Default is \code{TRUE}.
+#' @param ... Additional optional arguments to be passed onto \code{aaply}.
 #' @note
 #' It may be necessary to supply a value for \code{x.class} when \code{n} is
 #' supplied. This is usually the case when \code{object} is of class

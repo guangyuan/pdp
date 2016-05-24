@@ -5,8 +5,8 @@
 #' @param x An object of class{"partial_1d"} or \code{"partial_2d"}.
 #' @param contour Logical indicating whether or not to use \code{lattice::levelplot} 
 #'   (\code{TRUE}) or \code{lattice::wireframe} (\code{FALSE}). Default is \code{TRUE}.
-#' @param ... Additional optional arguments to be passed onto \code{lattice}
-#'   plotting functions.
+#' @param ... Additional optional arguments to be passed onto \code{levelplot}, 
+#'   \code{wireframe}, or \code{xyplot}.
 #'
 #' importFrom lattice levelplot wireframe xyplot
 #' @rdname plotPartial

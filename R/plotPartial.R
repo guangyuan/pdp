@@ -20,7 +20,7 @@ plotPartial <- function(x, ...) {
 #' @export
 #' @method plotPartial partial_1d
 plotPartial.partial_1d <- function(x, ...) {
-  xyplot(as.formula(paste("y ~", names(x)[1L])), ...)
+  xyplot(as.formula(paste("y ~", names(x)[1L])), newdata = x, type = "l", ...)
 }
 
 

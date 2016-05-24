@@ -12,15 +12,22 @@
 #'   computing the partial dependence values for \code{x1.name}.
 #' @param n2 Integer giving the number of unique data points to use in
 #'   computing the partial dependence values for \code{x2.name}.
-#' @param x1.class Character string specifying the class for \code{x1.name}.
-#' @param x2.class Character string specifying the class for \code{x2.name}.
+#' @param x1.values Abc.
+#' @param x2.values Abc.
+#' @param super.type Character string specifying the type of supervised
+#'   learning. Current options are \code{"regression"} or 
+#'   \code{"classification"}. For tree-based models (e.g., \code{"rpart"}), the
+#'   function can usually extract the necessary information from \code{object}.
+#' @param which.class Integer specifying which class to use as the target class
+#'   (classification only).
+#' @param check.class Logical indicating whether or not to check the class of
+#'   each predictor variable of interest.
 #' @param newdata An optional data frame.
-#' @param ... Additional optional arguments passed onto \code{aaply}.
+#' @param ... Additional optional arguments to be passed onto \code{aaply}.
 #' @note
 #' It may be necessary to supply values for \code{x1.class} or \code{x2.class}
 #' when \code{n1} or \code{n2}, respectively, are supplied. This is usually the
-#' case when \code{object} is of class \code{"BinaryTree"} or \code{"mertree"}
-#' (with \code{unbiased = TRUE}).
+#' case when \code{object} is of class \code{"BinaryTree"}.
 #' @importFrom plyr adply
 #' @export
 partial_2d <- function(object, ...) {
@@ -28,8 +35,11 @@ partial_2d <- function(object, ...) {
 }
 
 
+#' @rdname partial_2d
+#' @export
 partial_2d.default <- function(object, x1.name, x2.name, n1, n2, 
-                               x1.values, x2.values, x1.class, x2.class, 
+                               x1.values, x2.values, super.type, 
+                               which.class = 1L, check.class = TRUE, 
                                newdata, ...) {
   
   # Data frame
@@ -40,7 +50,7 @@ partial_2d.default <- function(object, x1.name, x2.name, n1, n2,
   
   # First predictor values of interest
   x1.values <- if (missing(x1.values)) {
-    if (x1.class == "factor") {
+    if (is.factor(newdata[[x1.name]])) {
       levels(newdata[[x1.name]])
     } else if (missing(n1)) {
       sort(unique(newdata[[x1.name]]))
@@ -52,7 +62,7 @@ partial_2d.default <- function(object, x1.name, x2.name, n1, n2,
   
   # Second predictor values of interest
   x2.values <- if (missing(x2.values)) {
-    if (x1.class == "factor") {
+    if (is.factor(newdata[[x2.name]])) {
       levels(newdata[[x2.name]])
     } else if (missing(n2)) {
       sort(unique(newdata[[x2.name]]))
@@ -75,11 +85,9 @@ partial_2d.default <- function(object, x1.name, x2.name, n1, n2,
   }
   
   # Make sure x1 and x2 have the correct class
-  if (!missing(x1.class)) {
-    class(xgrid$x1) <- x1.class
-  }
-  if (!missing(x2.class)) {
-    class(xgrid$x2) <- x2.class
+  if (check.class) {
+    class(xgrid$x1) <- class(newdata[[x1.name]])
+    class(xgrid$x2) <- class(newdata[[x2.name]])
   }
   
   # Calculate partial dependence values

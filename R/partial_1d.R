@@ -21,10 +21,7 @@
 #' @param check.class Logical indicating whether or not to check the class of
 #'   the predictor variable of interest. Default is \code{TRUE}.
 #' @param ... Additional optional arguments to be passed onto \code{aaply}.
-#' @note
-#' It may be necessary to supply a value for \code{x.class} when \code{n} is
-#' supplied. This is usually the case when \code{object} is of class
-#' \code{"BinaryTree"} or \code{"mertree"} (with \code{unbiased = TRUE}).
+#'
 #' @importFrom plyr laply
 #' @rdname partial_1d
 #' @export

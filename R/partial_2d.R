@@ -12,8 +12,10 @@
 #'   computing the partial dependence values for \code{x1.name}.
 #' @param n2 Integer giving the number of unique data points to use in
 #'   computing the partial dependence values for \code{x2.name}.
-#' @param x1.values Abc.
-#' @param x2.values Abc.
+#' @param x1.values Vector of predictor values to use in computing the partial 
+#'   dependence function.
+#' @param x2.values Vector of predictor values to use in computing the partial 
+#'   dependence function.
 #' @param super.type Character string specifying the type of supervised
 #'   learning. Current options are \code{"regression"} or 
 #'   \code{"classification"}. For tree-based models (e.g., \code{"rpart"}), the
@@ -24,11 +26,9 @@
 #'   each predictor variable of interest.
 #' @param newdata An optional data frame.
 #' @param ... Additional optional arguments to be passed onto \code{aaply}.
-#' @note
-#' It may be necessary to supply values for \code{x1.class} or \code{x2.class}
-#' when \code{n1} or \code{n2}, respectively, are supplied. This is usually the
-#' case when \code{object} is of class \code{"BinaryTree"}.
+#'
 #' @importFrom plyr adply
+#' @rdname partial_2d
 #' @export
 partial_2d <- function(object, ...) {
   UseMethod("partial_1d")

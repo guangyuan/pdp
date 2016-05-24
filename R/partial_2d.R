@@ -31,7 +31,7 @@
 #' @rdname partial_2d
 #' @export
 partial_2d <- function(object, ...) {
-  UseMethod("partial_1d")
+  UseMethod("partial_2d")
 }
 
 

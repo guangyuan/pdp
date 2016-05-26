@@ -5,7 +5,7 @@ Version: 0.1
 Date: 2016-03-03
 Authors@R: person("Brandon", "Greenwell", email = "greenwell.brandon@gmail.com",
   role = c("aut", "cre"))
-Maintainer: greenwell.brandon@gmail.com
+Maintainer: <greenwell.brandon@gmail.com>
 Description: A general framework for creating partial dependence plots for
     various machine learning models in R.
 License: GPL (>= 2)

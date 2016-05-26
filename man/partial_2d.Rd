@@ -2,12 +2,18 @@
 % Please edit documentation in R/partial_2d.R
 \name{partial_2d}
 \alias{partial_2d}
+\alias{partial_2d.default}
 \title{Partial Dependence (Two Variables)}
 \usage{
-partial_2d(object, x1.name, x2.name, n1, n2, x1.class, x2.class, newdata, ...)
+partial_2d(object, ...)
+
+\method{partial_2d}{default}(object, x1.name, x2.name, n1, n2, x1.values,
+  x2.values, super.type, which.class = 1L, check.class = TRUE, newdata, ...)
 }
 \arguments{
 \item{object}{A \code{mertree} object.}
+
+\item{...}{Additional optional arguments to be passed onto \code{aaply}.}
 
 \item{x1.name}{Character string giving the name of the first independent
 variable of interest.}
@@ -21,22 +27,27 @@ computing the partial dependence values for \code{x1.name}.}
 \item{n2}{Integer giving the number of unique data points to use in
 computing the partial dependence values for \code{x2.name}.}
 
-\item{x1.class}{Character string specifying the class for \code{x1.name}.}
+\item{x1.values}{Vector of predictor values to use in computing the partial 
+dependence function.}
 
-\item{x2.class}{Character string specifying the class for \code{x2.name}.}
+\item{x2.values}{Vector of predictor values to use in computing the partial 
+dependence function.}
+
+\item{super.type}{Character string specifying the type of supervised
+learning. Current options are \code{"regression"} or 
+\code{"classification"}. For tree-based models (e.g., \code{"rpart"}), the
+function can usually extract the necessary information from \code{object}.}
+
+\item{which.class}{Integer specifying which class to use as the target class
+(classification only).}
+
+\item{check.class}{Logical indicating whether or not to check the class of
+each predictor variable of interest.}
 
 \item{newdata}{An optional data frame.}
-
-\item{...}{Additional optional arguments passed onto \code{aaply}.}
 }
 \description{
 One- and two-dimensional partial dependence plots for objects of class
 \code{mertree}.
-}
-\note{
-It may be necessary to supply values for \code{x1.class} or \code{x2.class}
-when \code{n1} or \code{n2}, respectively, are supplied. This is usually the
-case when \code{object} is of class \code{"BinaryTree"} or \code{"mertree"}
-(with \code{unbiased = TRUE}).
 }
 

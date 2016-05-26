@@ -15,8 +15,10 @@ plotPartial(x, ...)
 \arguments{
 \item{x}{An object of class{"partial_1d"} or \code{"partial_2d"}.}
 
-\item{...}{Additional optional arguments to be passed onto \code{lattice}
-plotting functions.}
+\item{...}{Additional optional arguments to be passed onto \code{levelplot}, 
+  \code{wireframe}, or \code{xyplot}.
+
+importFrom lattice levelplot wireframe xyplot}
 
 \item{contour}{Logical indicating whether or not to use \code{lattice::levelplot} 
 (\code{TRUE}) or \code{lattice::wireframe} (\code{FALSE}). Default is \code{TRUE}.}

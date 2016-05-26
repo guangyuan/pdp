@@ -13,15 +13,21 @@ partial_1d(object, ...)
 \arguments{
 \item{object}{A \code{mertree} object.}
 
-\item{...}{Additional optional arguments passed onto \code{aaply}.}
+\item{...}{Additional optional arguments to be passed onto \code{aaply}.}
 
 \item{x.name}{Character string giving the name of the independent variable of
 interest.}
+
+\item{x.values}{Vector of predictor values to use in computing the partial 
+dependence function.}
 
 \item{n}{Integer giving the number of unique data points to use in
 computing the partial dependence values.}
 
 \item{newdata}{An optional data frame.}
+
+\item{which.class}{Integer specifying which column of the matrix of predicted 
+probabilities to use as the "focus" class. Default is to use the first class.}
 
 \item{super.type}{Character string specifying the type of supervised
 learning. Current options are \code{"regression"} or 
@@ -29,17 +35,10 @@ learning. Current options are \code{"regression"} or
 function can usually extract the necessary information from \code{object}.}
 
 \item{check.class}{Logical indicating whether or not to check the class of
-the predictor variables of interest.}
-
-\item{x.class}{Character string specifying the class for \code{x.name}.}
+the predictor variable of interest. Default is \code{TRUE}.}
 }
 \description{
 One- and two-dimensional partial dependence plots for objects of class
 \code{mertree}.
-}
-\note{
-It may be necessary to supply a value for \code{x.class} when \code{n} is
-supplied. This is usually the case when \code{object} is of class
-\code{"BinaryTree"} or \code{"mertree"} (with \code{unbiased = TRUE}).
 }
 

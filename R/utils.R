@@ -78,3 +78,16 @@ superType.RandomForest <- function(object) {
     "regression"
   }
 }
+
+
+#' @keywords internal
+superType.gbm <- function(object) {
+  if (object$distribution %in% c("gaussian", "laplace", "tdist")) {
+    "regression"
+  } else if (object$distribution %in% c("bernoulli", "huberized", "multinomial",
+                                        "adaboost")) {
+    "classification"
+  } else {
+    "other"
+  }
+}

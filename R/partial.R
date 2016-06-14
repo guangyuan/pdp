@@ -31,8 +31,8 @@ partial <- function(object, ...) {
 
 #' @rdname partial
 #' @export
-partial.default <- function(object, pred.var, n.pts = NULL, super.type,
-                            which.class = 1L, check.class = TRUE,
+partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
+                            super.type, which.class = 1L, check.class = TRUE,
                             newdata, plot = FALSE, ...) {
 
   # Data frame
@@ -54,17 +54,24 @@ partial.default <- function(object, pred.var, n.pts = NULL, super.type,
   })
 
   # Predictor values of interest
-  pred.val <- lapply(pred.var, function(x) {
-    if (is.factor(newdata[[x]])) {
-      levels(newdata[[x]])
-    } else if (is.null(n.pts)) {
-      sort(unique(newdata[[x]]))
-    } else {
-      seq(from = min(newdata[[x]], na.rm = TRUE),
-          to = max(newdata[[x]], na.rm = TRUE), length = n.pts)
-    }
-  })
-  pred.grid <- expand.grid(pred.val)
+  if (missing(pred.grid)) {
+    pred.val <- lapply(pred.var, function(x) {
+      if (is.factor(newdata[[x]])) {
+        levels(newdata[[x]])
+      #} #else if (missing(grid.resolution)) {
+        #sort(unique(newdata[[x]]))
+      } else {
+        if (is.null(grid.resolution)) {
+          grid.resolution <- min(length(unique(newdata[[x]])), 51)
+        }
+        seq(from = min(newdata[[x]], na.rm = TRUE),
+            to = max(newdata[[x]], na.rm = TRUE),
+            length = grid.resolution)
+      }
+    })
+    pred.grid <- expand.grid(pred.val)
+  }
+
 
   # Determine the type of supervised learning used
   if (missing(super.type)) {

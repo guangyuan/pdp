@@ -7,8 +7,9 @@
 \usage{
 partial(object, ...)
 
-\method{partial}{default}(object, pred.var, n.pts = NULL, super.type,
-  which.class = 1L, check.class = TRUE, newdata, plot = FALSE, ...)
+\method{partial}{default}(object, pred.var, pred.grid, grid.resolution = NULL,
+  super.type, which.class = 1L, check.class = TRUE, newdata, plot = FALSE,
+  ...)
 }
 \arguments{
 \item{object}{A fitted model object.}
@@ -17,9 +18,6 @@ partial(object, ...)
 
 \item{pred.var}{Character string giving the names of the independent
 variables of interest.}
-
-\item{n.pts}{Integer giving the number of unique data points to use in
-computing the partial dependence values.}
 
 \item{super.type}{Character string specifying the type of supervised
 learning. Current options are \code{"regression"} or
@@ -37,6 +35,9 @@ the predictor variable of interest. Default is \code{TRUE}.}
 \item{plot}{Logical indicating whether to return a data frame containing the
 partial dependence values (\code{FALSE}) or plot the partial dependence
 function directly (\code{TRUE}). Default is \code{FALSE}.}
+
+\item{n.pts}{Integer giving the number of unique data points to use in
+computing the partial dependence values.}
 }
 \description{
 Compute partial dependence functions for various model fitting objects.

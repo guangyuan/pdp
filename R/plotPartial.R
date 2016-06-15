@@ -28,7 +28,7 @@ plotPartial.partial <- function(x, contour = TRUE, number = 4, overlap = 0.1, ..
   
   # Plot the partial dependence function
   if (nx == 1) {
-    xyplot(as.formula(paste("y ~", names(x)[1L])), newdata = x, type = "l", ...)
+    xyplot(as.formula(paste("y ~", names(x)[1L])), data = x, type = "l", ...)
   } else if (nx == 2) {
     form <- as.formula(paste("y ~", paste(names(x)[1L:2L], collapse = "*")))
     if (contour) {

@@ -18,7 +18,6 @@ plotPartial <- function(x, ...) {
 
 #' @rdname plotPartial
 #' @export
-#' @method plotPartial partial_1d
 plotPartial.partial <- function(x, contour = TRUE, ...) {
   
   # Determine number of variables to plot
@@ -52,7 +51,6 @@ plotPartial.partial <- function(x, contour = TRUE, ...) {
 
 #' @rdname plotPartial
 #' @export
-#' @method plotPartial partial_1d
 plotPartial.partial_1d <- function(x, ...) {
   xyplot(as.formula(paste("y ~", names(x)[1L])), newdata = x, type = "l", ...)
 }
@@ -60,7 +58,6 @@ plotPartial.partial_1d <- function(x, ...) {
 
 #' @rdname plotPartial
 #' @export
-#' @method plotPartial partial_2d
 plotPartial.partial_2d <- function(x, contour = TRUE, ...) {
   form <- as.formula(paste("y ~", paste(names(x)[1L:2L], collapse = "*")))
   if (contour) {

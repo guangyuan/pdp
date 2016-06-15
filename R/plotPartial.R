@@ -22,7 +22,7 @@ plotPartial.partial <- function(x, contour = TRUE, ...) {
   
   # Determine number of variables to plot
   nx <- ncol(x) - 1  # don't count response
-  if (!(nx %in% 2:4)) {
+  if (!(nx %in% 1:3)) {
     stop("Too many variables to plot. Try using lattice or ggplot2 directly.")
   }
   

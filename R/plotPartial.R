@@ -18,7 +18,7 @@ plotPartial <- function(x, ...) {
 
 #' @rdname plotPartial
 #' @export
-plotPartial.partial <- function(x, contour = TRUE, ...) {
+plotPartial.partial <- function(x, contour = TRUE, number = 4, overlap = 0.1, ...) {
   
   # Determine number of variables to plot
   nx <- ncol(x) - 1  # don't count response
@@ -37,6 +37,11 @@ plotPartial.partial <- function(x, contour = TRUE, ...) {
       wireframe(form, data = x, ...)
     }
   } else {
+    for (i in 3:nx) {
+      if (!is.factor(x[[i]])) {
+        x[[i]] <- equal.count(x[[i]], number = number, overlap = overlap)
+      }
+    }
     form <- as.formula(paste("y ~", paste(names(x)[1L:2L], collapse = "*"), "|", 
                              paste(names(x)[3L:nx], collapse = "*")))
     if (contour) {

@@ -8,7 +8,7 @@
 #' @param ... Additional optional arguments to be passed onto \code{levelplot}, 
 #'   \code{wireframe}, or \code{xyplot}.
 #'
-#' importFrom lattice levelplot wireframe xyplot
+#' importFrom lattice equal.count levelplot wireframe xyplot
 #' @rdname plotPartial
 #' @export
 plotPartial <- function(x, ...) {

@@ -8,11 +8,14 @@
 #' @param pred.grid Data frame containing the joint values of the variables
 #'   listed in \code{pred.var}. 
 #' @param grid.resolution Integer giving the number of equally spaced points to 
-#'   use.
-#' @param super.type Character string specifying the type of supervised
-#'   learning. Current options are \code{"regression"} or
-#'   \code{"classification"}. For tree-based models (e.g., \code{"rpart"}), the
-#'   function can usually extract the necessary information from \code{object}.
+#'   use (only used for the continuous variables listed in \code{pred.var} when
+#'   \code{pred.grid} is not supplied). If left \code{NULL}, it will default to
+#'   minimum between \code{51} and the number of unique data points for each of
+#'   the continuous independent variables listed in \code{pred.var}.
+#' @param super.type Character string specifying the type of supervised learning. 
+#'   Current options are \code{"regression"} or \code{"classification"}. For tree-
+#'   based models (e.g., \code{"rpart"}), the function can usually extract the 
+#'   necessary information from \code{object}.
 #' @param which.class Integer specifying which column of the matrix of predicted
 #'   probabilities to use as the "focus" class. Default is to use the first class.
 #' @param check.class Logical indicating whether or not to check the class of

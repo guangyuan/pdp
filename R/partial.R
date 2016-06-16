@@ -5,17 +5,19 @@
 #' @param object A fitted model object.
 #' @param pred.var Character string giving the names of the independent
 #'   variables of interest.
-#' @param n.pts Integer giving the number of unique data points to use in
-#'   computing the partial dependence values.
-#' @param newdata An optional data frame.
-#' @param which.class Integer specifying which column of the matrix of predicted
-#'   probabilities to use as the "focus" class. Default is to use the first class.
+#' @param pred.grid Data frame containing the joint values of the variables
+#'   listed in \code{pred.var}. 
+#' @param grid.resolution Integer giving the number of equally spaced points to 
+#'   use.
 #' @param super.type Character string specifying the type of supervised
 #'   learning. Current options are \code{"regression"} or
 #'   \code{"classification"}. For tree-based models (e.g., \code{"rpart"}), the
 #'   function can usually extract the necessary information from \code{object}.
+#' @param which.class Integer specifying which column of the matrix of predicted
+#'   probabilities to use as the "focus" class. Default is to use the first class.
 #' @param check.class Logical indicating whether or not to check the class of
 #'   the predictor variable of interest. Default is \code{TRUE}.
+#' @param newdata An optional data frame.
 #' @param plot Logical indicating whether to return a data frame containing the
 #'   partial dependence values (\code{FALSE}) or plot the partial dependence
 #'   function directly (\code{TRUE}). Default is \code{FALSE}.

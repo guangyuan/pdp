@@ -18,7 +18,7 @@ plotPartial <- function(x, ...) {
 
 #' @rdname plotPartial
 #' @export
-plotPartial.partial <- function(x, contour = TRUE, number = 4, overlap = 0.1, ...) {
+plotPartial.partial <- function(x, smooth = FALSE, rug = TRUE, convex.hull = TRUE, contour = TRUE, number = 4, overlap = 0.1, ...) {
   
   # Determine number of variables to plot
   nx <- ncol(x) - 1  # don't count response
@@ -28,7 +28,16 @@ plotPartial.partial <- function(x, contour = TRUE, number = 4, overlap = 0.1, ..
   
   # Plot the partial dependence function
   if (nx == 1) {
-    xyplot(as.formula(paste("y ~", names(x)[1L])), data = x, type = "l", ...)
+    plot.type <- if (smooth) c("l", "smooth") else "l"
+    if (rug) {
+      xyplot(as.formula(paste("y ~", names(x)[1L])), data = x, type = plot.type, ...,
+             panel = function(x, y, ...) {
+               panel.xyplot(x, y, ...)
+               panel.rug(x)
+             })
+    } else {
+      xyplot(as.formula(paste("y ~", names(x)[1L])), data = x, type = plot.type, ...)
+    }
   } else if (nx == 2) {
     form <- as.formula(paste("y ~", paste(names(x)[1L:2L], collapse = "*")))
     if (contour) {

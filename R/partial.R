@@ -6,15 +6,15 @@
 #' @param pred.var Character string giving the names of the independent
 #'   variables of interest.
 #' @param pred.grid Data frame containing the joint values of the variables
-#'   listed in \code{pred.var}. 
-#' @param grid.resolution Integer giving the number of equally spaced points to 
+#'   listed in \code{pred.var}.
+#' @param grid.resolution Integer giving the number of equally spaced points to
 #'   use (only used for the continuous variables listed in \code{pred.var} when
 #'   \code{pred.grid} is not supplied). If left \code{NULL}, it will default to
 #'   minimum between \code{51} and the number of unique data points for each of
 #'   the continuous independent variables listed in \code{pred.var}.
-#' @param super.type Character string specifying the type of supervised learning. 
+#' @param super.type Character string specifying the type of supervised learning.
 #'   Current options are \code{"regression"} or \code{"classification"}. For tree-
-#'   based models (e.g., \code{"rpart"}), the function can usually extract the 
+#'   based models (e.g., \code{"rpart"}), the function can usually extract the
 #'   necessary information from \code{object}.
 #' @param which.class Integer specifying which column of the matrix of predicted
 #'   probabilities to use as the "focus" class. Default is to use the first class.
@@ -27,7 +27,8 @@
 #' @param ... Additional optional arguments to be passed onto \code{aaply}.
 #'
 #' @rdname partial
-#' @importFrom plyr laply
+#' @importFrom plyr adply laply
+#' @importFrom stats predict
 #' @export
 partial <- function(object, ...) {
   UseMethod("partial")
@@ -52,11 +53,6 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
       }
     }
   }
-
-  # Predictor variable classes
-  classes <- sapply(pred.var, function(x) {
-    class(newdata[[x]])
-  })
 
   # Predictor values of interest
   if (missing(pred.grid)) {

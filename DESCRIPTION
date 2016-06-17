@@ -22,6 +22,7 @@ Suggests:
 Imports:
     lattice,
     magrittr,
+    plyr,
     stats,
 LazyData: TRUE
 RoxygenNote: 5.0.1

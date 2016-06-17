@@ -19,10 +19,19 @@ partial(object, ...)
 \item{pred.var}{Character string giving the names of the independent
 variables of interest.}
 
-\item{super.type}{Character string specifying the type of supervised
-learning. Current options are \code{"regression"} or
-\code{"classification"}. For tree-based models (e.g., \code{"rpart"}), the
-function can usually extract the necessary information from \code{object}.}
+\item{pred.grid}{Data frame containing the joint values of the variables
+listed in \code{pred.var}.}
+
+\item{grid.resolution}{Integer giving the number of equally spaced points to
+use (only used for the continuous variables listed in \code{pred.var} when
+\code{pred.grid} is not supplied). If left \code{NULL}, it will default to
+minimum between \code{51} and the number of unique data points for each of
+the continuous independent variables listed in \code{pred.var}.}
+
+\item{super.type}{Character string specifying the type of supervised learning.
+Current options are \code{"regression"} or \code{"classification"}. For tree-
+based models (e.g., \code{"rpart"}), the function can usually extract the
+necessary information from \code{object}.}
 
 \item{which.class}{Integer specifying which column of the matrix of predicted
 probabilities to use as the "focus" class. Default is to use the first class.}
@@ -35,9 +44,6 @@ the predictor variable of interest. Default is \code{TRUE}.}
 \item{plot}{Logical indicating whether to return a data frame containing the
 partial dependence values (\code{FALSE}) or plot the partial dependence
 function directly (\code{TRUE}). Default is \code{FALSE}.}
-
-\item{n.pts}{Integer giving the number of unique data points to use in
-computing the partial dependence values.}
 }
 \description{
 Compute partial dependence functions for various model fitting objects.

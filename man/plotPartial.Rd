@@ -2,28 +2,37 @@
 % Please edit documentation in R/plotPartial.R
 \name{plotPartial}
 \alias{plotPartial}
-\alias{plotPartial.partial_1d}
-\alias{plotPartial.partial_2d}
+\alias{plotPartial.partial}
 \title{Plotting Partial Dependence Functions}
 \usage{
 plotPartial(x, ...)
 
-\method{plotPartial}{partial_1d}(x, ...)
-
-\method{plotPartial}{partial_2d}(x, contour = TRUE, ...)
+\method{plotPartial}{partial}(x, smooth = FALSE, contour = TRUE,
+  rug = FALSE, convex.hull = FALSE, number = 4, overlap = 0.1, data,
+  ...)
 }
 \arguments{
 \item{x}{An object of class{"partial_1d"} or \code{"partial_2d"}.}
 
-\item{...}{Additional optional arguments to be passed onto \code{levelplot}, 
-  \code{wireframe}, or \code{xyplot}.
+\item{...}{Additional optional arguments to be passed onto \code{levelplot},
+\code{wireframe}, or \code{xyplot}.}
 
-importFrom lattice levelplot wireframe xyplot}
+\item{smooth}{Logical}
 
-\item{contour}{Logical indicating whether or not to use \code{lattice::levelplot} 
-(\code{TRUE}) or \code{lattice::wireframe} (\code{FALSE}). Default is \code{TRUE}.}
+\item{contour}{Logical indicating whether or not to use
+\code{lattice::levelplot} (\code{TRUE}) or \code{lattice::wireframe}
+(\code{FALSE}). Default is \code{TRUE}.}
+
+\item{rug}{Logical indicating whether or not to include a rug representation
+to the plot. If \code{TRUE} the user must supply the original data.}
+
+\item{convex.hull}{Logical}
+
+\item{number}{Integer}
+
+\item{overlap}{Proportion}
 }
 \description{
-Plots 1- and 2-dimensional partial dependence functions.
+Plots partial dependence functions using \code{lattice} graphics.
 }
 

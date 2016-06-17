@@ -62,6 +62,17 @@ plotPartial.partial <- function(x, smooth = FALSE, contour = TRUE, rug = FALSE,
       levelplot(form, data = x, ...,
                 panel = function(x1, y1, ...) {
                   panel.levelplot(x1, y1, ...)
+                  if (rug || convex.hull) {
+                    if (is.null(training.data)) {
+                      stop("The training data must be supplied for convex hull display.")
+                    }
+                  }
+                  # Add a rug display
+                  if (rug) {
+                    panel.rug(quantile(training.data[[names(x)[2L]]], probs = 0:10/10),
+                              quantile(training.data[[names(x)[1L]]], probs = 0:10/10))
+                  }
+                  # Plot the convex hull of the predictor space of interest
                   if (convex.hull) {
                     if (is.null(training.data)) {
                       stop("The training data must be supplied for convex hull display.")

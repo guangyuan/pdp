@@ -66,7 +66,7 @@ plotPartial.partial <- function(x, smooth = FALSE, contour = TRUE, rug = FALSE,
                     if (is.null(training.data)) {
                       stop("The training data must be supplied for convex hull display.")
                     }
-                    hpts <- chull(data[names(x)[1L:2L]])
+                    hpts <- chull(training.data[names(x)[1L:2L]])
                     hpts <- c(hpts, hpts[1])
                     panel.lines(training.data[hpts, names(x)[1L:2L]], col = "black")
                   }

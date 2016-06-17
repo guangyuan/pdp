@@ -28,7 +28,7 @@ plotPartial <- function(x, ...) {
 #' @export
 plotPartial.partial <- function(x, smooth = FALSE, contour = TRUE, rug = FALSE,
                                 convex.hull = FALSE, number = 4, overlap = 0.1,
-                                training.data, ...) {
+                                training.data = NULL, ...) {
 
   # Determine number of variables to plot
   nx <- ncol(x) - 1  # don't count response
@@ -48,7 +48,7 @@ plotPartial.partial <- function(x, smooth = FALSE, contour = TRUE, rug = FALSE,
              }
              # Add a rug display
              if (rug) {
-               if (missing(training.data)) {
+               if (is.null(training.data)) {
                  stop("The training data must be supplied for rug display.")
                } else {
                  panel.rug(training.data[[names(x)[1L]]])
@@ -62,8 +62,8 @@ plotPartial.partial <- function(x, smooth = FALSE, contour = TRUE, rug = FALSE,
                 panel = function(x1, y1, ...) {
                   panel.levelplot(x1, y1, ...)
                   if (convex.hull) {
-                    if (missing(training.data)) {
-                      stop("The original training data must be supplied.")
+                    if (is.null(training.data)) {
+                      stop("The training data must be supplied for convex hull display.")
                     }
                     hpts <- chull(data[names(x)[1L:2L]])
                     hpts <- c(hpts, hpts[1])

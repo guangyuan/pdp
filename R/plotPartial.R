@@ -51,6 +51,8 @@ plotPartial.partial <- function(x, smooth = FALSE, contour = TRUE, rug = FALSE,
                if (is.null(training.data)) {
                  stop("The training data must be supplied for rug display.")
                } else {
+                 print(names(x)[1L])
+                 print(training.data[[names(x)[1L]]])
                  panel.rug(training.data[[names(x)[1L]]])
                }
              }

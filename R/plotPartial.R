@@ -39,21 +39,20 @@ plotPartial.partial <- function(x, smooth = FALSE, contour = TRUE, rug = FALSE,
   # Plot the partial dependence function
   if (nx == 1) {
     xyplot(as.formula(paste("y ~", names(x)[1L])), data = x, type = "l", ...,
-           panel = function(x, y, ...) {
+           panel = function(xx, yy, ...) {
              # Add basic PDP
-             panel.xyplot(x, y, col = "black", ...)
+             panel.xyplot(xx, yy, col = "black", ...)
              # Add a loess smoother
              if (smooth) {
-               panel.loess(x, y, ...)
+               panel.loess(xx, yy, ...)
              }
              # Add a rug display
              if (rug) {
                if (is.null(training.data)) {
                  stop("The training data must be supplied for rug display.")
                } else {
-                 print(names(x)[1L])
-                 print(training.data[[names(x)[1L]]])
-                 panel.rug(training.data[[names(x)[1L]]])
+                  panel.rug(quantile(training.data[[names(x)[1L]]], 
+                                     probs = 0:10/10))               
                }
              }
     })

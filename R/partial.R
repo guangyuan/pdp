@@ -29,7 +29,7 @@
 #' @rdname partial
 #' @importFrom plyr adply laply
 #' @importFrom stats predict
-#' @importFrom stats4 predict
+#' @importFrom kernlab predict.ksvm
 #' @export
 partial <- function(object, ...) {
   UseMethod("partial")

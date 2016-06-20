@@ -41,7 +41,7 @@ partial <- function(object, ...) {
 #' @export
 partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
                             super.type, which.class = 1L, check.class = TRUE,
-                            newdata, plot = FALSE, ...) {
+                            training.data, plot = FALSE, ...) {
 
   # Data frame
   if (missing(training.data)) {

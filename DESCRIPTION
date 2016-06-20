@@ -24,5 +24,6 @@ Imports:
     magrittr,
     plyr,
     stats,
+    stats4,
 LazyData: TRUE
 RoxygenNote: 5.0.1

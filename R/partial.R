@@ -20,7 +20,8 @@
 #'   probabilities to use as the "focus" class. Default is to use the first class.
 #' @param check.class Logical indicating whether or not to check the class of
 #'   the predictor variable of interest. Default is \code{TRUE}.
-#' @param newdata An optional data frame.
+#' @param training.data An optional data frame containing the original training 
+#'   data.
 #' @param plot Logical indicating whether to return a data frame containing the
 #'   partial dependence values (\code{FALSE}) or plot the partial dependence
 #'   function directly (\code{TRUE}). Default is \code{FALSE}.
@@ -43,14 +44,14 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
                             newdata, plot = FALSE, ...) {
 
   # Data frame
-  if (missing(newdata)) {
+  if (missing(training.data)) {
     if (inherits(object, "BinaryTree") || inherits(object, "RandomForest")) {
-      newdata <- object@data@get("input")
+      training.data <- object@data@get("input")
     } else {
       if (is.null(object$call$data)) {
         stop("No data found.")
       } else {
-        newdata <- eval(object$call$data)
+        training.data <- eval(object$call$data)
       }
     }
   }
@@ -58,16 +59,16 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
   # Predictor values of interest
   if (missing(pred.grid)) {
     pred.val <- lapply(pred.var, function(x) {
-      if (is.factor(newdata[[x]])) {
-        levels(newdata[[x]])
+      if (is.factor(training.data[[x]])) {
+        levels(training.data[[x]])
       #} #else if (missing(grid.resolution)) {
         #sort(unique(newdata[[x]]))
       } else {
         if (is.null(grid.resolution)) {
-          grid.resolution <- min(length(unique(newdata[[x]])), 51)
+          grid.resolution <- min(length(unique(training.data[[x]])), 51)
         }
-        seq(from = min(newdata[[x]], na.rm = TRUE),
-            to = max(newdata[[x]], na.rm = TRUE),
+        seq(from = min(training.data[[x]], na.rm = TRUE),
+            to = max(training.data[[x]], na.rm = TRUE),
             length = grid.resolution)
       }
     })
@@ -87,13 +88,13 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
   # Calculate partial dependence values
   if (super.type == "regression") {
     pd_df <- adply(pred.grid, .margins = 1, .fun = function(x) {
-      temp <- newdata
+      temp <- training.data
       temp[pred.var] <- x
       mean(predict(object, newdata = temp), na.rm = TRUE)
     }, ...)
   } else if (super.type == "classification") {
     pd_df <- adply(pred.grid, .margins = 1, .fun = function(x) {
-      temp <- newdata
+      temp <- training.data
       temp[pred.var] <- x
       pr <- predict(object, newdata = temp, type = "prob")
       avgLogit(pr, which.class = which.class)

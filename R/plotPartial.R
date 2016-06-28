@@ -12,6 +12,8 @@
 #' @param convex.hull Logical
 #' @param number Integer
 #' @param overlap Proportion
+#' @param training.data Data frame containing the original training data. Only
+#'   required if \code{rug = TRUE} or \code{convex.hull = TRUE}.
 #' @param ... Additional optional arguments to be passed onto \code{levelplot},
 #'   \code{wireframe}, or \code{xyplot}.
 #'

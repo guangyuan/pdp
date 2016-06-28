@@ -31,6 +31,9 @@ to the plot. If \code{TRUE} the user must supply the original data.}
 \item{number}{Integer}
 
 \item{overlap}{Proportion}
+
+\item{training.data}{Data frame containing the original training data. Only
+required if \code{rug = TRUE} or \code{convex.hull = TRUE}.}
 }
 \description{
 Plots partial dependence functions using \code{lattice} graphics.

@@ -35,11 +35,7 @@ print(ozone.rf)  # check model accuracy
 varImpPlot(ozone.rf)
 
 # Is there an interaction between Temp and Wind?
-pd.temp.wind <- partial_2d(ozone.rf, "Temp", "Wind")
-plotPartial(pd.temp.wind, 
-            contour = FALSE,  # use lattice::wireframe 
-            drape = TRUE,
-            # shade = TRUE, 
-            screen = list(z = 110, x = -60))
+pd.temp.wind <- partial(ozone.rf, pred.var = c("Temp", "Wind"))
+plotPartial(pd.temp.wind, contour = TRUE, convex.hull = TRUE)
 ```
 

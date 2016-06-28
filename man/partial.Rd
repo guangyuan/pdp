@@ -8,8 +8,8 @@
 partial(object, ...)
 
 \method{partial}{default}(object, pred.var, pred.grid, grid.resolution = NULL,
-  super.type, which.class = 1L, check.class = TRUE, newdata, plot = FALSE,
-  ...)
+  super.type, which.class = 1L, check.class = TRUE, training.data,
+  plot = FALSE, ...)
 }
 \arguments{
 \item{object}{A fitted model object.}
@@ -39,7 +39,8 @@ probabilities to use as the "focus" class. Default is to use the first class.}
 \item{check.class}{Logical indicating whether or not to check the class of
 the predictor variable of interest. Default is \code{TRUE}.}
 
-\item{newdata}{An optional data frame.}
+\item{training.data}{An optional data frame containing the original training
+data.}
 
 \item{plot}{Logical indicating whether to return a data frame containing the
 partial dependence values (\code{FALSE}) or plot the partial dependence

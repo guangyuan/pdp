@@ -94,6 +94,18 @@ superType.gbm <- function(object) {
 
 
 #' @keywords internal
+superType.svm <- function(object) {
+  if (grepl("svr$", object@type)) {
+    "regression"
+  } else if (grepl("svc$", object@type)) {
+    "classification"
+  } else {
+    "other"
+  }
+}
+
+
+#' @keywords internal
 superType.ksvm <- function(object) {
   if (grepl("svr$", object@type)) {
     "regression"

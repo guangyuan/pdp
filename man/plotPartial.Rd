@@ -8,8 +8,8 @@
 plotPartial(x, ...)
 
 \method{plotPartial}{partial}(x, smooth = FALSE, contour = TRUE,
-  rug = FALSE, convex.hull = FALSE, number = 4, overlap = 0.1, data,
-  ...)
+  rug = FALSE, convex.hull = FALSE, number = 4, overlap = 0.1,
+  training.data = NULL, ...)
 }
 \arguments{
 \item{x}{An object of class{"partial_1d"} or \code{"partial_2d"}.}

@@ -20,7 +20,7 @@
 #'   probabilities to use as the "focus" class. Default is to use the first class.
 #' @param check.class Logical indicating whether or not to check the class of
 #'   the predictor variable of interest. Default is \code{TRUE}.
-#' @param training.data An optional data frame containing the original training 
+#' @param training.data An optional data frame containing the original training
 #'   data.
 #' @param plot Logical indicating whether to return a data frame containing the
 #'   partial dependence values (\code{FALSE}) or plot the partial dependence
@@ -87,18 +87,23 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
 
   # Calculate partial dependence values
   if (super.type == "regression") {
-    pd_df <- adply(pred.grid, .margins = 1, .fun = function(x) {
-      temp <- training.data
-      temp[pred.var] <- x
-      mean(predict(object, newdata = temp), na.rm = TRUE)
-    }, ...)
+    # pd_df <- adply(pred.grid, .margins = 1, .fun = function(x) {
+    #   temp <- training.data
+    #   temp[pred.var] <- x
+    #   mean(predict(object, newdata = temp), na.rm = TRUE)
+    # }, ...)
+    pd_df <- pdRegression(object, pred.var = pred.var, pred.grid = pred.grid,
+                          training.data = training.data, ...)
   } else if (super.type == "classification") {
-    pd_df <- adply(pred.grid, .margins = 1, .fun = function(x) {
-      temp <- training.data
-      temp[pred.var] <- x
-      pr <- predict(object, newdata = temp, type = "prob")
-      avgLogit(pr, which.class = which.class)
-    }, ...)
+    # pd_df <- adply(pred.grid, .margins = 1, .fun = function(x) {
+    #   temp <- training.data
+    #   temp[pred.var] <- x
+    #   pr <- predict(object, newdata = temp, type = "prob")
+    #   avgLogit(pr, which.class = which.class)
+    # }, ...)
+    pd_df <- pdClassification(object, pred.var = pred.var,
+                              pred.grid = pred.grid, which.class = which.class,
+                              training.data = training.data, ...)
   } else {
     stop(paste("Partial dependence values are currently only available",
                "for classification and regression problems."))

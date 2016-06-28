@@ -15,8 +15,10 @@
 #' @param ... Additional optional arguments to be passed onto \code{levelplot},
 #'   \code{wireframe}, or \code{xyplot}.
 #'
-#' @importFrom lattice equal.count levelplot panel.lines panel.loess panel.xyplot panel.rug wireframe xyplot
+#' @importFrom lattice equal.count levelplot panel.levelplot panel.lines
+#' @importFrom lattice panel.loess panel.xyplot panel.rug wireframe xyplot
 #' @importFrom grDevices chull
+#'
 #' @rdname plotPartial
 #' @export
 plotPartial <- function(x, ...) {
@@ -51,8 +53,8 @@ plotPartial.partial <- function(x, smooth = FALSE, contour = TRUE, rug = FALSE,
                if (is.null(training.data)) {
                  stop("The training data must be supplied for rug display.")
                } else {
-                  panel.rug(quantile(training.data[[names(x)[1L]]], 
-                                     probs = 0:10/10))               
+                  panel.rug(quantile(training.data[[names(x)[1L]]],
+                                     probs = 0:10/10))
                }
              }
     })

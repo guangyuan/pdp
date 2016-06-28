@@ -36,6 +36,7 @@ varImpPlot(ozone.rf)
 
 # Is there an interaction between Temp and Wind?
 pd.temp.wind <- partial(ozone.rf, pred.var = c("Temp", "Wind"))
-plotPartial(pd.temp.wind, contour = TRUE, convex.hull = TRUE)
+plotPartial(pd.temp.wind, contour = TRUE, convex.hull = TRUE,
+            training.data = airquality)
 ```
 

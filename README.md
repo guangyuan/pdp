@@ -1,24 +1,17 @@
 partial: An R Package for Generating Partial Dependence Plots
 ================
 
-Partial dependence functions
-----------------------------
-
-Partial dependence functions provide...
-
-The partial package
--------------------
+The purpose of this package is to provide a general framework for creating _partial dependence plots_ in R.
 
 ### Installation
 
-For now, `partial` is only available from GitGub:
-
+For now, `partial` is only available on GitGub:
 ``` r
 # Install development version from GitHub repo
 devtools::install_github("bgreenwell/partial")
 ```
 
-### Example usage
+### Random forest example
 
 ``` r
 # Required packages

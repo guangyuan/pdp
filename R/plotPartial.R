@@ -56,7 +56,7 @@ plotPartial.partial <- function(x, smooth = FALSE, contour = TRUE, rug = FALSE,
                  stop("The training data must be supplied for rug display.")
                } else {
                   panel.rug(quantile(training.data[[names(x)[1L]]],
-                                     probs = 0:10/10))
+                                     probs = 0:10/10, na.rm = TRUE))
                }
              }
     })
@@ -73,8 +73,8 @@ plotPartial.partial <- function(x, smooth = FALSE, contour = TRUE, rug = FALSE,
                   }
                   # Add a rug display
                   if (rug) {
-                    panel.rug(quantile(training.data[[names(x)[1L]]], probs = 0:10/10),
-                              quantile(training.data[[names(x)[2L]]], probs = 0:10/10),
+                    panel.rug(quantile(training.data[[names(x)[1L]]], probs = 0:10/10, na.rm = TRUE),
+                              quantile(training.data[[names(x)[2L]]], probs = 0:10/10, na.rm = TRUE),
                               col = "black")
                   }
                   # Plot the convex hull of the predictor space of interest

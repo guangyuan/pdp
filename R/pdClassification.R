@@ -48,3 +48,29 @@ pdClassification.ksvm <- function(object, pred.var, pred.grid, which.class,
     avgLogit(pr, which.class = which.class)
   }, ...)
 }
+
+
+#' @keywords internal
+pdClassification.nnet <- function(object, pred.var, pred.grid, which.class,
+                                  training.data, ...) {
+  adply(pred.grid, .margins = 1, .fun = function(x) {
+    temp <- training.data
+    temp[pred.var] <- x
+    pr <- predict(object, newdata = temp, type = "raw")
+    avgLogit(pr, which.class = which.class)
+  }, ...)
+}
+
+
+#' @keywords internal
+#' @importFrom utils capture.output
+pdRegression.gbm <- function(object, pred.var, pred.grid, training.data,
+                             ...) {
+  # Necessary to avoid silly printing from predict.gbm
+  adply(pred.grid, .margins = 1, .fun = function(x) {
+    temp <- training.data
+    temp[pred.var] <- x
+    log <- capture.putput(pr <- predict(object, newdata = temp, type = "raw"))
+    avgLogit(pr, which.class = which.class)
+  }, ...)
+}

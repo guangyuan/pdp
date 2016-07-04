@@ -60,7 +60,7 @@ superType.BinaryTree <- function(object) {
 superType.randomForest <- function(object) {
   if (object$type == "regression") {
     "regression"
-  } else if (object$method == "classification") {
+  } else if (object$type == "classification") {
     "classification"
   } else {
     "other"

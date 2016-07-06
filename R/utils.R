@@ -107,13 +107,11 @@ superType.gbm <- function(object) {
 
 #' @keywords internal
 superType.svm <- function(object) {
-  if (grepl("svr$", object@type)) {
+  if (is.null(object$levels)) {
     "regression"
-  } else if (grepl("svc$", object@type)) {
-    "classification"
   } else {
-    "other"
-  }
+    "classification"
+  } 
 }
 
 

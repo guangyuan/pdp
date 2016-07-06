@@ -28,7 +28,19 @@ superType <- function(object) {
 
 #' @keywords internal
 superType.lm <- function(object) {
+  # FIXME: What about multivariate response models?
   "regression"
+}
+
+
+#' @keywords internal
+superType.earth <- function(object) {
+  if (is.null(object$levels)) {
+    # FIXME: What about multivariate response models?
+    "regression"
+  } else {
+    "classification"
+  }
 }
 
 

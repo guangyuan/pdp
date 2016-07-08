@@ -27,6 +27,12 @@ superType <- function(object) {
 
 
 #' @keywords internal
+superType.boosting <- function(object) {
+  "classification"
+}
+
+
+#' @keywords internal
 superType.lm <- function(object) {
   # FIXME: What about multivariate response models?
   "regression"

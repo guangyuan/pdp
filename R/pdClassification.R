@@ -18,6 +18,18 @@ pdClassification.default <- function(object, pred.var, pred.grid, which.class,
 
 
 #' @keywords internal
+pdClassification.boosting <- function(object, pred.var, pred.grid, which.class,
+                                      training.data, ...) {
+  adply(pred.grid, .margins = 1, .fun = function(x) {
+    temp <- training.data
+    temp[pred.var] <- x
+    pr <- predict(object, newdata = temp)$prob
+    avgLogit(pr, which.class = which.class)
+  }, ...)
+}
+
+
+#' @keywords internal
 pdClassification.svm <- function(object, pred.var, pred.grid, which.class,
                                  training.data, ...) {
   if (is.null(object$call$probability)) {

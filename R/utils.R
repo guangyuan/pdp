@@ -27,6 +27,12 @@ superType <- function(object) {
 
 
 #' @keywords internal
+superType.bagging <- function(object) {
+  "classification"
+}
+
+
+#' @keywords internal
 superType.boosting <- function(object) {
   "classification"
 }

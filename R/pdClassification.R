@@ -94,7 +94,7 @@ pdRegression.gbm <- function(object, pred.var, pred.grid, training.data,
   adply(pred.grid, .margins = 1, .fun = function(x) {
     temp <- training.data
     temp[pred.var] <- x
-    log <- capture.putput(pr <- predict(object, newdata = temp, type = "raw"))
+    log <- capture.output(pr <- predict(object, newdata = temp, type = "raw"))
     avgLogit(pr, which.class = which.class)
   }, ...)
 }

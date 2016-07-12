@@ -4,8 +4,8 @@
 \backcite {partykit-pkg}{{1}{2.1}{Item.5}}
 \backcite {partial-pkg}{{1}{2.1}{Item.5}}
 \backcite {plotmo-pkg}{{1}{2.1}{Item.5}}
-\backcite {goldstein-peeking-2015}{{1}{2.1}{Item.5}}
-\backcite {goldstein-peeking-2015}{{1}{2.1}{Item.5}}
+\backcite {goldstein-peeking-2015}{{2}{2.1}{Item.5}}
+\backcite {goldstein-peeking-2015}{{2}{2.1}{Item.5}}
 \backcite {fox-car-2011}{{2}{2.1}{Item.5}}
 \backcite {fox-effects-2003}{{2}{2.1}{Item.5}}
 \backcite {ipred-pkg}{{2}{\caption@xref {??}{ on input line 71}}{table.caption.2}}
@@ -19,8 +19,8 @@
 \backcite {friedman-ppr-1981}{{2}{2.2}{table.caption.2}}
 \backcite {mlbench-pkg}{{2}{2.2}{table.caption.2}}
 \backcite {magrittr-pkg}{{3}{2.2.1}{subsection.2.2.1}}
-\backcite {foreach-pkg}{{3}{2.2.2}{subsection.2.2.2}}
-\backcite {plyr-pkg}{{6}{2.2.4}{figure.caption.7}}
-\backcite {doMC-pkg}{{6}{2.2.4}{figure.caption.7}}
-\backcite {doParallel-pkg}{{6}{2.2.4}{figure.caption.7}}
+\backcite {foreach-pkg}{{4}{2.2.2}{subsection.2.2.2}}
+\backcite {plyr-pkg}{{5}{2.2.4}{figure.caption.7}}
+\backcite {doMC-pkg}{{5}{2.2.4}{figure.caption.7}}
+\backcite {doParallel-pkg}{{5}{2.2.4}{figure.caption.7}}
 \backcite {hastie-elements-2009}{{6}{2.2.5}{subsection.2.2.5}}

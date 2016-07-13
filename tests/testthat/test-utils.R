@@ -21,6 +21,31 @@ test_that("superType works correctly", {
   mtcars.lm <- lm(mpg ~ ., data = mtcars)
   expect_identical(superType(mtcars.lm), "regression")
 
+  # Bagging ------------------
+  
+  # adabag
+  # ipredbag
+  
+  # Boosting -----------------
+  
+  # adaboost
+  # gbm
+  if (require(gbm, quietly = TRUE)) {
+    set.seed(101)
+    gbm.reg <- gbm(mpg ~ ., data = mtcars, n.trees = 1, 
+                   distribution = "gaussian", n.minobsinnode = 1)
+    gbm.class <- gbm(Species ~ ., data = iris, n.trees = 1, 
+                     distribution = "multinomial", n.minobsinnode = 1)
+    expect_identical(superType(gbm.reg), "regression")
+    expect_identical(superType(gbm.class), "classification")
+  }
+  
+  # MARS models
+  
+  # GzLMs
+  
+  # Multinomial logit models
+
   # Random forests
   if (require(randomForest, quietly = TRUE)) {
     set.seed(101)

@@ -57,6 +57,23 @@ superType.earth <- function(object) {
 
 
 #' @keywords internal
+superType.glm <- function(object) {
+  if(object$family$family == "binomial") {
+    "classification"
+  } else {
+    "other"
+  }
+}
+
+
+#' @keywords internal
+superType.multinom <- function(object) {
+  # FIXME: What about multivariate response models?
+  "classification"
+}
+
+
+#' @keywords internal
 superType.rpart <- function(object) {
   if (object$method == "anova") {
     "regression"

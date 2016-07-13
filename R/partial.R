@@ -78,6 +78,11 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
   for (name in names(pred.grid)) {
     class(pred.grid[[name]]) <- class(training.data[[name]])
   }
+  
+  # Sanity check!
+  if (!all.equal(sapply(pred.grid, class), sapply(training.data[pred.var], class))) {
+    stop("Variable classes do not match!")
+  }
 
   # Determine the type of supervised learning used
   if (missing(super.type)) {

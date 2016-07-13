@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/bgreenwell/partial.svg?branch=master)](https://travis-ci.org/bgreenwell/partial)
+[![Coverage Status](https://img.shields.io/codecov/c/github/bgreenwell/partial.svg)](https://codecov.io/github/bgreenwell/partial?branch=master)
+
 partial: An R Package for Generating Partial Dependence Plots
 ================
 

@@ -19,6 +19,6 @@ test_that("superType works correctly", {
 
   # Linear models
   mtcars.lm <- lm(mpg ~ ., data = mtcars)
-  expect_identical(superType(fit.lm), "regression")
+  expect_identical(superType(mtcars.lm), "regression")
 
 })

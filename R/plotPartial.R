@@ -20,6 +20,7 @@
 #' @importFrom lattice equal.count levelplot panel.levelplot panel.lines
 #' @importFrom lattice panel.loess panel.xyplot panel.rug wireframe xyplot
 #' @importFrom grDevices chull
+#' @importFrom stats as.formula quantile
 #'
 #' @rdname plotPartial
 #' @export

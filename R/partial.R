@@ -90,20 +90,9 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
 
   # Calculate partial dependence values
   if (super.type == "regression") {
-    # pd_df <- adply(pred.grid, .margins = 1, .fun = function(x) {
-    #   temp <- training.data
-    #   temp[pred.var] <- x
-    #   mean(predict(object, newdata = temp), na.rm = TRUE)
-    # }, ...)
     pd_df <- pdRegression(object, pred.var = pred.var, pred.grid = pred.grid,
                           training.data = training.data, ...)
   } else if (super.type == "classification") {
-    # pd_df <- adply(pred.grid, .margins = 1, .fun = function(x) {
-    #   temp <- training.data
-    #   temp[pred.var] <- x
-    #   pr <- predict(object, newdata = temp, type = "prob")
-    #   avgLogit(pr, which.class = which.class)
-    # }, ...)
     pd_df <- pdClassification(object, pred.var = pred.var,
                               pred.grid = pred.grid, which.class = which.class,
                               training.data = training.data, ...)

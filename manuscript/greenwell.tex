@@ -88,7 +88,7 @@ The \code{partial} function evaluates the partial dependence \eqref{eqn:pdf} fro
 \end{table}
 The \code{partial.default} method should be able to handle most other types of models not listed in Table~\ref{tab:models}; for example, neural networks from the \CRANpkg{nnet} package \citep{venables-modern-2002} or projection pursuit regression \citep{friedman-ppr-1981} using the \code{ppr} function in the \pkg{stats} package.
 
-For illustration, we will use the (corrected) Boston housing data which are available from the \CRANpkg{mlbench} package \citep{mlbench-pkg}. We begin by loading the data and omitting unimportant columns.
+For illustration, we will use the (corrected) Boston housing data which are available from the \CRANpkg{mlbench} package \citep{mlbench-pkg}. These data contain the median value of owner-occupied homes in 506 U.S. census tracts in the Boston area, along with 13 independent variables such as the per capita crime rate by town. We begin by loading the data and omitting unimportant columns.
 \begin{example}
 data(BostonHousing2, package = "mlbench")  # mlbench must be installed!
 boston <- BostonHousing2[, -c(1, 2, 5)]
@@ -241,7 +241,7 @@ f_k(x) = \log\left[p_k(x)\right] - \frac{1}{K}\sum_{i = 1}^K\log\left[p_k(x)\rig
 \end{equation}
 where $p_k(x)$ is the predicted probability for the $k$-th class. Plotting $f_k(x)$ helps us understand how the log-odds for the $k$-th class depends on different subsets of the predictor variables.
 
-To illustrate, consider Edgar Anderson's iris data from the \pkg{datasets} package. We fit a support vector machine with a radial basis function kernel to the data usinv the \code{svm} function in the \pkg{e1071} (the model parameters were determined using 5-fold cross-validation).
+To illustrate, consider Edgar Anderson's iris data from the \pkg{datasets} package. The \code{iris} data frame contains the sepal length, sepal width, petal length, and petal width (in centimeters) for 50 flowers from each of three species of iris:  setosa, versicolor, and virginica. We fit a support vector machine with a radial basis function kernel to the data usinv the \code{svm} function in the \pkg{e1071} (the model parameters were determined using 5-fold cross-validation).
 \begin{example}
 library(e1071)
 iris.svm <- svm(Species ~ ., data = iris, kernel = "radial", gamma = 0.75, 

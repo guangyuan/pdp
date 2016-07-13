@@ -14,7 +14,9 @@ BugReports: https://github.com/bgreenwell/partial/issues
 Depends:
     base,
 Suggests:
+    e1071,
     kernlab,
+    nnet,
     party,
     partykit,
     randomForest,

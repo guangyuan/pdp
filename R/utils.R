@@ -104,7 +104,7 @@ superType.randomForest <- function(object) {
   } else if (object$type == "classification") {
     "classification"
   } else {
-    "other"
+    "unsupervised"
   }
 }
 

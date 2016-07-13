@@ -80,7 +80,8 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
   }
   
   # Sanity check!
-  if (!all.equal(sapply(pred.grid, class), sapply(training.data[pred.var], class))) {
+  if (!all.equal(sapply(pred.grid, class), 
+                 sapply(training.data[names(pred.grid)], class))) {
     stop("Variable classes do not match!")
   }
 

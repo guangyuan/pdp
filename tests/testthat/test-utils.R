@@ -56,8 +56,10 @@ test_that("superType works correctly", {
     set.seed(101)
     rf.reg <- randomForest(mpg ~ ., data = mtcars, ntrees = 1)
     rf.class <- randomForest(Species ~ ., data = iris, ntrees = 1)
+    rf.other <- randomForest( ~ ., data = mtcars)
     expect_identical(superType(rf.reg), "regression")
     expect_identical(superType(rf.class), "classification")
+    expect_identical(superType(rf.class), "unsupervised")
   }
 
 })

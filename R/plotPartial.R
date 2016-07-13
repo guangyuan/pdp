@@ -43,7 +43,10 @@ plotPartial.partial <- function(x, smooth = FALSE, contour = TRUE, rug = FALSE,
 
   # Plot the partial dependence function
   if (nx == 1) {
-    xyplot(as.formula(paste("y ~", names(x)[1L])), data = x, type = "l", ...,
+    if (is.factor(x[[1L]])) {
+      dotplot(as.formula(paste("y ~", names(x)[1L])), data = x, ...)
+    } else {
+      xyplot(as.formula(paste("y ~", names(x)[1L])), data = x, type = "l", ...,
            panel = function(xx, yy, ...) {
              # Add basic PDP
              panel.xyplot(xx, yy, col = "black", ...)
@@ -60,7 +63,8 @@ plotPartial.partial <- function(x, smooth = FALSE, contour = TRUE, rug = FALSE,
                                      probs = 0:10/10, na.rm = TRUE))
                }
              }
-    })
+      })  
+    }
   } else if (nx == 2) {
     form <- as.formula(paste("y ~", paste(names(x)[1L:2L], collapse = "*")))
     if (contour) {

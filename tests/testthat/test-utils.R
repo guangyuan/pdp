@@ -21,4 +21,13 @@ test_that("superType works correctly", {
   mtcars.lm <- lm(mpg ~ ., data = mtcars)
   expect_identical(superType(mtcars.lm), "regression")
 
+  # Random forests
+  if (require(randomForest, quietly = TRUE)) {
+    set.seed(101)
+    rf.reg <- randomForest(mpg ~ ., data = mtcars, ntrees = 1)
+    rf.class <- randomForest(Species ~ ., data = iris, ntrees = 1)
+    expect_identical(superType(rf.reg), "regression")
+    expect_identical(superType(rf.class), "classification")
+  }
+
 })

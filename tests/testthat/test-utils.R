@@ -5,7 +5,7 @@ context("Utility functions")
 #   classification: iris
 
 test_that("avgLogit works correctly", {
-  pm <- matrix(c(0.1, 0.3, 0.6), nrow = 1, ncol = 2, byrow = TRUE)
+  pm <- matrix(c(0.1, 0.3, 0.6), nrow = 1, ncol = 3, byrow = TRUE)
   expect_error(avgLogit(as.data.frame(pm)))
   expect_identical(avgLogit(pm, which.class = 1L), 
                    log(0.1) - (log(0.1) + log(0.3) + log(0.6)) / 3)

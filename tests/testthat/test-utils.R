@@ -59,7 +59,7 @@ test_that("superType works correctly", {
     rf.other <- randomForest( ~ ., data = mtcars)
     expect_identical(superType(rf.reg), "regression")
     expect_identical(superType(rf.class), "classification")
-    expect_identical(superType(rf.class), "unsupervised")
+    expect_identical(superType(rf.other), "unsupervised")
   }
 
 })

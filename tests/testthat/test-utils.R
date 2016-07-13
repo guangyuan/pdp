@@ -21,14 +21,19 @@ test_that("superType works correctly", {
   mtcars.lm <- lm(mpg ~ ., data = mtcars)
   expect_identical(superType(mtcars.lm), "regression")
 
-  # Bagging ------------------
+  # Bagging and boosting ------------------
   
   # adabag
+  if (require(adabag, quietly = TRUE)) {
+    set.seed(101)
+    bagging.class <- bagging(Species ~ ., data = iris, mfinal = 1)
+    boosting.class <- boosting(Species ~ ., data = iris, mfinal = 1)
+    expect_identical(superType(bagging.class), "classification")
+    expect_identical(superType(boosting.class), "classification")
+  }  
+  
   # ipredbag
   
-  # Boosting -----------------
-  
-  # adaboost
   # gbm
   if (require(gbm, quietly = TRUE)) {
     set.seed(101)

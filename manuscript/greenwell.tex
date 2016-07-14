@@ -8,7 +8,7 @@
 \maketitle
 
 \abstract{
-Complex predictive models (e.g., neural networks, random forests, and support vector machines) offer much promise in the world of data analytics, especially when dealing with large observational databases that don't adhere to the strict assumptions imposed by traditional statistical techniques (e.g. multiple linear regression). Unfortunately though, it can be challenging for the uninitiated to understand the results of such models and explain them to management. Partial dependence plots offer a simple solution. Partial dependence plots offer low-dimensional graphical renderings of the prediction function $\widehat{f}\left(\boldsymbol{x}\right)$ so that the relationship between the outcome and predictors of interest can be easily understood. These plots are especially useful in explaining the output from complex black box models like support vector machines or neural networks or constructing simpler parsimonious models on newly obtained data. 
+Complex predictive models (e.g., neural networks, random forests, and support vector machines) offer much promise in the world of data analytics, especially when dealing with large observational databases that don't adhere to the strict assumptions imposed by traditional statistical techniques (e.g. multiple linear regression). Unfortunately, it can be challenging for the uninitiated to understand the results of such models and explain them to management. Partial dependence plots (PDPs) offer a simple solution. Partial dependence plots are low-dimensional graphical renderings of the prediction function $\widehat{f}\left(\boldsymbol{x}\right)$ so that the relationship between the outcome and predictors of interest can be easily understood. These plots are especially useful in explaining the output from complex black box models like support vector machines or neural networks or constructing simpler parsimonious models on newly obtained data.
 }
 
 
@@ -43,7 +43,7 @@ The \CRANpkg{plotmo} package \citep{plotmo-pkg} has come a long way in this rega
 
 PDPs are very useful but can be misleading in the presence of substantial interactions \citep{goldstein-peeking-2015}. To overcome this issue \citeauthor*{goldstein-peeking-2015} developed the concept of \dfn{individual conditional expectation} (ICE) plots -- available in the \CRANpkg{ICEbox} package. \pkg{ICEbox} only allows for one variable at a time (i.e., no multivariate displays), though, color can be used effectively to display information about an additional predictor. The ability to construct derivative plots is also available.
 
-Many other techniques exist for visualizing relationships between the predictors and the response based on a fitted model. For example, the \CRANpkg{car} package \citep{fox-car-2011} contains many functions for constructing partial-residual and marginal-model plots. The \CRANpkg{effects} package \citep{fox-effects-2003} is also of interest. However, these methods are orientated towards simpler parametric models (e.g., linear and generalized linear models), whereas \pkg{plotmo}, \pkg{ICEbox}, and \pkg{partial} are mainly for nonparametric and black box models (though, they can be used for simple parametric models as well). 
+Many other techniques exist for visualizing relationships between the predictors and the response based on a fitted model. For example, the \CRANpkg{car} package \citep{fox-car-2011} contains many functions for constructing partial-residual and marginal-model plots. The \CRANpkg{effects} package \citep{fox-effects-2003} is also of interest. However, these methods are orientated towards simpler parametric models (e.g., linear and generalized linear models), whereas \pkg{plotmo}, \pkg{ICEbox}, and \pkg{partial} are mainly for nonparametric and black box models (though, they can be used for simple parametric models as well).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -63,7 +63,7 @@ Currently, only two functions are exported by \pkg{partial}:
 \end{itemize}
 The \code{partial} function evaluates the partial dependence \eqref{eqn:pdf} from a fitted model over a grid of predictor values. If \code{plot = FALSE} (the default), \code{partial} returns a data frame with an additional class: \code{"partial"}. The columns are labeled in the same order as the features supplied to \code{pred.var}, and the last column is always labeled \code{y} and contains the partial dependence function values. If \code{plot = TRUE}, a \code{"lattice"} object representing the PDP is returned. For more advanced plotting, the \code{plotPartial} functions will take a \code{"partial"} object and display a more customizable lattice plot. Currently supported models are described in Table~\ref{tab:models}.
 \begin{table}[htbp]
-  \begin{tabular}{p{4cm}ll}  
+  \begin{tabular}{p{4cm}ll}
     \toprule
       Model & Package & Class \\
       \midrule
@@ -93,14 +93,14 @@ For illustration, we will use the (corrected) Boston housing data which are avai
 data(BostonHousing2, package = "mlbench")  # mlbench must be installed!
 boston <- BostonHousing2[, -c(1, 2, 5)]
 \end{example}
-Next, we fit a traditional random forest to the entire data set using the following code snippet: 
+Next, we fit a traditional random forest to the entire data set using the following code snippet:
 \begin{example}
 library(randomForest)
 set.seed(101)  # for reproducibility
 boston.rf <- randomForest(cmedv ~ ., data = boston, importance = TRUE)
 varImpPlot(boston.rf)  # variable importance plot
 \end{example}
-The model fit is reasonable, with an \dfn{out-of-bag} $R^2$ of 0.89. The variable importance scores are displayed in Figure~\ref{fig:plotmo_vs_partial}. Both plots indicate that the percentage of lower status of the population (\code{lstat}) and the average number of rooms per dwelling (\code{rm}) are highly associated with the median value of owner-occupied homes. The question then arises, "What is the nature of these associations?" To help answer this, we can look at the partial dependence of \code{cmedv} on \code{lstat} and \code{rm}, both individually and together. 
+The model fit is reasonable, with an \dfn{out-of-bag} $R^2$ of 0.89. The variable importance scores are displayed in Figure~\ref{fig:plotmo_vs_partial}. Both plots indicate that the percentage of lower status of the population (\code{lstat}) and the average number of rooms per dwelling (\code{rm}) are highly associated with the median value of owner-occupied homes. The question then arises, "What is the nature of these associations?" To help answer this, we can look at the partial dependence of \code{cmedv} on \code{lstat} and \code{rm}, both individually and together.
 
 \begin{figure}[htbp]
   \centering
@@ -150,7 +150,7 @@ boston.crf <- cforest(cmedv ~ ., data = boston)
 pd.lstat.rm <- partial(boston.rf, pred.var = c("lstat", "rm"))
 plotPartial(pd.lstat.rm)
 plotPartial(pd.lstat.rm, col.regions = colorRampPalette(c("white", "blue")))
-plotPartial(pd.lstat.rm, contour = FALSE, zlab = "cmedv", drape = TRUE, 
+plotPartial(pd.lstat.rm, contour = FALSE, zlab = "cmedv", drape = TRUE,
             colorkey = TRUE, screen = list(z = -20, x = -60))
 \end{example}
 
@@ -181,9 +181,10 @@ There are few ways to mitigate the risk of extrapolation in PDPs: rug displays a
 plotPartial(pf.lstat, rug = TRUE, training.data = boston)
 \end{example}
 
-In higher dimensions, plotting the convex hull is more informative; it outlines the region of the predictor space that the model was trained on. When \code{convex.hull = TRUE}, the convex hull of the first two dimensions of $\boldsymbol{z}_s$ (i.e., the first two variables supplied to \code{pred.var}) is added to the plot. Over interpreting the partial dependence plot outside of this region can be dangerous. The right side of Figure~\ref{fig:partial_extrap} was produced using:
+In higher dimensions, plotting the convex hull is more informative; it outlines the region of the predictor space that the model was trained on. When \code{convex.hull = TRUE}, the convex hull of the first two dimensions of $\boldsymbol{z}_s$ (i.e., the first two variables supplied to \code{pred.var}) is added to the plot; alternatively, you can set \code{convex.hull = TRUE} in the call to \code{partial}, in which case only the region within the convex hull of the first two variables is plotted. Over interpreting the partial dependence plot outside of this region can be dangerous. The right two displays in Figure~\ref{fig:partial_extrap} were produced, respectively, using:
 \begin{example}
 plotPartial(pd.lstat.rm, convex.hull = TRUE, training.data = boston)
+partial(boston.rf, pred.var = c("lstat", "rm"), convex.hull = TRUE, plot = TRUE)
 \end{example}
 
 \begin{figure}[htbp]
@@ -244,7 +245,7 @@ where $p_k(x)$ is the predicted probability for the $k$-th class. Plotting $f_k(
 To illustrate, consider Edgar Anderson's iris data from the \pkg{datasets} package. The \code{iris} data frame contains the sepal length, sepal width, petal length, and petal width (in centimeters) for 50 flowers from each of three species of iris:  setosa, versicolor, and virginica. We fit a support vector machine with a radial basis function kernel to the data usinv the \code{svm} function in the \pkg{e1071} (the model parameters were determined using 5-fold cross-validation).
 \begin{example}
 library(e1071)
-iris.svm <- svm(Species ~ ., data = iris, kernel = "radial", gamma = 0.75, 
+iris.svm <- svm(Species ~ ., data = iris, kernel = "radial", gamma = 0.75,
                 cost = 0.25, probability = TRUE)
 \end{example}
 The \code{partial} function has to be able to extract the predicted probabilities for each class, so it is necessary to invoke the \code{prob.model = TRUE} option in the call to \code{svm}.
@@ -253,7 +254,7 @@ Next, we plot the partial dependence of \code{Species} on both \code{Petal.Width
 \begin{example}
 pd <- NULL
 for (i in 1:3) {
-  tmp <- partial(iris.svm, pred.var = c("Petal.Width", "Petal.Length"), 
+  tmp <- partial(iris.svm, pred.var = c("Petal.Width", "Petal.Length"),
                  which.class = i, training.data = iris)
   pd <- rbind(pd, cbind(tmp, Species = levels(iris$Species)[i]))
 }

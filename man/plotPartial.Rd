@@ -26,7 +26,8 @@ plotPartial(x, ...)
 \item{rug}{Logical indicating whether or not to include a rug representation
 to the plot. If \code{TRUE} the user must supply the original data.}
 
-\item{convex.hull}{Logical}
+\item{convex.hull}{Logical indicating whether or not to draw the convex hull
+around the first two variables. Default is \code{FALSE}.}
 
 \item{number}{Integer}
 

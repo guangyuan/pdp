@@ -18,8 +18,9 @@
 #'   necessary information from \code{object}.
 #' @param which.class Integer specifying which column of the matrix of predicted
 #'   probabilities to use as the "focus" class. Default is to use the first class.
-#' @param check.class Logical indicating whether or not to check the class of
-#'   the predictor variable of interest. Default is \code{TRUE}.
+#' @param convex.hull Logical indicating wether or not to restrict the first
+#'   two variables in \code{pred.var} to lie within the convex hull of their
+#'   data points. Default is \code{FALSE}.
 #' @param training.data An optional data frame containing the original training
 #'   data.
 #' @param plot Logical indicating whether to return a data frame containing the
@@ -39,7 +40,7 @@ partial <- function(object, ...) {
 #' @rdname partial
 #' @export
 partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
-                            super.type, which.class = 1L, check.class = TRUE,
+                            super.type, which.class = 1L, convex.hull = FALSE,
                             training.data, plot = FALSE, ...) {
 
   # Data frame
@@ -79,9 +80,22 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
   for (name in names(pred.grid)) {
     class(pred.grid[[name]]) <- class(training.data[[name]])
   }
-  
+
+  # Restrict grid to covext hull of first two columns
+  if (convex.hull) {
+    if (length(pred.var) >= 2 && is.numeric(training.data[[1L]]) &&
+        is.numeric(training.data[[2L]])) {
+      X <- data.matrix(training.data[pred.var[1L:2L]])
+      Y <- data.matrix(pred.grid[1L:2L])
+      hpts <- chull(X)
+      hpts <- c(hpts, hpts[1])
+      keep <- mgcv::in.out(X[hpts, ], Y)
+      pred.grid <- pred.grid[keep, ]
+    }
+  }
+
   # Sanity check!
-  stopifnot(all.equal(sapply(pred.grid, class), 
+  stopifnot(all.equal(sapply(pred.grid, class),
                       sapply(training.data[pred.var], class)))
 
   # Determine the type of supervised learning used

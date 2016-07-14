@@ -9,7 +9,8 @@
 #'   (\code{FALSE}). Default is \code{TRUE}.
 #' @param rug Logical indicating whether or not to include a rug representation
 #'   to the plot. If \code{TRUE} the user must supply the original data.
-#' @param convex.hull Logical
+#' @param convex.hull Logical indicating whether or not to draw the convex hull
+#'   around the first two variables. Default is \code{FALSE}.
 #' @param number Integer
 #' @param overlap Proportion
 #' @param training.data Data frame containing the original training data. Only
@@ -17,7 +18,7 @@
 #' @param ... Additional optional arguments to be passed onto \code{levelplot},
 #'   \code{wireframe}, or \code{xyplot}.
 #'
-#' @importFrom lattice equal.count levelplot panel.levelplot panel.lines
+#' @importFrom lattice dotplot equal.count levelplot panel.levelplot panel.lines
 #' @importFrom lattice panel.loess panel.xyplot panel.rug wireframe xyplot
 #' @importFrom grDevices chull
 #' @importFrom stats as.formula quantile
@@ -63,7 +64,7 @@ plotPartial.partial <- function(x, smooth = FALSE, contour = TRUE, rug = FALSE,
                                      probs = 0:10/10, na.rm = TRUE))
                }
              }
-      })  
+      })
     }
   } else if (nx == 2) {
     form <- as.formula(paste("y ~", paste(names(x)[1L:2L], collapse = "*")))

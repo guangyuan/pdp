@@ -77,7 +77,7 @@ pdClassification.nnet <- function(object, pred.var, pred.grid, which.class,
   adply(pred.grid, .margins = 1, .fun = function(x) {
     temp <- training.data
     temp[pred.var] <- x
-    pr <- if (inherits(iris.multinom, "multinom")) {
+    pr <- if (inherits(object, "multinom")) {
       predict(object, newdata = temp, type = "probs")
     } else {
       predict(object, newdata = temp, type = "raw")

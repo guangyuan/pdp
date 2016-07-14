@@ -8,7 +8,7 @@
 partial(object, ...)
 
 \method{partial}{default}(object, pred.var, pred.grid, grid.resolution = NULL,
-  super.type, which.class = 1L, check.class = TRUE, training.data,
+  super.type, which.class = 1L, convex.hull = FALSE, training.data,
   plot = FALSE, ...)
 }
 \arguments{
@@ -36,8 +36,9 @@ necessary information from \code{object}.}
 \item{which.class}{Integer specifying which column of the matrix of predicted
 probabilities to use as the "focus" class. Default is to use the first class.}
 
-\item{check.class}{Logical indicating whether or not to check the class of
-the predictor variable of interest. Default is \code{TRUE}.}
+\item{convex.hull}{Logical indicating wether or not to restrict the first
+two variables in \code{pred.var} to lie within the convex hull of their
+data points. Default is \code{FALSE}.}
 
 \item{training.data}{An optional data frame containing the original training
 data.}

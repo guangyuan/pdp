@@ -46,6 +46,13 @@ test_that("superType works correctly", {
   }
   
   # MARS models
+  if (require(earth, quietly = TRUE)) {
+    mars.reg <- earth(mpg ~ ., data = mtcars, degree = 1, linpreds =  TRUE)
+    mars.class <- earth(Species ~ ., data = iris, degree = 1, linpreds = TRUE, 
+                        glm = list(family = binomial))
+    expect_identical(superType(earth.reg), "regression")
+    expect_identical(superType(earth.class), "classification")
+  }
   
   # GzLMs
   

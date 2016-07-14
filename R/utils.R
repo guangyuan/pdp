@@ -39,6 +39,20 @@ superType.boosting <- function(object) {
 
 
 #' @keywords internal
+superType.earth <- function(object) {
+  if (!is.null(object$glm.list) && 
+      object$glm.list[[1L]]$family$family == "binomial") {
+    "classification"
+  } else if (is.null(object$glm.list) || 
+             object$glm.list[[1L]]$family$family == "gaussian") {
+    "regression"
+  } else {
+    "other"
+  }
+}
+
+
+#' @keywords internal
 superType.lm <- function(object) {
   # FIXME: What about multivariate response models?
   "regression"

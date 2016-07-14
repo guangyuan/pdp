@@ -25,6 +25,7 @@ Suggests:
 Imports:
     lattice,
     magrittr,
+    mgcv,
     plyr,
     stats,
 LazyData: TRUE

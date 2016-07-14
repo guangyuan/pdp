@@ -29,6 +29,7 @@
 #' @param ... Additional optional arguments to be passed onto \code{aaply}.
 #'
 #' @rdname partial
+#' @importFrom mgcv in.out
 #' @importFrom plyr adply laply
 #' @importFrom stats predict
 #' @export

@@ -32,8 +32,6 @@ print(ozone.rf)  # check model accuracy
 varImpPlot(ozone.rf)
 
 # Is there an interaction between Temp and Wind?
-pd.temp.wind <- partial(ozone.rf, pred.var = c("Temp", "Wind"), 
-                        convex.hull = TRUE)
-plotPartial(pd.temp.wind, contour = TRUE, col.regions = viridis)
+partial(ozone.rf, pred.var = c("Temp", "Wind"), convex.hull = TRUE, plot = TRUE)
 ```
 ![](https://raw.githubusercontent.com/bgreenwell/partial/master/pd_Temp_Wind.png)

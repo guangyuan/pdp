@@ -1,5 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.travis\.yml$
+^.*\.png$
 ^\manuscript$
 ^tests/testthat/Rplots\.pdf$

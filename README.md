@@ -36,4 +36,4 @@ pd.temp.wind <- partial(ozone.rf, pred.var = c("Temp", "Wind"),
                         convex.hull = TRUE)
 plotPartial(pd.temp.wind, contour = TRUE, col.regions = viridis)
 ```
-![Alt text](https://raw.githubusercontent.com/bgreenwell/partial/master/pd_Temp_Wind.png)
+![](https://raw.githubusercontent.com/bgreenwell/partial/master/pd_Temp_Wind.png)

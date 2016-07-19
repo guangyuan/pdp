@@ -21,12 +21,13 @@ Suggests:
     partykit,
     randomForest,
     rpart,
-    testthat,
+    testthat
 Imports:
     lattice,
     magrittr,
     mgcv,
     plyr,
     stats,
+    viridis
 LazyData: TRUE
 RoxygenNote: 5.0.1

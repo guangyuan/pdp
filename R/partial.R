@@ -32,6 +32,7 @@
 #' @importFrom mgcv in.out
 #' @importFrom plyr adply laply
 #' @importFrom stats predict
+#' @importFrom viridis viridis
 #' @export
 partial <- function(object, ...) {
   UseMethod("partial")
@@ -127,7 +128,7 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
 
   # Plot partial dependence function (if requested)
   if (plot) {
-    print(plotPartial(pd_df))
+    print(plotPartial(pd_df, col.regions = viridis))
   } else {
     # Return partial dependence values
     pd_df

@@ -32,7 +32,7 @@
 #' @importFrom mgcv in.out
 #' @importFrom plyr adply laply
 #' @importFrom stats predict
-#' @importFrom viridis viridis
+#' @import viridis
 #' @export
 partial <- function(object, ...) {
   UseMethod("partial")

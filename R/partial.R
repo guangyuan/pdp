@@ -18,10 +18,10 @@
 #'   necessary information from \code{object}.
 #' @param which.class Integer specifying which column of the matrix of predicted
 #'   probabilities to use as the "focus" class. Default is to use the first class.
-#' @param convex.hull Logical indicating wether or not to restrict the first
+#' @param chull Logical indicating wether or not to restrict the first
 #'   two variables in \code{pred.var} to lie within the convex hull of their
 #'   data points. Default is \code{FALSE}.
-#' @param training.data An optional data frame containing the original training
+#' @param train An optional data frame containing the original training
 #'   data.
 #' @param plot Logical indicating whether to return a data frame containing the
 #'   partial dependence values (\code{FALSE}) or plot the partial dependence
@@ -41,18 +41,18 @@ partial <- function(object, ...) {
 #' @rdname partial
 #' @export
 partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
-                            super.type, which.class = 1L, convex.hull = FALSE,
-                            training.data, plot = FALSE, ...) {
+                            super.type, which.class = 1L, chull = FALSE,
+                            train, plot = FALSE, ...) {
 
   # Data frame
-  if (missing(training.data)) {
+  if (missing(train)) {
     if (inherits(object, "BinaryTree") || inherits(object, "RandomForest")) {
-      training.data <- object@data@get("input")
+      train <- object@data@get("input")
     } else {
       if (is.null(object$call$data)) {
         stop("No data found.")
       } else {
-        training.data <- eval(object$call$data)
+        train <- eval(object$call$data)
       }
     }
   }
@@ -60,33 +60,28 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
   # Predictor values of interest
   if (missing(pred.grid)) {
     pred.val <- lapply(pred.var, function(x) {
-      if (is.factor(training.data[[x]])) {
-        levels(training.data[[x]])
+      if (is.factor(train[[x]])) {
+        levels(train[[x]])
       #} #else if (missing(grid.resolution)) {
         #sort(unique(newdata[[x]]))
       } else {
         if (is.null(grid.resolution)) {
-          grid.resolution <- min(length(unique(training.data[[x]])), 51)
+          grid.resolution <- min(length(unique(train[[x]])), 51)
         }
-        seq(from = min(training.data[[x]], na.rm = TRUE),
-            to = max(training.data[[x]], na.rm = TRUE),
+        seq(from = min(train[[x]], na.rm = TRUE),
+            to = max(train[[x]], na.rm = TRUE),
             length = grid.resolution)
       }
     })
     pred.grid <- expand.grid(pred.val)
   }
-  names(pred.grid) <- pred.var
-
-  # Restore class information
-  for (name in names(pred.grid)) {
-    class(pred.grid[[name]]) <- class(training.data[[name]])
-  }
+  names(pred.grid) <- pred.var  # FIXME: Is this even needed here?
 
   # Restrict grid to covext hull of first two columns
-  if (convex.hull) {
-    if (length(pred.var) >= 2 && is.numeric(training.data[[1L]]) &&
-        is.numeric(training.data[[2L]])) {
-      X <- data.matrix(training.data[pred.var[1L:2L]])
+  if (chull) {
+    if (length(pred.var) >= 2 && is.numeric(train[[1L]]) &&
+        is.numeric(train[[2L]])) {
+      X <- data.matrix(train[pred.var[1L:2L]])
       Y <- data.matrix(pred.grid[1L:2L])
       hpts <- chull(X)
       hpts <- c(hpts, hpts[1])
@@ -95,9 +90,21 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
     }
   }
 
-  # Sanity check!
-  stopifnot(all.equal(sapply(pred.grid, class),
-                      sapply(training.data[pred.var], class)))
+  # # Restore class information
+  # for (name in names(pred.grid)) {
+  #   if (is.integer(train[[name]])) {
+  #     pred.grid[[pred.var]] <- as.intergar(pred.grid[[pred.var]])
+  #   } else if (is.numeric(train[[name]])) {
+  #     pred.grid[[pred.var]] <- as.numeric(pred.grid[[pred.var]])
+  #
+  #   } else {
+  #     class(pred.grid[[name]]) <- class(train[[name]])
+  #   }
+  # }
+  #
+  # # Sanity check!
+  # stopifnot(all.equal(sapply(pred.grid, class),
+  #                     sapply(train[pred.var], class)))
 
   # Determine the type of supervised learning used
   if (missing(super.type)) {
@@ -111,11 +118,11 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
   # Calculate partial dependence values
   if (super.type == "regression") {
     pd_df <- pdRegression(object, pred.var = pred.var, pred.grid = pred.grid,
-                          training.data = training.data, ...)
+                          train = train, ...)
   } else if (super.type == "classification") {
     pd_df <- pdClassification(object, pred.var = pred.var,
                               pred.grid = pred.grid, which.class = which.class,
-                              training.data = training.data, ...)
+                              train = train, ...)
   } else {
     stop(paste("Partial dependence values are currently only available",
                "for classification and regression problems."))

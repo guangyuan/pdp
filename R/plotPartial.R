@@ -3,18 +3,21 @@
 #' Plots partial dependence functions using \code{lattice} graphics.
 #'
 #' @param x An object of class{"partial_1d"} or \code{"partial_2d"}.
-#' @param smooth Logical
+#' @param smooth Logical indicating whether or nor to overlay a loess smoother.
+#'   Default is \code{FALSE}.
 #' @param contour Logical indicating whether or not to use
 #'   \code{lattice::levelplot} (\code{TRUE}) or \code{lattice::wireframe}
 #'   (\code{FALSE}). Default is \code{TRUE}.
 #' @param rug Logical indicating whether or not to include a rug representation
 #'   to the plot. If \code{TRUE} the user must supply the original data.
-#' @param convex.hull Logical indicating whether or not to draw the convex hull
+#' @param chull Logical indicating whether or not to draw the convex hull
 #'   around the first two variables. Default is \code{FALSE}.
-#' @param number Integer
+#' @param number Integer specifying the number of conditional intervals for the
+#'   panel variables.
 #' @param overlap Proportion
-#' @param training.data Data frame containing the original training data. Only
-#'   required if \code{rug = TRUE} or \code{convex.hull = TRUE}.
+#' @param train Data frame containing the original training data. Only
+#'   required if \code{rug = TRUE} or \code{chull = TRUE}.
+#' @param col.regions Color vector to be used if \code{contour} is \code{TRUE}.
 #' @param ... Additional optional arguments to be passed onto \code{levelplot},
 #'   \code{wireframe}, or \code{xyplot}.
 #'
@@ -33,8 +36,9 @@ plotPartial <- function(x, ...) {
 #' @rdname plotPartial
 #' @export
 plotPartial.partial <- function(x, smooth = FALSE, contour = TRUE, rug = FALSE,
-                                convex.hull = FALSE, number = 4, overlap = 0.1,
-                                training.data = NULL, ...) {
+                                chull = FALSE, number = 4, overlap = 0.1,
+                                train = NULL, col.regions = viridis::viridis,
+                                ...) {
 
   # Determine number of variables to plot
   nx <- ncol(x) - 1  # don't count response
@@ -57,10 +61,10 @@ plotPartial.partial <- function(x, smooth = FALSE, contour = TRUE, rug = FALSE,
              }
              # Add a rug display
              if (rug) {
-               if (is.null(training.data)) {
+               if (is.null(train)) {
                  stop("The training data must be supplied for rug display.")
                } else {
-                  panel.rug(quantile(training.data[[names(x)[1L]]],
+                  panel.rug(quantile(train[[names(x)[1L]]],
                                      probs = 0:10/10, na.rm = TRUE))
                }
              }
@@ -69,30 +73,30 @@ plotPartial.partial <- function(x, smooth = FALSE, contour = TRUE, rug = FALSE,
   } else if (nx == 2) {
     form <- as.formula(paste("y ~", paste(names(x)[1L:2L], collapse = "*")))
     if (contour) {
-      levelplot(form, data = x, ...,
+      levelplot(form, data = x, col.regions = col.regions, ...,
                 panel = function(x1, y1, ...) {
                   panel.levelplot(x1, y1, ...)
-                  if (rug || convex.hull) {
-                    if (is.null(training.data)) {
+                  if (rug || chull) {
+                    if (is.null(train)) {
                       stop("The training data must be supplied for convex hull display.")
                     }
                   }
                   # Add a rug display
                   if (rug) {
-                    panel.rug(quantile(training.data[[names(x)[1L]]],
+                    panel.rug(quantile(train[[names(x)[1L]]],
                                        probs = 0:10/10, na.rm = TRUE),
-                              quantile(training.data[[names(x)[2L]]],
+                              quantile(train[[names(x)[2L]]],
                                        probs = 0:10/10, na.rm = TRUE),
                               col = "black")
                   }
                   # Plot the convex hull of the predictor space of interest
-                  if (convex.hull) {
-                    if (is.null(training.data)) {
+                  if (chull) {
+                    if (is.null(train)) {
                       stop("The training data must be supplied for convex hull display.")
                     }
-                    hpts <- chull(training.data[names(x)[1L:2L]])
+                    hpts <- chull(train[names(x)[1L:2L]])
                     hpts <- c(hpts, hpts[1])
-                    panel.lines(training.data[hpts, names(x)[1L:2L]],
+                    panel.lines(train[hpts, names(x)[1L:2L]],
                                 col = "black")
                   }
                 })
@@ -108,7 +112,7 @@ plotPartial.partial <- function(x, smooth = FALSE, contour = TRUE, rug = FALSE,
     form <- as.formula(paste("y ~", paste(names(x)[1L:2L], collapse = "*"), "|",
                              paste(names(x)[3L:nx], collapse = "*")))
     if (contour) {
-      levelplot(form, data = x, ...)
+      levelplot(form, data = x, col.regions = col.regions, ...)
     } else {
       wireframe(form, data = x, ...)
     }

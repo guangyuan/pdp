@@ -20,6 +20,7 @@ setwd("/home/w108bmg/Desktop/Dropbox/devel/partial/manuscript")
 # library(caret)
 library(doParallel)
 library(e1071)
+library(earth)
 # library(kernlab)
 library(partial)
 library(party)
@@ -69,7 +70,7 @@ boston.crf <- cforest(cmedv ~ ., data = boston)
 boston.mars <- earth(cmedv ~ ., data = boston, degree = 3,
                      pmethod = "exhaustive")
 pd <- partial(boston.mars, c("rm", "lstat"), .progress = "text")
-plotPartial(pd, convex.hull = TRUE, training.data = boston)
+plotPartial(pd, chull = TRUE, train = boston)
 
 # Figure 3
 pd.lstat.rm <- partial(boston.rf, pred.var = c("lstat", "rm"))
@@ -87,10 +88,10 @@ dev.off()
 # Figure 4
 pd.lstat <- partial(boston.rf, pred.var = "lstat")
 pdf("partial_extrap.pdf", width = 12, height = 4)
-pdp1 <- plotPartial(pd.lstat, rug = TRUE, training.data = boston)
-pdp2 <- plotPartial(pd.lstat.rm, convex.hull = TRUE, training.data = boston)
+pdp1 <- plotPartial(pd.lstat, rug = TRUE, train = boston)
+pdp2 <- plotPartial(pd.lstat.rm, chull = TRUE, train = boston)
 pdp3 <- plotPartial(partial(boston.rf, pred.var = c("lstat", "rm"),
-                            convex.hull = TRUE))
+                            chull = TRUE))
 gridExtra::grid.arrange(pdp1, pdp2, pdp3, ncol = 3)
 dev.off()
 
@@ -115,20 +116,20 @@ dev.off()
 # Edgar Anderson's iris data
 ################################################################################
 
-# Train an SVM to Edgar Anderson's iris data using 5-fold classification
-set.seed(101)
-ctrl <- trainControl(method = "cv", number = 5, verboseIter = TRUE)
-iris.svm.tune <- train(x = subset(iris, select = -Species),
-                       y = iris$Species,
-                       method = "svmRadial",
-                       trControl = ctrl,
-                       tuneLength = 100)
+# # Train an SVM to Edgar Anderson's iris data using 5-fold classification
+# set.seed(101)
+# ctrl <- trainControl(method = "cv", number = 5, verboseIter = TRUE)
+# iris.svm.tune <- train(x = subset(iris, select = -Species),
+#                        y = iris$Species,
+#                        method = "svmRadial",
+#                        trControl = ctrl,
+#                        tuneLength = 100)
 
 # Fit an SVM to Edgar Anderson's iris data
 iris.svm <- svm(Species ~ ., data = iris, kernel = "radial", gamma = 0.75,
                 cost = 0.25, probability = TRUE)
-iris.ksvm <- ksvm(Species ~ ., data = iris, kernel = "rbfdot", C = 0.25,
-                  kpar = list(sigma = 0.75), prob.model = TRUE)
+# iris.ksvm <- ksvm(Species ~ ., data = iris, kernel = "rbfdot", C = 0.25,
+#                   kpar = list(sigma = 0.75), prob.model = TRUE)
 
 # Plot partial dependence for each class
 pd <- NULL

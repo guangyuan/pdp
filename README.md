@@ -20,7 +20,6 @@ devtools::install_github("bgreenwell/partial")
 # Required packages
 library(partial)
 library(randomForest)
-library(viridis)
 
 # Fit a random forest model to the airquality data
 set.seed(131)  # for reproducibility
@@ -32,6 +31,6 @@ print(ozone.rf)  # check model accuracy
 varImpPlot(ozone.rf)
 
 # Is there an interaction between Temp and Wind?
-partial(ozone.rf, pred.var = c("Temp", "Wind"), convex.hull = TRUE, plot = TRUE)
+partial(ozone.rf, pred.var = c("Temp", "Wind"), chull = TRUE, plot = TRUE)
 ```
 ![](https://raw.githubusercontent.com/bgreenwell/partial/master/pd_Temp_Wind.png)

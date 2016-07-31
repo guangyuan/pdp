@@ -8,8 +8,8 @@
 plotPartial(x, ...)
 
 \method{plotPartial}{partial}(x, smooth = FALSE, contour = TRUE,
-  rug = FALSE, convex.hull = FALSE, number = 4, overlap = 0.1,
-  training.data = NULL, ...)
+  rug = FALSE, chull = FALSE, number = 4, overlap = 0.1, train = NULL,
+  col.regions = viridis::viridis, ...)
 }
 \arguments{
 \item{x}{An object of class{"partial_1d"} or \code{"partial_2d"}.}
@@ -17,7 +17,8 @@ plotPartial(x, ...)
 \item{...}{Additional optional arguments to be passed onto \code{levelplot},
 \code{wireframe}, or \code{xyplot}.}
 
-\item{smooth}{Logical}
+\item{smooth}{Logical indicating whether or nor to overlay a loess smoother.
+Default is \code{FALSE}.}
 
 \item{contour}{Logical indicating whether or not to use
 \code{lattice::levelplot} (\code{TRUE}) or \code{lattice::wireframe}
@@ -26,15 +27,18 @@ plotPartial(x, ...)
 \item{rug}{Logical indicating whether or not to include a rug representation
 to the plot. If \code{TRUE} the user must supply the original data.}
 
-\item{convex.hull}{Logical indicating whether or not to draw the convex hull
+\item{chull}{Logical indicating whether or not to draw the convex hull
 around the first two variables. Default is \code{FALSE}.}
 
-\item{number}{Integer}
+\item{number}{Integer specifying the number of conditional intervals for the
+panel variables.}
 
 \item{overlap}{Proportion}
 
-\item{training.data}{Data frame containing the original training data. Only
-required if \code{rug = TRUE} or \code{convex.hull = TRUE}.}
+\item{train}{Data frame containing the original training data. Only
+required if \code{rug = TRUE} or \code{chull = TRUE}.}
+
+\item{col.regions}{Color vector to be used if \code{contour} is \code{TRUE}.}
 }
 \description{
 Plots partial dependence functions using \code{lattice} graphics.

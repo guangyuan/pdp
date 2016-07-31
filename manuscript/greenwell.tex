@@ -176,15 +176,15 @@ plotPartial(pd.lstat.rm, contour = FALSE, zlab = "cmedv", drape = TRUE,
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Avoiding extrapolation}
 
-There are few ways to mitigate the risk of extrapolation in PDPs: rug displays and convex hulls. Rug displays are one-dimensional plots added to the axes. \code{plotPartial} has a \code{rug} option that will display the deciles of the distribution (as well as the minimum and maximum values) for the predictors on the horizontal or vertical axes. The following snippet of code produces the plot on the left side of Figure~\ref{fig:partial_extrap}. Notice that in both examples we had to provide the original training data to \code{plotPartial} via the \code{training.data} option.
+There are few ways to mitigate the risk of extrapolation in PDPs: rug displays and convex hulls. Rug displays are one-dimensional plots added to the axes. \code{plotPartial} has a \code{rug} option that will display the deciles of the distribution (as well as the minimum and maximum values) for the predictors on the horizontal or vertical axes. The following snippet of code produces the plot on the left side of Figure~\ref{fig:partial_extrap}. Notice that in both examples we had to provide the original training data to \code{plotPartial} via the \code{train} option.
 \begin{example}
-plotPartial(pf.lstat, rug = TRUE, training.data = boston)
+plotPartial(pf.lstat, rug = TRUE, train = boston)
 \end{example}
 
-In higher dimensions, plotting the convex hull is more informative; it outlines the region of the predictor space that the model was trained on. When \code{convex.hull = TRUE}, the convex hull of the first two dimensions of $\boldsymbol{z}_s$ (i.e., the first two variables supplied to \code{pred.var}) is added to the plot; alternatively, you can set \code{convex.hull = TRUE} in the call to \code{partial}, in which case only the region within the convex hull of the first two variables is plotted. Over interpreting the partial dependence plot outside of this region can be dangerous. The right two displays in Figure~\ref{fig:partial_extrap} were produced, respectively, using:
+In higher dimensions, plotting the convex hull is more informative; it outlines the region of the predictor space that the model was trained on. When \code{chull = TRUE}, the convex hull of the first two dimensions of $\boldsymbol{z}_s$ (i.e., the first two variables supplied to \code{pred.var}) is added to the plot; alternatively, you can set \code{chull = TRUE} in the call to \code{partial}, in which case only the region within the convex hull of the first two variables is plotted. Over interpreting the partial dependence plot outside of this region can be dangerous. The right two displays in Figure~\ref{fig:partial_extrap} were produced, respectively, using:
 \begin{example}
-plotPartial(pd.lstat.rm, convex.hull = TRUE, training.data = boston)
-partial(boston.rf, pred.var = c("lstat", "rm"), convex.hull = TRUE, plot = TRUE)
+plotPartial(pd.lstat.rm, chull = TRUE, train = boston)
+partial(boston.rf, pred.var = c("lstat", "rm"), chull = TRUE, plot = TRUE)
 \end{example}
 
 \begin{figure}[htbp]
@@ -255,7 +255,7 @@ Next, we plot the partial dependence of \code{Species} on both \code{Petal.Width
 pd <- NULL
 for (i in 1:3) {
   tmp <- partial(iris.svm, pred.var = c("Petal.Width", "Petal.Length"),
-                 which.class = i, training.data = iris)
+                 which.class = i, train = iris)
   pd <- rbind(pd, cbind(tmp, Species = levels(iris$Species)[i]))
 }
 lattice::levelplot(y ~ Petal.Width * Petal.Length | Species, data = pd)

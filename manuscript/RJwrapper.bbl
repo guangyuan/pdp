@@ -1,4 +1,4 @@
-\begin{thebibliography}{24}
+\begin{thebibliography}{26}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -70,6 +70,12 @@ J.~H. Friedman and W.~Stuetzle.
 \newblock \emph{Journal of the American Statistical Association}, 76\penalty0
   (376):\penalty0 817--823, 1981.
 
+\bibitem[Garnier(2016)]{viridis-pkg}
+S.~Garnier.
+\newblock \emph{viridis: Default Color Maps from 'matplotlib'}, 2016.
+\newblock URL \url{https://CRAN.R-project.org/package=viridis}.
+\newblock R package version 0.3.4.
+
 \bibitem[Goldstein et~al.(2015)Goldstein, Kapelner, Bleich, and
   Pitkin]{goldstein-peeking-2015}
 A.~Goldstein, A.~Kapelner, J.~Bleich, and E.~Pitkin.
@@ -137,6 +143,13 @@ A.~Peters and T.~Hothorn.
 \newblock \emph{ipred: Improved Predictors}, 2015.
 \newblock URL \url{https://CRAN.R-project.org/package=ipred}.
 \newblock R package version 0.9-5.
+
+\bibitem[Sarkar(2008)]{lattice-pkg}
+D.~Sarkar.
+\newblock \emph{Lattice: Multivariate Data Visualization with R}.
+\newblock Springer, New York, 2008.
+\newblock URL \url{http://lmdvr.r-forge.r-project.org}.
+\newblock ISBN 978-0-387-75968-5.
 
 \bibitem[Therneau et~al.(2015)Therneau, Atkinson, and Ripley]{rpart-pkg}
 T.~Therneau, B.~Atkinson, and B.~Ripley.

@@ -29,9 +29,6 @@
 #' @param ... Additional optional arguments to be passed onto \code{aaply}.
 #'
 #' @rdname partial
-#' @importFrom mgcv in.out
-#' @importFrom plyr adply laply
-#' @importFrom stats predict
 #' @export
 partial <- function(object, ...) {
   UseMethod("partial")
@@ -83,7 +80,7 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
         is.numeric(train[[2L]])) {
       X <- data.matrix(train[pred.var[1L:2L]])
       Y <- data.matrix(pred.grid[1L:2L])
-      hpts <- chull(X)
+      hpts <- grDevices::chull(X)
       hpts <- c(hpts, hpts[1])
       keep <- mgcv::in.out(X[hpts, ], Y)
       pred.grid <- pred.grid[keep, ]

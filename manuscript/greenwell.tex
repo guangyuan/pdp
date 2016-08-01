@@ -8,7 +8,7 @@
 \maketitle
 
 \abstract{
-Complex predictive models (e.g., neural networks, random forests, and support vector machines) offer much promise in the world of data analytics, especially when dealing with large observational databases that don't adhere to the strict assumptions imposed by traditional statistical techniques (e.g. multiple linear regression). Unfortunately, it can be challenging for the uninitiated to understand the results of such models and explain them to management. Partial dependence plots (PDPs) offer a simple solution. Partial dependence plots are low-dimensional graphical renderings of the prediction function $\widehat{f}\left(\boldsymbol{x}\right)$ so that the relationship between the outcome and predictors of interest can be easily understood. These plots are especially useful in explaining the output from complex black box models like support vector machines or neural networks or constructing simpler parsimonious models on newly obtained data.
+Complex nonparametric models (e.g., neural networks, random forests, and support vector machines) are often used in predictive analytics, especially when dealing with large observational databases that don't adhere to the strict assumptions imposed by traditional statistical techniques (e.g. multiple linear regression). Unfortunately, it can be challenging for the uninitiated to understand the results of such models and explain them to management. Partial dependence plots (PDPs) offer a simple solution. Partial dependence plots are low-dimensional graphical renderings of the prediction function $\widehat{f}\left(\boldsymbol{x}\right)$ so that the relationship between the outcome and predictors of interest can be easily understood. These plots are especially useful in explaining the output from complex black box models like support vector machines or neural networks or constructing simpler parsimonious models on newly obtained data.
 }
 
 
@@ -17,7 +17,7 @@ Complex predictive models (e.g., neural networks, random forests, and support ve
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 
-Predictor importance is an important task in any supervised learning problem. However, ranking variables is only part of the story and once a subset of "important" features is identified it is often necessary to assess the relationship between them and the response. This can be done in many ways, but in machine learning it is often accomplished by constructing \dfn{partial dependence plots} (PDPs); see \citet{friedman-2000-greedy} for details. PDPs help visualize the relationship between a subset (typically 1-3) of the predictors and the response while accounting for the average effect of the other independent variables in the model. They are particularly effective with black box models like random forest or support vector machines.
+Predictor importance is an important task in any supervised learning problem. However, ranking variables is only part of the story and once a subset of "important" features is identified it is often necessary to assess the relationship between them (or subset thereof) and the response. This can be done in many ways, but in machine learning it is often accomplished by constructing \dfn{partial dependence plots} (PDPs); see \citet{friedman-2000-greedy} for details. PDPs help visualize the relationship between a subset (typically 1-3) of the predictors and the response while accounting for the average effect of the other independent variables in the model. They are particularly effective with black box models like random forest and support vector machines.
 %PDPs offer a low-dimensional graphical rendering of the prediction function $\widehat{f}\left(\boldsymbol{x}\right)$ for any type of fitted models and are especially useful in visualizing the relationships discovered by complex machine learning algorithms such as a \dfn{random forest}.
 
 Let $\boldsymbol{x} = \left\{x_1, x_2, \dots, x_n\right\}$ represent the predictors in a model whose prediction function is $\widehat{f}\left(\boldsymbol{x}\right)$. If we partition $\boldsymbol{x}$ into an interest set, $\boldsymbol{z}_s$, and its compliment, $\boldsymbol{z}_{c} = \boldsymbol{x} \setminus \boldsymbol{z}_s$, then the partial dependence of the response on $\boldsymbol{z}_s$ is defined as
@@ -25,7 +25,7 @@ Let $\boldsymbol{x} = \left\{x_1, x_2, \dots, x_n\right\}$ represent the predict
 \label{eqn:pdf}
 \bar{f}_s\left(\boldsymbol{z}_s\right) = \frac{1}{n}\sum_{i = 1}^n\widehat{f}\left(\boldsymbol{z}_s,\boldsymbol{z}_{i, c}\right),
 \end{equation}
-where $\boldsymbol{z}_{i, c}$ $\left(i = 1, 2, \dots, n\right)$ are the values of $\boldsymbol{z}_c$ that occur in the training sample. This can be quite computationally intensive since Equation~\eqref{eqn:pdf} involves a pass over the training records for each set of combinations of $\boldsymbol{z}_s$. Fortunately, this problem is embarrassingly parallel. Let $x_1$ be the predictor variable of interest with unique values $\left\{x_{11}, x_{12}, \dots, x_{1k}\right\}$. The partial dependence of the response on $x_1$ can be constructed as follows:
+where $\boldsymbol{z}_{i, c}$ $\left(i = 1, 2, \dots, n\right)$ are the values of $\boldsymbol{z}_c$ that occur in the training sample; that is, weaverage out the effects of all the other predictors in the model. Let $x_1$ be the predictor variable of interest with unique values $\left\{x_{11}, x_{12}, \dots, x_{1k}\right\}$. The partial dependence of the response on $x_1$ can be constructed as follows:
 \begin{enumerate}
   \item For $i \in \left\{1, 2, \dots, k\right\}$:
   \begin{enumerate}
@@ -35,9 +35,9 @@ where $\boldsymbol{z}_{i, c}$ $\left(i = 1, 2, \dots, n\right)$ are the values o
   \end{enumerate}
   \item Plot the pairs $\left[x_{1i}, \bar{f}_1\left(x_{1i}\right)\right]$ for $i = 1, 2, \dotsc, k$.
 \end{enumerate}
-This algorithm can be easily extended to larger subsets of 2 or more features as well.
+This can be quite computationally intensive since the algorithm involves a pass over the training records for each set of combinations of $\boldsymbol{z}_s$. Fortunately, this parallelized quite easily. This algorithm can also be easily extended to larger subsets of 2 or more features as well.
 
-Limited implementations of Friedman's PDPs are available in packages \CRANpkg{randomForest} \citep{randomForest-pkg} and \CRANpkg{gbm}, among others. While the \pkg{randomForest} implementation will only allow for a single predictor, the \pkg{gbm} implementation can deal with any subset of the predictor space; however, these implementations only apply to models fit using the respective package. Partial dependence functions are not restricted to tree-based models; they can be applied to any supervised learning algorithm (e.g., neural networks). However, to our knowledge, there is no general package for constructing PDPs  in R (e.g., PDPs for a \dfn{conditional random forest} as implemented by the \code{cforest} function in the \CRANpkg{party} and \CRANpkg{partykit} packages; see \citet{party-pkg} and \citet{partykit-pkg}, respectively). The \CRANpkg{partial} \citep{partial-pkg} package tries to close this gap by offering a general framework for PDPs that can be applied to several types of fitted models.
+Limited implementations of Friedman's PDPs are available in packages \CRANpkg{randomForest} \citep{randomForest-pkg} and \CRANpkg{gbm}, among others; these are limited in the sense that they only apply to the models fit using these packages. While the \pkg{randomForest} implementation will only allow for a single predictor, the \pkg{gbm} implementation can deal with any subset of the predictor space; however, these implementations only apply to models fit using the respective package. Partial dependence functions are not restricted to tree-based models; they can be applied to any supervised learning algorithm (e.g., neural networks). However, to our knowledge, there is no general package for constructing PDPs  in R (e.g., PDPs for a \dfn{conditional random forest} as implemented by the \code{cforest} function in the \CRANpkg{party} and \CRANpkg{partykit} packages; see \citet{party-pkg} and \citet{partykit-pkg}, respectively). The \CRANpkg{partial} \citep{partial-pkg} package tries to close this gap by offering a general framework for PDPs that can be applied to several types of fitted models.
 
 The \CRANpkg{plotmo} package \citep{plotmo-pkg} has come a long way in this regard. According to the author, \pkg{plotmo} constructs "a poor man's partial dependence plot." In particular, it plots a model's response when varying one or two predictors while holding the other predictors constant (continuous features are fixed at their median value, while factors are held at their first level). These plots allow for up to two variables at a time and are less accurate than PDPs, but are faster to construct! For additive models (i.e., no interactions), these plots are identical in shape to partial dependence plots.
 
@@ -61,7 +61,7 @@ Currently, only two functions are exported by \pkg{partial}:
   \item \code{partial}
   \item \code{plotPartial}
 \end{itemize}
-The \code{partial} function evaluates the partial dependence \eqref{eqn:pdf} from a fitted model over a grid of predictor values. If \code{plot = FALSE} (the default), \code{partial} returns a data frame with an additional class: \code{"partial"}. The columns are labeled in the same order as the features supplied to \code{pred.var}, and the last column is always labeled \code{y} and contains the partial dependence function values. If \code{plot = TRUE}, a \code{"lattice"} object representing the PDP is returned. For more advanced plotting, the \code{plotPartial} functions will take a \code{"partial"} object and display a more customizable lattice plot. Currently supported models are described in Table~\ref{tab:models}.
+The \code{partial} function evaluates the partial dependence \eqref{eqn:pdf} from a fitted model over a grid of predictor values. If \code{plot = FALSE} (the default), \code{partial} returns a data frame with an additional class: \code{"partial"}. The columns are labeled in the same order as the features supplied to \code{pred.var}, and the last column is always labeled \code{y} and contains the partial dependence function values. If \code{plot = TRUE}, then \code{partial} calls \code{plotPartial} and returns a \code{"lattice"} object representing the PDP. For more advanced plotting, the \code{plotPartial} functions will take a \code{"partial"} object and display a more customizable lattice plot. Currently supported models are described in Table~\ref{tab:models}.
 \begin{table}[htbp]
   \begin{tabular}{p{4cm}ll}
     \toprule
@@ -100,7 +100,7 @@ set.seed(101)  # for reproducibility
 boston.rf <- randomForest(cmedv ~ ., data = boston, importance = TRUE)
 varImpPlot(boston.rf)  # variable importance plot
 \end{example}
-The model fit is reasonable, with an \dfn{out-of-bag} $R^2$ of 0.89. The variable importance scores are displayed in Figure~\ref{fig:plotmo_vs_partial}. Both plots indicate that the percentage of lower status of the population (\code{lstat}) and the average number of rooms per dwelling (\code{rm}) are highly associated with the median value of owner-occupied homes. The question then arises, "What is the nature of these associations?" To help answer this, we can look at the partial dependence of \code{cmedv} on \code{lstat} and \code{rm}, both individually and together.
+The model fit is reasonable, with an \dfn{out-of-bag} $R^2$ of 0.89. The variable importance scores are displayed in Figure~\ref{fig:plotmo_vs_partial}. Both plots indicate that the percentage of lower status of the population (\code{lstat}) and the average number of rooms per dwelling (\code{rm}) are highly associated with the median value of owner-occupied homes (\code{cmedv}). The question then arises, "What is the nature of these associations?" To help answer this, we can look at the partial dependence of \code{cmedv} on \code{lstat} and \code{rm}, both individually and together.
 
 \begin{figure}[htbp]
   \centering
@@ -115,21 +115,23 @@ The model fit is reasonable, with an \dfn{out-of-bag} $R^2$ of 0.89. The variabl
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Single predictor PDPs}
 
-As previously mentioned, the \code{randomForest} package has its own \code{partialPlot} function for displaying partial dependence of the response on a single predictor. For example, the following snippet of code plots the partial dependence of \code{cmedv} on \code{lstat}:
+As previously mentioned, the \code{randomForest} package has its own \code{partialPlot} function for visualizing the partial dependence of the response on a single predictor. For example, the following snippet of code plots the partial dependence of \code{cmedv} on \code{lstat}:
 \begin{example}
 partialPlot(boston.rf, pred.data = boston, x.var = "lstat")
 \end{example}
-The same plot (implemented in \pkg{lattice}) can be achieved using the \code{partial} function and setting \code{plot = TRUE}:
+The same plot can be achieved using the \code{partial} function and setting \code{plot = TRUE} (see the left side of Figure~\ref{fig:pd_lstat}) as in the folling example:
 \begin{example}
 library(partial)
 partial(boston.rf, pred.var = "lstat", plot = TRUE)
 \end{example}
+The only difference is that \pkg{partia} uses \CRANpkg{lattice} \citep{lattice-pkg} to produce all of its displays.
+
 For a more customizable plot, call \code{partial} with \code{plot = FALSE} and use the \code{plotPartial} function. \strong{Note:} the \dfn{pipe} operator provided by the \CRANpkg{magrittr} package \citep{magrittr-pkg} is imported for writing more convenient code, as illustrated in snippet of code below.
 \begin{example}
 partial(boston.rf, pred.var = "lstat") %>%
   plotPartial(smooth = TRUE, lwd = 2, ylab = expression(f(lstat)))
 \end{example}
-The results are displayed in Figure~\ref{fig:pd_lstat} below.
+The result is displayed in the right side of Figure~\ref{fig:pd_lstat} below.
 
 \begin{figure}[htbp]
   \centering
@@ -137,6 +139,7 @@ The results are displayed in Figure~\ref{fig:pd_lstat} below.
   \caption{Partial dependence of \code{cmedv} on \code{lstat}. \textit{Left}: Default plot. \textit{Right}: Customized plot obtained using the \code{plotPartial} function.}
   \label{fig:pd_lstat}
 \end{figure}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Higher order PDPs
@@ -153,6 +156,7 @@ plotPartial(pd.lstat.rm, col.regions = colorRampPalette(c("white", "blue")))
 plotPartial(pd.lstat.rm, contour = FALSE, zlab = "cmedv", drape = TRUE,
             colorkey = TRUE, screen = list(z = -20, x = -60))
 \end{example}
+Note that the default color map for contour plots is the Matplotlib "viridis" color map provided through the \CRANpkg{viridis} package \citep{viridis-pkg}.
 
 \begin{widefigure}[htbp]
   \centering

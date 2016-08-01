@@ -23,6 +23,7 @@ Suggests:
     rpart,
     testthat
 Imports:
+    grDevices,
     lattice,
     magrittr,
     mgcv,

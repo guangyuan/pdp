@@ -23,8 +23,6 @@
 #'
 #' @importFrom lattice dotplot equal.count levelplot panel.levelplot panel.lines
 #' @importFrom lattice panel.loess panel.xyplot panel.rug wireframe xyplot
-#' @importFrom grDevices chull
-#' @importFrom stats as.formula quantile
 #'
 #' @rdname plotPartial
 #' @export
@@ -49,10 +47,10 @@ plotPartial.partial <- function(x, smooth = FALSE, contour = TRUE, rug = FALSE,
   # Plot the partial dependence function
   if (nx == 1) {
     if (is.factor(x[[1L]])) {
-      dotplot(as.formula(paste("y ~", names(x)[1L])), data = x, ...)
+      dotplot(stats::as.formula(paste("y ~", names(x)[1L])), data = x, ...)
     } else {
-      xyplot(as.formula(paste("y ~", names(x)[1L])), data = x, type = "l", ...,
-           panel = function(xx, yy, ...) {
+      xyplot(stats::as.formula(paste("y ~", names(x)[1L])), data = x,
+             type = "l", ..., panel = function(xx, yy, ...) {
              # Add basic PDP
              panel.xyplot(xx, yy, col = "black", ...)
              # Add a loess smoother
@@ -64,14 +62,15 @@ plotPartial.partial <- function(x, smooth = FALSE, contour = TRUE, rug = FALSE,
                if (is.null(train)) {
                  stop("The training data must be supplied for rug display.")
                } else {
-                  panel.rug(quantile(train[[names(x)[1L]]],
-                                     probs = 0:10/10, na.rm = TRUE))
+                  panel.rug(stats::quantile(train[[names(x)[1L]]],
+                                            probs = 0:10/10, na.rm = TRUE))
                }
              }
       })
     }
   } else if (nx == 2) {
-    form <- as.formula(paste("y ~", paste(names(x)[1L:2L], collapse = "*")))
+    form <- stats::as.formula(paste("y ~",
+                                    paste(names(x)[1L:2L], collapse = "*")))
     if (contour) {
       levelplot(form, data = x, col.regions = col.regions, ...,
                 panel = function(x1, y1, ...) {
@@ -83,10 +82,10 @@ plotPartial.partial <- function(x, smooth = FALSE, contour = TRUE, rug = FALSE,
                   }
                   # Add a rug display
                   if (rug) {
-                    panel.rug(quantile(train[[names(x)[1L]]],
-                                       probs = 0:10/10, na.rm = TRUE),
-                              quantile(train[[names(x)[2L]]],
-                                       probs = 0:10/10, na.rm = TRUE),
+                    panel.rug(stats::quantile(train[[names(x)[1L]]],
+                                              probs = 0:10/10, na.rm = TRUE),
+                              stats::quantile(train[[names(x)[2L]]],
+                                              probs = 0:10/10, na.rm = TRUE),
                               col = "black")
                   }
                   # Plot the convex hull of the predictor space of interest
@@ -94,7 +93,7 @@ plotPartial.partial <- function(x, smooth = FALSE, contour = TRUE, rug = FALSE,
                     if (is.null(train)) {
                       stop("The training data must be supplied for convex hull display.")
                     }
-                    hpts <- chull(train[names(x)[1L:2L]])
+                    hpts <- grDevices::chull(train[names(x)[1L:2L]])
                     hpts <- c(hpts, hpts[1])
                     panel.lines(train[hpts, names(x)[1L:2L]],
                                 col = "black")
@@ -109,8 +108,9 @@ plotPartial.partial <- function(x, smooth = FALSE, contour = TRUE, rug = FALSE,
         x[[i]] <- equal.count(x[[i]], number = number, overlap = overlap)
       }
     }
-    form <- as.formula(paste("y ~", paste(names(x)[1L:2L], collapse = "*"), "|",
-                             paste(names(x)[3L:nx], collapse = "*")))
+    form <- stats::as.formula(paste("y ~",
+                                    paste(names(x)[1L:2L], collapse = "*"), "|",
+                                    paste(names(x)[3L:nx], collapse = "*")))
     if (contour) {
       levelplot(form, data = x, col.regions = col.regions, ...)
     } else {

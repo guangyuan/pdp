@@ -62,7 +62,7 @@ Currently, only two functions are exported by \pkg{partial}:
   \item \code{partial}
   \item \code{plotPartial}
 \end{itemize}
-The \code{partial} function evaluates the partial dependence \eqref{eqn:pdf} from a fitted model over a grid of predictor values. If \code{plot = FALSE} (the default), \code{partial} returns a data frame with an additional class: \code{"partial"}. The columns are labeled in the same order as the features supplied to \code{pred.var}, and the last column is always labeled \code{y} and contains the partial dependence function values $\bar{f}_s\left(\boldsymbol{z}_s\right)$. If \code{plot = TRUE}, then \code{partial} calls \code{plotPartial} and returns a \code{"trellis"} object representing the PDP. For more advanced plotting, the \code{plotPartial} function will take a \code{"partial"} object and display a more customizable lattice plot. Currently supported models are described in Table~\ref{tab:models}.
+The \code{partial} function evaluates the partial dependence \eqref{eqn:pdf} from a fitted model over a grid of predictor values. If \code{plot = FALSE} (the default), \code{partial} returns a data frame with an additional class: \code{"partial"}. The columns are labeled in the same order as the features supplied to \code{pred.var}, and the last column is always labeled \code{y} and contains the partial dependence function values $\bar{f}_s\left(\boldsymbol{z}_s\right)$. If \code{plot = TRUE}, then \code{partial} returns a \CRANpkg{lattice} plot \citep{lattice-pkg}. For more advanced plotting, the \code{plotPartial} function will take a \code{"partial"} object and display a more customizable lattice plot. Currently supported models are described in Table~\ref{tab:models}.
 \begin{table}[htbp]
   \begin{tabular}{p{4cm}ll}
     \toprule
@@ -125,7 +125,7 @@ The same plot can be achieved using the \code{partial} function and setting \cod
 library(partial)
 partial(boston.rf, pred.var = "lstat", plot = TRUE)
 \end{example}
-The only difference is that \pkg{partia} uses \CRANpkg{lattice} \citep{lattice-pkg} to produce all of its displays.
+The only difference is that \pkg{partial} uses the \pkg{lattice} graphics package to produce all of its displays.
 
 For a more customizable plot, call \code{partial} with \code{plot = FALSE} and use the \code{plotPartial} function. \strong{Note:} the \dfn{pipe} operator provided by the \CRANpkg{magrittr} package \citep{magrittr-pkg} is imported for writing more convenient code, as illustrated in snippet of code below.
 \begin{example}

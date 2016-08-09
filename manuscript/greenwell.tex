@@ -96,7 +96,7 @@ For illustration, we will use the (corrected) Boston housing data which are avai
 data(BostonHousing2, package = "mlbench")  # mlbench must be installed!
 boston <- BostonHousing2[, -c(1, 2, 5)]
 \end{example}
-Next, we fit a traditional random forest to the entire data set using the following code snippet:
+Next, we fit a random forest to the entire data set with default tuning parameters:
 \begin{example}
 library(randomForest)
 set.seed(101)  # for reproducibility

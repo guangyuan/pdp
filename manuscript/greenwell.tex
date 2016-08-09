@@ -122,7 +122,7 @@ As previously mentioned, the \code{randomForest} package has its own \code{parti
 \begin{example}
 partialPlot(boston.rf, pred.data = boston, x.var = "lstat")
 \end{example}
-The same plot can be achieved using the \code{partial} function and setting \code{plot = TRUE} (see the left side of Figure~\ref{fig:pd_lstat}) as in the folling example:
+The same plot can be achieved using the \code{partial} function and setting \code{plot = TRUE} (see the left side of Figure~\ref{fig:pd_lstat}):
 \begin{example}
 library(partial)
 partial(boston.rf, pred.var = "lstat", plot = TRUE)

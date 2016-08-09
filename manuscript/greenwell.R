@@ -106,12 +106,17 @@ dev.off()
 
 # Figure 6
 registerDoParallel(cores = 4)  # use 4 cores
-pd <- partial(boston.rf, pred.var = c("lstat", "rm", "ptratio"),
+pd <- partial(boston.rf, pred.var = c("rm", "ptratio", "chas"),
               grid.resolution = 20, .parallel = TRUE)
 pdf("partial_par.pdf", width = 7, height = 5)
-plotPartial(pd, number = 4, overlap = 0.1)
+plotPartial(pd)
 dev.off()
-
+#registerDoParallel(cores = 4)  # use 4 cores
+#pd <- partial(boston.rf, pred.var = c("lstat", "rm", "ptratio"),
+#              grid.resolution = 20, .parallel = TRUE)
+#pdf("partial_par.pdf", width = 7, height = 5)
+#plotPartial(pd, number = 4, overlap = 0.1)
+#dev.off()
 
 ################################################################################
 # Edgar Anderson's iris data

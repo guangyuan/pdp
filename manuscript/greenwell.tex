@@ -255,7 +255,7 @@ f_k(x) = \log\left[p_k(x)\right] - \frac{1}{K}\sum_{i = 1}^K\log\left[p_k(x)\rig
 \end{equation}
 where $p_k(x)$ is the predicted probability for the $k$-th class. Plotting $f_k(x)$ helps us understand how the log-odds for the $k$-th class depends on different subsets of the predictor variables.
 
-To illustrate, consider Edgar Anderson's iris data from the \pkg{datasets} package. The \code{iris} data frame contains the sepal length, sepal width, petal length, and petal width (in centimeters) for 50 flowers from each of three species of iris:  setosa, versicolor, and virginica. We fit a support vector machine with a radial basis function kernel to the data usinv the \code{svm} function in the \pkg{e1071} (the model parameters were determined using 5-fold cross-validation).
+To illustrate, consider Edgar Anderson's iris data from the \pkg{datasets} package. The \code{iris} data frame contains the sepal length, sepal width, petal length, and petal width (in centimeters) for 50 flowers from each of three species of iris:  setosa, versicolor, and virginica. We fit a support vector machine with a radial basis function kernel to the data using the \code{svm} function in the \pkg{e1071} (the model parameters were determined using 5-fold cross-validation).
 \begin{example}
 library(e1071)
 iris.svm <- svm(Species ~ ., data = iris, kernel = "radial", gamma = 0.75,

@@ -18,6 +18,8 @@
 #'   necessary information from \code{object}.
 #' @param which.class Integer specifying which column of the matrix of predicted
 #'   probabilities to use as the "focus" class. Default is to use the first class.
+#' @param rug Logical indicating whether or not to include a rug representation
+#'   to the plot. If \code{TRUE} the user must supply the original data.
 #' @param chull Logical indicating wether or not to restrict the first
 #'   two variables in \code{pred.var} to lie within the convex hull of their
 #'   data points. Default is \code{FALSE}.
@@ -38,8 +40,8 @@ partial <- function(object, ...) {
 #' @rdname partial
 #' @export
 partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
-                            super.type, which.class = 1L, chull = FALSE,
-                            train, plot = FALSE, ...) {
+                            super.type, which.class = 1L, rug = FALSE, 
+                            chull = FALSE, train, plot = FALSE, ...) {
 
   # Data frame
   if (missing(train)) {
@@ -131,7 +133,8 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
 
   # Plot partial dependence function (if requested)
   if (plot) {
-    print(plotPartial(pd_df, col.regions = viridis::viridis))
+    print(plotPartial(pd_df, rug = rug, chull = chull, 
+                      col.regions = viridis::viridis))
   } else {
     # Return partial dependence values
     pd_df

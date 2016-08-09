@@ -96,7 +96,7 @@ For illustration, we will use the (corrected) Boston housing data which are avai
 data(BostonHousing2, package = "mlbench")  # mlbench must be installed!
 boston <- BostonHousing2[, -c(1, 2, 5)]
 \end{example}
-Next, we fit a random forest to the entire data set with default tuning parameters:
+Next, we fit a random forest to the entire data set with default tuning parameters and 500 trees:
 \begin{example}
 library(randomForest)
 set.seed(101)  # for reproducibility
@@ -140,7 +140,7 @@ The result is displayed in the right side of Figure~\ref{fig:pd_lstat} below.
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=1.0\linewidth]{pd_lstat}
-  \caption{Partial dependence of \code{cmedv} on \code{lstat}. \textit{Left}: Default plot. \textit{Right}: Customized plot obtained using the \code{plotPartial} function.}
+  \caption{Partial dependence of \code{cmedv} on \code{lstat} based on a random forest. \textit{Left}: Default plot. \textit{Right}: Customized plot obtained using the \code{plotPartial} function.}
   \label{fig:pd_lstat}
 \end{figure}
 
@@ -154,7 +154,7 @@ The benefit of using \code{partial} is threefold: (1) it is a generic function t
 \begin{example}
 library(party)
 boston.crf <- cforest(cmedv ~ ., data = boston)
-pd.lstat.rm <- partial(boston.rf, pred.var = c("lstat", "rm"))
+pd.lstat.rm <- partial(boston.crf, pred.var = c("lstat", "rm"))
 plotPartial(pd.lstat.rm)
 plotPartial(pd.lstat.rm, col.regions = colorRampPalette(c("white", "blue")))
 plotPartial(pd.lstat.rm, contour = FALSE, zlab = "cmedv", drape = TRUE,
@@ -165,7 +165,7 @@ Note that the default color map for contour plots is the Matplotlib "viridis" co
 \begin{widefigure}[htbp]
   \centering
   \includegraphics[width=1.0\linewidth]{pd_lstat_rm}
-  \caption{Partial dependence of \code{cmedv} on \code{lstat} and \code{rm}. \textit{Left}: Default plot. \textit{Middle}: Using a different color palette. \textit{Right}: Using a 3-D surface.}
+  \caption{Partial dependence of \code{cmedv} on \code{lstat} and \code{rm} based on a conditional random forest. \textit{Left}: Default plot. \textit{Middle}: Using a different color palette. \textit{Right}: Using a 3-D surface.}
   \label{fig:pd_lstat_rm}
 \end{widefigure}
 

@@ -263,7 +263,7 @@ iris.svm <- svm(Species ~ ., data = iris, kernel = "radial", gamma = 0.75,
 \end{example}
 The \code{partial} function has to be able to extract the predicted probabilities for each class, so it is necessary to set the \code{probability = TRUE} option in the call to \code{svm}.
 
-Next, we plot the partial dependence of \code{Species} on both \code{Petal.Width} and \code{Petal.Length} for each of the three classes. The result is displayed in Figure~\ref{fig:partial_iris}.
+Next, we plot the partial dependence of \code{Species} on both \code{Petal.Width} and \code{Petal.Length} for each of the three classes. The result is displayed in Figure~\ref{fig:partial_iris}. Note that we had to supply the original training data to \code{partial} through the \code{train} option. This is necessary for fitted model objects that don't store a copy of the training data (e.g., model fitting functions that don't rely on a formula method).
 \begin{example}
 pd <- NULL
 for (i in 1:3) {

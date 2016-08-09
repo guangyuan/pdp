@@ -87,12 +87,13 @@ dev.off()
 
 # Figure 4
 pd.lstat <- partial(boston.rf, pred.var = "lstat")
-pdf("partial_extrap.pdf", width = 12, height = 4)
+# pdf("partial_extrap.pdf", width = 12, height = 4)
+pdf("partial_extrap.pdf", width = 8, height = 4)
 pdp1 <- plotPartial(pd.lstat, rug = TRUE, train = boston)
 pdp2 <- plotPartial(pd.lstat.rm, chull = TRUE, train = boston)
 pdp3 <- plotPartial(partial(boston.rf, pred.var = c("lstat", "rm"),
                             chull = TRUE))
-gridExtra::grid.arrange(pdp1, pdp2, pdp3, ncol = 3)
+gridExtra::grid.arrange(pdp1, pdp3, ncol = 2)
 dev.off()
 
 # Figure 5

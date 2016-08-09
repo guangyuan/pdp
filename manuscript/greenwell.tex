@@ -129,7 +129,7 @@ partial(boston.rf, pred.var = "lstat", plot = TRUE)
 \end{example}
 The only difference is that \pkg{partial} uses the \pkg{lattice} graphics package to produce all of its displays.
 
-For a more customizable plot, call \code{partial} with \code{plot = FALSE} and use the \code{plotPartial} function. \strong{Note:} the \dfn{pipe} operator provided by the \CRANpkg{magrittr} package \citep{magrittr-pkg} is imported for writing more convenient code, as illustrated in snippet of code below.
+For a more customizable plot, call \code{partial} with \code{plot = FALSE} and use the \code{plotPartial} function. \strong{Note:} the \dfn{pipe} operator \code{\%>\%} provided by the \CRANpkg{magrittr} package \citep{magrittr-pkg} is imported for writing more convenient code, as illustrated in snippet of code below.
 \begin{example}
 partial(boston.rf, pred.var = "lstat") %>%
   plotPartial(smooth = TRUE, lwd = 2, ylab = expression(f(lstat)))

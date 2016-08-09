@@ -226,9 +226,8 @@ registerDoParallel(cores = 4)  # use 4 cores
 \end{example}
 Now, to run \code{partial} in parallel, all we have to do is invoke the \code{.parallel = TRUE} option and the rest is taken care of by the internal call to \pkg{plyr} the parallel backend we loaded. This is illustrated in following snippet of code which obtains the partial dependence of median home value on $\boldsymbol{z}_s = \left\{\code{rm}, \code{ptratio}, \code{chas}\right\} in parallel. The result is displayed in Figure~\ref{fig:partial_par}.
 \begin{example}
-pd <- partial(boston.rf, pred.var = c("rm", "ptratio", "chas"),
-              grid.resolution = 20, .parallel = TRUE)
-plotPartial(pd, number = 4, overlap = 0.1)
+partial(boston.rf, pred.var = c("rm", "ptratio", "chas"), grid.resolution = 20, 
+        chull = TRUE, .parallel = TRUE, plot = TRUE)
 \end{example}
 
 %Now, to run \code{partial} in parallel, all we have to do is invoke the \code{.parallel = TRUE} option and the rest is taken care of by the internal call to \pkg{plyr} the parallel backend we loaded. This is illustrated in following snippet of code which obtains the partial dependence of median home value on $\boldsymbol{z}_s = \left\{\code{rm}, \code{lstat}, \code{ptratio}\right\} in parallel. The result is displayed in Figure~\ref{fig:partial_par}.

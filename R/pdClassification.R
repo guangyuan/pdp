@@ -42,15 +42,14 @@ pdClassification.boosting <- function(object, pred.var, pred.grid, which.class,
 
 
 #' @keywords internal
-#' @importFrom utils capture.output
 pdRegression.gbm <- function(object, pred.var, pred.grid, train,
                              ...) {
   # Necessary to avoid silly printing from predict.gbm
   plyr::adply(pred.grid, .margins = 1, .fun = function(x) {
     temp <- train
     temp[pred.var] <- x
-    log <- capture.output(pr <- stats::predict(object, newdata = temp,
-                                               type = "raw"))
+    log <- utils::capture.output(pr <- stats::predict(object, newdata = temp,
+                                                      type = "raw"))
     avgLogit(pr, which.class = which.class)
   }, ...)
 }

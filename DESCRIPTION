@@ -11,8 +11,6 @@ Description: A general framework for creating partial dependence plots for
 License: GPL (>= 2)
 URL: https://github.com/bgreenwell/partial
 BugReports: https://github.com/bgreenwell/partial/issues
-Depends:
-    base,
 Suggests:
     e1071,
     kernlab,

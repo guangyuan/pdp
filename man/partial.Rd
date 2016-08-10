@@ -8,7 +8,8 @@
 partial(object, ...)
 
 \method{partial}{default}(object, pred.var, pred.grid, grid.resolution = NULL,
-  super.type, which.class = 1L, chull = FALSE, train, plot = FALSE, ...)
+  super.type, which.class = 1L, rug = FALSE, chull = FALSE, train,
+  plot = FALSE, ...)
 }
 \arguments{
 \item{object}{A fitted model object.}
@@ -34,6 +35,9 @@ necessary information from \code{object}.}
 
 \item{which.class}{Integer specifying which column of the matrix of predicted
 probabilities to use as the "focus" class. Default is to use the first class.}
+
+\item{rug}{Logical indicating whether or not to include a rug representation
+to the plot. If \code{TRUE} the user must supply the original data.}
 
 \item{chull}{Logical indicating wether or not to restrict the first
 two variables in \code{pred.var} to lie within the convex hull of their

@@ -100,7 +100,7 @@ dev.off()
 # Figure 6
 registerDoParallel(cores = 4)  # use 4 cores
 pd <- partial(boston.rf, pred.var = c("rm", "ptratio", "chas"),
-              grid.resolution = 20, .parallel = TRUE)
+              grid.resolution = 20, chull = TRUE, .parallel = TRUE)
 pdf("partial_par.pdf", width = 7, height = 5)
 plotPartial(pd)
 dev.off()

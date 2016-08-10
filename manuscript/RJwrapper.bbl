@@ -1,4 +1,4 @@
-\begin{thebibliography}{26}
+\begin{thebibliography}{27}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -58,6 +58,11 @@ J.~Fox and S.~Weisberg.
 \newblock \emph{An {R} Companion to Applied Regression}.
 \newblock Sage, Thousand Oaks {CA}, second edition, 2011.
 \newblock URL \url{http://socserv.socsci.mcmaster.ca/jfox/Books/Companion}.
+
+\bibitem[Friedman(1991)]{friedman-1991-mars}
+J.~H. Friedman.
+\newblock Multivariate adaptive regression splines.
+\newblock \emph{Annals of Statistics}, 19\penalty0 (1):\penalty0 1--67, 1991.
 
 \bibitem[Friedman(2000)]{friedman-2000-greedy}
 J.~H. Friedman.

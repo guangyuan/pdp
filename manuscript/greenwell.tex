@@ -156,7 +156,7 @@ library(earth)  # for fitting MARS models
 boston.mars <- earth(cmedv ~ ., data = boston, degree = 3)
 pd.lstat.rm <- partial(boston.mars, pred.var = c("lstat", "rm"))
 plotPartial(pd.lstat.rm)
-plotPartial(pd.lstat.rm, col.regions = colorRampPalette(c("white", "blue")))
+plotPartial(pd.lstat.rm, col.regions = colorRampPalette(c("red", "white", "blue")))
 plotPartial(pd.lstat.rm, contour = FALSE, zlab = "cmedv", drape = TRUE,
             colorkey = TRUE, screen = list(z = -20, x = -60))
 \end{example}

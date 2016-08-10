@@ -18,6 +18,19 @@ pdClassification.default <- function(object, pred.var, pred.grid, which.class,
 
 
 #' @keywords internal
+pdClassification.glm <- function(object, pred.var, pred.grid, which.class,
+                                     train, ...) {
+  plyr::adply(pred.grid, .margins = 1, .fun = function(x) {
+    temp <- train
+    temp[pred.var] <- x
+    pr <- stats::predict(object, newdata = temp, type = "response")
+    # Binary regression returns a vector of predicted probabilities!
+    avgLogit(cbind(pr, 1 - pr), which.class = which.class)
+  }, ...)
+}
+
+
+#' @keywords internal
 pdClassification.bagging <- function(object, pred.var, pred.grid, which.class,
                                       train, ...) {
   plyr::adply(pred.grid, .margins = 1, .fun = function(x) {

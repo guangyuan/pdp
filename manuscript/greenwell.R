@@ -62,22 +62,15 @@ pdp2 <- plotPartial(pd.lstat, lwd = 2, smooth = TRUE, span = 0.5,
 gridExtra::grid.arrange(pdp1, pdp2, ncol = 2)
 dev.off()
 
-# Fit a random forest using conditional inference trees
-set.seed(102) # for reproducibility
-boston.crf <- cforest(cmedv ~ ., data = boston)
-
 # Fit a MARS model
-boston.mars <- earth(cmedv ~ ., data = boston, degree = 3,
-                     pmethod = "exhaustive")
-pd <- partial(boston.mars, c("rm", "lstat"), .progress = "text")
-plotPartial(pd, chull = TRUE, train = boston)
+boston.mars <- earth(cmedv ~ ., data = boston, degree = 3)
 
 # Figure 3
-pd.lstat.rm <- partial(boston.rf, pred.var = c("lstat", "rm"))
+pd.lstat.rm <- partial(boston.mars, pred.var = c("lstat", "rm"))
 pdf("pd_lstat_rm.pdf", width = 12, height = 4)
 pdp1 <- plotPartial(pd.lstat.rm)
 pdp2 <- plotPartial(pd.lstat.rm,
-                    col.regions = colorRampPalette(c("white", "blue")))
+                    col.regions = colorRampPalette(c("red", "white", "blue")))
 pdp3 <- plotPartial(pd.lstat.rm, contour = FALSE, zlab = "cmedv", drape = TRUE,
                     colorkey = FALSE, screen = list(z = -20, x = -60))
 # print(p1, position = c(0, 0, 0.5, 1), more = TRUE)
@@ -87,12 +80,13 @@ dev.off()
 
 # Figure 4
 pd.lstat <- partial(boston.rf, pred.var = "lstat")
-pdf("partial_extrap.pdf", width = 12, height = 4)
+# pdf("partial_extrap.pdf", width = 12, height = 4)
+pdf("partial_extrap.pdf", width = 8, height = 4)
 pdp1 <- plotPartial(pd.lstat, rug = TRUE, train = boston)
 pdp2 <- plotPartial(pd.lstat.rm, chull = TRUE, train = boston)
 pdp3 <- plotPartial(partial(boston.rf, pred.var = c("lstat", "rm"),
                             chull = TRUE))
-gridExtra::grid.arrange(pdp1, pdp2, pdp3, ncol = 3)
+gridExtra::grid.arrange(pdp1, pdp3, ncol = 2)
 dev.off()
 
 # Figure 5
@@ -105,12 +99,17 @@ dev.off()
 
 # Figure 6
 registerDoParallel(cores = 4)  # use 4 cores
-pd <- partial(boston.rf, pred.var = c("lstat", "rm", "ptratio"),
+pd <- partial(boston.rf, pred.var = c("rm", "ptratio", "chas"),
               grid.resolution = 20, .parallel = TRUE)
 pdf("partial_par.pdf", width = 7, height = 5)
-plotPartial(pd, number = 4, overlap = 0.1)
+plotPartial(pd)
 dev.off()
-
+#registerDoParallel(cores = 4)  # use 4 cores
+#pd <- partial(boston.rf, pred.var = c("lstat", "rm", "ptratio"),
+#              grid.resolution = 20, .parallel = TRUE)
+#pdf("partial_par.pdf", width = 7, height = 5)
+#plotPartial(pd, number = 4, overlap = 0.1)
+#dev.off()
 
 ################################################################################
 # Edgar Anderson's iris data

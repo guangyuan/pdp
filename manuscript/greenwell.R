@@ -62,18 +62,11 @@ pdp2 <- plotPartial(pd.lstat, lwd = 2, smooth = TRUE, span = 0.5,
 gridExtra::grid.arrange(pdp1, pdp2, ncol = 2)
 dev.off()
 
-# Fit a random forest using conditional inference trees
-set.seed(102) # for reproducibility
-boston.crf <- cforest(cmedv ~ ., data = boston)
-
 # Fit a MARS model
-boston.mars <- earth(cmedv ~ ., data = boston, degree = 3,
-                     pmethod = "exhaustive")
-pd <- partial(boston.mars, c("rm", "lstat"), .progress = "text")
-plotPartial(pd, chull = TRUE, train = boston)
+boston.mars <- earth(cmedv ~ ., data = boston, degree = 3)
 
 # Figure 3
-pd.lstat.rm <- partial(boston.rf, pred.var = c("lstat", "rm"))
+pd.lstat.rm <- partial(boston.mars, pred.var = c("lstat", "rm"))
 pdf("pd_lstat_rm.pdf", width = 12, height = 4)
 pdp1 <- plotPartial(pd.lstat.rm)
 pdp2 <- plotPartial(pd.lstat.rm,

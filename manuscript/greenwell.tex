@@ -150,7 +150,7 @@ The result is displayed in the right side of Figure~\ref{fig:pd_lstat} below.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Multi-predictor PDPs}
 
-The benefit of using \code{partial} is threefold: (1) it is a generic function that can be used for various types of model fits (not just random forests), (2) it will allow for any number of predictors to be used, and (3) it can utilize any of the parallel backends supported by the \CRANpkg{foreach} package \citep{foreach-pkg}; we discuss parallel execution in a later section. For example, the following code chunk uses a multivariate adaptive regression splines (MARS) model \citep{friedman-mars-1988} to assess the joint effect of \code{lstat} and \code{rm} on \code{cmedv}. The results, which make use of various \code{plotPartial} options, are displayed in Figure~\ref{fig:pd_lstat_rm}.
+The benefit of using \code{partial} is threefold: (1) it is a generic function that can be used for various types of model fits (not just random forests), (2) it will allow for any number of predictors to be used, and (3) it can utilize any of the parallel backends supported by the \CRANpkg{foreach} package \citep{foreach-pkg}; we discuss parallel execution in a later section. For example, the following code chunk uses a multivariate adaptive regression splines (MARS) model \citep{friedman-1991-mars} to assess the joint effect of \code{lstat} and \code{rm} on \code{cmedv}. The results, which make use of various \code{plotPartial} options, are displayed in Figure~\ref{fig:pd_lstat_rm}.
 \begin{example}
 library(earth)  # for fitting MARS models
 boston.mars <- earth(cmedv ~ ., data = boston, degree = 3)

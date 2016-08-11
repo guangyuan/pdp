@@ -244,7 +244,7 @@ library(doParallel)  # load parallel backend
 registerDoParallel(cores = 4)  # use 4 cores
 \end{example}
 
-Now, to run \code{partial} in parallel, all we have to do is invoke the \code{.parallel = TRUE} option and the rest is taken care of by the internal call to \pkg{plyr} and the parallel backend we loaded. This is illustrated in following snippet of code which obtains the partial dependence of \code{ozone} on \code{wind}, \code{temp}, and \code{dpg} in parallel. The result is displayed in Figure~\ref{fig:partial_par}.
+Now, to run \code{partial} in parallel, all we have to do is invoke the \code{.parallel = TRUE} option and the rest is taken care of by the internal call to \pkg{plyr} and the parallel backend we loaded. This is illustrated in following snippet of code which obtains the partial dependence of \code{ozone} on \code{wind}, \code{temp}, and \code{dpg} in parallel. The result is displayed in Figure~\ref{fig:partial_par}. 
 \begin{example}
 partial(ozone.earth, pred.var = c("wind", "temp", "dpg"), plot = TRUE,
         chull = TRUE, .parallel = TRUE)

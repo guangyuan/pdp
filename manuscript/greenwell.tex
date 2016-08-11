@@ -225,7 +225,7 @@ ozone <- read.csv(paste0("http://statweb.stanford.edu/~tibs/ElemStatLearn/",
                          "datasets/LAozone.data"), header = TRUE)
 \end{example}
 
-Next, we use MARS to to study the relationship between atmospheric ozone (\code{ozone}) concentration and meteorology in the Los Angeles basin in 1976, allowing for up to three-way interactions.
+Next, we use MARS to model ozone concentration as a nonlinear function of the eight meteorological variables plus day of the year; we allow for up to three-way interactions.
 \begin{example}
 ozone.earth <- earth(ozone ~ ., data = ozone, degree = 3)
 summary(ozone.earth)

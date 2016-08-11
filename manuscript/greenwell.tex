@@ -219,16 +219,43 @@ partial(boston.rf, "rm", pred.grid = data.frame(rm = 3:9), plot = TRUE)
 
 The \code{partial} function relies on the \CRANpkg{plyr} package \citep{plyr-pkg}, rather than for loops. This makes it possible to request progress bars (e.g., \code{.progress = "text"}) or run \code{partial} in parallel. In fact, \code{partial} can use any of the parallel backends supported by the \pkg{foreach} package. To use this functionality, we must load and register a supported parallel backend [e.g., \CRANpkg{doMC} \citep{doMC-pkg} or \CRANpkg{doParallel} \citep{doParallel-pkg}].
 
-Setting up a parallel backend is rather straightforward. To illustrate, the following snippet of sets up the \code{partial} function to run in parallel on Unix-like systems\footnote{This example will not run on Windows.} using the \pkg{doParallel}.
+To illustrate, we will use the Los Angeles ozone pollution data described in ????. The data are available from \url{http://statweb.stanford.edu/~tibs/ElemStatLearn/datasets/LAozone.data}. The following code chunk loads the data into R:
+\begin{example}
+ozone <- read.csv(paste0("http://statweb.stanford.edu/~tibs/ElemStatLearn/",
+                         "datasets/LAozone.data"), header = TRUE)
+\end{example}
+
+Next, we use MARS to to study the relationship between atmospheric ozone (\code{ozone}) concentration and meteorology in the Los Angeles basin in 1976, allowing for up to three-way interactions.
+\begin{example}
+ozone.earth <- earth(ozone ~ ., data = ozone, degree = 3)
+summary(ozone.earth)
+\end{example}
+A single three-way interaction term between \code{wind}, \code{temp}, and \code{dpg} was selected by the MARS algorithm. To understand this interaction, we can use partial. However, since the partial dependece between three continuous variables can be computationally expensive, we will run \code{partial} in parallel.
+
+Setting up a parallel backend is rather straightforward. To illustrate, the following snippet of sets up the \code{partial} function to run in parallel on Unix-like systems\footnote{This example will not run on Windows.} using the \pkg{doParallel} package.
 \begin{example}
 library(doParallel)  # load parallel backend
 registerDoParallel(cores = 4)  # use 4 cores
 \end{example}
-Now, to run \code{partial} in parallel, all we have to do is invoke the \code{.parallel = TRUE} option and the rest is taken care of by the internal call to \pkg{plyr} the parallel backend we loaded. This is illustrated in following snippet of code which obtains the partial dependence of median home value on $\boldsymbol{z}_s = \{$\code{rm}, \code{ptratio}, \code{chas}$\}$ in parallel. The result is displayed in Figure~\ref{fig:partial_par}.
+
+Now, to run \code{partial} in parallel, all we have to do is invoke the \code{.parallel = TRUE} option and the rest is taken care of by the internal call to \pkg{plyr} and the parallel backend we loaded. This is illustrated in following snippet of code which obtains the partial dependence of \code{ozone} on \code{wind}, \code{temp}, and \code{dpg} in parallel. The result is displayed in Figure~\ref{fig:partial_par}.
 \begin{example}
-partial(boston.rf, pred.var = c("rm", "ptratio", "chas"), grid.resolution = 20,
-        chull = TRUE, .parallel = TRUE, plot = TRUE)
+partial(ozone.earth, pred.var = c("wind", "temp", "dpg"), plot = TRUE,
+        chull = TRUE, .parallel = TRUE)
 \end{example}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\linewidth]{partial_par}
+  \caption{Partial dependence of \code{ozone} on \code{wind}, \code{temp}, and \code{dpg}. Since \code{dpg} is contiuous, it is first converted to a shingle; in this case, four groups with 10\% overlap.}
+  \label{fig:partial_par}
+\end{figure}
+
+% \begin{itemize}
+%   \item \code{wind}: wind speed (mph) at Los Angeles International Airport (LAX)
+%   \item \code{temp}: temperature (degrees F) at Sandburg Air Force Base
+%   \item \code{dpg}: the pressure gradient (mm Hg) from LAX to Dagget, CA
+% \end{itemize}
 
 %Now, to run \code{partial} in parallel, all we have to do is invoke the \code{.parallel = TRUE} option and the rest is taken care of by the internal call to \pkg{plyr} the parallel backend we loaded. This is illustrated in following snippet of code which obtains the partial dependence of median home value on $\boldsymbol{z}_s = \left\{\code{rm}, \code{lstat}, \code{ptratio}\right\} in parallel. The result is displayed in Figure~\ref{fig:partial_par}.
 %\begin{example}
@@ -239,12 +266,6 @@ partial(boston.rf, pred.var = c("rm", "ptratio", "chas"), grid.resolution = 20,
 
 It is important to note that when using more than two variables, \code{plotPartial} produces a trellis display. The first two variables given to \code{pred.var} are used for the horizontal and vertical axes; additional variables define the panels. If the panel variables are continuous, then shingles\footnote{A shingle is a special Trellis data structure that consists of a numeric vector along with intervals that define the "levels" of the shingle. The intervals may be allowed to overlap.} are produced first using the equal count algorithm. Hence, it is probably better to use categorical variables to define the panels in higher dimensional displays when possible, as was done in the previous example.
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.8\linewidth]{partial_par}
-  \caption{Partial dependence of \code{cmedv} on \code{lstat}, \code{rm}, and \code{ptratio}. Since \code{ptratio} is contiuous, it is first converted to a shingle; in this case, four groups with with 10\% overlap.}
-  \label{fig:partial_par}
-\end{figure}
 
 \subsection{Classification problems}
 

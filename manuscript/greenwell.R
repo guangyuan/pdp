@@ -97,13 +97,29 @@ pdp3 <- plotPartial(partial(boston.rf, "rm", pred.grid = data.frame(rm = 3:9)))
 gridExtra::grid.arrange(pdp1, pdp2, pdp3, ncol = 3)
 dev.off()
 
+
+# Load the LA ozone data
+ozone <- read.csv(paste0("http://statweb.stanford.edu/~tibs/ElemStatLearn/",
+                         "datasets/LAozone.data"), header = TRUE)
+
+# Fit a MARS model
+ozone.earth <- earth(ozone ~ ., data = ozone, degree = 3)
+
 # Figure 6
 registerDoParallel(cores = 4)  # use 4 cores
-pd <- partial(boston.rf, pred.var = c("rm", "ptratio", "chas"),
-              grid.resolution = 20, chull = TRUE, .parallel = TRUE)
+pd <- partial(ozone.earth, pred.var = c("wind", "temp", "dpg"), chull = TRUE,
+              .parallel = TRUE)
 pdf("partial_par.pdf", width = 7, height = 5)
 plotPartial(pd)
 dev.off()
+
+# # Figure 6
+# registerDoParallel(cores = 4)  # use 4 cores
+# pd <- partial(boston.rf, pred.var = c("rm", "ptratio", "chas"),
+#               grid.resolution = 20, chull = TRUE, .parallel = TRUE)
+# pdf("partial_par.pdf", width = 7, height = 5)
+# plotPartial(pd)
+# dev.off()
 #registerDoParallel(cores = 4)  # use 4 cores
 #pd <- partial(boston.rf, pred.var = c("lstat", "rm", "ptratio"),
 #              grid.resolution = 20, .parallel = TRUE)

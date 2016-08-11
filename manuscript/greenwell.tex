@@ -219,7 +219,7 @@ partial(boston.rf, "rm", pred.grid = data.frame(rm = 3:9), plot = TRUE)
 
 The \code{partial} function relies on the \CRANpkg{plyr} package \citep{plyr-pkg}, rather than for loops. This makes it possible to request progress bars (e.g., \code{.progress = "text"}) or run \code{partial} in parallel. In fact, \code{partial} can use any of the parallel backends supported by the \pkg{foreach} package. To use this functionality, we must load and register a supported parallel backend [e.g., \CRANpkg{doMC} \citep{doMC-pkg} or \CRANpkg{doParallel} \citep{doParallel-pkg}].
 
-To illustrate, we will use the Los Angeles ozone pollution data described in ????. The data are available from \url{http://statweb.stanford.edu/~tibs/ElemStatLearn/datasets/LAozone.data}. The following code chunk loads the data into R:
+To illustrate, we will use the Los Angeles ozone pollution data described in \citet{breiman-1985-estimating}. The data contain daily measurements of ozone concentration (\code{ozone}) along with eight meteorological quantities for 330 days in the Los Angeles basin in 1976. The data are available from \url{http://statweb.stanford.edu/~tibs/ElemStatLearn/datasets/LAozone.data}. Details, including variable information, are available from \url{http://statweb.stanford.edu/~tibs/ElemStatLearn/datasets/LAozone.info}. The following code chunk loads the data into R:
 \begin{example}
 ozone <- read.csv(paste0("http://statweb.stanford.edu/~tibs/ElemStatLearn/",
                          "datasets/LAozone.data"), header = TRUE)
@@ -230,7 +230,13 @@ Next, we use MARS to to study the relationship between atmospheric ozone (\code{
 ozone.earth <- earth(ozone ~ ., data = ozone, degree = 3)
 summary(ozone.earth)
 \end{example}
-A single three-way interaction term between \code{wind}, \code{temp}, and \code{dpg} was selected by the MARS algorithm. To understand this interaction, we can use partial. However, since the partial dependece between three continuous variables can be computationally expensive, we will run \code{partial} in parallel.
+The model produced a generalized $R^2$ of $0.788$, similar to what was reported in \citet{breiman-1985-estimating}. A single three-way interaction was found involving the predictors
+\begin{itemize}
+  \item \code{wind}: wind speed (mph) at Los Angeles International Airport (LAX)
+  \item \code{temp}: temperature ($^oF$) at Sandburg Air Force Base
+  \item \code{dpg}: the pressure gradient (mm Hg) from LAX to Dagget, CA
+\end{itemize}
+To understand this interaction, we can use a partial plot. However, since the partial dependece between three continuous variables can be computationally expensive, we will run \code{partial} in parallel.
 
 Setting up a parallel backend is rather straightforward. To illustrate, the following snippet of sets up the \code{partial} function to run in parallel on Unix-like systems\footnote{This example will not run on Windows.} using the \pkg{doParallel} package.
 \begin{example}

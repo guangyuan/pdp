@@ -8,7 +8,7 @@
 \maketitle
 
 \abstract{
-Complex nonparametric models (e.g., neural networks, random forests, and support vector machines) are often used in predictive analytics, especially when dealing with large observational databases that don't adhere to the strict assumptions imposed by traditional statistical techniques (e.g. multiple linear regression). Unfortunately, it can be challenging for the uninitiated to understand the results of such models and explain them to management. Partial dependence plots offer a simple solution. Partial dependence plots are low-dimensional graphical renderings of the prediction function $\widehat{f}\left(\boldsymbol{x}\right)$ so that the relationship between the outcome and predictors of interest can be easily understood. These plots are especially useful in explaining the output from complex black box models like support vector machines or neural networks or constructing simpler parsimonious models on newly obtained data.
+Complex nonparametric models---like neural networks, random forests, and support vector machines---are more common than ever in predictive analytics, especially when dealing with large observational databases that don't adhere to the strict assumptions imposed by traditional statistical techniques (e.g. multiple linear regression). Unfortunately, it can be challenging for the uninitiated to understand the results of such models and explain them to management. Partial dependence plots offer a simple solution. Partial dependence plots are low-dimensional graphical renderings of the prediction function $\widehat{f}\left(\boldsymbol{x}\right)$ so that the relationship between the outcome and predictors of interest can be easily understood. These plots are especially useful in explaining the output from complex black box models like support vector machines or neural networks or constructing simpler parsimonious models on newly obtained data.
 }
 
 
@@ -17,7 +17,7 @@ Complex nonparametric models (e.g., neural networks, random forests, and support
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 
-Predictor importance is an important task in any supervised learning problem. However, ranking variables is only part of the story and once a subset of "important" features is identified it is often necessary to assess the relationship between them (or subset thereof) and the response. This can be done in many ways, but in machine learning it is often accomplished by constructing \dfn{partial dependence plots} (PDPs); see \citet{friedman-2000-greedy} for details. PDPs help visualize the relationship between a subset (typically 1-3) of the predictors and the response while accounting for the average effect of the other independent variables in the model. They are particularly effective with black box models like random forest and support vector machines.
+Predictor importance is an important task in any supervised learning problem. However, ranking variables is only part of the story and once a subset of "important" features is identified it is often necessary to assess the relationship between them (or subset thereof) and the response. This can be done in many ways, but in machine learning it is often accomplished by constructing \dfn{partial dependence plots} (PDPs); see \citet{friedman-2000-greedy} for details. PDPs help visualize the relationship between a subset of the predictors (typically 1-3) and the response while accounting for the average effect of the other independent variables in the model. They are particularly effective with black box models like random forest and support vector machines.
 %PDPs offer a low-dimensional graphical rendering of the prediction function $\widehat{f}\left(\boldsymbol{x}\right)$ for any type of fitted models and are especially useful in visualizing the relationships discovered by complex machine learning algorithms such as a \dfn{random forest}.
 
 Let $\boldsymbol{x} = \left\{x_1, x_2, \dots, x_n\right\}$ represent the predictors in a model whose prediction function is $\widehat{f}\left(\boldsymbol{x}\right)$. If we partition $\boldsymbol{x}$ into an interest set, $\boldsymbol{z}_s$, and its compliment, $\boldsymbol{z}_{c} = \boldsymbol{x} \setminus \boldsymbol{z}_s$, then the partial dependence of the response on $\boldsymbol{z}_s$ is defined as
@@ -35,9 +35,9 @@ where $\boldsymbol{z}_{i, c}$ $\left(i = 1, 2, \dots, n\right)$ are the values o
   \end{enumerate}
   \item Plot the pairs $\left[x_{1i}, \bar{f}_1\left(x_{1i}\right)\right]$ for $i = 1, 2, \dotsc, k$.
 \end{enumerate}
-This can be quite computationally intensive since the algorithm involves $k$ passes over the training records. Fortunately, this can be parallelized quite easily. This algorithm can also be easily extended to larger subsets of 2 or more features as well.
+This can be quite computationally intensive since the algorithm involves $k$ passes over the training records. Fortunately, this can be parallelized quite easily (more on this in a later section). This algorithm can also be easily extended to larger subsets of 2 or more features as well.
 
-Limited implementations of Friedman's PDPs are available in packages \CRANpkg{randomForest} \citep{randomForest-pkg} and \CRANpkg{gbm}, among others; these are limited in the sense that they only apply to the models fit using these packages. For example, the \code{partialPlot} function in \pkg{randomForest} only applies to objects of class \code{"randomForest"}. While the \pkg{randomForest} implementation will only allow for a single predictor, the \pkg{gbm} implementation can deal with any subset of the predictor space. Partial dependence functions are not restricted to tree-based models; they can be applied to any supervised learning algorithm (e.g., multiple linear regression and neural networks). However, to our knowledge, there is no general package for constructing PDPs  in R (e.g., PDPs for a \dfn{conditional random forest} as implemented by the \code{cforest} function in the \CRANpkg{party} and \CRANpkg{partykit} packages; see \citet{party-pkg} and \citet{partykit-pkg}, respectively). The \CRANpkg{partial} \citep{partial-pkg} package tries to close this gap by offering a general framework for PDPs that can be applied to several types of fitted models.
+Limited implementations of Friedman's PDPs are available in packages \CRANpkg{randomForest} \citep{randomForest-pkg} and \CRANpkg{gbm}, among others; these are limited in the sense that they only apply to the models fit using the respective package. For example, the \code{partialPlot} function in \pkg{randomForest} only applies to objects of class \code{"randomForest"}. While the \pkg{randomForest} implementation will only allow for a single predictor, the \pkg{gbm} implementation can deal with any subset of the predictor space. Partial dependence functions are not restricted to tree-based models; they can be applied to any supervised learning algorithm (e.g., multiple linear regression and neural networks). However, to our knowledge, there is no general package for constructing PDPs  in R (e.g., PDPs for a \dfn{conditional random forest} as implemented by the \code{cforest} function in the \CRANpkg{party} and \CRANpkg{partykit} packages; see \citet{party-pkg} and \citet{partykit-pkg}, respectively). The \CRANpkg{partial} \citep{partial-pkg} package tries to close this gap by offering a general framework for PDPs that can be applied to several types of fitted models.
 
 The \CRANpkg{plotmo} package \citep{plotmo-pkg} is one alternative to \pkg{partial}. According to the author, \pkg{plotmo} constructs "a poor man's partial dependence plot." In particular, it plots a model's response when varying one or two predictors while holding the other predictors in the model constant (continuous features are fixed at their median value, while factors are held at their first level). These plots allow for up to two variables at a time and are less accurate than PDPs, but are faster to construct. For additive models (i.e., no interactions), these plots are identical in shape to partial dependence plots.
 
@@ -47,7 +47,7 @@ Many other techniques exist for visualizing relationships between the predictors
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% PDPs in R
+% Constructing PDPs in R
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Constructing PDPs in R}
 
@@ -62,15 +62,15 @@ Currently, only two functions are exported by \pkg{partial}:
   \item \code{partial}
   \item \code{plotPartial}
 \end{itemize}
-The \code{partial} function evaluates the partial dependence \eqref{eqn:pdf} from a fitted model over a grid of predictor values. If \code{plot = FALSE} (the default), \code{partial} returns a data frame with an additional class: \code{"partial"}. The columns are labeled in the same order as the features supplied to \code{pred.var}, and the last column is always labeled \code{y} and contains the partial dependence function values $\bar{f}_s\left(\boldsymbol{z}_s\right)$. If \code{plot = TRUE}, then \code{partial} returns a \CRANpkg{lattice} plot \citep{lattice-pkg}. For more advanced plotting, the \code{plotPartial} function will take a \code{"partial"} object and display a more customizable lattice plot.
+The \code{partial} function evaluates the partial dependence \eqref{eqn:pdf} from a fitted model over a grid of predictor values specified by the \code{pred.var} argument. If \code{plot = FALSE} (the default), \code{partial} returns an object of class inheriting from \code{"partial"} which inherits from the class \code{"data.frame"}. The columns are labeled in the same order as the features supplied to \code{pred.var}, and the last column is always labeled \code{y} and contains the values of the partial dependence function $\bar{f}_s\left(\boldsymbol{z}_s\right)$. If \code{plot = TRUE}, then \code{partial} makes an internal call to \code{plotPartial} and returns a \CRANpkg{lattice} plot \citep{lattice-pkg}. For more advanced plotting, the \code{plotPartial} function will take a \code{"partial"} object and display a more customizable lattice plot.
 
-Currently supported models are described in Table~\ref{tab:models}. While more models will be added, the \code{partial.default} method should be able to handle many others not listed in Table~\ref{tab:models}; for example, neural networks from the \CRANpkg{nnet} package \citep{venables-modern-2002} or projection pursuit regression \citep{friedman-ppr-1981} using the \code{ppr} function in the \pkg{stats} package.
+Currently supported models are described in Table~\ref{tab:models}. While more models will be added as the package grows, the \code{partial.default} method should be able to handle many others not listed in Table~\ref{tab:models}; for example, neural networks from the \CRANpkg{nnet} package \citep{venables-modern-2002} and projection pursuit regression \citep{friedman-ppr-1981} using the \code{ppr} function in the \pkg{stats} package.
 \begin{table}[htbp]
   \begin{tabular}{p{4cm}ll}
     \toprule
       Type of model & R package & Object class \\
       \midrule
-      Decision trees            & \CRANpkg{rpart} \citep{rpart-pkg} & \code{"rpart"} \\
+      Decision tree             & \CRANpkg{rpart} \citep{rpart-pkg} & \code{"rpart"} \\
                                 & \pkg{party}    & \code{"BinaryTree"} \\
                                 & \pkg{partykit} & \code{"constparty"}/\code{"party"} \\
       Bagged decision trees     & \CRANpkg{ipred} \citep{ipred-pkg} & \code{"classbagg"}, \code{"regbagg"} \\
@@ -83,7 +83,7 @@ Currently supported models are described in Table~\ref{tab:models}. While more m
       Linear model              & \pkg{stats}    & \code{"lm"} \\
       Generalized linear model  & \pkg{stats}    & \code{"glm"}, \code{"lm"} \\
       Multivariate adaptive regression splines (MARS) & \CRANpkg{earth} \citep{earth-pkg} & \code{"earth"} \\
-      Support vector machines   & \CRANpkg{e1071} \citep{e1071-pkg} & \code{"svm"} \\
+      Support vector machine    & \CRANpkg{e1071} \citep{e1071-pkg} & \code{"svm"} \\
                                 & \CRANpkg{kernlab} \citep{kernlab-pkg} & \code{"ksvm"} \\
       \bottomrule
   \end{tabular}
@@ -114,7 +114,7 @@ The model fit is reasonable, with an \dfn{out-of-bag} (pseudo) $R^2$ of 0.89. Th
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Univariate PDPs
+% Single predictor PDPs
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Single predictor PDPs}
 
@@ -146,7 +146,7 @@ The result is displayed in the right side of Figure~\ref{fig:pd_lstat} below.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Higher order PDPs
+% Multi-predictor PDPs
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Multi-predictor PDPs}
 
@@ -169,22 +169,13 @@ Note that the default color map for contour plots is the Matplotlib "viridis" co
   \label{fig:pd_lstat_rm}
 \end{widefigure}
 
-% \sub\subsection{Multiple linear regression}
-% Here we use the multivariate adaptive regression splines (See ????) algorithm to perform multiple linear regression with automatc variable selection and interaction detection.
-% \begin{example}
-% library(earth)
-% boston.mars <- earth(cmedv ~ ., data = boston, degree = 3, linpreds = TRUE,
-%                      pmethod = "exhaustive")
-% partial(boston.mars, pred.var = c("nox", "rm"), grid.resolution = 10)
-% \end{example}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Avoiding extrapolation
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Avoiding extrapolation}
 
-There are a couple ways to mitigate the risk of extrapolation in PDPs: rug displays and convex hulls. Rug displays are one-dimensional plots added to the axes. Both \code{partial} and \code{plotPartial} have a \code{rug} option that, when set to \code{TRUE}, will display the deciles of the distribution (as well as the minimum and maximum values) for the predictors on the horizontal and vertical axes. The following snippet of code produces the left display in Figure~\ref{fig:partial_extrap}. %Notice that in both examples we had to provide the original training data to \code{plotPartial} via the \code{train} option.
+It is not wise to draw conclusions from PDPs in regions outside the range of the training data. Here we describe two ways to mitigate the risk of extrapolation in PDPs: rug displays and convex hulls. Rug displays are one-dimensional plots added to the axes. Both \code{partial} and \code{plotPartial} have a \code{rug} option that, when set to \code{TRUE}, will display the deciles of the distribution (as well as the minimum and maximum values) for the predictors on the horizontal and vertical axes. The following snippet of code produces the left display in Figure~\ref{fig:partial_extrap}.
 \begin{example}
 partial(boston.rf, pred.var = "lstat", rug = TRUE, plot = TRUE)
 \end{example}
@@ -201,9 +192,13 @@ partial(boston.rf, pred.var = c("lstat", "rm"), chull = TRUE, plot = TRUE)
   \label{fig:partial_extrap}
 \end{figure}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Addressing computational concerns
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Addressing computational concerns}
 
-Constructing PDPs can be quite computationally expensive. Several strategies are available to ease the computational burden for large problems. For example, there is no need to compute partial dependence of median home value using each unique value of \code{rm} in the training data (which would require $k = 446$ passes over the data!). We could get very reasonable results using a reduced number of points. Current options are to use a grid of equally spaced values in the range of the variable of interest; the number of points ban be controlled using the \code{grid.resolution}. Alternatively, a specific set of values (e.g., quantiles of interest) can be supplied through the \code{pred.grid} argument. To illustrate, the following snippet of code computes the partial dependence of median home value on \code{rm} using each option; the results are displayed in Figure~\ref{fig:partial_manual}.
+Constructing PDPs can be quite computationally expensive. Several strategies are available to ease the computational burden in larger problems. For example, there is no need to compute partial dependence of median home value using each unique value of \code{rm} in the training data (which would require $k = 446$ passes over the data!). We could get very reasonable results using a reduced number of points. Current options are to use a grid of equally spaced values in the range of the variable of interest; the number of points ban be controlled using the \code{grid.resolution}. Alternatively, a specific set of values (e.g., quantiles of interest) can be supplied through the \code{pred.grid} argument. To illustrate, the following snippet of code computes the partial dependence of median home value on \code{rm} using each option; the results are displayed in Figure~\ref{fig:partial_manual}.
 \begin{example}
 partial(boston.rf, plot = TRUE)
 partial(boston.rf, "rm", grid.resolution = 30, plot = TRUE)
@@ -217,7 +212,7 @@ partial(boston.rf, "rm", pred.grid = data.frame(rm = 3:9), plot = TRUE)
   \label{fig:partial_manual}
 \end{widefigure}
 
-The \code{partial} function relies on the \CRANpkg{plyr} package \citep{plyr-pkg}, rather than for loops. This makes it possible to request progress bars (e.g., \code{.progress = "text"}) or run \code{partial} in parallel. In fact, \code{partial} can use any of the parallel backends supported by the \pkg{foreach} package. To use this functionality, we must load and register a supported parallel backend [e.g., \CRANpkg{doMC} \citep{doMC-pkg} or \CRANpkg{doParallel} \citep{doParallel-pkg}].
+The \code{partial} function relies on the \CRANpkg{plyr} package \citep{plyr-pkg}, rather than for loops. This makes it possible to request progress bars (e.g., \code{.progress = "text"}) or run \code{partial} in parallel. In fact, \code{partial} can use any of the parallel backends supported by the \pkg{foreach} package. To use this functionality, we must first load and register a supported parallel backend [e.g., \CRANpkg{doMC} \citep{doMC-pkg} or \CRANpkg{doParallel} \citep{doParallel-pkg}].
 
 To illustrate, we will use the Los Angeles ozone pollution data described in \citet{breiman-1985-estimating}. The data contain daily measurements of ozone concentration (\code{ozone}) along with eight meteorological quantities for 330 days in the Los Angeles basin in 1976. The data are available from \url{http://statweb.stanford.edu/~tibs/ElemStatLearn/datasets/LAozone.data}. Details, including variable information, are available from \url{http://statweb.stanford.edu/~tibs/ElemStatLearn/datasets/LAozone.info}. The following code chunk loads the data into R:
 \begin{example}
@@ -244,7 +239,7 @@ library(doParallel)  # load parallel backend
 registerDoParallel(cores = 4)  # use 4 cores
 \end{example}
 
-Now, to run \code{partial} in parallel, all we have to do is invoke the \code{.parallel = TRUE} option and the rest is taken care of by the internal call to \pkg{plyr} and the parallel backend we loaded. This is illustrated in following snippet of code which obtains the partial dependence of \code{ozone} on \code{wind}, \code{temp}, and \code{dpg} in parallel. The result is displayed in Figure~\ref{fig:partial_par}. 
+Now, to run \code{partial} in parallel, all we have to do is invoke the \code{.parallel = TRUE} option and the rest is taken care of by the internal call to \pkg{plyr} and the parallel backend we loaded. This is illustrated in following snippet of code which obtains the partial dependence of \code{ozone} on \code{wind}, \code{temp}, and \code{dpg} in parallel. The result is displayed in Figure~\ref{fig:partial_par}.
 \begin{example}
 partial(ozone.earth, pred.var = c("wind", "temp", "dpg"), plot = TRUE,
         chull = TRUE, .parallel = TRUE)
@@ -257,20 +252,7 @@ partial(ozone.earth, pred.var = c("wind", "temp", "dpg"), plot = TRUE,
   \label{fig:partial_par}
 \end{figure}
 
-% \begin{itemize}
-%   \item \code{wind}: wind speed (mph) at Los Angeles International Airport (LAX)
-%   \item \code{temp}: temperature (degrees F) at Sandburg Air Force Base
-%   \item \code{dpg}: the pressure gradient (mm Hg) from LAX to Dagget, CA
-% \end{itemize}
-
-%Now, to run \code{partial} in parallel, all we have to do is invoke the \code{.parallel = TRUE} option and the rest is taken care of by the internal call to \pkg{plyr} the parallel backend we loaded. This is illustrated in following snippet of code which obtains the partial dependence of median home value on $\boldsymbol{z}_s = \left\{\code{rm}, \code{lstat}, \code{ptratio}\right\} in parallel. The result is displayed in Figure~\ref{fig:partial_par}.
-%\begin{example}
-%pd <- partial(boston.rf, pred.var = c("lstat", "rm", "ptratio"),
-%              grid.resolution = 20, .parallel = TRUE)
-%plotPartial(pd, number = 4, overlap = 0.1)
-%\end{example}
-
-It is important to note that when using more than two variables, \code{plotPartial} produces a trellis display. The first two variables given to \code{pred.var} are used for the horizontal and vertical axes; additional variables define the panels. If the panel variables are continuous, then shingles\footnote{A shingle is a special Trellis data structure that consists of a numeric vector along with intervals that define the "levels" of the shingle. The intervals may be allowed to overlap.} are produced first using the equal count algorithm. Hence, it is probably better to use categorical variables to define the panels in higher dimensional displays when possible, as was done in the previous example.
+It is important to note that when using more than two predictor variables, \code{plotPartial} produces a trellis display. The first two variables given to \code{pred.var} are used for the horizontal and vertical axes, and additional variables define the panels. If the panel variables are continuous, then shingles\footnote{A shingle is a special Trellis data structure that consists of a numeric vector along with intervals that define the "levels" of the shingle. The intervals may be allowed to overlap.} are produced first using the equal count algorithm (see, for example, \code{?lattice::equal.count}). Hence, it is probably better to use categorical variables to define the panels in higher dimensional displays when possible, as was done in the previous example.
 
 
 \subsection{Classification problems}
@@ -282,13 +264,13 @@ f_k(x) = \log\left[p_k(x)\right] - \frac{1}{K}\sum_{i = 1}^K\log\left[p_k(x)\rig
 \end{equation}
 where $p_k(x)$ is the predicted probability for the $k$-th class. Plotting $f_k(x)$ helps us understand how the log-odds for the $k$-th class depends on different subsets of the predictor variables.
 
-To illustrate, consider Edgar Anderson's iris data from the \pkg{datasets} package. The \code{iris} data frame contains the sepal length, sepal width, petal length, and petal width (in centimeters) for 50 flowers from each of three species of iris:  setosa, versicolor, and virginica. We fit a support vector machine with a radial basis function kernel to the data using the \code{svm} function in the \pkg{e1071} (the model parameters were determined using 5-fold cross-validation).
+To illustrate, consider Edgar Anderson's iris data from the \pkg{datasets} package. The \code{iris} data frame contains the sepal length, sepal width, petal length, and petal width (in centimeters) for 50 flowers from each of three species of iris:  setosa, versicolor, and virginica. We fit a support vector machine with a Gaussian radial basis function kernel to the data using the \code{svm} function in the \pkg{e1071} (the model parameters were determined using 5-fold cross-validation).
 \begin{example}
 library(e1071)
 iris.svm <- svm(Species ~ ., data = iris, kernel = "radial", gamma = 0.75,
                 cost = 0.25, probability = TRUE)
 \end{example}
-The \code{partial} function has to be able to extract the predicted probabilities for each class, so it is necessary to set the \code{probability = TRUE} option in the call to \code{svm}.
+\strong{Note:} the \code{partial} function has to be able to extract the predicted probabilities for each class, so it is necessary to set the \code{probability = TRUE} option in the call to \code{svm}.
 
 Next, we plot the partial dependence of \code{Species} on both \code{Petal.Width} and \code{Petal.Length} for each of the three classes. The result is displayed in Figure~\ref{fig:partial_iris}. Note that we had to supply the original training data to \code{partial} through the \code{train} option. This is necessary for fitted model objects that don't store a copy of the training data (e.g., model fitting functions that don't rely on a formula method).
 \begin{example}
@@ -314,7 +296,7 @@ lattice::levelplot(y ~ Petal.Width * Petal.Length | Species, data = pd)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary}
 
-In this paper, we showed how to construct PDPs for various types of black box models in R using the \pkg{partial} package. We briefly discussed related approaches in other packages as well. Ways to avoid extrpolation and high excecution times were demonstrated via examples. There is a bright future for \pkg{partial} in terms of growth. For example, we would like to include the ability to construct PDPs for various types of survival models (e.g. conditional random forests with censored response).
+In this paper, we showed how to construct PDPs for various types of black box models in R using the \pkg{partial} package. We also briefly discussed related approaches availble in other R packages as well. Suggestions to avoid extrpolation and high excecution times were discussed and demonstrated via examples. There is a bright future for \pkg{partial} in terms of growth. For example, it would be useful to have the ability to construct PDPs for black box survival models---like conditional random forests with censored response---and \CRANpkg{xgboost} \citep{xgboost-pkg} models.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

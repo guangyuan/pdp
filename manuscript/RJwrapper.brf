@@ -19,13 +19,14 @@
 \backcite {earth-pkg}{{3}{\caption@xref {??}{ on input line 85}}{table.caption.2}}
 \backcite {e1071-pkg}{{3}{\caption@xref {??}{ on input line 86}}{table.caption.2}}
 \backcite {kernlab-pkg}{{3}{\caption@xref {??}{ on input line 87}}{table.caption.2}}
-\backcite {magrittr-pkg}{{4}{2.2.1}{subsection.2.2.1}}
-\backcite {foreach-pkg}{{4}{2.2.2}{subsection.2.2.2}}
-\backcite {friedman-1991-mars}{{4}{2.2.2}{subsection.2.2.2}}
+\backcite {magrittr-pkg}{{3}{2.2.1}{subsection.2.2.1}}
+\backcite {foreach-pkg}{{3}{2.2.2}{subsection.2.2.2}}
+\backcite {friedman-1991-mars}{{3}{2.2.2}{subsection.2.2.2}}
 \backcite {viridis-pkg}{{5}{2.2.2}{subsection.2.2.2}}
-\backcite {plyr-pkg}{{6}{2.2.4}{figure.caption.7}}
-\backcite {doMC-pkg}{{6}{2.2.4}{figure.caption.7}}
-\backcite {doParallel-pkg}{{6}{2.2.4}{figure.caption.7}}
-\backcite {breiman-1985-estimating}{{6}{2.2.4}{figure.caption.7}}
-\backcite {breiman-1985-estimating}{{6}{2.2.4}{figure.caption.7}}
+\backcite {plyr-pkg}{{7}{2.2.4}{figure.caption.7}}
+\backcite {doMC-pkg}{{7}{2.2.4}{figure.caption.7}}
+\backcite {doParallel-pkg}{{7}{2.2.4}{figure.caption.7}}
+\backcite {breiman-1985-estimating}{{7}{2.2.4}{figure.caption.7}}
+\backcite {breiman-1985-estimating}{{7}{2.2.4}{figure.caption.7}}
 \backcite {hastie-elements-2009}{{7}{2.2.5}{subsection.2.2.5}}
+\backcite {xgboost-pkg}{{9}{2.3}{section.2.3}}

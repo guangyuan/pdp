@@ -60,17 +60,6 @@ superType.lm <- function(object) {
 
 
 #' @keywords internal
-superType.earth <- function(object) {
-  if (is.null(object$levels)) {
-    # FIXME: What about multivariate response models?
-    "regression"
-  } else {
-    "classification"
-  }
-}
-
-
-#' @keywords internal
 superType.glm <- function(object) {
   if(object$family$family == "binomial") {
     "classification"
@@ -157,6 +146,10 @@ superType.xgb.Booster <- function(object) {
     # FIXME: Throw a warning if objective function is classification, but does 
     # not return the predicted probabilities (e.g., "binary:logitraw").
     "classification"
+  } else if (object$params$objective %in% 
+             c("reg:logistic", "binary:logitraw", "multi:softmax")) {
+    stop(paste0("For classification, switch to an objective function", 
+                "that returns the predicted probabilities."))
   } else {
     "other"
   }

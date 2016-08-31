@@ -149,6 +149,21 @@ superType.gbm <- function(object) {
 
 
 #' @keywords internal
+superType.xgb.Booster <- function(object) {
+  if (object$params$objective == "reg:linear") {
+    "regression"
+  } else if (object$params$objective %in% 
+             c("binary:logistic", "multi:softprob")) {
+    # FIXME: Throw a warning if objective function is classification, but does 
+    # not return the predicted probabilities (e.g., "binary:logitraw").
+    "classification"
+  } else {
+    "other"
+  }
+}
+
+
+#' @keywords internal
 superType.svm <- function(object) {
   if (is.null(object$levels)) {
     "regression"

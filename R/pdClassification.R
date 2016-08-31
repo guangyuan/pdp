@@ -69,6 +69,19 @@ pdRegression.gbm <- function(object, pred.var, pred.grid, train,
 
 
 #' @keywords internal
+pdClassification.xgb.Booster <- function(object, pred.var, pred.grid, which.class,
+                                     train, ...) {
+  plyr::adply(pred.grid, .margins = 1, .fun = function(x) {
+    temp <- train
+    temp[pred.var] <- x
+    pr <- stats::predict(object, newdata = data.matrix(temp))
+    dim(pr) <- c(nrow(train), object$params$num_class)  # reshape into matrix
+    avgLogit(pr, which.class = which.class)
+  }, ...)
+}
+
+
+#' @keywords internal
 pdClassification.ksvm <- function(object, pred.var, pred.grid, which.class,
                                   train, ...) {
   if (is.null(object@kcall$prob.model)) {

@@ -20,6 +20,8 @@ Complex nonparametric models---like neural networks, random forests, and support
 Predictor importance is an important task in any supervised learning problem. However, ranking variables is only part of the story and once a subset of "important" features is identified it is often necessary to assess the relationship between them (or subset thereof) and the response. This can be done in many ways, but in machine learning it is often accomplished by constructing \dfn{partial dependence plots} (PDPs); see \citet{friedman-2000-greedy} for details. PDPs help visualize the relationship between a subset of the predictors (typically 1-3) and the response while accounting for the average effect of the other independent variables in the model. They are particularly effective with black box models like random forest and support vector machines.
 %PDPs offer a low-dimensional graphical rendering of the prediction function $\widehat{f}\left(\boldsymbol{x}\right)$ for any type of fitted models and are especially useful in visualizing the relationships discovered by complex machine learning algorithms such as a \dfn{random forest}.
 
+\strong{Mention the integral approximation!!}
+
 Let $\boldsymbol{x} = \left\{x_1, x_2, \dots, x_n\right\}$ represent the predictors in a model whose prediction function is $\widehat{f}\left(\boldsymbol{x}\right)$. If we partition $\boldsymbol{x}$ into an interest set, $\boldsymbol{z}_s$, and its compliment, $\boldsymbol{z}_{c} = \boldsymbol{x} \setminus \boldsymbol{z}_s$, then the partial dependence of the response on $\boldsymbol{z}_s$ is defined as
 \begin{equation}
 \label{eqn:pdf}

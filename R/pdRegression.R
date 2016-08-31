@@ -28,3 +28,13 @@ pdRegression.gbm <- function(object, pred.var, pred.grid, train,
     z
   }, ...)
 }
+
+
+#' @keywords internal
+pdRegression.xgb.Booster <- function(object, pred.var, pred.grid, train, ...) {
+  plyr::adply(pred.grid, .margins = 1, .fun = function(x) {
+    temp <- train
+    temp[pred.var] <- x
+    mean(stats::predict(object, newdata = data.matrix(temp)), na.rm = TRUE)
+  }, ...)
+}

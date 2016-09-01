@@ -1,8 +1,9 @@
-# R code for "partial: partial: An R Package for Creating Partial Dependence
-# Plots"
+# R code for the manuscript
+# 
+#   partial: partial: An R Package for Creating Partial Dependence Plots
 #
 #        Author: Brandon M. Greenwell
-# Date Modified: 06Jul2016
+# Date Modified: 01Sep2016
 
 
 ################################################################################
@@ -10,21 +11,26 @@
 ################################################################################
 
 # Set working directory
-# setwd("C:\\Users\\Brandon.Greenwell\\Desktop\\greenwell_partial_2016")
-setwd("/home/w108bmg/Desktop/Dropbox/devel/partial/manuscript")
+setwd("C:\\Users\\Brandon.Greenwell\\Desktop\\greenwell_partial_2016")
 
-# Install required packages
-# install.packages(c("doParallel", "e1071", "mlbench", "partial", "party", "randomForest"))
+# List of packages required to run all the examples in this script
+pkgs <- c("doParallel", 
+          "e1071", 
+          "mlbench", 
+          "partial", 
+          "party", 
+          "randomForest",
+          "xgboost")
+# install.packages(pkgs)
 
 # Load required packages
-# library(caret)
 library(doParallel)
 library(e1071)
 library(earth)
-# library(kernlab)
 library(partial)
 library(party)
 library(randomForest)
+library(xgboost)
 
 
 ################################################################################
@@ -65,6 +71,31 @@ dev.off()
 # Fit a MARS model
 boston.mars <- earth(cmedv ~ ., data = boston, degree = 3)
 
+# Boosted regression trees
+set.seed(102)
+boston.xgb <- xgboost(data = data.matrix(subset(boston, select = -cmedv)),
+                      label = boston$cmedv,
+                      objective = "reg:linear",
+                      nrounds = 2000,
+                      max_depth = 3,
+                      eta = 0.01)
+
+pdf("boston_xgb.pdf", width = 7, height = 5)
+X <- subset(boston, select = -cmedv)
+pdp1 <- plotPartial(partial(boston.xgb, pred.var = "lstat", train = X),
+                    rug = TRUE, smooth = TRUE, train = X)
+pdp2 <- plotPartial(partial(boston.xgb, pred.var = "rm", train = X),
+                    rug = TRUE, smooth = TRUE, train = X)
+pdp3 <- plotPartial(partial(boston.xgb, pred.var = c("lstat", "rm"), 
+                            chull = TRUE, train = X), train = X)
+gridExtra::grid.arrange(pdp1, pdp2, pdp3, ncol = 3)
+dev.off()
+
+# Where can this figure go?
+partial(boston.xgb, pred.var = c("lstat", "rm"), chull = TRUE, 
+        train = subset(boston, select = -cmedv), plot = TRUE, 
+        .progress = "text")
+
 # Figure 3
 pd.lstat.rm <- partial(boston.mars, pred.var = c("lstat", "rm"))
 pdf("pd_lstat_rm.pdf", width = 12, height = 4)
@@ -98,6 +129,10 @@ gridExtra::grid.arrange(pdp1, pdp2, pdp3, ncol = 3)
 dev.off()
 
 
+################################################################################
+# Los Angeles ozone example
+################################################################################
+
 # Load the LA ozone data
 ozone <- read.csv(paste0("http://statweb.stanford.edu/~tibs/ElemStatLearn/",
                          "datasets/LAozone.data"), header = TRUE)
@@ -113,25 +148,13 @@ pdf("partial_par.pdf", width = 7, height = 5)
 plotPartial(pd)
 dev.off()
 
-# # Figure 6
-# registerDoParallel(cores = 4)  # use 4 cores
-# pd <- partial(boston.rf, pred.var = c("rm", "ptratio", "chas"),
-#               grid.resolution = 20, chull = TRUE, .parallel = TRUE)
-# pdf("partial_par.pdf", width = 7, height = 5)
-# plotPartial(pd)
-# dev.off()
-#registerDoParallel(cores = 4)  # use 4 cores
-#pd <- partial(boston.rf, pred.var = c("lstat", "rm", "ptratio"),
-#              grid.resolution = 20, .parallel = TRUE)
-#pdf("partial_par.pdf", width = 7, height = 5)
-#plotPartial(pd, number = 4, overlap = 0.1)
-#dev.off()
 
 ################################################################################
 # Edgar Anderson's iris data
 ################################################################################
 
 # # Train an SVM to Edgar Anderson's iris data using 5-fold classification
+# library(caret)
 # set.seed(101)
 # ctrl <- trainControl(method = "cv", number = 5, verboseIter = TRUE)
 # iris.svm.tune <- train(x = subset(iris, select = -Species),
@@ -143,8 +166,6 @@ dev.off()
 # Fit an SVM to Edgar Anderson's iris data
 iris.svm <- svm(Species ~ ., data = iris, kernel = "radial", gamma = 0.75,
                 cost = 0.25, probability = TRUE)
-# iris.ksvm <- ksvm(Species ~ ., data = iris, kernel = "rbfdot", C = 0.25,
-#                   kpar = list(sigma = 0.75), prob.model = TRUE)
 
 # Plot partial dependence for each class
 pd <- NULL
@@ -157,3 +178,28 @@ pdf("partial_iris_svm.pdf", width = 12, height = 4)
 lattice::levelplot(y ~ Petal.Width * Petal.Length | Species, data = pd,
                    col.regions = colorRampPalette(c("red", "white", "blue")))
 dev.off()
+
+
+################################################################################
+# XGboost
+################################################################################
+
+library(caret)
+ctrl <- trainControl(method = "cv", number = 5, verboseIter = TRUE)
+xgb.grid <- expand.grid(nrounds = c(100, 500, 1000, 2000, 5000),
+                        max_depth = 1:6,
+                        eta = c(0.001, 0.01, 0.1, 0.5, 1),
+                        gamma = 0,
+                        colsample_bytree = 1,
+                        min_child_weight = 1)
+set.seed(202)
+boston.xgb.tune <- train(x = data.matrix(subset(boston, select = -cmedv)),
+                         y = boston$cmedv,
+                         method = "xgbTree",
+                         metric = "RMSE",
+                         trControl = ctrl,
+                         tuneGrid = xgb.grid)
+plot(boston.xgb.tune)
+boston.xgb.tune$bestTune
+#    nrounds max_depth  eta gamma colsample_bytree min_child_weight
+# 44    2000         3 0.01     0                1                1

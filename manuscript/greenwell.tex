@@ -82,7 +82,7 @@ Currently supported models are described in Table~\ref{tab:models}. Using the \c
       Bagged decision trees     & \CRANpkg{ipred} \citep{ipred-pkg} & \code{"classbagg"}, \code{"regbagg"} \\
                                 & \CRANpkg{adabag} \citep{adabag-pkg} & \code{"bagging"} \\
       Boosted decision trees    & \pkg{gbm}      & \code{"gbm"} \\
-                                & \CRANpkg{xgboost}\footnote{Partially supported. See section ????} \citep{xgboost-pkg} & \code{"xgb.Booster"}
+                                & \CRANpkg{xgboost} & \code{"xgb.Booster"} \\
                                 & \CRANpkg{adabag} \citep{adabag-pkg} & \code{"boosting"} \\
       Random forest & \pkg{randomForest} & \code{"randomForest"} \\
       Conditional random forest & \pkg{party}    & \code{"RandomForest"} \\
@@ -94,7 +94,7 @@ Currently supported models are described in Table~\ref{tab:models}. Using the \c
                                 & \CRANpkg{kernlab} \citep{kernlab-pkg} & \code{"ksvm"} \\
       \bottomrule
   \end{tabular}
-  \caption{Models specifically supported by the \pkg{package}.}
+  \caption{Models specifically supported by the \pkg{package}. \strong{Note:} package \pkg{xgboost} is only partially supported; see Section~\ref{sec:xgboost} fr details.}
   \label{tab:models}
 \end{table}
 
@@ -301,27 +301,31 @@ lattice::levelplot(y ~ Petal.Width * Petal.Length | Species, data = pd)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Using partial with xgboost
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Using partial with xgboost}
+\subsection{Using partial with the XGBoost library}
+\label{sec:xgboost}
 
-XGBoost, short for eXtreme Gradient Boosting, is a popular library providing optimized distributed gradient boosting that is specifically designed to be highly efficient, flexible and portable. The associated R package \pkg{xgboost} has been used in many winning Kaggle competitions. It has been shown to be many times faster than the well known \pkg{gbm} package. However, unlike \pkg{gbm}, \pkg{xgboost} does not have built-in functions for displaying partial dependence plots. Fortunately, the \pkg{partial} package can be used to fill this gap.
+XGBoost, short for eXtreme Gradient Boosting, is a popular library providing optimized distributed gradient boosting that is specifically designed to be highly efficient, flexible and portable. The associated R package \pkg{xgboost} has been used to win a number of \href{https://www.kaggle.com/}{Kaggle competitions}. It has been shown to be many times faster than the well known \pkg{gbm} package. However, unlike \pkg{gbm}, \pkg{xgboost} does not have built-in functions for displaying partial dependence plots. Fortunately, the \pkg{partial} package can be used to fill this gap.
 
-Finally illustration, we return to the Boston housing data. The example below, fits a model using \pkg{xgboost}; the tuning parameters were predetermined using 5-fold cross-validation.
+For illustration, we return to the Boston housing data. The example below, fits an \pkg{xgboost} model; the tuning parameters were predetermined using 5-fold cross-validation. (Make sure you are using the latest version of \pkg{xgboost}: \url{https://github.com/dmlc/xgboost/tree/master/R-package}.)
 \begin{example}
 set.seed(102)
 boston.xgb <- xgboost(data = data.matrix(subset(boston, select = -cmedv)),
-                      label = boston$cmedv,
-                      objective = "reg:linear",
-                      nrounds = 2000,
-                      max_depth = 3,
-                      eta = 0.01)
+                      label = boston$cmedv, objective = "reg:linear",
+                      nrounds = 2000, max_depth = 3, eta = 0.01)
 \end{example}
 
-To use \code{partial} with the \code{"xgb.Booster"} class, we need to supply the original training data (minus the response!) in the call to \code{partial}. The following snippet of code computes the partial dependence of \code{cmedv} on both \code{rm} and \code{lstat}, individually and together. The results are displayed in Figure~\fig{fig:boston_xgb}.
+To use \code{partial} with the \code{"xgb.Booster"} class, we need to supply the original training data (minus the response!) in the call to \code{partial}. The following snippet of code computes the partial dependence of \code{cmedv} on both \code{rm} and \code{lstat}, individually and together. The results are displayed in Figure~\ref{fig:boston_xgb}.
 \begin{example}
-partial(boston.xgb, pred.var = "lstat", train = subset(boston, select = -cmedv), 
+partial(boston.xgb, pred.var = "lstat", train = subset(boston, select = -cmedv),
         plot = TRUE)
 \end{example}
 
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=1.0\linewidth]{boston_xgb}
+  \caption{Partial dependence plots for the top two most important variables in the Boston housing data using XGBoost. Compare this to the random forest results displayed in Figures~\ref{fig:partial_extrap}-\ref{fig:partial_manual}.}
+  \label{fig:boston_xgb}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Summary

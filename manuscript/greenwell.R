@@ -1,5 +1,5 @@
 # R code for the manuscript
-# 
+#
 #   partial: partial: An R Package for Creating Partial Dependence Plots
 #
 #        Author: Brandon M. Greenwell
@@ -11,14 +11,14 @@
 ################################################################################
 
 # Set working directory
-setwd("C:\\Users\\Brandon.Greenwell\\Desktop\\greenwell_partial_2016")
+setwd("/home/w108bmg/Desktop/Dropbox/devel/partial/manuscript")
 
 # List of packages required to run all the examples in this script
-pkgs <- c("doParallel", 
-          "e1071", 
-          "mlbench", 
-          "partial", 
-          "party", 
+pkgs <- c("doParallel",
+          "e1071",
+          "mlbench",
+          "partial",
+          "party",
           "randomForest",
           "xgboost")
 # install.packages(pkgs)
@@ -80,20 +80,20 @@ boston.xgb <- xgboost(data = data.matrix(subset(boston, select = -cmedv)),
                       max_depth = 3,
                       eta = 0.01)
 
-pdf("boston_xgb.pdf", width = 7, height = 5)
+pdf("boston_xgb.pdf", width = 12, height = 4)
 X <- subset(boston, select = -cmedv)
 pdp1 <- plotPartial(partial(boston.xgb, pred.var = "lstat", train = X),
                     rug = TRUE, smooth = TRUE, train = X)
 pdp2 <- plotPartial(partial(boston.xgb, pred.var = "rm", train = X),
                     rug = TRUE, smooth = TRUE, train = X)
-pdp3 <- plotPartial(partial(boston.xgb, pred.var = c("lstat", "rm"), 
+pdp3 <- plotPartial(partial(boston.xgb, pred.var = c("lstat", "rm"),
                             chull = TRUE, train = X), train = X)
 gridExtra::grid.arrange(pdp1, pdp2, pdp3, ncol = 3)
 dev.off()
 
 # Where can this figure go?
-partial(boston.xgb, pred.var = c("lstat", "rm"), chull = TRUE, 
-        train = subset(boston, select = -cmedv), plot = TRUE, 
+partial(boston.xgb, pred.var = c("lstat", "rm"), chull = TRUE,
+        train = subset(boston, select = -cmedv), plot = TRUE,
         .progress = "text")
 
 # Figure 3

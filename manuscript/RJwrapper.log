@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.4.30)  30 AUG 2016 22:43
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.4.30)  1 SEP 2016 18:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1175,27 +1175,27 @@ Package: booktabs 2005/04/14 v1.61803 publication quality tables
 (./RJwrapper.aux)
 \openout1 = `RJwrapper.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 10.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 10.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 11.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 11.
  (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Try loading font information for T1+ppl on input line 10.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Try loading font information for T1+ppl on input line 11.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1ppl.fd
 File: t1ppl.fd 2001/06/04 font definitions for T1/ppl.
@@ -1265,7 +1265,7 @@ e
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Info: Redefining \microtypecontext on input line 10.
+LaTeX Info: Redefining \microtypecontext on input line 11.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
@@ -1283,8 +1283,8 @@ Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
 tim
 )
 \AtBeginShipoutBox=\box42
-Package backref Info: ** backref set up for natbib ** on input line 10.
-Package hyperref Info: Link coloring ON on input line 10.
+Package backref Info: ** backref set up for natbib ** on input line 11.
+Package hyperref Info: Link coloring ON on input line 11.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
@@ -1294,9 +1294,9 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
 \c@section@level=\count151
 )
-LaTeX Info: Redefining \ref on input line 10.
-LaTeX Info: Redefining \pageref on input line 10.
-LaTeX Info: Redefining \nameref on input line 10.
+LaTeX Info: Redefining \ref on input line 11.
+LaTeX Info: Redefining \pageref on input line 11.
+LaTeX Info: Redefining \nameref on input line 11.
 
 (./RJwrapper.out) (./RJwrapper.out)
 \@outlinefile=\write5
@@ -1364,13 +1364,13 @@ LaTeX Font Info:    Font shape `U/msb/m/n' will be
 (Font)              scaled to size 5.21004pt on input line 12.
 LaTeX Font Info:    Font shape `T1/ppl/bx/n' in size <12> not available
 (Font)              Font shape `T1/ppl/b/n' tried instead on input line 18.
-LaTeX Font Info:    Try loading font information for T1+zi4 on input line 40.
+LaTeX Font Info:    Try loading font information for T1+zi4 on input line 42.
 
 (/usr/share/texlive/texmf-dist/tex/latex/inconsolata/t1zi4.fd
 File: t1zi4.fd 2014/06/22 T1/zi4 (Inconsolata)
 )
 LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
-(Font)              scaled to size 9.18004pt on input line 40.
+(Font)              scaled to size 9.18004pt on input line 42.
 Package microtype Info: Loading generic settings for font family
 (microtype)             `zi4' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
@@ -1384,25 +1384,25 @@ Package microtype Info: Character `textemdash ' is missing
  [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 ]
-LaTeX Font Info:    Try loading font information for TS1+ppl on input line 62.
+LaTeX Font Info:    Try loading font information for TS1+ppl on input line 64.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ppl.fd
 File: ts1ppl.fd 2001/06/04 font definitions for TS1/ppl.
 )
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 10.42007pt on input line 69.
+(Font)              scaled to size 10.42007pt on input line 75.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 7.91925pt on input line 69.
+(Font)              scaled to size 7.91925pt on input line 75.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 6.25204pt on input line 69.
+(Font)              scaled to size 6.25204pt on input line 75.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 10.42007pt on input line 69.
+(Font)              scaled to size 10.42007pt on input line 75.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 7.91925pt on input line 69.
+(Font)              scaled to size 7.91925pt on input line 75.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 6.25204pt on input line 69.
+(Font)              scaled to size 6.25204pt on input line 75.
 LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
-(Font)              scaled to size 10.20004pt on input line 73.
+(Font)              scaled to size 10.20004pt on input line 79.
 Package microtype Info: Character `textendash ' is missing
 (microtype)             in font `T1/zi4/m/n/10'.
 (microtype)             Ignoring protrusion settings for this character.
@@ -1410,98 +1410,106 @@ Package microtype Info: Character `textemdash ' is missing
 (microtype)             in font `T1/zi4/m/n/10'.
 (microtype)             Ignoring protrusion settings for this character.
 
-Overfull \hbox (6.53165pt too wide) in paragraph at lines 69--90
+Overfull \hbox (6.53165pt too wide) in paragraph at lines 75--97
 [][] 
  []
 
-<boston_rf_vimp.pdf, id=144, 505.89pt x 361.35pt>
+[2] <boston_rf_vimp.pdf, id=166, 505.89pt x 361.35pt>
 File: boston_rf_vimp.pdf Graphic file (type pdf)
  <use boston_rf_vimp.pdf>
-Package pdftex.def Info: boston_rf_vimp.pdf used on input line 110.
+Package pdftex.def Info: boston_rf_vimp.pdf used on input line 117.
 (pdftex.def)             Requested size: 398.33858pt x 284.53156pt.
-
-[2]
 LaTeX Font Info:    Font shape `T1/ppl/bx/n' in size <10> not available
-(Font)              Font shape `T1/ppl/b/n' tried instead on input line 119.
- <pd_lstat.pdf, id=165, 578.16pt x 289.08pt>
+(Font)              Font shape `T1/ppl/b/n' tried instead on input line 126.
+
+<pd_lstat.pdf, id=172, 578.16pt x 289.08pt>
 File: pd_lstat.pdf Graphic file (type pdf)
  <use pd_lstat.pdf>
-Package pdftex.def Info: pd_lstat.pdf used on input line 142.
+Package pdftex.def Info: pd_lstat.pdf used on input line 149.
 (pdftex.def)             Requested size: 398.33858pt x 199.16986pt.
- [3] [4 <./boston_rf_vimp.pdf> <./pd_lstat.pdf>]
-<pd_lstat_rm.pdf, id=207, 867.24pt x 289.08pt>
+ [3] [4 <./boston_rf_vimp.pdf> <./pd_lstat.pdf>] <pd_lstat_rm.pdf, id=213, 867.
+24pt x 289.08pt>
 File: pd_lstat_rm.pdf Graphic file (type pdf)
- <use pd_lstat_rm.pdf>
-Package pdftex.def Info: pd_lstat_rm.pdf used on input line 170.
+
+<use pd_lstat_rm.pdf>
+Package pdftex.def Info: pd_lstat_rm.pdf used on input line 177.
 (pdftex.def)             Requested size: 512.1496pt x 170.72333pt.
 
-Overfull \hbox (56.90552pt too wide) in paragraph at lines 170--170
+Overfull \hbox (56.90552pt too wide) in paragraph at lines 177--177
  []$[]$ 
  []
 
-<partial_extrap.pdf, id=210, 578.16pt x 289.08pt>
+<partial_extrap.pdf, id=216, 578.16pt x 289.08pt>
 File: partial_extrap.pdf Graphic file (type pdf)
  <use partial_extrap.pdf>
-Package pdftex.def Info: partial_extrap.pdf used on input line 190.
+Package pdftex.def Info: partial_extrap.pdf used on input line 197.
 (pdftex.def)             Requested size: 398.33858pt x 199.16986pt.
 
-<partial_manual.pdf, id=212, 867.24pt x 289.08pt>
+[5 <./pd_lstat_rm.pdf>] <partial_manual.pdf, id=231, 867.24pt x 289.08pt>
 File: partial_manual.pdf Graphic file (type pdf)
- <use partial_manual.pdf>
-Package pdftex.def Info: partial_manual.pdf used on input line 213.
+
+<use partial_manual.pdf>
+Package pdftex.def Info: partial_manual.pdf used on input line 220.
 (pdftex.def)             Requested size: 409.72124pt x 136.57336pt.
 
-Overfull \hbox (56.90552pt too wide) in paragraph at lines 213--213
+Overfull \hbox (56.90552pt too wide) in paragraph at lines 220--220
  []$[]$ 
  []
 
-[5 <./pd_lstat_rm.pdf>] [6 <./partial_extrap.pdf> <./partial_manual.pdf>]
-Overfull \hbox (18.31128pt too wide) in paragraph at lines 217--218
+
+Overfull \hbox (18.31128pt too wide) in paragraph at lines 224--225
 \T1/ppl/m/n/9 (-20) in-for-ma-tion, are avail-able from [][]$\T1/zi4/m/n/9 http
  : / / statweb . stanford . edu / ~tibs / ElemStatLearn / datasets / LAozone .
  []
 
+[6 <./partial_extrap.pdf> <./partial_manual.pdf>]
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 8.33606pt on input line 236.
+(Font)              scaled to size 8.33606pt on input line 243.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 8.33606pt on input line 236.
-<partial_par.pdf, id=256, 505.89pt x 361.35pt>
+(Font)              scaled to size 8.33606pt on input line 243.
+
+<partial_par.pdf, id=271, 505.89pt x 361.35pt>
 File: partial_par.pdf Graphic file (type pdf)
  <use partial_par.pdf>
-Package pdftex.def Info: partial_par.pdf used on input line 250.
+Package pdftex.def Info: partial_par.pdf used on input line 257.
 (pdftex.def)             Requested size: 318.67207pt x 227.62413pt.
- [7]
-<partial_iris_svm.pdf, id=278, 867.24pt x 289.08pt>
+ [7 <./partial_par.pdf>] <partial_iris_svm.pdf, id=292, 867.24pt x 289.08pt>
 File: partial_iris_svm.pdf Graphic file (type pdf)
- <use partial_iris_svm.pdf>
-Package pdftex.def Info: partial_iris_svm.pdf used on input line 288.
-(pdftex.def)             Requested size: 398.33858pt x 132.7799pt.
 
-[8 <./partial_par.pdf> <./partial_iris_svm.pdf>] (./RJwrapper.bbl
+<use partial_iris_svm.pdf>
+Package pdftex.def Info: partial_iris_svm.pdf used on input line 295.
+(pdftex.def)             Requested size: 398.33858pt x 132.7799pt.
+ <boston_xgb.pdf, id=296, 867.24pt x 289.08pt>
+File: boston_xgb.pdf Graphic file (type pdf)
+
+<use boston_xgb.pdf>
+Package pdftex.def Info: boston_xgb.pdf used on input line 325.
+(pdftex.def)             Requested size: 398.33858pt x 132.7799pt.
+ [8 <./partial_iris_svm.pdf>] (./RJwrapper.bbl
 (./RJwrapper.brf)
 \tf@brf=\write6
 \openout6 = `RJwrapper.brf'.
 
- [9])) [10]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 24.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 24.
+ [9 <./boston_xgb.pdf>])) [10]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 25.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 25.
  (./RJwrapper.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 24.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 24.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 25.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 25.
 Package rerunfilecheck Info: File `RJwrapper.out' has not changed.
-(rerunfilecheck)             Checksum: 75C1AB45465CBB1666716E6A1F8A1701;724.
+(rerunfilecheck)             Checksum: 5857993770310F77E891DB10A3639A30;816.
 Package rerunfilecheck Info: File `RJwrapper.brf' has not changed.
-(rerunfilecheck)             Checksum: 00C4BC046A3F9846F3089E29B0CAAA94;1882.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 24.
+(rerunfilecheck)             Checksum: D4F55E3EBE57CD85B992569C83963B79;1835.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 25.
  ) 
 Here is how much of TeX's memory you used:
- 22117 strings out of 494953
- 393361 string characters out of 6180977
- 489317 words of memory out of 5000000
- 24659 multiletter control sequences out of 15000+600000
+ 22120 strings out of 494953
+ 393412 string characters out of 6180977
+ 489680 words of memory out of 5000000
+ 24660 multiletter control sequences out of 15000+600000
  64378 words of font info for 256 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 62i,11n,56p,1291b,637s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 62i,12n,56p,1291b,637s stack positions out of 5000i,500n,10000p,200000b,80000s
 pdfTeX warning (dest): name{Hfootnote.2} has been referenced but does not exi
 st, replaced by a fixed one
 
@@ -1519,10 +1527,10 @@ no/uplb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/palatino/uplbi8a.p
 fb></usr/share/texlive/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/sha
 re/texlive/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texlive/t
 exmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on RJwrapper.pdf (10 pages, 306090 bytes).
+Output written on RJwrapper.pdf (10 pages, 321777 bytes).
 PDF statistics:
- 426 PDF objects out of 1000 (max. 8388607)
- 386 compressed objects within 4 object streams
- 69 named destinations out of 1000 (max. 500000)
- 48768 words of extra memory for PDF output out of 51595 (max. 10000000)
+ 442 PDF objects out of 1000 (max. 8388607)
+ 397 compressed objects within 4 object streams
+ 70 named destinations out of 1000 (max. 500000)
+ 48781 words of extra memory for PDF output out of 51595 (max. 10000000)
 

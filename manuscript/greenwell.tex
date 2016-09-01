@@ -68,7 +68,7 @@ The \code{partial} function evaluates the partial dependence \eqref{eqn:pdf} fro
 
 % FIXME %%%%%%%%%%%%%%%%%%%%%
 
-Currently supported models are described in Table~\ref{tab:models}. Using the \code{partial.default} method it is still possible to handle many other models not listed in Table~\ref{tab:models}; for example, neural networks from the \CRANpkg{nnet} package \citep{venables-modern-2002} and projection pursuit regression \citep{friedman-ppr-1981} using the \code{ppr} function in the \pkg{stats} package. However, for these cases, the user will need to specify additional options in the call to \code{partial}.
+Currently supported models are described in Table~\ref{tab:models}. Using the \code{partial.default} method it is still possible to handle many other models not listed in Table~\ref{tab:models}; for example, neural networks from the \CRANpkg{nnet} package \citep{venables-modern-2002} and projection pursuit regression \citep{friedman-ppr-1981} using the \code{ppr} function in the \pkg{stats} package. However, for these cases, the user will need to specify the additional options \code{super.type} (i.e., \code{"regression"} or \code{"classification"}) and \code{train} (the original training data) in the call to \code{partial}---the exception in Table~\ref{tab:models} is using partial with \code{"xgb.Booster"} models, which requires the user to specify \code{train}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[htbp]
@@ -151,6 +151,22 @@ The result is displayed in the right side of Figure~\ref{fig:pd_lstat} below.
   \label{fig:pd_lstat}
 \end{figure}
 
+Finally, for further illustration, we will compare the random forest results with those obtained from gradient boosting; for this, we shal use the popular \pkg{xgboost} package. The example below, uses \pkg{xgboost} to model the boston housing data. The tuning parameters were predetermined using 5-fold cross-validation.
+\begin{example}
+set.seed(102)
+boston.xgb <- xgboost(data = data.matrix(subset(boston, select = -cmedv)),
+                      label = boston$cmedv,
+                      objective = "reg:linear",
+                      nrounds = 2000,
+                      max_depth = 3,
+                      eta = 0.01)
+\end{example}
+
+To use \code{partial} with the \code{"xgb.Booster"} class, we need to supply the original training data (minus the response!) in the call to \code{partial}:
+\begin{example}
+partial(boston.xgb, pred.var = "lstat", train = subset(boston, select = -cmedv), 
+        plot = TRUE)
+\end{example}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Multi-predictor PDPs

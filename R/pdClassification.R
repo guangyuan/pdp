@@ -75,7 +75,7 @@ pdClassification.xgb.Booster <- function(object, pred.var, pred.grid, which.clas
     temp <- train
     temp[pred.var] <- x
     pr <- stats::predict(object, newdata = data.matrix(temp))
-    if (object$params == "binary:logistic") {
+    if (object$params$objective == "binary:logistic") {
       pr <- cbind(pr, 1 - pr)
     } else {
       dim(pr) <- c(nrow(train), object$params$num_class)  # reshape into matrix

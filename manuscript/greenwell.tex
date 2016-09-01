@@ -66,7 +66,11 @@ Currently, only two functions are exported by \pkg{partial}:
 \end{itemize}
 The \code{partial} function evaluates the partial dependence \eqref{eqn:pdf} from a fitted model over a grid of predictor values specified by the \code{pred.var} argument. If \code{plot = FALSE} (the default), \code{partial} returns an object of class inheriting from \code{"partial"} which inherits from the class \code{"data.frame"}. The columns are labeled in the same order as the features supplied to \code{pred.var}, and the last column is always labeled \code{y} and contains the values of the partial dependence function $\bar{f}_s\left(\boldsymbol{z}_s\right)$. If \code{plot = TRUE}, then \code{partial} makes an internal call to \code{plotPartial} and returns a \CRANpkg{lattice} plot \citep{lattice-pkg}. For more advanced plotting, the \code{plotPartial} function will take a \code{"partial"} object and display a more customizable lattice plot.
 
-Currently supported models are described in Table~\ref{tab:models}. While more models will be added as the package grows, the \code{partial.default} method should be able to handle many others not listed in Table~\ref{tab:models}; for example, neural networks from the \CRANpkg{nnet} package \citep{venables-modern-2002} and projection pursuit regression \citep{friedman-ppr-1981} using the \code{ppr} function in the \pkg{stats} package.
+% FIXME %%%%%%%%%%%%%%%%%%%%%
+
+Currently supported models are described in Table~\ref{tab:models}. Using the \code{partial.default} method it is still possible to handle many other models not listed in Table~\ref{tab:models}; for example, neural networks from the \CRANpkg{nnet} package \citep{venables-modern-2002} and projection pursuit regression \citep{friedman-ppr-1981} using the \code{ppr} function in the \pkg{stats} package. However, for these cases, the user will need to specify additional options in the call to \code{partial}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[htbp]
   \begin{tabular}{p{4cm}ll}
     \toprule

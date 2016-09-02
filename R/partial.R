@@ -13,9 +13,9 @@
 #'   minimum between \code{51} and the number of unique data points for each of
 #'   the continuous independent variables listed in \code{pred.var}.
 #' @param super.type Character string specifying the type of supervised learning.
-#'   Current options are \code{"regression"} or \code{"classification"}. For tree-
-#'   based models (e.g., \code{"rpart"}), the function can usually extract the
-#'   necessary information from \code{object}.
+#'   Current options are \code{"regression"} or \code{"classification"}. For some
+#'   objects (e.g., tree-based models like \code{"rpart"}), \code{partial} can usually 
+#'   extract the necessary information from \code{object}.
 #' @param which.class Integer specifying which column of the matrix of predicted
 #'   probabilities to use as the "focus" class. Default is to use the first class.
 #' @param rug Logical indicating whether or not to include a rug representation

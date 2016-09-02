@@ -9,8 +9,11 @@ The purpose of this package is to provide a general framework for creating _part
 
 ### Installation
 
-For now, `pdp` is only available from GitGub using the `devtools` package:
+The R package `pdp` is availble from [CRAN](http://cran.r-project.org/package=pdp); the development version is hosted on [GitHub](https://github.com/bgreenwell/pdp). There are two ways to install:
 ``` r
+# Install latest release from CRAN
+install.packages("pdp")
+
 # Install development version from GitHub repo
 devtools::install_github("bgreenwell/pdp")
 ```

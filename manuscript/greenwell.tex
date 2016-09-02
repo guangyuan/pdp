@@ -314,10 +314,13 @@ boston.xgb <- xgboost(data = data.matrix(subset(boston, select = -cmedv)),
                       nrounds = 2000, max_depth = 3, eta = 0.01)
 \end{example}
 
-To use \code{partial} with the \code{"xgb.Booster"} class, we need to supply the original training data (minus the response!) in the call to \code{partial}. The following snippet of code computes the partial dependence of \code{cmedv} on both \code{rm} and \code{lstat}, individually and together. The results are displayed in Figure~\ref{fig:boston_xgb}.
+To use \code{partial} with the \code{"xgb.Booster"} class, we need to supply the original training data (minus the response!) in the call to \code{partial}. The following snippet of code computes the partial dependence of \code{cmedv} on both \code{rm} and \code{lstat}, individually and together. The results are displayed in Figure~\ref{fig:boston_xgb}. Note that while \code{xgboost} requires the training data to be a matrix (or an object of class \code{"dgCMatrix"} or \code{"xgb.DMatrix"}), \code{partial} requires the training data as a data frame with factors in tact!
 \begin{example}
-partial(boston.xgb, pred.var = "lstat", train = subset(boston, select = -cmedv),
-        plot = TRUE)
+pred.list <- list("lstat", "rm", c("lstat", "rm"))
+for (x in pred.list) {
+  partial(boston.xgb, pred.var = x, train = subset(boston, select = -cmedv),
+          plot = TRUE)
+}
 \end{example}
 
 \begin{figure}[htbp]

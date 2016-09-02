@@ -14,7 +14,7 @@
 #'   the continuous independent variables listed in \code{pred.var}.
 #' @param super.type Character string specifying the type of supervised learning.
 #'   Current options are \code{"regression"} or \code{"classification"}. For some
-#'   objects (e.g., tree-based models like \code{"rpart"}), \code{partial} can usually 
+#'   objects (e.g., tree-based models like \code{"rpart"}), \code{partial} can usually
 #'   extract the necessary information from \code{object}.
 #' @param which.class Integer specifying which column of the matrix of predicted
 #'   probabilities to use as the "focus" class. Default is to use the first class.
@@ -40,7 +40,7 @@ partial <- function(object, ...) {
 #' @rdname partial
 #' @export
 partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
-                            super.type, which.class = 1L, plot = TRUE, 
+                            super.type, which.class = 1L, plot = FALSE,
                             rug = FALSE, chull = FALSE, train, ...) {
 
   # Data frame

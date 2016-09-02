@@ -8,15 +8,15 @@
 partial(object, ...)
 
 \method{partial}{default}(object, pred.var, pred.grid, grid.resolution = NULL,
-  super.type, which.class = 1L, rug = FALSE, chull = FALSE, train,
-  plot = FALSE, ...)
+  super.type, which.class = 1L, plot = FALSE, rug = FALSE,
+  chull = FALSE, train, ...)
 }
 \arguments{
 \item{object}{A fitted model object.}
 
 \item{...}{Additional optional arguments to be passed onto \code{aaply}.}
 
-\item{pred.var}{Character string giving the names of the independent
+\item{pred.var}{Character string giving the names of the predictor
 variables of interest.}
 
 \item{pred.grid}{Data frame containing the joint values of the variables
@@ -29,26 +29,26 @@ minimum between \code{51} and the number of unique data points for each of
 the continuous independent variables listed in \code{pred.var}.}
 
 \item{super.type}{Character string specifying the type of supervised learning.
-Current options are \code{"regression"} or \code{"classification"}. For tree-
-based models (e.g., \code{"rpart"}), the function can usually extract the
-necessary information from \code{object}.}
+Current options are \code{"regression"} or \code{"classification"}. For some
+objects (e.g., tree-based models like \code{"rpart"}), \code{partial} can usually
+extract the necessary information from \code{object}.}
 
 \item{which.class}{Integer specifying which column of the matrix of predicted
 probabilities to use as the "focus" class. Default is to use the first class.}
 
-\item{rug}{Logical indicating whether or not to include a rug representation
-to the plot. If \code{TRUE} the user must supply the original data.}
-
-\item{chull}{Logical indicating wether or not to restrict the first
-two variables in \code{pred.var} to lie within the convex hull of their
-data points. Default is \code{FALSE}.}
-
-\item{train}{An optional data frame containing the original training
-data.}
-
 \item{plot}{Logical indicating whether to return a data frame containing the
 partial dependence values (\code{FALSE}) or plot the partial dependence
 function directly (\code{TRUE}). Default is \code{FALSE}.}
+
+\item{rug}{Logical indicating whether or not to include a rug representation
+to the plot. Only used when \code{plot = TRUE}. Default is \code{FALSE}.}
+
+\item{chull}{Logical indicating wether or not to restrict the first
+two variables in \code{pred.var} to lie within the convex hull of their
+data points; this effects \code{pred.grid}. Default is \code{FALSE}.}
+
+\item{train}{An optional data frame containing the original training
+data. This may be required depending on the class of \code{object}.}
 }
 \description{
 Compute partial dependence functions for various model fitting objects.

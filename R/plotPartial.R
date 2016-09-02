@@ -9,15 +9,21 @@
 #'   \code{lattice::levelplot} (\code{TRUE}) or \code{lattice::wireframe}
 #'   (\code{FALSE}). Default is \code{TRUE}.
 #' @param rug Logical indicating whether or not to include a rug representation
-#'   to the plot. If \code{TRUE} the user must supply the original data.
+#'   to the plot. If \code{TRUE} the user must supply the original training data
+#'   via the \code{train} option. Default is \code{FALSE}.
 #' @param chull Logical indicating whether or not to draw the convex hull
-#'   around the first two variables. Default is \code{FALSE}.
+#'   around the first two variables. If \code{TRUE} the user must supply the 
+#'   original training data via the \code{train} option.Default is \code{FALSE}.
 #' @param number Integer specifying the number of conditional intervals for the
 #'   panel variables.
-#' @param overlap Proportion
+#' @param overlap The fraction of overlap of the conditioning variables. See 
+#'   \code{?graphics::co.intervals} and \code{?lattice::equal.count} for further 
+#'   details.
 #' @param train Data frame containing the original training data. Only
 #'   required if \code{rug = TRUE} or \code{chull = TRUE}.
 #' @param col.regions Color vector to be used if \code{contour} is \code{TRUE}.
+#'   Defaults to the wonderful Matplotlib 'viridis' color map provided by the 
+#'   \code{viridis} package.
 #' @param ... Additional optional arguments to be passed onto \code{levelplot},
 #'   \code{wireframe}, or \code{xyplot}.
 #'

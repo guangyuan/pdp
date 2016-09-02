@@ -96,9 +96,9 @@ A.~Goldstein, A.~Kapelner, J.~Bleich, and E.~Pitkin.
 \newblock \emph{Journal of Computational and Graphical Statistics}, 24\penalty0
   (1):\penalty0 44--65, 2015.
 
-\bibitem[Greenwell(2016)]{partial-pkg}
+\bibitem[Greenwell(2016)]{pdp-pkg}
 B.~Greenwell.
-\newblock \emph{partial: An {R} Package for Constructing Partial Dependence
+\newblock \emph{pdp: An {R} Package for Constructing Partial Dependence
   Functions}, 2016.
 \newblock URL \url{https://CRAN.R-project.org/package=partial}.
 \newblock R package version 0.0.1.

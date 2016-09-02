@@ -2,7 +2,7 @@
 % Front matter
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\title{partial: An R Package for Creating Partial Dependence Plots}
+\title{pdp: An R Package for Creating Partial Dependence Plots}
 \author{by Brandon M. Greenwell}
 
 \maketitle
@@ -39,13 +39,13 @@ where $\boldsymbol{z}_{i, c}$ $\left(i = 1, 2, \dots, n\right)$ are the values o
 \end{enumerate}
 This can be quite computationally intensive since the algorithm involves $k$ passes over the training records. Fortunately, this can be parallelized quite easily (more on this in a later section). This algorithm can also be easily extended to larger subsets of 2 or more features as well.
 
-Limited implementations of Friedman's PDPs are available in packages \CRANpkg{randomForest} \citep{randomForest-pkg} and \CRANpkg{gbm}, among others; these are limited in the sense that they only apply to the models fit using the respective package. For example, the \code{partialPlot} function in \pkg{randomForest} only applies to objects of class \code{"randomForest"}. While the \pkg{randomForest} implementation will only allow for a single predictor, the \pkg{gbm} implementation can deal with any subset of the predictor space. Partial dependence functions are not restricted to tree-based models; they can be applied to any supervised learning algorithm (e.g., multiple linear regression and neural networks). However, to our knowledge, there is no general package for constructing PDPs  in R (e.g., PDPs for a \dfn{conditional random forest} as implemented by the \code{cforest} function in the \CRANpkg{party} and \CRANpkg{partykit} packages; see \citet{party-pkg} and \citet{partykit-pkg}, respectively). The \CRANpkg{partial} \citep{partial-pkg} package tries to close this gap by offering a general framework for PDPs that can be applied to several types of fitted models.
+Limited implementations of Friedman's PDPs are available in packages \CRANpkg{randomForest} \citep{randomForest-pkg} and \CRANpkg{gbm}, among others; these are limited in the sense that they only apply to the models fit using the respective package. For example, the \code{partialPlot} function in \pkg{randomForest} only applies to objects of class \code{"randomForest"}. While the \pkg{randomForest} implementation will only allow for a single predictor, the \pkg{gbm} implementation can deal with any subset of the predictor space. Partial dependence functions are not restricted to tree-based models; they can be applied to any supervised learning algorithm (e.g., multiple linear regression and neural networks). However, to our knowledge, there is no general package for constructing PDPs  in R (e.g., PDPs for a \dfn{conditional random forest} as implemented by the \code{cforest} function in the \CRANpkg{party} and \CRANpkg{partykit} packages; see \citet{party-pkg} and \citet{partykit-pkg}, respectively). The \CRANpkg{pdp} \citep{pdp-pkg} package tries to close this gap by offering a general framework for PDPs that can be applied to several types of fitted models.
 
-The \CRANpkg{plotmo} package \citep{plotmo-pkg} is one alternative to \pkg{partial}. According to the author, \pkg{plotmo} constructs "a poor man's partial dependence plot." In particular, it plots a model's response when varying one or two predictors while holding the other predictors in the model constant (continuous features are fixed at their median value, while factors are held at their first level). These plots allow for up to two variables at a time and are less accurate than PDPs, but are faster to construct. For additive models (i.e., no interactions), these plots are identical in shape to partial dependence plots.
+The \CRANpkg{plotmo} package \citep{plotmo-pkg} is one alternative to \pkg{pdp}. According to the author, \pkg{plotmo} constructs "a poor man's partial dependence plot." In particular, it plots a model's response when varying one or two predictors while holding the other predictors in the model constant (continuous features are fixed at their median value, while factors are held at their first level). These plots allow for up to two variables at a time and are less accurate than PDPs, but are faster to construct. For additive models (i.e., no interactions), these plots are identical in shape to partial dependence plots.
 
 PDPs can be misleading in the presence of substantial interactions \citep{goldstein-peeking-2015}. To overcome this issue \citeauthor*{goldstein-peeking-2015} developed the concept of \dfn{individual conditional expectation} (ICE) plots -- available in the \CRANpkg{ICEbox} package. \pkg{ICEbox} only allows for one variable at a time (i.e., no multivariate displays), though color can be used effectively to display information about an additional predictor. The ability to construct derivative plots is also available.
 
-Many other techniques exist for visualizing relationships between the predictors and the response based on a fitted model. For example, the \CRANpkg{car} package \citep{fox-car-2011} contains many functions for constructing partial-residual and marginal-model plots. The \CRANpkg{effects} package \citep{fox-effects-2003} is also of interest. However, these methods are orientated towards simpler parametric models (e.g., linear and generalized linear models), whereas \pkg{plotmo}, \pkg{ICEbox}, and \pkg{partial} are mainly for nonparametric and black box models (though they can be used for simple parametric models as well).
+Many other techniques exist for visualizing relationships between the predictors and the response based on a fitted model. For example, the \CRANpkg{car} package \citep{fox-car-2011} contains many functions for constructing partial-residual and marginal-model plots. The \CRANpkg{effects} package \citep{fox-effects-2003} is also of interest. However, these methods are orientated towards simpler parametric models (e.g., linear and generalized linear models), whereas \pkg{plotmo}, \pkg{ICEbox}, and \pkg{pdp} are mainly for nonparametric and black box models (though they can be used for simple parametric models as well).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -53,13 +53,13 @@ Many other techniques exist for visualizing relationships between the predictors
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Constructing PDPs in R}
 
-As described in the introduction, the \pkg{partial} package is useful for constructing PDPs for many types of fitted models in R. These are especially useful for visualizing the relationships discovered by complex machine learning algorithms such as a random forest. The latest stable release is available from \href{https://cran.r-project.org/package=partial}{CRAN}:
+As described in the introduction, the \pkg{pdp} package is useful for constructing PDPs for many types of fitted models in R. These are especially useful for visualizing the relationships discovered by complex machine learning algorithms such as a random forest. The latest stable release is available from \href{https://cran.r-project.org/package=pdp}{CRAN}:
 \begin{example}
-install.packages("partial")
+install.packages("pdp")
 \end{example}
-The development version is located on GitHub: \url{https://github.com/bgreenwell/partial}. Bug reports and usggestions are appreciated and should be sumbitted to \url{https://github.com/bgreenwell/partial/issues}.
+The development version is located on GitHub: \url{https://github.com/bgreenwell/pdp}. Bug reports and usggestions are appreciated and should be sumbitted to \url{https://github.com/bgreenwell/pdp/issues}.
 
-Currently, only two functions are exported by \pkg{partial}:
+Currently, only two functions are exported by \pkg{pdp}:
 \begin{itemize}
   \item \code{partial}
   \item \code{plotPartial}
@@ -134,7 +134,7 @@ The same plot can be achieved using the \code{partial} function and setting \cod
 library(partial)
 partial(boston.rf, pred.var = "lstat", plot = TRUE)
 \end{example}
-The only difference is that \pkg{partial} uses the \pkg{lattice} graphics package to produce all of its displays.
+The only difference is that \pkg{pdp} uses the \pkg{lattice} graphics package to produce all of its displays.
 
 For a more customizable plot, call \code{partial} with \code{plot = FALSE} and use the \code{plotPartial} function. \strong{Note:} the \dfn{pipe} operator \code{\%>\%} provided by the \CRANpkg{magrittr} package \citep{magrittr-pkg} is exported for writing more convenient code, as illustrated in snippet of code below which increases the line width, adds a LOESS smoother, and customizes the $y$-axis label.
 \begin{example}
@@ -304,7 +304,7 @@ lattice::levelplot(y ~ Petal.Width * Petal.Length | Species, data = pd)
 \subsection{Using partial with the XGBoost library}
 \label{sec:xgboost}
 
-XGBoost, short for eXtreme Gradient Boosting, is a popular library providing optimized distributed gradient boosting that is specifically designed to be highly efficient, flexible and portable. The associated R package \pkg{xgboost} has been used to win a number of \href{https://www.kaggle.com/}{Kaggle competitions}. It has been shown to be many times faster than the well known \pkg{gbm} package. However, unlike \pkg{gbm}, \pkg{xgboost} does not have built-in functions for displaying partial dependence plots. Fortunately, the \pkg{partial} package can be used to fill this gap.
+XGBoost, short for eXtreme Gradient Boosting, is a popular library providing optimized distributed gradient boosting that is specifically designed to be highly efficient, flexible and portable. The associated R package \pkg{xgboost} has been used to win a number of \href{https://www.kaggle.com/}{Kaggle competitions}. It has been shown to be many times faster than the well known \pkg{gbm} package. However, unlike \pkg{gbm}, \pkg{xgboost} does not have built-in functions for displaying partial dependence plots. Fortunately, the \pkg{pdp} package can be used to fill this gap.
 
 For illustration, we return to the Boston housing data. The example below, fits an \pkg{xgboost} model; the tuning parameters were predetermined using 5-fold cross-validation. (Make sure you are using the latest version of \pkg{xgboost}: \url{https://github.com/dmlc/xgboost/tree/master/R-package}.)
 \begin{example}
@@ -332,7 +332,7 @@ partial(boston.xgb, pred.var = "lstat", train = subset(boston, select = -cmedv),
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary}
 
-In this paper, we showed how to construct PDPs for various types of black box models in R using the \pkg{partial} package. We also briefly discussed related approaches availble in other R packages as well. Suggestions to avoid extrpolation and high excecution times were discussed and demonstrated via examples. There is a bright future for \pkg{partial} in terms of growth. For example, it would be useful to have the ability to construct PDPs for black box survival models---like conditional random forests with censored response. % We introduced the investr package for computing point estimates along with inversion and Waldbased confidence intervals for linear and nonlinear calibration problems with constant variance. We also showed how the boot package can be used for constructing approximate 100(1 􀀀 a)% calibration intervals, which for convenience, may be incorporated into a future release of investr. The authors are currently working on extending the package to handle the case of heteroscedastic errors, random coefficient models (e.g., objects of class "lme" from the recommended nlme package; Pinheiro et al., 2014)), and even multivariate calibration problems (e.g., objects of class "mlm").
+In this paper, we showed how to construct PDPs for various types of black box models in R using the \pkg{pdp} package. We also briefly discussed related approaches availble in other R packages as well. Suggestions to avoid extrpolation and high excecution times were discussed and demonstrated via examples. There is a bright future for \pkg{pdp} in terms of growth. For example, it would be useful to have the ability to construct PDPs for black box survival models---like conditional random forests with censored response. % We introduced the investr package for computing point estimates along with inversion and Waldbased confidence intervals for linear and nonlinear calibration problems with constant variance. We also showed how the boot package can be used for constructing approximate 100(1 􀀀 a)% calibration intervals, which for convenience, may be incorporated into a future release of investr. The authors are currently working on extending the package to handle the case of heteroscedastic errors, random coefficient models (e.g., objects of class "lme" from the recommended nlme package; Pinheiro et al., 2014)), and even multivariate calibration problems (e.g., objects of class "mlm").
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

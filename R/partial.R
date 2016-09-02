@@ -3,7 +3,7 @@
 #' Compute partial dependence functions for various model fitting objects.
 #'
 #' @param object A fitted model object.
-#' @param pred.var Character string giving the names of the independent
+#' @param pred.var Character string giving the names of the predictor
 #'   variables of interest.
 #' @param pred.grid Data frame containing the joint values of the variables
 #'   listed in \code{pred.var}.

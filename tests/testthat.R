@@ -1,2 +1,2 @@
 library(testthat)
-test_check("partial")
+test_check("pdp")

@@ -23,7 +23,7 @@
 #'   required if \code{rug = TRUE} or \code{chull = TRUE}.
 #' @param col.regions Color vector to be used if \code{contour} is \code{TRUE}.
 #'   Defaults to the wonderful Matplotlib 'viridis' color map provided by the 
-#'   \code{viridis} package.
+#'   \code{viridis} package. See \code{?viridis::viridis} for details.
 #' @param ... Additional optional arguments to be passed onto \code{levelplot},
 #'   \code{wireframe}, or \code{xyplot}.
 #'

@@ -1,3 +1,4 @@
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/pdp)](http://cran.r-project.org/package=pdp)
 [![Build Status](https://travis-ci.org/bgreenwell/pdp.svg?branch=master)](https://travis-ci.org/bgreenwell/pdp)
 [![Coverage Status](https://img.shields.io/codecov/c/github/bgreenwell/pdp.svg)](https://codecov.io/github/bgreenwell/pdp?branch=master)
 

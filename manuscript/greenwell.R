@@ -171,7 +171,8 @@ iris.svm <- svm(Species ~ ., data = iris, kernel = "radial", gamma = 0.75,
 pd <- NULL
 for (i in 1:3) {
   tmp <- partial(iris.svm, pred.var = c("Petal.Width", "Petal.Length"),
-                 which.class = i, .progress = "text")
+                 which.class = i, .progress = "text",
+                 grid.resolution = 101)
   pd <- rbind(pd, cbind(tmp, Species = levels(iris$Species)[i]))
 }
 pdf("partial_iris_svm.pdf", width = 12, height = 4)

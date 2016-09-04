@@ -20,14 +20,21 @@ Complex nonparametric models---like neural networks, random forests, and support
 Predictor importance is an important task in any supervised learning problem. However, ranking variables is only part of the story and once a subset of "important" features is identified it is often necessary to assess the relationship between them (or subset thereof) and the response. This can be done in many ways, but in machine learning it is often accomplished by constructing \dfn{partial dependence plots} (PDPs); see \citet{friedman-2000-greedy} for details. PDPs help visualize the relationship between a subset of the predictors (typically 1-3) and the response while accounting for the average effect of the other independent variables in the model. They are particularly effective with black box models like random forest and support vector machines.
 %PDPs offer a low-dimensional graphical rendering of the prediction function $\widehat{f}\left(\boldsymbol{x}\right)$ for any type of fitted models and are especially useful in visualizing the relationships discovered by complex machine learning algorithms such as a \dfn{random forest}.
 
-\strong{Mention the integral approximation!!}
-
-Let $\boldsymbol{x} = \left\{x_1, x_2, \dots, x_n\right\}$ represent the predictors in a model whose prediction function is $\widehat{f}\left(\boldsymbol{x}\right)$. If we partition $\boldsymbol{x}$ into an interest set, $\boldsymbol{z}_s$, and its compliment, $\boldsymbol{z}_{c} = \boldsymbol{x} \setminus \boldsymbol{z}_s$, then the partial dependence of the response on $\boldsymbol{z}_s$ is defined as
+Let $\boldsymbol{x} = \left\{x_1, x_2, \dots, x_n\right\}$ represent the predictors in a model whose prediction function is $\widehat{f}\left(\boldsymbol{x}\right)$. If we partition $\boldsymbol{x}$ into an interest set, $\boldsymbol{z}_s$, and its compliment, $\boldsymbol{z}_c = \boldsymbol{x} \setminus \boldsymbol{z}_s$, then the partial dependence of the response on $\boldsymbol{z}_s$ is defined as
 \begin{equation}
 \label{eqn:pdf}
 \bar{f}_s\left(\boldsymbol{z}_s\right) = \frac{1}{n}\sum_{i = 1}^n\widehat{f}\left(\boldsymbol{z}_s,\boldsymbol{z}_{i, c}\right),
 \end{equation}
-where $\boldsymbol{z}_{i, c}$ $\left(i = 1, 2, \dots, n\right)$ are the values of $\boldsymbol{z}_c$ that occur in the training sample; that is, we average out the effects of all the other predictors in the model. Let $x_1$ be the predictor variable of interest with unique values $\left\{x_{11}, x_{12}, \dots, x_{1k}\right\}$. The partial dependence of the response on $x_1$ can be constructed as follows:
+where $\boldsymbol{z}_{i, c}$ $\left(i = 1, 2, \dots, n\right)$ are the values of $\boldsymbol{z}_c$ that occur in the training sample; that is, we average out the effects of all the other predictors in the model. Equation~\eqref{eqn:pdf} approximates the average function
+\begin{equation*}
+  E_{\boldsymbol{z}_c}\left[\widehat{f}\left(\boldsymbol{z}_s\right)\right] = \int \widehat{f}\left(\boldsymbol{z}_s, \boldsymbol{z}_c\right)p_{c}\left(\boldsymbol{z}_c\right)d\boldsymbol{z}_c,
+\end{equation*}
+where $p_{c}\left(\boldsymbol{z}_c\right)$ is the marginal probability density of $\boldsymbol{z}_c$: $p_{c}\left(\boldsymbol{z}_c\right) = \int p\left(\boldsymbol{x}\right)d\boldsymbol{z}_s$.
+%\begin{equation*}
+%  p_{c}\left(\boldsymbol{z}_c\right) = \int p\left(\boldsymbol{x}\right)d\boldsymbol{z}_s.
+%\end{equation*}
+
+To construct a PDP in practice, we can proceed as follows. To simplify, let $\boldsymbol{z}_s = x_1$ be the predictor variable of interest with unique values $\left\{x_{11}, x_{12}, \dots, x_{1k}\right\}$. The partial dependence of the response on $x_1$ can be constructed as follows:
 \begin{enumerate}
   \item For $i \in \left\{1, 2, \dots, k\right\}$:
   \begin{enumerate}
@@ -57,7 +64,7 @@ As described in the introduction, the \pkg{pdp} package is useful for constructi
 \begin{example}
 install.packages("pdp")
 \end{example}
-The development version is located on GitHub: \url{https://github.com/bgreenwell/pdp}. Bug reports and usggestions are appreciated and should be sumbitted to \url{https://github.com/bgreenwell/pdp/issues}.
+The development version is located on GitHub: \url{https://github.com/bgreenwell/pdp}. Bug reports and suggestions are appreciated and should be sumbitted to \url{https://github.com/bgreenwell/pdp/issues}.
 
 Currently, only two functions are exported by \pkg{pdp}:
 \begin{itemize}
@@ -73,14 +80,14 @@ Currently supported models are described in Table~\ref{tab:models}. However, the
     \toprule
       Type of model & R package & Object class \\
       \midrule
-      Decision tree             & \CRANpkg{rpart} \citep{rpart-pkg} & \code{"rpart"} \\
-                                & \pkg{party}    & \code{"BinaryTree"} \\
+      Decision tree             & \pkg{party}    & \code{"BinaryTree"} \\
                                 & \pkg{partykit} & \code{"constparty"}/\code{"party"} \\
-      Bagged decision trees     & \CRANpkg{ipred} \citep{ipred-pkg} & \code{"classbagg"}, \code{"regbagg"} \\
-                                & \CRANpkg{adabag} \citep{adabag-pkg} & \code{"bagging"} \\
-      Boosted decision trees    & \pkg{gbm}      & \code{"gbm"} \\
+                                & \CRANpkg{rpart} \citep{rpart-pkg} & \code{"rpart"} \\
+      Bagged decision trees     & \CRANpkg{adabag} \citep{adabag-pkg} & \code{"bagging"} \\
+                                & \CRANpkg{ipred} \citep{ipred-pkg} & \code{"classbagg"}, \code{"regbagg"} \\
+      Boosted decision trees    & \CRANpkg{adabag} \citep{adabag-pkg} & \code{"boosting"} \\
+                                & \pkg{gbm}      & \code{"gbm"} \\
                                 & \CRANpkg{xgboost} & \code{"xgb.Booster"} \\
-                                & \CRANpkg{adabag} \citep{adabag-pkg} & \code{"boosting"} \\
       Random forest & \pkg{randomForest} & \code{"randomForest"} \\
       Conditional random forest & \pkg{party}    & \code{"RandomForest"} \\
                                 & \pkg{partykit} & \code{"cforest"} \\
@@ -92,7 +99,7 @@ Currently supported models are described in Table~\ref{tab:models}. However, the
                                 & \CRANpkg{kernlab} \citep{kernlab-pkg} & \code{"ksvm"} \\
       \bottomrule
   \end{tabular}
-  \caption{Models specifically supported by the \pkg{package}. \strong{Note:} package \pkg{xgboost} is only partially supported; see Section~\ref{sec:xgboost} fr details.}
+  \caption{Models specifically supported by the \pkg{pdp} package. \strong{Note:} package \pkg{xgboost} is only partially supported; see Section~\ref{sec:xgboost} for details.}
   \label{tab:models}
 \end{table}
 
@@ -282,7 +289,8 @@ Next, we plot the partial dependence of \code{Species} on both \code{Petal.Width
 pd <- NULL
 for (i in 1:3) {
   tmp <- partial(iris.svm, pred.var = c("Petal.Width", "Petal.Length"),
-                 which.class = i, train = iris)
+                 which.class = i, .progress = "text",
+                 grid.resolution = 101)
   pd <- rbind(pd, cbind(tmp, Species = levels(iris$Species)[i]))
 }
 lattice::levelplot(y ~ Petal.Width * Petal.Length | Species, data = pd)

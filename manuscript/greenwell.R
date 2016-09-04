@@ -11,7 +11,7 @@
 ################################################################################
 
 # Set working directory
-setwd("/home/w108bmg/Desktop/Dropbox/devel/partial/manuscript")
+setwd("manuscript")
 
 # List of packages required to run all the examples in this script
 pkgs <- c("doParallel",
@@ -185,22 +185,22 @@ dev.off()
 # XGboost
 ################################################################################
 
-library(caret)
-ctrl <- trainControl(method = "cv", number = 5, verboseIter = TRUE)
-xgb.grid <- expand.grid(nrounds = c(100, 500, 1000, 2000, 5000),
-                        max_depth = 1:6,
-                        eta = c(0.001, 0.01, 0.1, 0.5, 1),
-                        gamma = 0,
-                        colsample_bytree = 1,
-                        min_child_weight = 1)
-set.seed(202)
-boston.xgb.tune <- train(x = data.matrix(subset(boston, select = -cmedv)),
-                         y = boston$cmedv,
-                         method = "xgbTree",
-                         metric = "RMSE",
-                         trControl = ctrl,
-                         tuneGrid = xgb.grid)
-plot(boston.xgb.tune)
-boston.xgb.tune$bestTune
+# library(caret)
+# ctrl <- trainControl(method = "cv", number = 5, verboseIter = TRUE)
+# xgb.grid <- expand.grid(nrounds = c(100, 500, 1000, 2000, 5000),
+#                         max_depth = 1:6,
+#                         eta = c(0.001, 0.01, 0.1, 0.5, 1),
+#                         gamma = 0,
+#                         colsample_bytree = 1,
+#                         min_child_weight = 1)
+# set.seed(202)
+# boston.xgb.tune <- train(x = data.matrix(subset(boston, select = -cmedv)),
+#                          y = boston$cmedv,
+#                          method = "xgbTree",
+#                          metric = "RMSE",
+#                          trControl = ctrl,
+#                          tuneGrid = xgb.grid)
+# plot(boston.xgb.tune)
+# boston.xgb.tune$bestTune
 #    nrounds max_depth  eta gamma colsample_bytree min_child_weight
 # 44    2000         3 0.01     0                1                1

@@ -71,31 +71,6 @@ dev.off()
 # Fit a MARS model
 boston.mars <- earth(cmedv ~ ., data = boston, degree = 3)
 
-# Boosted regression trees
-set.seed(102)
-boston.xgb <- xgboost(data = data.matrix(subset(boston, select = -cmedv)),
-                      label = boston$cmedv,
-                      objective = "reg:linear",
-                      nrounds = 2000,
-                      max_depth = 3,
-                      eta = 0.01)
-
-pdf("boston_xgb.pdf", width = 12, height = 4)
-X <- subset(boston, select = -cmedv)
-pdp1 <- plotPartial(partial(boston.xgb, pred.var = "lstat", train = X),
-                    rug = TRUE, smooth = TRUE, train = X)
-pdp2 <- plotPartial(partial(boston.xgb, pred.var = "rm", train = X),
-                    rug = TRUE, smooth = TRUE, train = X)
-pdp3 <- plotPartial(partial(boston.xgb, pred.var = c("lstat", "rm"),
-                            chull = TRUE, train = X), train = X)
-gridExtra::grid.arrange(pdp1, pdp2, pdp3, ncol = 3)
-dev.off()
-
-# Where can this figure go?
-partial(boston.xgb, pred.var = c("lstat", "rm"), chull = TRUE,
-        train = subset(boston, select = -cmedv), plot = TRUE,
-        .progress = "text")
-
 # Figure 3
 pd.lstat.rm <- partial(boston.mars, pred.var = c("lstat", "rm"))
 pdf("pd_lstat_rm.pdf", width = 12, height = 4)
@@ -140,6 +115,8 @@ ozone <- read.csv(paste0("http://statweb.stanford.edu/~tibs/ElemStatLearn/",
 # Fit a MARS model
 ozone.earth <- earth(ozone ~ ., data = ozone, degree = 3)
 
+# Note: the following example will not work on Windows!
+
 # Figure 6
 registerDoParallel(cores = 4)  # use 4 cores
 pd <- partial(ozone.earth, pred.var = c("wind", "temp", "dpg"), chull = TRUE,
@@ -167,7 +144,7 @@ dev.off()
 iris.svm <- svm(Species ~ ., data = iris, kernel = "radial", gamma = 0.75,
                 cost = 0.25, probability = TRUE)
 
-# Plot partial dependence for each class
+# Figure 7
 pd <- NULL
 for (i in 1:3) {
   tmp <- partial(iris.svm, pred.var = c("Petal.Width", "Petal.Length"),
@@ -182,9 +159,10 @@ dev.off()
 
 
 ################################################################################
-# XGboost
+# Using partial with the XGBoost library
 ################################################################################
 
+# Optimize tuning parameters using 5-fold cross-validation
 # library(caret)
 # ctrl <- trainControl(method = "cv", number = 5, verboseIter = TRUE)
 # xgb.grid <- expand.grid(nrounds = c(100, 500, 1000, 2000, 5000),
@@ -204,3 +182,22 @@ dev.off()
 # boston.xgb.tune$bestTune
 #    nrounds max_depth  eta gamma colsample_bytree min_child_weight
 # 44    2000         3 0.01     0                1                1
+set.seed(102)
+boston.xgb <- xgboost(data = data.matrix(subset(boston, select = -cmedv)),
+                      label = boston$cmedv,
+                      objective = "reg:linear",
+                      nrounds = 2000,
+                      max_depth = 3,
+                      eta = 0.01)
+
+# Figure 8
+pdf("boston_xgb.pdf", width = 12, height = 4)
+X <- subset(boston, select = -cmedv)
+pdp1 <- plotPartial(partial(boston.xgb, pred.var = "lstat", train = X),
+                    rug = TRUE, smooth = TRUE, train = X)
+pdp2 <- plotPartial(partial(boston.xgb, pred.var = "rm", train = X),
+                    rug = TRUE, smooth = TRUE, train = X)
+pdp3 <- plotPartial(partial(boston.xgb, pred.var = c("lstat", "rm"),
+                            chull = TRUE, train = X), train = X)
+gridExtra::grid.arrange(pdp1, pdp2, pdp3, ncol = 3)
+dev.off()

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.4.30)  5 SEP 2016 21:25
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.4.30)  5 SEP 2016 21:40
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -10639,7 +10639,7 @@ Missing character: There is no D in font nullfont!
 Missing character: There is no P in font nullfont!
 Missing character: There is no s in font nullfont!
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 130--131
+Overfull \hbox (20.0pt too wide) in paragraph at lines 130--132
 []
  []
 
@@ -10669,7 +10669,7 @@ Missing character: There is no t in font nullfont!
 Missing character: There is no h in font nullfont!
 Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
-l.132 As previously mentioned, the \code
+l.133 As previously mentioned, the \code
                                         {randomForest} package has its own \...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -10706,7 +10706,7 @@ Missing character: There is no o in font nullfont!
 Missing character: There is no w in font nullfont!
 Missing character: There is no n in font nullfont!
 ! Undefined control sequence.
-l.132 ...e{randomForest} package has its own \code
+l.133 ...e{randomForest} package has its own \code
                                                   {partialPlot} function for...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -10863,7 +10863,7 @@ Missing character: There is no e in font nullfont!
 Missing character: There is no o in font nullfont!
 Missing character: There is no f in font nullfont!
 ! Undefined control sequence.
-l.132 ...ode plots the partial dependence of \code
+l.133 ...ode plots the partial dependence of \code
                                                   {cmedv} on \code{lstat}:
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -10879,7 +10879,7 @@ Missing character: There is no v in font nullfont!
 Missing character: There is no o in font nullfont!
 Missing character: There is no n in font nullfont!
 ! Undefined control sequence.
-l.132 ...rtial dependence of \code{cmedv} on \code
+l.133 ...rtial dependence of \code{cmedv} on \code
                                                   {lstat}:
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -10900,7 +10900,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.133 \begin{example}
+l.134 \begin{example}
                      
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -10966,7 +10966,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.135 \end{example}
+l.136 \end{example}
                    
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -11005,7 +11005,7 @@ Missing character: There is no t in font nullfont!
 Missing character: There is no h in font nullfont!
 Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
-l.136 ...same plot can be achieved using the \code
+l.137 ...same plot can be achieved using the \code
                                                   {partial} function and set...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -11039,7 +11039,7 @@ Missing character: There is no i in font nullfont!
 Missing character: There is no n in font nullfont!
 Missing character: There is no g in font nullfont!
 ! Undefined control sequence.
-l.136 ...\code{partial} function and setting \code
+l.137 ...\code{partial} function and setting \code
                                                   {plot = TRUE} (see the lef...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -11082,7 +11082,7 @@ Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
 <write> ...erence `fig:pd_lstat' on page \thepage 
                                                   \space undefined\on@line .
-l.136 ...he left side of Figure~\ref{fig:pd_lstat}
+l.137 ...he left side of Figure~\ref{fig:pd_lstat}
                                                   ):
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -11091,7 +11091,7 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-LaTeX Warning: Reference `fig:pd_lstat' on page  undefined on input line 136.
+LaTeX Warning: Reference `fig:pd_lstat' on page  undefined on input line 137.
 
 Missing character: There is no ) in font nullfont!
 Missing character: There is no : in font nullfont!
@@ -11102,7 +11102,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.137 \begin{example}
+l.138 \begin{example}
                      
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -11176,7 +11176,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.140 \end{example}
+l.141 \end{example}
                    
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -11206,7 +11206,7 @@ Missing character: There is no h in font nullfont!
 Missing character: There is no a in font nullfont!
 Missing character: There is no t in font nullfont!
 ! Undefined control sequence.
-l.141 The only difference is that \pkg
+l.142 The only difference is that \pkg
                                       {pdp} uses the \pkg{lattice} graphics ...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -11225,7 +11225,7 @@ Missing character: There is no t in font nullfont!
 Missing character: There is no h in font nullfont!
 Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
-l.141 ...ifference is that \pkg{pdp} uses the \pkg
+l.142 ...ifference is that \pkg{pdp} uses the \pkg
                                                   {lattice} graphics package...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -11282,12 +11282,12 @@ Missing character: There is no y in font nullfont!
 Missing character: There is no s in font nullfont!
 Missing character: There is no . in font nullfont!
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 132--142
+Overfull \hbox (20.0pt too wide) in paragraph at lines 133--143
 []
  []
 
 
-Overfull \hbox (10.86105pt too wide) in paragraph at lines 132--142
+Overfull \hbox (10.86105pt too wide) in paragraph at lines 133--143
 []
  []
 
@@ -11321,7 +11321,7 @@ Missing character: There is no a in font nullfont!
 Missing character: There is no l in font nullfont!
 Missing character: There is no l in font nullfont!
 ! Undefined control sequence.
-l.143 For a more customizable plot, call \code
+l.144 For a more customizable plot, call \code
                                               {partial} with \code{plot = FA...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -11341,7 +11341,7 @@ Missing character: There is no i in font nullfont!
 Missing character: There is no t in font nullfont!
 Missing character: There is no h in font nullfont!
 ! Undefined control sequence.
-l.143 ...able plot, call \code{partial} with \code
+l.144 ...able plot, call \code{partial} with \code
                                                   {plot = FALSE} and use the...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -11369,7 +11369,7 @@ Missing character: There is no t in font nullfont!
 Missing character: There is no h in font nullfont!
 Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
-l.143 ...ith \code{plot = FALSE} and use the \code
+l.144 ...ith \code{plot = FALSE} and use the \code
                                                   {plotPartial} function. \s...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -11398,7 +11398,7 @@ Missing character: There is no o in font nullfont!
 Missing character: There is no n in font nullfont!
 Missing character: There is no . in font nullfont!
 ! Undefined control sequence.
-l.143 ... the \code{plotPartial} function. \strong
+l.144 ... the \code{plotPartial} function. \strong
                                                   {Note:} the \dfn{pipe} ope...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -11415,7 +11415,7 @@ Missing character: There is no t in font nullfont!
 Missing character: There is no h in font nullfont!
 Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
-l.143 ...artial} function. \strong{Note:} the \dfn
+l.144 ...artial} function. \strong{Note:} the \dfn
                                                   {pipe} operator \code{\%>\...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -11436,7 +11436,7 @@ Missing character: There is no t in font nullfont!
 Missing character: There is no o in font nullfont!
 Missing character: There is no r in font nullfont!
 ! Undefined control sequence.
-l.143 ...rong{Note:} the \dfn{pipe} operator \code
+l.144 ...rong{Note:} the \dfn{pipe} operator \code
                                                   {\%>\%} provided by the \C...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -11461,7 +11461,7 @@ Missing character: There is no t in font nullfont!
 Missing character: There is no h in font nullfont!
 Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
-l.143 ...tor \code{\%>\%} provided by the \CRANpkg
+l.144 ...tor \code{\%>\%} provided by the \CRANpkg
                                                   {magrittr} package \citep{...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -11485,7 +11485,7 @@ Missing character: There is no a in font nullfont!
 Missing character: There is no g in font nullfont!
 Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
-l.143 ... by the \CRANpkg{magrittr} package \citep
+l.144 ... by the \CRANpkg{magrittr} package \citep
                                                   {magrittr-pkg} is exported...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -11657,7 +11657,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.144 \begin{example}
+l.145 \begin{example}
                      
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -11760,7 +11760,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.148 \end{example}
+l.149 \end{example}
                    
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -11811,7 +11811,7 @@ Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
 <write> ...erence `fig:pd_lstat' on page \thepage 
                                                   \space undefined\on@line .
-l.149 ...e right side of Figure~\ref{fig:pd_lstat}
+l.150 ...e right side of Figure~\ref{fig:pd_lstat}
                                                    below.
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -11820,7 +11820,7 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-LaTeX Warning: Reference `fig:pd_lstat' on page  undefined on input line 149.
+LaTeX Warning: Reference `fig:pd_lstat' on page  undefined on input line 150.
 
 Missing character: There is no b in font nullfont!
 Missing character: There is no e in font nullfont!
@@ -11829,17 +11829,17 @@ Missing character: There is no o in font nullfont!
 Missing character: There is no w in font nullfont!
 Missing character: There is no . in font nullfont!
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 143--150
+Overfull \hbox (20.0pt too wide) in paragraph at lines 144--151
 []
  []
 
 
-Overfull \hbox (5.2616pt too wide) in paragraph at lines 143--150
+Overfull \hbox (5.2616pt too wide) in paragraph at lines 144--151
 \OML/cmm/m/it/10 y$
  []
 
 
-Overfull \hbox (10.86105pt too wide) in paragraph at lines 143--150
+Overfull \hbox (10.86105pt too wide) in paragraph at lines 144--151
 []
  []
 
@@ -11850,7 +11850,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.151 \begin{figure}
+l.152 \begin{figure}
                     [htbp]
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -11863,7 +11863,7 @@ Missing character: There is no b in font nullfont!
 Missing character: There is no p in font nullfont!
 Missing character: There is no ] in font nullfont!
 ! Undefined control sequence.
-l.153   \includegraphics
+l.154   \includegraphics
                         [width=1.0\linewidth]{pd_lstat}
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -11884,7 +11884,7 @@ Missing character: There is no 0 in font nullfont!
 ! Missing number, treated as zero.
 <to be read again> 
                    ]
-l.153   \includegraphics[width=1.0\linewidth]
+l.154   \includegraphics[width=1.0\linewidth]
                                              {pd_lstat}
 A number should have been here; I inserted `0'.
 (If you can't figure out why I needed to see a number,
@@ -11893,7 +11893,7 @@ look up `weird error' in the index to The TeXbook.)
 ! Illegal unit of measure (pt inserted).
 <to be read again> 
                    ]
-l.153   \includegraphics[width=1.0\linewidth]
+l.154   \includegraphics[width=1.0\linewidth]
                                              {pd_lstat}
 Dimensions can be in units of em, ex, in, pt, pc,
 cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
@@ -11908,13 +11908,13 @@ Missing character: There is no d in font nullfont!
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.153   \includegraphics[width=1.0\linewidth]{pd_
+l.154   \includegraphics[width=1.0\linewidth]{pd_
                                                  lstat}
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 ! Extra }, or forgotten $.
-l.153 ...degraphics[width=1.0\linewidth]{pd_lstat}
+l.154 ...degraphics[width=1.0\linewidth]{pd_lstat}
                                                   
 I've deleted a group-closing symbol because it seems to be
 spurious, as in `$x}$'. But perhaps the } is legitimate and
@@ -11929,14 +11929,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.154   \caption
+l.155   \caption
                 {Partial dependence of \code{cmedv} on \code{lstat} based on...
 
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 ! Undefined control sequence.
-l.154   \caption{Partial dependence of \code
+l.155   \caption{Partial dependence of \code
                                             {cmedv} on \code{lstat} based on...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -11945,7 +11945,7 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 ! Undefined control sequence.
-l.154 ...rtial dependence of \code{cmedv} on \code
+l.155 ...rtial dependence of \code{cmedv} on \code
                                                   {lstat} based on a random ...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -11954,7 +11954,7 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 ! Undefined control sequence.
-l.154 ... Customized plot obtained using the \code
+l.155 ... Customized plot obtained using the \code
                                                   {plotPartial} function.}
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -11969,7 +11969,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.156 \end{figure}
+l.157 \end{figure}
                   
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -11978,7 +11978,7 @@ or  <return>  to continue without it.
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.156 \end{figure}
+l.157 \end{figure}
                   
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -11989,7 +11989,7 @@ my insertion and my current dilemma will both disappear.
 ! Missing } inserted.
 <inserted text> 
                 }
-l.156 \end{figure}
+l.157 \end{figure}
                   
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -11998,17 +11998,17 @@ really didn't forget anything, try typing `2' now; then
 my insertion and my current dilemma will both disappear.
 
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 151--157
+Overfull \hbox (20.0pt too wide) in paragraph at lines 152--158
 []
  []
 
 
-Overfull \hbox (633.5228pt too wide) in paragraph at lines 151--157
+Overfull \hbox (633.5228pt too wide) in paragraph at lines 152--158
 []\OML/cmm/m/it/10 stat[][]$ 
  []
 
 ! Undefined control sequence.
-l.162 \subsection
+l.163 \subsection
                  {Multi-predictor PDPs}
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -12036,7 +12036,7 @@ Missing character: There is no D in font nullfont!
 Missing character: There is no P in font nullfont!
 Missing character: There is no s in font nullfont!
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 162--163
+Overfull \hbox (20.0pt too wide) in paragraph at lines 163--164
 []
  []
 
@@ -12058,7 +12058,7 @@ Missing character: There is no i in font nullfont!
 Missing character: There is no n in font nullfont!
 Missing character: There is no g in font nullfont!
 ! Undefined control sequence.
-l.164 The benefit of using \code
+l.165 The benefit of using \code
                                 {partial} is threefold: (1) it is a generic ...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -12274,7 +12274,7 @@ Missing character: There is no t in font nullfont!
 Missing character: There is no h in font nullfont!
 Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
-l.164 ...rallel backends supported by the \CRANpkg
+l.165 ...rallel backends supported by the \CRANpkg
                                                   {foreach} package \citep{f...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -12297,7 +12297,7 @@ Missing character: There is no a in font nullfont!
 Missing character: There is no g in font nullfont!
 Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
-l.164 ...d by the \CRANpkg{foreach} package \citep
+l.165 ...d by the \CRANpkg{foreach} package \citep
                                                   {foreach-pkg}; we discuss ...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -12445,7 +12445,7 @@ Missing character: There is no d in font nullfont!
 Missing character: There is no e in font nullfont!
 Missing character: There is no l in font nullfont!
 ! Undefined control sequence.
-l.164 ...ve regression splines (MARS) model \citep
+l.165 ...ve regression splines (MARS) model \citep
                                                   {friedman-1991-mars} to as...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -12496,7 +12496,7 @@ Missing character: There is no t in font nullfont!
 Missing character: There is no o in font nullfont!
 Missing character: There is no f in font nullfont!
 ! Undefined control sequence.
-l.164 ...mars} to assess the joint effect of \code
+l.165 ...mars} to assess the joint effect of \code
                                                   {lstat} and \code{rm} on \...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -12513,7 +12513,7 @@ Missing character: There is no a in font nullfont!
 Missing character: There is no n in font nullfont!
 Missing character: There is no d in font nullfont!
 ! Undefined control sequence.
-l.164 ...he joint effect of \code{lstat} and \code
+l.165 ...he joint effect of \code{lstat} and \code
                                                   {rm} on \code{cmedv}. The ...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -12526,7 +12526,7 @@ Missing character: There is no m in font nullfont!
 Missing character: There is no o in font nullfont!
 Missing character: There is no n in font nullfont!
 ! Undefined control sequence.
-l.164 ...ct of \code{lstat} and \code{rm} on \code
+l.165 ...ct of \code{lstat} and \code{rm} on \code
                                                   {cmedv}. The results, whic...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -12573,7 +12573,7 @@ Missing character: There is no o in font nullfont!
 Missing character: There is no u in font nullfont!
 Missing character: There is no s in font nullfont!
 ! Undefined control sequence.
-l.164 ... results, which make use of various \code
+l.165 ... results, which make use of various \code
                                                   {plotPartial} options, are...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -12623,7 +12623,7 @@ Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
 <write> ...nce `fig:pd_lstat_rm' on page \thepage 
                                                   \space undefined\on@line .
-l.164 ...displayed in Figure~\ref{fig:pd_lstat_rm}
+l.165 ...displayed in Figure~\ref{fig:pd_lstat_rm}
                                                   .
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -12632,7 +12632,7 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-LaTeX Warning: Reference `fig:pd_lstat_rm' on page  undefined on input line 164
+LaTeX Warning: Reference `fig:pd_lstat_rm' on page  undefined on input line 165
 .
 
 Missing character: There is no . in font nullfont!
@@ -12643,7 +12643,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.165 \begin{example}
+l.166 \begin{example}
                      
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -12664,7 +12664,7 @@ Missing character: There is no t in font nullfont!
 Missing character: There is no h in font nullfont!
 Missing character: There is no ) in font nullfont!
 ! You can't use `macro parameter character #' in horizontal mode.
-l.166 library(earth)  #
+l.167 library(earth)  #
                         for fitting MARS models
 Sorry, but I'm not programmed to handle this case;
 I'll just pretend that you didn't ask for it.
@@ -13006,7 +13006,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.173 \end{example}
+l.174 \end{example}
                    
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -13104,7 +13104,7 @@ Missing character: There is no t in font nullfont!
 Missing character: There is no h in font nullfont!
 Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
-l.174 ..." color map provided through the \CRANpkg
+l.175 ..." color map provided through the \CRANpkg
                                                   {viridis} package \citep{v...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -13127,7 +13127,7 @@ Missing character: There is no a in font nullfont!
 Missing character: There is no g in font nullfont!
 Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
-l.174 ...ough the \CRANpkg{viridis} package \citep
+l.175 ...ough the \CRANpkg{viridis} package \citep
                                                   {viridis-pkg}.
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -13148,12 +13148,12 @@ Missing character: There is no k in font nullfont!
 Missing character: There is no g in font nullfont!
 Missing character: There is no . in font nullfont!
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 164--175
+Overfull \hbox (20.0pt too wide) in paragraph at lines 165--176
 []
  []
 
 
-Overfull \hbox (10.86105pt too wide) in paragraph at lines 164--175
+Overfull \hbox (10.86105pt too wide) in paragraph at lines 165--176
 []
  []
 
@@ -13164,7 +13164,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.176 \begin{widefigure}
+l.177 \begin{widefigure}
                         [htbp]
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -13177,7 +13177,7 @@ Missing character: There is no b in font nullfont!
 Missing character: There is no p in font nullfont!
 Missing character: There is no ] in font nullfont!
 ! Undefined control sequence.
-l.178   \includegraphics
+l.179   \includegraphics
                         [width=1.0\linewidth]{pd_lstat_rm}
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -13198,7 +13198,7 @@ Missing character: There is no 0 in font nullfont!
 ! Missing number, treated as zero.
 <to be read again> 
                    ]
-l.178   \includegraphics[width=1.0\linewidth]
+l.179   \includegraphics[width=1.0\linewidth]
                                              {pd_lstat_rm}
 A number should have been here; I inserted `0'.
 (If you can't figure out why I needed to see a number,
@@ -13207,7 +13207,7 @@ look up `weird error' in the index to The TeXbook.)
 ! Illegal unit of measure (pt inserted).
 <to be read again> 
                    ]
-l.178   \includegraphics[width=1.0\linewidth]
+l.179   \includegraphics[width=1.0\linewidth]
                                              {pd_lstat_rm}
 Dimensions can be in units of em, ex, in, pt, pc,
 cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
@@ -13222,13 +13222,13 @@ Missing character: There is no d in font nullfont!
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.178   \includegraphics[width=1.0\linewidth]{pd_
+l.179   \includegraphics[width=1.0\linewidth]{pd_
                                                  lstat_rm}
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 ! Extra }, or forgotten $.
-l.178 ...raphics[width=1.0\linewidth]{pd_lstat_rm}
+l.179 ...raphics[width=1.0\linewidth]{pd_lstat_rm}
                                                   
 I've deleted a group-closing symbol because it seems to be
 spurious, as in `$x}$'. But perhaps the } is legitimate and
@@ -13243,14 +13243,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.179   \caption
+l.180   \caption
                 {Partial dependence of \code{cmedv} on \code{lstat} and \cod...
 
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 ! Undefined control sequence.
-l.179   \caption{Partial dependence of \code
+l.180   \caption{Partial dependence of \code
                                             {cmedv} on \code{lstat} and \cod...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -13259,7 +13259,7 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 ! Undefined control sequence.
-l.179 ...rtial dependence of \code{cmedv} on \code
+l.180 ...rtial dependence of \code{cmedv} on \code
                                                   {lstat} and \code{rm} base...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -13268,7 +13268,7 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 ! Undefined control sequence.
-l.179 ...of \code{cmedv} on \code{lstat} and \code
+l.180 ...of \code{cmedv} on \code{lstat} and \code
                                                   {rm} based on a third degr...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -13283,7 +13283,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.181 \end{widefigure}
+l.182 \end{widefigure}
                       
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -13292,7 +13292,7 @@ or  <return>  to continue without it.
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.181 \end{widefigure}
+l.182 \end{widefigure}
                       
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -13303,7 +13303,7 @@ my insertion and my current dilemma will both disappear.
 ! Missing } inserted.
 <inserted text> 
                 }
-l.181 \end{widefigure}
+l.182 \end{widefigure}
                       
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -13312,17 +13312,17 @@ really didn't forget anything, try typing `2' now; then
 my insertion and my current dilemma will both disappear.
 
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 176--182
+Overfull \hbox (20.0pt too wide) in paragraph at lines 177--183
 []
  []
 
 
-Overfull \hbox (751.13657pt too wide) in paragraph at lines 176--182
+Overfull \hbox (751.13657pt too wide) in paragraph at lines 177--183
 []\OML/cmm/m/it/10 stat[]m[][]$ 
  []
 
 ! Undefined control sequence.
-l.187 \subsection
+l.188 \subsection
                  {Avoiding extrapolation}
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -13352,7 +13352,7 @@ Missing character: There is no i in font nullfont!
 Missing character: There is no o in font nullfont!
 Missing character: There is no n in font nullfont!
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 187--188
+Overfull \hbox (20.0pt too wide) in paragraph at lines 188--189
 []
  []
 
@@ -13574,7 +13574,7 @@ Missing character: There is no o in font nullfont!
 Missing character: There is no t in font nullfont!
 Missing character: There is no h in font nullfont!
 ! Undefined control sequence.
-l.189 ...ional plots added to the axes. Both \code
+l.190 ...ional plots added to the axes. Both \code
                                                   {partial} and \code{plotPa...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -13593,7 +13593,7 @@ Missing character: There is no a in font nullfont!
 Missing character: There is no n in font nullfont!
 Missing character: There is no d in font nullfont!
 ! Undefined control sequence.
-l.189 ...o the axes. Both \code{partial} and \code
+l.190 ...o the axes. Both \code{partial} and \code
                                                   {plotPartial} have a \code...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -13618,7 +13618,7 @@ Missing character: There is no v in font nullfont!
 Missing character: There is no e in font nullfont!
 Missing character: There is no a in font nullfont!
 ! Undefined control sequence.
-l.189 ...tial} and \code{plotPartial} have a \code
+l.190 ...tial} and \code{plotPartial} have a \code
                                                   {rug} option that, when se...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -13650,7 +13650,7 @@ Missing character: There is no t in font nullfont!
 Missing character: There is no t in font nullfont!
 Missing character: There is no o in font nullfont!
 ! Undefined control sequence.
-l.189 ...\code{rug} option that, when set to \code
+l.190 ...\code{rug} option that, when set to \code
                                                   {TRUE}, will display the d...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -13842,7 +13842,7 @@ Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
 <write> ... `fig:partial_extrap' on page \thepage 
                                                   \space undefined\on@line .
-l.189 ...isplay in Figure~\ref{fig:partial_extrap}
+l.190 ...isplay in Figure~\ref{fig:partial_extrap}
                                                   .
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -13852,7 +13852,7 @@ and I'll forget about whatever was undefined.
 
 
 LaTeX Warning: Reference `fig:partial_extrap' on page  undefined on input line 
-189.
+190.
 
 Missing character: There is no . in font nullfont!
 
@@ -13862,7 +13862,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.190 \begin{example}
+l.191 \begin{example}
                      
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -13929,19 +13929,19 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.192 \end{example}
+l.193 \end{example}
                    
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 189--193
+Overfull \hbox (20.0pt too wide) in paragraph at lines 190--194
 []
  []
 
 
-Overfull \hbox (10.86105pt too wide) in paragraph at lines 189--193
+Overfull \hbox (10.86105pt too wide) in paragraph at lines 190--194
 []
  []
 
@@ -14074,7 +14074,7 @@ Missing character: There is no h in font nullfont!
 Missing character: There is no e in font nullfont!
 Missing character: There is no n in font nullfont!
 ! Undefined control sequence.
-l.194 ...that the model was trained on. When \code
+l.195 ...that the model was trained on. When \code
                                                   {chull = TRUE}, the convex...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -14134,7 +14134,7 @@ Missing character: There is no f in font nullfont!
 ! Undefined control sequence.
 <recently read> \boldsymbol 
                             
-l.194 ... the first two dimensions of $\boldsymbol
+l.195 ... the first two dimensions of $\boldsymbol
                                                   {z}_s$ (i.e., the first tw...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -14179,7 +14179,7 @@ Missing character: There is no d in font nullfont!
 Missing character: There is no t in font nullfont!
 Missing character: There is no o in font nullfont!
 ! Undefined control sequence.
-l.194 ...the first two variables supplied to \code
+l.195 ...the first two variables supplied to \code
                                                   {pred.var}) is added to th...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -14237,7 +14237,7 @@ Missing character: There is no s in font nullfont!
 Missing character: There is no e in font nullfont!
 Missing character: There is no t in font nullfont!
 ! Undefined control sequence.
-l.194 ...he plot; alternatively, you can set \code
+l.195 ...he plot; alternatively, you can set \code
                                                   {chull = TRUE} in the call...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -14267,7 +14267,7 @@ Missing character: There is no l in font nullfont!
 Missing character: There is no t in font nullfont!
 Missing character: There is no o in font nullfont!
 ! Undefined control sequence.
-l.194 ... \code{chull = TRUE} in the call to \code
+l.195 ... \code{chull = TRUE} in the call to \code
                                                   {partial}, in which case o...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -14440,7 +14440,7 @@ Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
 <write> ... `fig:partial_extrap' on page \thepage 
                                                   \space undefined\on@line .
-l.194 ...isplay in Figure~\ref{fig:partial_extrap}
+l.195 ...isplay in Figure~\ref{fig:partial_extrap}
                                                    was produced using:
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -14450,7 +14450,7 @@ and I'll forget about whatever was undefined.
 
 
 LaTeX Warning: Reference `fig:partial_extrap' on page  undefined on input line 
-194.
+195.
 
 Missing character: There is no w in font nullfont!
 Missing character: There is no a in font nullfont!
@@ -14476,7 +14476,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.195 \begin{example}
+l.196 \begin{example}
                      
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -14553,24 +14553,24 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.197 \end{example}
+l.198 \end{example}
                    
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 194--198
+Overfull \hbox (20.0pt too wide) in paragraph at lines 195--199
 []
  []
 
 
-Overfull \hbox (8.92482pt too wide) in paragraph at lines 194--198
+Overfull \hbox (8.92482pt too wide) in paragraph at lines 195--199
 \OML/cmm/m/it/10 z[]$
  []
 
 
-Overfull \hbox (10.86105pt too wide) in paragraph at lines 194--198
+Overfull \hbox (10.86105pt too wide) in paragraph at lines 195--199
 []
  []
 
@@ -14581,7 +14581,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.199 \begin{figure}
+l.200 \begin{figure}
                     [htbp]
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -14594,7 +14594,7 @@ Missing character: There is no b in font nullfont!
 Missing character: There is no p in font nullfont!
 Missing character: There is no ] in font nullfont!
 ! Undefined control sequence.
-l.201   \includegraphics
+l.202   \includegraphics
                         [width=1.0\linewidth]{partial_extrap}
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -14615,7 +14615,7 @@ Missing character: There is no 0 in font nullfont!
 ! Missing number, treated as zero.
 <to be read again> 
                    ]
-l.201   \includegraphics[width=1.0\linewidth]
+l.202   \includegraphics[width=1.0\linewidth]
                                              {partial_extrap}
 A number should have been here; I inserted `0'.
 (If you can't figure out why I needed to see a number,
@@ -14624,7 +14624,7 @@ look up `weird error' in the index to The TeXbook.)
 ! Illegal unit of measure (pt inserted).
 <to be read again> 
                    ]
-l.201   \includegraphics[width=1.0\linewidth]
+l.202   \includegraphics[width=1.0\linewidth]
                                              {partial_extrap}
 Dimensions can be in units of em, ex, in, pt, pc,
 cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
@@ -14644,13 +14644,13 @@ Missing character: There is no l in font nullfont!
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.201 ...udegraphics[width=1.0\linewidth]{partial_
+l.202 ...udegraphics[width=1.0\linewidth]{partial_
                                                   extrap}
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 ! Extra }, or forgotten $.
-l.201 ...hics[width=1.0\linewidth]{partial_extrap}
+l.202 ...hics[width=1.0\linewidth]{partial_extrap}
                                                   
 I've deleted a group-closing symbol because it seems to be
 spurious, as in `$x}$'. But perhaps the } is legitimate and
@@ -14665,7 +14665,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.202   \caption
+l.203   \caption
                 {Examples of PDPs with the addition of a rug display (left) ...
 
 You're in trouble here.  Try typing  <return>  to proceed.
@@ -14678,7 +14678,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.204 \end{figure}
+l.205 \end{figure}
                   
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -14687,7 +14687,7 @@ or  <return>  to continue without it.
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.204 \end{figure}
+l.205 \end{figure}
                   
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -14698,7 +14698,7 @@ my insertion and my current dilemma will both disappear.
 ! Missing } inserted.
 <inserted text> 
                 }
-l.204 \end{figure}
+l.205 \end{figure}
                   
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -14707,17 +14707,17 @@ really didn't forget anything, try typing `2' now; then
 my insertion and my current dilemma will both disappear.
 
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 199--205
+Overfull \hbox (20.0pt too wide) in paragraph at lines 200--206
 []
  []
 
 
-Overfull \hbox (377.74065pt too wide) in paragraph at lines 199--205
+Overfull \hbox (377.74065pt too wide) in paragraph at lines 200--206
 []\OML/cmm/m/it/10 xtrap[][]$ 
  []
 
 ! Undefined control sequence.
-l.210 \subsection
+l.211 \subsection
                  {Addressing computational concerns}
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -14757,7 +14757,7 @@ Missing character: There is no r in font nullfont!
 Missing character: There is no n in font nullfont!
 Missing character: There is no s in font nullfont!
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 210--211
+Overfull \hbox (20.0pt too wide) in paragraph at lines 211--212
 []
  []
 
@@ -14976,7 +14976,7 @@ Missing character: There is no e in font nullfont!
 Missing character: There is no o in font nullfont!
 Missing character: There is no f in font nullfont!
 ! Undefined control sequence.
-l.212 ...me value using each unique value of \code
+l.213 ...me value using each unique value of \code
                                                   {rm} in the training data ...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -15223,7 +15223,7 @@ Missing character: There is no t in font nullfont!
 Missing character: There is no h in font nullfont!
 Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
-l.212 ... points ban be controlled using the \code
+l.213 ... points ban be controlled using the \code
                                                   {grid.resolution}. Alterna...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -15331,7 +15331,7 @@ Missing character: There is no t in font nullfont!
 Missing character: There is no h in font nullfont!
 Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
-l.212 ...terest) can be supplied through the \code
+l.213 ...terest) can be supplied through the \code
                                                   {pred.grid} argument. To i...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -15443,7 +15443,7 @@ Missing character: There is no e in font nullfont!
 Missing character: There is no o in font nullfont!
 Missing character: There is no n in font nullfont!
 ! Undefined control sequence.
-l.212 ... dependence of median home value on \code
+l.213 ... dependence of median home value on \code
                                                   {rm} using each option; th...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -15502,7 +15502,7 @@ Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
 <write> ... `fig:partial_manual' on page \thepage 
                                                   \space undefined\on@line .
-l.212 ...played in Figure~\ref{fig:partial_manual}
+l.213 ...played in Figure~\ref{fig:partial_manual}
                                                   .
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -15512,7 +15512,7 @@ and I'll forget about whatever was undefined.
 
 
 LaTeX Warning: Reference `fig:partial_manual' on page  undefined on input line 
-212.
+213.
 
 Missing character: There is no . in font nullfont!
 
@@ -15522,7 +15522,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.213 \begin{example}
+l.214 \begin{example}
                      
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -15677,29 +15677,29 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.217 \end{example}
+l.218 \end{example}
                    
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 212--218
+Overfull \hbox (20.0pt too wide) in paragraph at lines 213--219
 []
  []
 
 
-Overfull \hbox (16.07635pt too wide) in paragraph at lines 212--218
+Overfull \hbox (16.07635pt too wide) in paragraph at lines 213--219
 \OML/cmm/m/it/10 k \OT1/cmr/m/n/10 =
  []
 
 
-Overfull \hbox (15.00005pt too wide) in paragraph at lines 212--218
+Overfull \hbox (15.00005pt too wide) in paragraph at lines 213--219
 \OT1/cmr/m/n/10 446$
  []
 
 
-Overfull \hbox (10.86105pt too wide) in paragraph at lines 212--218
+Overfull \hbox (10.86105pt too wide) in paragraph at lines 213--219
 []
  []
 
@@ -15710,7 +15710,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.219 \begin{widefigure}
+l.220 \begin{widefigure}
                         [htbp]
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -15723,7 +15723,7 @@ Missing character: There is no b in font nullfont!
 Missing character: There is no p in font nullfont!
 Missing character: There is no ] in font nullfont!
 ! Undefined control sequence.
-l.221   \includegraphics
+l.222   \includegraphics
                         [width=0.8\linewidth]{partial_manual}
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -15744,7 +15744,7 @@ Missing character: There is no 8 in font nullfont!
 ! Missing number, treated as zero.
 <to be read again> 
                    ]
-l.221   \includegraphics[width=0.8\linewidth]
+l.222   \includegraphics[width=0.8\linewidth]
                                              {partial_manual}
 A number should have been here; I inserted `0'.
 (If you can't figure out why I needed to see a number,
@@ -15753,7 +15753,7 @@ look up `weird error' in the index to The TeXbook.)
 ! Illegal unit of measure (pt inserted).
 <to be read again> 
                    ]
-l.221   \includegraphics[width=0.8\linewidth]
+l.222   \includegraphics[width=0.8\linewidth]
                                              {partial_manual}
 Dimensions can be in units of em, ex, in, pt, pc,
 cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
@@ -15773,13 +15773,13 @@ Missing character: There is no l in font nullfont!
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.221 ...udegraphics[width=0.8\linewidth]{partial_
+l.222 ...udegraphics[width=0.8\linewidth]{partial_
                                                   manual}
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 ! Extra }, or forgotten $.
-l.221 ...hics[width=0.8\linewidth]{partial_manual}
+l.222 ...hics[width=0.8\linewidth]{partial_manual}
                                                   
 I've deleted a group-closing symbol because it seems to be
 spurious, as in `$x}$'. But perhaps the } is legitimate and
@@ -15794,14 +15794,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.222   \caption
+l.223   \caption
                 {Partial dependence of \code{cmedv} on \code{rm}. \textit{Le...
 
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 ! Undefined control sequence.
-l.222   \caption{Partial dependence of \code
+l.223   \caption{Partial dependence of \code
                                             {cmedv} on \code{rm}. \textit{Le...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -15810,7 +15810,7 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 ! Undefined control sequence.
-l.222 ...rtial dependence of \code{cmedv} on \code
+l.223 ...rtial dependence of \code{cmedv} on \code
                                                   {rm}. \textit{Left}: Defau...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -15825,7 +15825,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.224 \end{widefigure}
+l.225 \end{widefigure}
                       
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -15834,7 +15834,7 @@ or  <return>  to continue without it.
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.224 \end{widefigure}
+l.225 \end{widefigure}
                       
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -15845,7 +15845,7 @@ my insertion and my current dilemma will both disappear.
 ! Missing } inserted.
 <inserted text> 
                 }
-l.224 \end{widefigure}
+l.225 \end{widefigure}
                       
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -15854,12 +15854,12 @@ really didn't forget anything, try typing `2' now; then
 my insertion and my current dilemma will both disappear.
 
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 219--225
+Overfull \hbox (20.0pt too wide) in paragraph at lines 220--226
 []
  []
 
 
-Overfull \hbox (567.89267pt too wide) in paragraph at lines 219--225
+Overfull \hbox (567.89267pt too wide) in paragraph at lines 220--226
 []\OML/cmm/m/it/10 anual[][]$ 
  []
 
@@ -15867,7 +15867,7 @@ Missing character: There is no T in font nullfont!
 Missing character: There is no h in font nullfont!
 Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
-l.226 The \code
+l.227 The \code
                {partial} function relies on the \CRANpkg{plyr} package \cite...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -15902,7 +15902,7 @@ Missing character: There is no t in font nullfont!
 Missing character: There is no h in font nullfont!
 Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
-l.226 ...{partial} function relies on the \CRANpkg
+l.227 ...{partial} function relies on the \CRANpkg
                                                   {plyr} package \citep{plyr...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -15922,7 +15922,7 @@ Missing character: There is no a in font nullfont!
 Missing character: There is no g in font nullfont!
 Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
-l.226 ...lies on the \CRANpkg{plyr} package \citep
+l.227 ...lies on the \CRANpkg{plyr} package \citep
                                                   {plyr-pkg}, rather than fo...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -16005,7 +16005,7 @@ Missing character: There is no g in font nullfont!
 Missing character: There is no . in font nullfont!
 Missing character: There is no , in font nullfont!
 ! Undefined control sequence.
-l.226 ...ble to request progress bars (e.g., \code
+l.227 ...ble to request progress bars (e.g., \code
                                                   {.progress = "text"}) or r...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -16036,7 +16036,7 @@ Missing character: There is no r in font nullfont!
 Missing character: There is no u in font nullfont!
 Missing character: There is no n in font nullfont!
 ! Undefined control sequence.
-l.226 ..., \code{.progress = "text"}) or run \code
+l.227 ..., \code{.progress = "text"}) or run \code
                                                   {partial} in parallel. In ...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -16070,7 +16070,7 @@ Missing character: There is no c in font nullfont!
 Missing character: There is no t in font nullfont!
 Missing character: There is no , in font nullfont!
 ! Undefined control sequence.
-l.226 ...code{partial} in parallel. In fact, \code
+l.227 ...code{partial} in parallel. In fact, \code
                                                   {partial} can use any of t...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -16130,7 +16130,7 @@ Missing character: There is no t in font nullfont!
 Missing character: There is no h in font nullfont!
 Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
-l.226 ...e parallel backends supported by the \pkg
+l.227 ...e parallel backends supported by the \pkg
                                                   {foreach} package. To use ...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -16234,7 +16234,7 @@ Missing character: There is no g in font nullfont!
 Missing character: There is no . in font nullfont!
 Missing character: There is no , in font nullfont!
 ! Undefined control sequence.
-l.226 ...upported parallel backend [e.g., \CRANpkg
+l.227 ...upported parallel backend [e.g., \CRANpkg
                                                   {doMC} \citep{doMC-pkg} or...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -16247,7 +16247,7 @@ Missing character: There is no o in font nullfont!
 Missing character: There is no M in font nullfont!
 Missing character: There is no C in font nullfont!
 ! Undefined control sequence.
-l.226 ...llel backend [e.g., \CRANpkg{doMC} \citep
+l.227 ...llel backend [e.g., \CRANpkg{doMC} \citep
                                                   {doMC-pkg} or \CRANpkg{doP...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -16266,7 +16266,7 @@ Missing character: There is no g in font nullfont!
 Missing character: There is no o in font nullfont!
 Missing character: There is no r in font nullfont!
 ! Undefined control sequence.
-l.226 ...RANpkg{doMC} \citep{doMC-pkg} or \CRANpkg
+l.227 ...RANpkg{doMC} \citep{doMC-pkg} or \CRANpkg
                                                   {doParallel} \citep{doPara...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -16285,7 +16285,7 @@ Missing character: There is no l in font nullfont!
 Missing character: There is no e in font nullfont!
 Missing character: There is no l in font nullfont!
 ! Undefined control sequence.
-l.226 ...{doMC-pkg} or \CRANpkg{doParallel} \citep
+l.227 ...{doMC-pkg} or \CRANpkg{doParallel} \citep
                                                   {doParallel-pkg}].
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -16310,7 +16310,7 @@ Missing character: There is no g in font nullfont!
 Missing character: There is no ] in font nullfont!
 Missing character: There is no . in font nullfont!
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 226--227
+Overfull \hbox (20.0pt too wide) in paragraph at lines 227--228
 []
  []
 
@@ -16379,7 +16379,7 @@ Missing character: There is no d in font nullfont!
 Missing character: There is no i in font nullfont!
 Missing character: There is no n in font nullfont!
 ! Undefined control sequence.
-l.228 ... ozone pollution data described in \citet
+l.229 ... ozone pollution data described in \citet
                                                   {breiman-1985-estimating}....
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -16464,7 +16464,7 @@ Missing character: There is no o in font nullfont!
 Missing character: There is no n in font nullfont!
 Missing character: There is no ( in font nullfont!
 ! Undefined control sequence.
-l.228 ...easurements of ozone concentration (\code
+l.229 ...easurements of ozone concentration (\code
                                                   {ozone}) along with eight ...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -16577,7 +16577,7 @@ Missing character: There is no r in font nullfont!
 Missing character: There is no o in font nullfont!
 Missing character: There is no m in font nullfont!
 ! Undefined control sequence.
-l.228 ...in 1976. The data are available from \url
+l.229 ...in 1976. The data are available from \url
                                                   {http://statweb.stanford.e...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -16708,7 +16708,7 @@ Missing character: There is no r in font nullfont!
 Missing character: There is no o in font nullfont!
 Missing character: There is no m in font nullfont!
 ! Undefined control sequence.
-l.228 ...able information, are available from \url
+l.229 ...able information, are available from \url
                                                   {http://statweb.stanford.e...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -16831,7 +16831,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.229 \begin{example}
+l.230 \begin{example}
                      
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -16954,14 +16954,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.232 \end{example}
+l.233 \end{example}
                    
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 228--233
+Overfull \hbox (20.0pt too wide) in paragraph at lines 229--234
 []
  []
 
@@ -17117,7 +17117,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.235 \begin{example}
+l.236 \begin{example}
                      
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -17196,7 +17196,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.238 \end{example}
+l.239 \end{example}
                    
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -17260,7 +17260,7 @@ Missing character: There is no d in font nullfont!
 Missing character: There is no i in font nullfont!
 Missing character: There is no n in font nullfont!
 ! Undefined control sequence.
-l.239 ...$, similar to what was reported in \citet
+l.240 ...$, similar to what was reported in \citet
                                                   {breiman-1985-estimating}....
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -17350,24 +17350,24 @@ Missing character: There is no o in font nullfont!
 Missing character: There is no r in font nullfont!
 Missing character: There is no s in font nullfont!
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 234--240
+Overfull \hbox (20.0pt too wide) in paragraph at lines 235--241
 []
  []
 
 
-Overfull \hbox (12.15628pt too wide) in paragraph at lines 234--240
+Overfull \hbox (12.15628pt too wide) in paragraph at lines 235--241
 \OML/cmm/m/it/10 R[]$
  []
 
 
-Overfull \hbox (17.77783pt too wide) in paragraph at lines 234--240
+Overfull \hbox (17.77783pt too wide) in paragraph at lines 235--241
 \OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 79$
  []
 
 ! Undefined control sequence.
 <recently read> \code 
                       
-l.241   \item \code
+l.242   \item \code
                    {wind}: wind speed (mph) at Los Angeles International Air...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -17434,7 +17434,7 @@ Missing character: There is no ) in font nullfont!
 ! Undefined control sequence.
 <recently read> \code 
                       
-l.242   \item \code
+l.243   \item \code
                    {temp}: temperature ($^oF$) at Sandburg Air Force Base
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -17483,14 +17483,14 @@ Missing character: There is no a in font nullfont!
 Missing character: There is no s in font nullfont!
 Missing character: There is no e in font nullfont!
 
-Overfull \hbox (12.26668pt too wide) in paragraph at lines 242--243
+Overfull \hbox (12.26668pt too wide) in paragraph at lines 243--244
 []\OML/cmm/m/it/10 F$
  []
 
 ! Undefined control sequence.
 <recently read> \code 
                       
-l.243   \item \code
+l.244   \item \code
                    {dpg}: the pressure gradient (mm Hg) from LAX to Dagget, CA
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -17697,7 +17697,7 @@ Missing character: There is no r in font nullfont!
 Missing character: There is no u in font nullfont!
 Missing character: There is no n in font nullfont!
 ! Undefined control sequence.
-l.245 ...putationally expensive, we will run \code
+l.246 ...putationally expensive, we will run \code
                                                   {partial} in parallel.
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -17816,7 +17816,7 @@ Missing character: There is no t in font nullfont!
 Missing character: There is no h in font nullfont!
 Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
-l.247 ...he following snippet of sets up the \code
+l.248 ...he following snippet of sets up the \code
                                                   {partial} function to run ...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -17875,7 +17875,7 @@ Missing character: There is no s in font nullfont!
 ! Undefined control sequence.
 \@footnotetext ...tins {\reset@font \footnotesize 
                                                   \interlinepenalty \interfo...
-l.247 ...te{This example will not run on Windows.}
+l.248 ...te{This example will not run on Windows.}
                                                    using the \pkg{doParallel...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -17886,7 +17886,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 \@footnotetext ...}\color@begingroup \@makefntext 
                                                   {\rule \z@ \footnotesep \i...
-l.247 ...te{This example will not run on Windows.}
+l.248 ...te{This example will not run on Windows.}
                                                    using the \pkg{doParallel...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -17895,52 +17895,52 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Overfull \hbox (19.50003pt too wide) in paragraph at lines 247--247
+Overfull \hbox (19.50003pt too wide) in paragraph at lines 248--248
 [][]\OT1/cmr/m/n/10 This
  []
 
 
-Overfull \hbox (13.05557pt too wide) in paragraph at lines 247--247
+Overfull \hbox (13.05557pt too wide) in paragraph at lines 248--248
 \OT1/cmr/m/n/10 ex-
  []
 
 
-Overfull \hbox (16.6667pt too wide) in paragraph at lines 247--247
+Overfull \hbox (16.6667pt too wide) in paragraph at lines 248--248
 \OT1/cmr/m/n/10 am-
  []
 
 
-Overfull \hbox (12.7778pt too wide) in paragraph at lines 247--247
+Overfull \hbox (12.7778pt too wide) in paragraph at lines 248--248
 \OT1/cmr/m/n/10 ple
  []
 
 
-Overfull \hbox (15.55559pt too wide) in paragraph at lines 247--247
+Overfull \hbox (15.55559pt too wide) in paragraph at lines 248--248
 \OT1/cmr/m/n/10 will
  []
 
 
-Overfull \hbox (14.44449pt too wide) in paragraph at lines 247--247
+Overfull \hbox (14.44449pt too wide) in paragraph at lines 248--248
 \OT1/cmr/m/n/10 not
  []
 
 
-Overfull \hbox (15.02782pt too wide) in paragraph at lines 247--247
+Overfull \hbox (15.02782pt too wide) in paragraph at lines 248--248
 \OT1/cmr/m/n/10 run
  []
 
 
-Overfull \hbox (10.55559pt too wide) in paragraph at lines 247--247
+Overfull \hbox (10.55559pt too wide) in paragraph at lines 248--248
 \OT1/cmr/m/n/10 on
  []
 
 
-Overfull \hbox (21.94449pt too wide) in paragraph at lines 247--247
+Overfull \hbox (21.94449pt too wide) in paragraph at lines 248--248
 \OT1/cmr/m/n/10 Win-
  []
 
 
-Overfull \hbox (24.22226pt too wide) in paragraph at lines 247--247
+Overfull \hbox (24.22226pt too wide) in paragraph at lines 248--248
 \OT1/cmr/m/n/10 dows.| 
  []
 
@@ -17953,7 +17953,7 @@ Missing character: There is no t in font nullfont!
 Missing character: There is no h in font nullfont!
 Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
-l.247 ... will not run on Windows.} using the \pkg
+l.248 ... will not run on Windows.} using the \pkg
                                                   {doParallel} package.
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -17986,7 +17986,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.248 \begin{example}
+l.249 \begin{example}
                      
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -18012,7 +18012,7 @@ Missing character: There is no e in font nullfont!
 Missing character: There is no l in font nullfont!
 Missing character: There is no ) in font nullfont!
 ! You can't use `macro parameter character #' in horizontal mode.
-l.249 library(doParallel)  #
+l.250 library(doParallel)  #
                              load parallel backend
 Sorry, but I'm not programmed to handle this case;
 I'll just pretend that you didn't ask for it.
@@ -18066,7 +18066,7 @@ Missing character: There is no = in font nullfont!
 Missing character: There is no 4 in font nullfont!
 Missing character: There is no ) in font nullfont!
 ! You can't use `macro parameter character #' in horizontal mode.
-l.250 registerDoParallel(cores = 4)  #
+l.251 registerDoParallel(cores = 4)  #
                                        use 4 cores
 Sorry, but I'm not programmed to handle this case;
 I'll just pretend that you didn't ask for it.
@@ -18089,19 +18089,19 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.251 \end{example}
+l.252 \end{example}
                    
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 247--252
+Overfull \hbox (20.0pt too wide) in paragraph at lines 248--253
 []
  []
 
 
-Overfull \hbox (4.48613pt too wide) in paragraph at lines 247--252
+Overfull \hbox (4.48613pt too wide) in paragraph at lines 248--253
 []
  []
 
@@ -18115,7 +18115,7 @@ Missing character: There is no r in font nullfont!
 Missing character: There is no u in font nullfont!
 Missing character: There is no n in font nullfont!
 ! Undefined control sequence.
-l.253 Now, to run \code
+l.254 Now, to run \code
                        {partial} in parallel, all we have to do is invoke th...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -18166,7 +18166,7 @@ Missing character: There is no t in font nullfont!
 Missing character: There is no h in font nullfont!
 Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
-l.253 ...el, all we have to do is invoke the \code
+l.254 ...el, all we have to do is invoke the \code
                                                   {.parallel = TRUE} option ...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -18237,7 +18237,7 @@ Missing character: There is no l in font nullfont!
 Missing character: There is no t in font nullfont!
 Missing character: There is no o in font nullfont!
 ! Undefined control sequence.
-l.253 ...aken care of by the internal call to \pkg
+l.254 ...aken care of by the internal call to \pkg
                                                   {plyr} and the parallel ba...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -18355,7 +18355,7 @@ Missing character: There is no e in font nullfont!
 Missing character: There is no o in font nullfont!
 Missing character: There is no f in font nullfont!
 ! Undefined control sequence.
-l.253 ...h obtains the partial dependence of \code
+l.254 ...h obtains the partial dependence of \code
                                                   {ozone} on \code{wind}, \c...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -18371,7 +18371,7 @@ Missing character: There is no e in font nullfont!
 Missing character: There is no o in font nullfont!
 Missing character: There is no n in font nullfont!
 ! Undefined control sequence.
-l.253 ...rtial dependence of \code{ozone} on \code
+l.254 ...rtial dependence of \code{ozone} on \code
                                                   {wind}, \code{temp}, and \...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -18385,7 +18385,7 @@ Missing character: There is no n in font nullfont!
 Missing character: There is no d in font nullfont!
 Missing character: There is no , in font nullfont!
 ! Undefined control sequence.
-l.253 ...nce of \code{ozone} on \code{wind}, \code
+l.254 ...nce of \code{ozone} on \code{wind}, \code
                                                   {temp}, and \code{dpg} in ...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -18402,7 +18402,7 @@ Missing character: There is no a in font nullfont!
 Missing character: There is no n in font nullfont!
 Missing character: There is no d in font nullfont!
 ! Undefined control sequence.
-l.253 ...e} on \code{wind}, \code{temp}, and \code
+l.254 ...e} on \code{wind}, \code{temp}, and \code
                                                   {dpg} in parallel. The res...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -18455,7 +18455,7 @@ Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
 <write> ...nce `fig:partial_par' on page \thepage 
                                                   \space undefined\on@line .
-l.253 ...displayed in Figure~\ref{fig:partial_par}
+l.254 ...displayed in Figure~\ref{fig:partial_par}
                                                   .
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -18464,7 +18464,7 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-LaTeX Warning: Reference `fig:partial_par' on page  undefined on input line 253
+LaTeX Warning: Reference `fig:partial_par' on page  undefined on input line 254
 .
 
 Missing character: There is no . in font nullfont!
@@ -18475,7 +18475,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.254 \begin{example}
+l.255 \begin{example}
                      
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -18576,19 +18576,19 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.257 \end{example}
+l.258 \end{example}
                    
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 253--258
+Overfull \hbox (20.0pt too wide) in paragraph at lines 254--259
 []
  []
 
 
-Overfull \hbox (10.86105pt too wide) in paragraph at lines 253--258
+Overfull \hbox (10.86105pt too wide) in paragraph at lines 254--259
 []
  []
 
@@ -18599,7 +18599,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.259 \begin{figure}
+l.260 \begin{figure}
                     [htbp]
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -18612,7 +18612,7 @@ Missing character: There is no b in font nullfont!
 Missing character: There is no p in font nullfont!
 Missing character: There is no ] in font nullfont!
 ! Undefined control sequence.
-l.261   \includegraphics
+l.262   \includegraphics
                         [width=0.8\linewidth]{partial_par}
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -18633,7 +18633,7 @@ Missing character: There is no 8 in font nullfont!
 ! Missing number, treated as zero.
 <to be read again> 
                    ]
-l.261   \includegraphics[width=0.8\linewidth]
+l.262   \includegraphics[width=0.8\linewidth]
                                              {partial_par}
 A number should have been here; I inserted `0'.
 (If you can't figure out why I needed to see a number,
@@ -18642,7 +18642,7 @@ look up `weird error' in the index to The TeXbook.)
 ! Illegal unit of measure (pt inserted).
 <to be read again> 
                    ]
-l.261   \includegraphics[width=0.8\linewidth]
+l.262   \includegraphics[width=0.8\linewidth]
                                              {partial_par}
 Dimensions can be in units of em, ex, in, pt, pc,
 cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
@@ -18662,13 +18662,13 @@ Missing character: There is no l in font nullfont!
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.261 ...udegraphics[width=0.8\linewidth]{partial_
+l.262 ...udegraphics[width=0.8\linewidth]{partial_
                                                   par}
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 ! Extra }, or forgotten $.
-l.261 ...raphics[width=0.8\linewidth]{partial_par}
+l.262 ...raphics[width=0.8\linewidth]{partial_par}
                                                   
 I've deleted a group-closing symbol because it seems to be
 spurious, as in `$x}$'. But perhaps the } is legitimate and
@@ -18683,14 +18683,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.262   \caption
+l.263   \caption
                 {Partial dependence of \code{ozone} on \code{wind}, \code{te...
 
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 ! Undefined control sequence.
-l.262   \caption{Partial dependence of \code
+l.263   \caption{Partial dependence of \code
                                             {ozone} on \code{wind}, \code{te...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -18699,7 +18699,7 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 ! Undefined control sequence.
-l.262 ...rtial dependence of \code{ozone} on \code
+l.263 ...rtial dependence of \code{ozone} on \code
                                                   {wind}, \code{temp}, and \...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -18708,7 +18708,7 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 ! Undefined control sequence.
-l.262 ...nce of \code{ozone} on \code{wind}, \code
+l.263 ...nce of \code{ozone} on \code{wind}, \code
                                                   {temp}, and \code{dpg}. Si...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -18717,7 +18717,7 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 ! Undefined control sequence.
-l.262 ...e} on \code{wind}, \code{temp}, and \code
+l.263 ...e} on \code{wind}, \code{temp}, and \code
                                                   {dpg}. Since \code{dpg} is...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -18726,7 +18726,7 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 ! Undefined control sequence.
-l.262 ... \code{temp}, and \code{dpg}. Since \code
+l.263 ... \code{temp}, and \code{dpg}. Since \code
                                                   {dpg} is contiuous, it is ...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -18741,7 +18741,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.264 \end{figure}
+l.265 \end{figure}
                   
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -18750,7 +18750,7 @@ or  <return>  to continue without it.
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.264 \end{figure}
+l.265 \end{figure}
                   
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -18761,7 +18761,7 @@ my insertion and my current dilemma will both disappear.
 ! Missing } inserted.
 <inserted text> 
                 }
-l.264 \end{figure}
+l.265 \end{figure}
                   
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -18770,12 +18770,12 @@ really didn't forget anything, try typing `2' now; then
 my insertion and my current dilemma will both disappear.
 
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 259--265
+Overfull \hbox (20.0pt too wide) in paragraph at lines 260--266
 []
  []
 
 
-Overfull \hbox (637.89337pt too wide) in paragraph at lines 259--265
+Overfull \hbox (637.89337pt too wide) in paragraph at lines 260--266
 []\OML/cmm/m/it/10 ar[][]$ 
  []
 
@@ -18842,7 +18842,7 @@ Missing character: There is no e in font nullfont!
 Missing character: There is no s in font nullfont!
 Missing character: There is no , in font nullfont!
 ! Undefined control sequence.
-l.266 ... more than two predictor variables, \code
+l.267 ... more than two predictor variables, \code
                                                   {plotPartial} produces a t...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -18913,7 +18913,7 @@ Missing character: There is no n in font nullfont!
 Missing character: There is no t in font nullfont!
 Missing character: There is no o in font nullfont!
 ! Undefined control sequence.
-l.266 ...y. The first two variables given to \code
+l.267 ...y. The first two variables given to \code
                                                   {pred.var} are used for th...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -19054,7 +19054,7 @@ Missing character: There is no s in font nullfont!
 ! Undefined control sequence.
 \@footnotetext ...tins {\reset@font \footnotesize 
                                                   \interlinepenalty \interfo...
-l.266 ...The intervals may be allowed to overlap.}
+l.267 ...The intervals may be allowed to overlap.}
                                                    are produced first using ...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -19065,7 +19065,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 \@footnotetext ...}\color@begingroup \@makefntext 
                                                   {\rule \z@ \footnotesep \i...
-l.266 ...The intervals may be allowed to overlap.}
+l.267 ...The intervals may be allowed to overlap.}
                                                    are produced first using ...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -19074,237 +19074,237 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Overfull \hbox (7.50002pt too wide) in paragraph at lines 266--266
+Overfull \hbox (7.50002pt too wide) in paragraph at lines 267--267
 [][]\OT1/cmr/m/n/10 A
  []
 
 
-Overfull \hbox (21.1667pt too wide) in paragraph at lines 266--266
+Overfull \hbox (21.1667pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 shin-
  []
 
 
-Overfull \hbox (12.22224pt too wide) in paragraph at lines 266--266
+Overfull \hbox (12.22224pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 gle
  []
 
 
-Overfull \hbox (6.72223pt too wide) in paragraph at lines 266--266
+Overfull \hbox (6.72223pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 is
  []
 
 
-Overfull \hbox (5.00002pt too wide) in paragraph at lines 266--266
+Overfull \hbox (5.00002pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 a
  []
 
 
-Overfull \hbox (17.55557pt too wide) in paragraph at lines 266--266
+Overfull \hbox (17.55557pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 spe-
  []
 
 
-Overfull \hbox (15.00003pt too wide) in paragraph at lines 266--266
+Overfull \hbox (15.00003pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 cial
  []
 
 
-Overfull \hbox (20.86111pt too wide) in paragraph at lines 266--266
+Overfull \hbox (20.86111pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 Trel-
  []
 
 
-Overfull \hbox (9.50002pt too wide) in paragraph at lines 266--266
+Overfull \hbox (9.50002pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 lis
  []
 
 
-Overfull \hbox (19.4445pt too wide) in paragraph at lines 266--266
+Overfull \hbox (19.4445pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 data
  []
 
 
-Overfull \hbox (25.08336pt too wide) in paragraph at lines 266--266
+Overfull \hbox (25.08336pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 struc-
  []
 
 
-Overfull \hbox (17.80559pt too wide) in paragraph at lines 266--266
+Overfull \hbox (17.80559pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 ture
  []
 
 
-Overfull \hbox (18.33339pt too wide) in paragraph at lines 266--266
+Overfull \hbox (18.33339pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 that
  []
 
 
-Overfull \hbox (18.33336pt too wide) in paragraph at lines 266--266
+Overfull \hbox (18.33336pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 con-
  []
 
 
-Overfull \hbox (18.50002pt too wide) in paragraph at lines 266--266
+Overfull \hbox (18.50002pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 sists
  []
 
 
-Overfull \hbox (8.05559pt too wide) in paragraph at lines 266--266
+Overfull \hbox (8.05559pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 of
  []
 
 
-Overfull \hbox (5.00002pt too wide) in paragraph at lines 266--266
+Overfull \hbox (5.00002pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 a
  []
 
 
-Overfull \hbox (14.16669pt too wide) in paragraph at lines 266--266
+Overfull \hbox (14.16669pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 nu-
  []
 
 
-Overfull \hbox (23.9167pt too wide) in paragraph at lines 266--266
+Overfull \hbox (23.9167pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 meric
  []
 
 
-Overfull \hbox (17.22223pt too wide) in paragraph at lines 266--266
+Overfull \hbox (17.22223pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 vec-
  []
 
 
-Overfull \hbox (12.80559pt too wide) in paragraph at lines 266--266
+Overfull \hbox (12.80559pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 tor
  []
 
 
-Overfull \hbox (23.3334pt too wide) in paragraph at lines 266--266
+Overfull \hbox (23.3334pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 along
  []
 
 
-Overfull \hbox (19.44449pt too wide) in paragraph at lines 266--266
+Overfull \hbox (19.44449pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 with
  []
 
 
-Overfull \hbox (11.66669pt too wide) in paragraph at lines 266--266
+Overfull \hbox (11.66669pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 in-
  []
 
 
-Overfull \hbox (15.58334pt too wide) in paragraph at lines 266--266
+Overfull \hbox (15.58334pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 ter-
  []
 
 
-Overfull \hbox (16.44449pt too wide) in paragraph at lines 266--266
+Overfull \hbox (16.44449pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 vals
  []
 
 
-Overfull \hbox (18.33339pt too wide) in paragraph at lines 266--266
+Overfull \hbox (18.33339pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 that
  []
 
 
-Overfull \hbox (13.33334pt too wide) in paragraph at lines 266--266
+Overfull \hbox (13.33334pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 de-
  []
 
 
-Overfull \hbox (15.55559pt too wide) in paragraph at lines 266--266
+Overfull \hbox (15.55559pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 fine
  []
 
 
-Overfull \hbox (13.88892pt too wide) in paragraph at lines 266--266
+Overfull \hbox (13.88892pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 the
  []
 
 
-Overfull \hbox (20.83337pt too wide) in paragraph at lines 266--266
+Overfull \hbox (20.83337pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 "lev-
  []
 
 
-Overfull \hbox (16.16669pt too wide) in paragraph at lines 266--266
+Overfull \hbox (16.16669pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 els"
  []
 
 
-Overfull \hbox (8.05559pt too wide) in paragraph at lines 266--266
+Overfull \hbox (8.05559pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 of
  []
 
 
-Overfull \hbox (13.88892pt too wide) in paragraph at lines 266--266
+Overfull \hbox (13.88892pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 the
  []
 
 
-Overfull \hbox (21.1667pt too wide) in paragraph at lines 266--266
+Overfull \hbox (21.1667pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 shin-
  []
 
 
-Overfull \hbox (15.00003pt too wide) in paragraph at lines 266--266
+Overfull \hbox (15.00003pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 gle.
  []
 
 
-Overfull \hbox (17.22224pt too wide) in paragraph at lines 266--266
+Overfull \hbox (17.22224pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 The
  []
 
 
-Overfull \hbox (11.66669pt too wide) in paragraph at lines 266--266
+Overfull \hbox (11.66669pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 in-
  []
 
 
-Overfull \hbox (15.58334pt too wide) in paragraph at lines 266--266
+Overfull \hbox (15.58334pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 ter-
  []
 
 
-Overfull \hbox (16.44449pt too wide) in paragraph at lines 266--266
+Overfull \hbox (16.44449pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 vals
  []
 
 
-Overfull \hbox (18.33339pt too wide) in paragraph at lines 266--266
+Overfull \hbox (18.33339pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 may
  []
 
 
-Overfull \hbox (10.2778pt too wide) in paragraph at lines 266--266
+Overfull \hbox (10.2778pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 be
  []
 
 
-Overfull \hbox (11.11113pt too wide) in paragraph at lines 266--266
+Overfull \hbox (11.11113pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 al-
  []
 
 
-Overfull \hbox (24.44447pt too wide) in paragraph at lines 266--266
+Overfull \hbox (24.44447pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 lowed
  []
 
 
-Overfull \hbox (8.88892pt too wide) in paragraph at lines 266--266
+Overfull \hbox (8.88892pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 to
  []
 
 
-Overfull \hbox (21.41669pt too wide) in paragraph at lines 266--266
+Overfull \hbox (21.41669pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 over-
  []
 
 
-Overfull \hbox (16.11116pt too wide) in paragraph at lines 266--266
+Overfull \hbox (16.11116pt too wide) in paragraph at lines 267--267
 \OT1/cmr/m/n/10 lap.| 
  []
 
@@ -19368,7 +19368,7 @@ Missing character: There is no l in font nullfont!
 Missing character: There is no e in font nullfont!
 Missing character: There is no , in font nullfont!
 ! Undefined control sequence.
-l.266 ... count algorithm (see, for example, \code
+l.267 ... count algorithm (see, for example, \code
                                                   {?lattice::equal.count}). ...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -19536,17 +19536,17 @@ Missing character: There is no l in font nullfont!
 Missing character: There is no e in font nullfont!
 Missing character: There is no . in font nullfont!
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 266--267
+Overfull \hbox (20.0pt too wide) in paragraph at lines 267--268
 []
  []
 
 
-Overfull \hbox (4.48613pt too wide) in paragraph at lines 266--267
+Overfull \hbox (4.48613pt too wide) in paragraph at lines 267--268
 []
  []
 
 ! Undefined control sequence.
-l.269 \subsection
+l.270 \subsection
                  {Classification problems}
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -19577,7 +19577,7 @@ Missing character: There is no e in font nullfont!
 Missing character: There is no m in font nullfont!
 Missing character: There is no s in font nullfont!
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 269--270
+Overfull \hbox (20.0pt too wide) in paragraph at lines 270--271
 []
  []
 
@@ -19678,7 +19678,7 @@ Missing character: There is no l in font nullfont!
 Missing character: There is no e in font nullfont!
 Missing character: There is no , in font nullfont!
 ! Undefined control sequence.
-l.271 ...ar to the logit; see, for example, \citet
+l.272 ...ar to the logit; see, for example, \citet
                                                   [pp. 369--370]{hastie-elem...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -19788,17 +19788,17 @@ Missing character: There is no u in font nullfont!
 Missing character: There is no t in font nullfont!
 Missing character: There is no e in font nullfont!
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 271--272
+Overfull \hbox (20.0pt too wide) in paragraph at lines 272--273
 []
  []
 
 
-Overfull \hbox (9.20833pt too wide) in paragraph at lines 271--272
+Overfull \hbox (9.20833pt too wide) in paragraph at lines 272--273
 \OML/cmm/m/it/10 K$
  []
 
 
-Overfull \hbox (234.03508pt too wide) detected at line 275
+Overfull \hbox (234.03508pt too wide) detected at line 276
 []\OML/cmm/m/it/10 f[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 ) = []
  [] \OMS/cmsy/m/n/10 ^^@ [] [] [] [] \OML/cmm/m/it/10 ;  k \OT1/cmr/m/n/10 = 1\
 OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 2\OML/cmm/m/it/10 ; [] ; K;
@@ -19812,7 +19812,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.275 \end{equation}
+l.276 \end{equation}
                     
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -19822,7 +19822,7 @@ or  <return>  to continue without it.
 ! Undefined control sequence.
 <write> \newlabel{eqn:avg_fun}{{1}{\thepage 
                                             }}
-l.275 \end{equation}
+l.276 \end{equation}
                     
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -19834,7 +19834,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 <write> \newlabel{eqn:pdf}{{2}{\thepage 
                                         }}
-l.275 \end{equation}
+l.276 \end{equation}
                     
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -19846,7 +19846,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 <write> \newlabel{tab:models}{{}{\thepage 
                                           }}
-l.275 \end{equation}
+l.276 \end{equation}
                     
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -19858,7 +19858,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 <write> ...bel{fig:plotmo_vs_partial}{{}{\thepage 
                                                   }}
-l.275 \end{equation}
+l.276 \end{equation}
                     
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -19868,9 +19868,21 @@ and I'll forget about whatever was undefined.
 
 \newlabel{fig:plotmo_vs_partial}{{}{}}
 ! Undefined control sequence.
+<write> \newlabel{sec:pdp_single}{{}{\thepage 
+                                              }}
+l.276 \end{equation}
+                    
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+\newlabel{sec:pdp_single}{{}{}}
+! Undefined control sequence.
 <write> \newlabel{fig:pd_lstat}{{}{\thepage 
                                             }}
-l.275 \end{equation}
+l.276 \end{equation}
                     
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -19882,7 +19894,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 <write> \newlabel{fig:pd_lstat_rm}{{}{\thepage 
                                                }}
-l.275 \end{equation}
+l.276 \end{equation}
                     
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -19894,7 +19906,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 <write> \newlabel{fig:partial_extrap}{{}{\thepage 
                                                   }}
-l.275 \end{equation}
+l.276 \end{equation}
                     
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -19906,7 +19918,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 <write> \newlabel{fig:partial_manual}{{}{\thepage 
                                                   }}
-l.275 \end{equation}
+l.276 \end{equation}
                     
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -19918,7 +19930,7 @@ and I'll forget about whatever was undefined.
 ! Undefined control sequence.
 <write> \newlabel{fig:partial_par}{{}{\thepage 
                                                }}
-l.275 \end{equation}
+l.276 \end{equation}
                     
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -20076,22 +20088,22 @@ Missing character: There is no e in font nullfont!
 Missing character: There is no s in font nullfont!
 Missing character: There is no . in font nullfont!
 
-Overfull \hbox (23.44449pt too wide) in paragraph at lines 275--277
+Overfull \hbox (23.44449pt too wide) in paragraph at lines 276--278
  $\OML/cmm/m/it/10 p[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 )$
  []
 
 
-Overfull \hbox (5.52084pt too wide) in paragraph at lines 275--277
+Overfull \hbox (5.52084pt too wide) in paragraph at lines 276--278
 \OML/cmm/m/it/10 k$
  []
 
 
-Overfull \hbox (23.3091pt too wide) in paragraph at lines 275--277
+Overfull \hbox (23.3091pt too wide) in paragraph at lines 276--278
 \OML/cmm/m/it/10 f[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 )$
  []
 
 
-Overfull \hbox (5.52084pt too wide) in paragraph at lines 275--277
+Overfull \hbox (5.52084pt too wide) in paragraph at lines 276--278
 \OML/cmm/m/it/10 k$
  []
 
@@ -20147,7 +20159,7 @@ Missing character: There is no t in font nullfont!
 Missing character: There is no h in font nullfont!
 Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
-l.278 ... Edgar Anderson's iris data from the \pkg
+l.279 ... Edgar Anderson's iris data from the \pkg
                                                   {datasets} package. The \c...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -20175,7 +20187,7 @@ Missing character: There is no T in font nullfont!
 Missing character: There is no h in font nullfont!
 Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
-l.278 ...rom the \pkg{datasets} package. The \code
+l.279 ...rom the \pkg{datasets} package. The \code
                                                   {iris} data frame contains...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -20424,7 +20436,7 @@ Missing character: There is no t in font nullfont!
 Missing character: There is no h in font nullfont!
 Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
-l.278 ...nction kernel to the data using the \code
+l.279 ...nction kernel to the data using the \code
                                                   {svm} function in the \pkg...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -20449,7 +20461,7 @@ Missing character: There is no t in font nullfont!
 Missing character: There is no h in font nullfont!
 Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
-l.278 ...using the \code{svm} function in the \pkg
+l.279 ...using the \code{svm} function in the \pkg
                                                   {e1071} (the model paramet...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -20531,7 +20543,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.279 \begin{example}
+l.280 \begin{example}
                      
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -20645,14 +20657,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.283 \end{example}
+l.284 \end{example}
                    
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 ! Undefined control sequence.
-l.284 \strong
+l.285 \strong
              {Note:} the \code{partial} function has to be able to extract t...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -20669,7 +20681,7 @@ Missing character: There is no t in font nullfont!
 Missing character: There is no h in font nullfont!
 Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
-l.284 \strong{Note:} the \code
+l.285 \strong{Note:} the \code
                               {partial} function has to be able to extract t...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -20774,7 +20786,7 @@ Missing character: There is no t in font nullfont!
 Missing character: There is no h in font nullfont!
 Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
-l.284 ...lass, so it is necessary to set the \code
+l.285 ...lass, so it is necessary to set the \code
                                                   {probability = TRUE} optio...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -20816,7 +20828,7 @@ Missing character: There is no l in font nullfont!
 Missing character: There is no t in font nullfont!
 Missing character: There is no o in font nullfont!
 ! Undefined control sequence.
-l.284 ...ility = TRUE} option in the call to \code
+l.285 ...ility = TRUE} option in the call to \code
                                                   {svm}.
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -20829,7 +20841,7 @@ Missing character: There is no v in font nullfont!
 Missing character: There is no m in font nullfont!
 Missing character: There is no . in font nullfont!
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 278--285
+Overfull \hbox (20.0pt too wide) in paragraph at lines 279--286
 []
  []
 
@@ -20867,7 +20879,7 @@ Missing character: There is no e in font nullfont!
 Missing character: There is no o in font nullfont!
 Missing character: There is no f in font nullfont!
 ! Undefined control sequence.
-l.286 ..., we plot the partial dependence of \code
+l.287 ..., we plot the partial dependence of \code
                                                   {Species} on both \code{Pe...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -20889,7 +20901,7 @@ Missing character: There is no o in font nullfont!
 Missing character: There is no t in font nullfont!
 Missing character: There is no h in font nullfont!
 ! Undefined control sequence.
-l.286 ...ependence of \code{Species} on both \code
+l.287 ...ependence of \code{Species} on both \code
                                                   {Petal.Width} and \code{Pe...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -20912,7 +20924,7 @@ Missing character: There is no a in font nullfont!
 Missing character: There is no n in font nullfont!
 Missing character: There is no d in font nullfont!
 ! Undefined control sequence.
-l.286 ...ies} on both \code{Petal.Width} and \code
+l.287 ...ies} on both \code{Petal.Width} and \code
                                                   {Petal.Length} for each of...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -20988,7 +21000,7 @@ Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
 <write> ...ce `fig:partial_iris' on page \thepage 
                                                   \space undefined\on@line .
-l.286 ...isplayed in Figure~\ref{fig:partial_iris}
+l.287 ...isplayed in Figure~\ref{fig:partial_iris}
                                                   . Note that we had to supp...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -20998,7 +21010,7 @@ and I'll forget about whatever was undefined.
 
 
 LaTeX Warning: Reference `fig:partial_iris' on page  undefined on input line 28
-6.
+7.
 
 Missing character: There is no . in font nullfont!
 Missing character: There is no N in font nullfont!
@@ -21048,7 +21060,7 @@ Missing character: There is no a in font nullfont!
 Missing character: There is no t in font nullfont!
 Missing character: There is no o in font nullfont!
 ! Undefined control sequence.
-l.286 ...upply the original training data to \code
+l.287 ...upply the original training data to \code
                                                   {partial} through the \cod...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -21074,7 +21086,7 @@ Missing character: There is no t in font nullfont!
 Missing character: There is no h in font nullfont!
 Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
-l.286 ... data to \code{partial} through the \code
+l.287 ... data to \code{partial} through the \code
                                                   {train} option. This is ne...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -21231,7 +21243,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.287 \begin{example}
+l.288 \begin{example}
                      
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -21413,7 +21425,7 @@ Missing character: There is no r in font nullfont!
 Missing character: There is no i in font nullfont!
 Missing character: There is no s in font nullfont!
 ! Extra }, or forgotten $.
-l.294 }
+l.295 }
        
 I've deleted a group-closing symbol because it seems to be
 spurious, as in `$x}$'. But perhaps the } is legitimate and
@@ -21428,7 +21440,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.296 \end{example}
+l.297 \end{example}
                    
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -21437,7 +21449,7 @@ or  <return>  to continue without it.
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.296 \end{example}
+l.297 \end{example}
                    
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -21448,7 +21460,7 @@ my insertion and my current dilemma will both disappear.
 ! Missing } inserted.
 <inserted text> 
                 }
-l.296 \end{example}
+l.297 \end{example}
                    
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -21457,35 +21469,35 @@ really didn't forget anything, try typing `2' now; then
 my insertion and my current dilemma will both disappear.
 
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 286--297
+Overfull \hbox (20.0pt too wide) in paragraph at lines 287--298
 []
  []
 
 
-Overfull \hbox (10.86105pt too wide) in paragraph at lines 286--297
+Overfull \hbox (10.86105pt too wide) in paragraph at lines 287--298
 []
  []
 
 
-Overfull \hbox (90.63062pt too wide) in paragraph at lines 286--297
+Overfull \hbox (90.63062pt too wide) in paragraph at lines 287--298
 \OML/cmm/m/it/10 Species\OT1/cmr/m/n/10 )[\OML/cmm/m/it/10 i\OT1/cmr/m/n/10 ]))
 \OML/cmm/m/it/10 lattice \OT1/cmr/m/n/10 ::
  []
 
 
-Overfull \hbox (107.87706pt too wide) in paragraph at lines 286--297
+Overfull \hbox (107.87706pt too wide) in paragraph at lines 287--298
 \OML/cmm/m/it/10 levelplot\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 y []Petal:Width \OM
 S/cmsy/m/n/10 ^^C
  []
 
 
-Overfull \hbox (129.96376pt too wide) in paragraph at lines 286--297
+Overfull \hbox (129.96376pt too wide) in paragraph at lines 287--298
 \OML/cmm/m/it/10 Petal:Length\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 Species; data \
 OT1/cmr/m/n/10 =
  []
 
 
-Overfull \hbox (14.12502pt too wide) in paragraph at lines 286--297
+Overfull \hbox (14.12502pt too wide) in paragraph at lines 287--298
 \OML/cmm/m/it/10 pd\OT1/cmr/m/n/10 )$ 
  []
 
@@ -21496,7 +21508,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.298 \begin{figure}
+l.299 \begin{figure}
                     [htbp]
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -21509,7 +21521,7 @@ Missing character: There is no b in font nullfont!
 Missing character: There is no p in font nullfont!
 Missing character: There is no ] in font nullfont!
 ! Undefined control sequence.
-l.300   \includegraphics
+l.301   \includegraphics
                         [width=1.0\linewidth]{partial_iris_svm}
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -21530,7 +21542,7 @@ Missing character: There is no 0 in font nullfont!
 ! Missing number, treated as zero.
 <to be read again> 
                    ]
-l.300   \includegraphics[width=1.0\linewidth]
+l.301   \includegraphics[width=1.0\linewidth]
                                              {partial_iris_svm}
 A number should have been here; I inserted `0'.
 (If you can't figure out why I needed to see a number,
@@ -21539,7 +21551,7 @@ look up `weird error' in the index to The TeXbook.)
 ! Illegal unit of measure (pt inserted).
 <to be read again> 
                    ]
-l.300   \includegraphics[width=1.0\linewidth]
+l.301   \includegraphics[width=1.0\linewidth]
                                              {partial_iris_svm}
 Dimensions can be in units of em, ex, in, pt, pc,
 cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
@@ -21559,13 +21571,13 @@ Missing character: There is no l in font nullfont!
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.300 ...udegraphics[width=1.0\linewidth]{partial_
+l.301 ...udegraphics[width=1.0\linewidth]{partial_
                                                   iris_svm}
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 ! Extra }, or forgotten $.
-l.300 ...cs[width=1.0\linewidth]{partial_iris_svm}
+l.301 ...cs[width=1.0\linewidth]{partial_iris_svm}
                                                   
 I've deleted a group-closing symbol because it seems to be
 spurious, as in `$x}$'. But perhaps the } is legitimate and
@@ -21580,7 +21592,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.301   \caption
+l.302   \caption
                 {Partial dependence of species on petal width and petal leng...
 
 You're in trouble here.  Try typing  <return>  to proceed.
@@ -21593,7 +21605,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.303 \end{figure}
+l.304 \end{figure}
                   
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -21602,7 +21614,7 @@ or  <return>  to continue without it.
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.303 \end{figure}
+l.304 \end{figure}
                   
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -21613,7 +21625,7 @@ my insertion and my current dilemma will both disappear.
 ! Missing } inserted.
 <inserted text> 
                 }
-l.303 \end{figure}
+l.304 \end{figure}
                   
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -21622,17 +21634,17 @@ really didn't forget anything, try typing `2' now; then
 my insertion and my current dilemma will both disappear.
 
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 298--304
+Overfull \hbox (20.0pt too wide) in paragraph at lines 299--305
 []
  []
 
 
-Overfull \hbox (353.46265pt too wide) in paragraph at lines 298--304
+Overfull \hbox (353.46265pt too wide) in paragraph at lines 299--305
 []\OML/cmm/m/it/10 ris[]vm[][]$ 
  []
 
 ! Undefined control sequence.
-l.309 \subsection
+l.310 \subsection
                  {Using partial with the XGBoost library}
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -21674,7 +21686,7 @@ Missing character: There is no a in font nullfont!
 Missing character: There is no r in font nullfont!
 Missing character: There is no y in font nullfont!
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 309--311
+Overfull \hbox (20.0pt too wide) in paragraph at lines 310--312
 []
  []
 
@@ -21868,7 +21880,7 @@ Missing character: There is no a in font nullfont!
 Missing character: There is no g in font nullfont!
 Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
-l.312 ...d portable. The associated R package \pkg
+l.313 ...d portable. The associated R package \pkg
                                                   {xgboost} has been used to...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -21909,7 +21921,7 @@ Missing character: There is no r in font nullfont!
 Missing character: There is no o in font nullfont!
 Missing character: There is no f in font nullfont!
 ! Undefined control sequence.
-l.312 ...t} has been used to win a number of \href
+l.313 ...t} has been used to win a number of \href
                                                   {https://www.kaggle.com/}{...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -22009,7 +22021,7 @@ Missing character: There is no o in font nullfont!
 Missing character: There is no w in font nullfont!
 Missing character: There is no n in font nullfont!
 ! Undefined control sequence.
-l.312 ...any times faster than the well known \pkg
+l.313 ...any times faster than the well known \pkg
                                                   {gbm} package. However, un...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -22043,7 +22055,7 @@ Missing character: There is no i in font nullfont!
 Missing character: There is no k in font nullfont!
 Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
-l.312 ...n \pkg{gbm} package. However, unlike \pkg
+l.313 ...n \pkg{gbm} package. However, unlike \pkg
                                                   {gbm}, \pkg{xgboost} does ...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -22056,7 +22068,7 @@ Missing character: There is no b in font nullfont!
 Missing character: There is no m in font nullfont!
 Missing character: There is no , in font nullfont!
 ! Undefined control sequence.
-l.312 ... package. However, unlike \pkg{gbm}, \pkg
+l.313 ... package. However, unlike \pkg{gbm}, \pkg
                                                   {xgboost} does not have bu...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -22133,7 +22145,7 @@ Missing character: There is no t in font nullfont!
 Missing character: There is no h in font nullfont!
 Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
-l.312 ...or displaying PDPs. Fortunately, the \pkg
+l.313 ...or displaying PDPs. Fortunately, the \pkg
                                                   {pdp} package can be used ...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -22175,7 +22187,7 @@ Missing character: There is no a in font nullfont!
 Missing character: There is no p in font nullfont!
 Missing character: There is no . in font nullfont!
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 312--313
+Overfull \hbox (20.0pt too wide) in paragraph at lines 313--314
 []
  []
 
@@ -22229,19 +22241,20 @@ Missing character: There is no . in font nullfont!
 Missing character: There is no T in font nullfont!
 Missing character: There is no h in font nullfont!
 Missing character: There is no e in font nullfont!
+Missing character: There is no c in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no d in font nullfont!
 Missing character: There is no e in font nullfont!
-Missing character: There is no x in font nullfont!
-Missing character: There is no a in font nullfont!
-Missing character: There is no m in font nullfont!
-Missing character: There is no p in font nullfont!
-Missing character: There is no l in font nullfont!
-Missing character: There is no e in font nullfont!
+Missing character: There is no c in font nullfont!
+Missing character: There is no h in font nullfont!
+Missing character: There is no u in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no k in font nullfont!
 Missing character: There is no b in font nullfont!
 Missing character: There is no e in font nullfont!
 Missing character: There is no l in font nullfont!
 Missing character: There is no o in font nullfont!
 Missing character: There is no w in font nullfont!
-Missing character: There is no , in font nullfont!
 Missing character: There is no f in font nullfont!
 Missing character: There is no i in font nullfont!
 Missing character: There is no t in font nullfont!
@@ -22249,8 +22262,8 @@ Missing character: There is no s in font nullfont!
 Missing character: There is no a in font nullfont!
 Missing character: There is no n in font nullfont!
 ! Undefined control sequence.
-l.314 ...ing data. The example below, fits an \pkg
-                                                  {xgboost} model; the tunin...
+l.315 ...g data. The code chunk below fits an \pkg
+                                                  {xgboost} model to the \co...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
 misspelled it (e.g., `\hobx'), type `I' and the correct
@@ -22269,6 +22282,61 @@ Missing character: There is no o in font nullfont!
 Missing character: There is no d in font nullfont!
 Missing character: There is no e in font nullfont!
 Missing character: There is no l in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no h in font nullfont!
+Missing character: There is no e in font nullfont!
+! Undefined control sequence.
+l.315 ... fits an \pkg{xgboost} model to the \code
+                                                  {boston} data frame from S...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+Missing character: There is no b in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no f in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no m in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no f in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no m in font nullfont!
+Missing character: There is no S in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no c in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no n in font nullfont!
+! Undefined control sequence.
+<write> ...ence `sec:pdp_single' on page \thepage 
+                                                  \space undefined\on@line .
+l.315 ...a frame from Section~\ref{sec:pdp_single}
+                                                  ; the tuning parameters we...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+LaTeX Warning: Reference `sec:pdp_single' on page  undefined on input line 315.
+
+
 Missing character: There is no ; in font nullfont!
 Missing character: There is no t in font nullfont!
 Missing character: There is no h in font nullfont!
@@ -22373,7 +22441,7 @@ Missing character: There is no n in font nullfont!
 Missing character: There is no o in font nullfont!
 Missing character: There is no f in font nullfont!
 ! Undefined control sequence.
-l.314 ... you are using the latest version of \pkg
+l.315 ... you are using the latest version of \pkg
                                                   {xgboost}: \url{https://gi...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -22390,7 +22458,7 @@ Missing character: There is no s in font nullfont!
 Missing character: There is no t in font nullfont!
 Missing character: There is no : in font nullfont!
 ! Undefined control sequence.
-l.314 ...the latest version of \pkg{xgboost}: \url
+l.315 ...the latest version of \pkg{xgboost}: \url
                                                   {https://github.com/dmlc/x...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -22460,7 +22528,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.315 \begin{example}
+l.316 \begin{example}
                      
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -22565,7 +22633,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.320 \end{example}
+l.321 \end{example}
                    
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -22574,7 +22642,7 @@ or  <return>  to continue without it.
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.320 \end{example}
+l.321 \end{example}
                    
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -22583,38 +22651,43 @@ really didn't forget anything, try typing `2' now; then
 my insertion and my current dilemma will both disappear.
 
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 314--321
+Overfull \hbox (20.0pt too wide) in paragraph at lines 315--322
 []
  []
 
 
-Overfull \hbox (82.90648pt too wide) in paragraph at lines 314--321
+Overfull \hbox (10.86105pt too wide) in paragraph at lines 315--322
+[]
+ []
+
+
+Overfull \hbox (82.90648pt too wide) in paragraph at lines 315--322
 \OML/cmm/m/it/10 cmedv; objective \OT1/cmr/m/n/10 =
  []
 
 
-Overfull \hbox (25.12961pt too wide) in paragraph at lines 314--321
+Overfull \hbox (25.12961pt too wide) in paragraph at lines 315--322
 \OT1/cmr/m/n/10 "\OML/cmm/m/it/10 reg \OT1/cmr/m/n/10 :
  []
 
 
-Overfull \hbox (84.61775pt too wide) in paragraph at lines 314--321
+Overfull \hbox (84.61775pt too wide) in paragraph at lines 315--322
 \OML/cmm/m/it/10 linear\OT1/cmr/m/n/10 "\OML/cmm/m/it/10 ; nrounds \OT1/cmr/m/n
 /10 =
  []
 
 
-Overfull \hbox (78.50436pt too wide) in paragraph at lines 314--321
+Overfull \hbox (78.50436pt too wide) in paragraph at lines 315--322
 \OT1/cmr/m/n/10 2000\OML/cmm/m/it/10 ; max[]epth \OT1/cmr/m/n/10 =
  []
 
 
-Overfull \hbox (33.5532pt too wide) in paragraph at lines 314--321
+Overfull \hbox (33.5532pt too wide) in paragraph at lines 315--322
 \OT1/cmr/m/n/10 3\OML/cmm/m/it/10 ; eta \OT1/cmr/m/n/10 =
  []
 
 
-Overfull \hbox (21.66673pt too wide) in paragraph at lines 314--321
+Overfull \hbox (21.66673pt too wide) in paragraph at lines 315--322
 \OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 01)$ 
  []
 
@@ -22624,7 +22697,7 @@ Missing character: There is no u in font nullfont!
 Missing character: There is no s in font nullfont!
 Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
-l.322 To use \code
+l.323 To use \code
                   {partial} with the \code{"xgb.Booster"} class, we need to ...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -22647,7 +22720,7 @@ Missing character: There is no t in font nullfont!
 Missing character: There is no h in font nullfont!
 Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
-l.322 To use \code{partial} with the \code
+l.323 To use \code{partial} with the \code
                                           {"xgb.Booster"} class, we need to ...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -22742,7 +22815,7 @@ Missing character: There is no l in font nullfont!
 Missing character: There is no t in font nullfont!
 Missing character: There is no o in font nullfont!
 ! Undefined control sequence.
-l.322 ...minus the response!) in the call to \code
+l.323 ...minus the response!) in the call to \code
                                                   {partial}. The following s...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -22814,7 +22887,7 @@ Missing character: There is no e in font nullfont!
 Missing character: There is no o in font nullfont!
 Missing character: There is no f in font nullfont!
 ! Undefined control sequence.
-l.322 ... computes the partial dependence of \code
+l.323 ... computes the partial dependence of \code
                                                   {cmedv} on both \code{rm} ...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -22834,7 +22907,7 @@ Missing character: There is no o in font nullfont!
 Missing character: There is no t in font nullfont!
 Missing character: There is no h in font nullfont!
 ! Undefined control sequence.
-l.322 ... dependence of \code{cmedv} on both \code
+l.323 ... dependence of \code{cmedv} on both \code
                                                   {rm} and \code{lstat}, ind...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -22848,7 +22921,7 @@ Missing character: There is no a in font nullfont!
 Missing character: There is no n in font nullfont!
 Missing character: There is no d in font nullfont!
 ! Undefined control sequence.
-l.322 ... \code{cmedv} on both \code{rm} and \code
+l.323 ... \code{cmedv} on both \code{rm} and \code
                                                   {lstat}, individually and ...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -22919,7 +22992,7 @@ Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
 <write> ...ence `fig:boston_xgb' on page \thepage 
                                                   \space undefined\on@line .
-l.322 ... displayed in Figure~\ref{fig:boston_xgb}
+l.323 ... displayed in Figure~\ref{fig:boston_xgb}
                                                   . Note that while \code{xg...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -22928,7 +23001,7 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-LaTeX Warning: Reference `fig:boston_xgb' on page  undefined on input line 322.
+LaTeX Warning: Reference `fig:boston_xgb' on page  undefined on input line 323.
 
 
 Missing character: There is no . in font nullfont!
@@ -22946,7 +23019,7 @@ Missing character: There is no i in font nullfont!
 Missing character: There is no l in font nullfont!
 Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
-l.322 ...ef{fig:boston_xgb}. Note that while \code
+l.323 ...ef{fig:boston_xgb}. Note that while \code
                                                   {xgboost} requires the tra...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -23014,7 +23087,7 @@ Missing character: There is no a in font nullfont!
 Missing character: There is no s in font nullfont!
 Missing character: There is no s in font nullfont!
 ! Undefined control sequence.
-l.322 ... be a matrix (or an object of class \code
+l.323 ... be a matrix (or an object of class \code
                                                   {"dgCMatrix"} or \code{"xg...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -23036,7 +23109,7 @@ Missing character: There is no " in font nullfont!
 Missing character: There is no o in font nullfont!
 Missing character: There is no r in font nullfont!
 ! Undefined control sequence.
-l.322 ...ject of class \code{"dgCMatrix"} or \code
+l.323 ...ject of class \code{"dgCMatrix"} or \code
                                                   {"xgb.DMatrix"}), \code{pa...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -23060,7 +23133,7 @@ Missing character: There is no " in font nullfont!
 Missing character: There is no ) in font nullfont!
 Missing character: There is no , in font nullfont!
 ! Undefined control sequence.
-l.322 ...CMatrix"} or \code{"xgb.DMatrix"}), \code
+l.323 ...CMatrix"} or \code{"xgb.DMatrix"}), \code
                                                   {partial} requires the tra...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -23135,7 +23208,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.323 \begin{example}
+l.324 \begin{example}
                      
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -23285,19 +23358,19 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.329 \end{example}
+l.330 \end{example}
                    
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 322--330
+Overfull \hbox (20.0pt too wide) in paragraph at lines 323--331
 []
  []
 
 
-Overfull \hbox (10.86105pt too wide) in paragraph at lines 322--330
+Overfull \hbox (10.86105pt too wide) in paragraph at lines 323--331
 []
  []
 
@@ -23308,7 +23381,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.331 \begin{figure}
+l.332 \begin{figure}
                     [htbp]
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -23321,7 +23394,7 @@ Missing character: There is no b in font nullfont!
 Missing character: There is no p in font nullfont!
 Missing character: There is no ] in font nullfont!
 ! Undefined control sequence.
-l.333   \includegraphics
+l.334   \includegraphics
                         [width=1.0\linewidth]{boston_xgb}
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -23342,7 +23415,7 @@ Missing character: There is no 0 in font nullfont!
 ! Missing number, treated as zero.
 <to be read again> 
                    ]
-l.333   \includegraphics[width=1.0\linewidth]
+l.334   \includegraphics[width=1.0\linewidth]
                                              {boston_xgb}
 A number should have been here; I inserted `0'.
 (If you can't figure out why I needed to see a number,
@@ -23351,7 +23424,7 @@ look up `weird error' in the index to The TeXbook.)
 ! Illegal unit of measure (pt inserted).
 <to be read again> 
                    ]
-l.333   \includegraphics[width=1.0\linewidth]
+l.334   \includegraphics[width=1.0\linewidth]
                                              {boston_xgb}
 Dimensions can be in units of em, ex, in, pt, pc,
 cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
@@ -23370,13 +23443,13 @@ Missing character: There is no n in font nullfont!
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.333 ...ludegraphics[width=1.0\linewidth]{boston_
+l.334 ...ludegraphics[width=1.0\linewidth]{boston_
                                                   xgb}
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 ! Extra }, or forgotten $.
-l.333 ...graphics[width=1.0\linewidth]{boston_xgb}
+l.334 ...graphics[width=1.0\linewidth]{boston_xgb}
                                                   
 I've deleted a group-closing symbol because it seems to be
 spurious, as in `$x}$'. But perhaps the } is legitimate and
@@ -23391,7 +23464,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.334   \caption
+l.335   \caption
                 {PDPs for the top two most important variables in the Boston...
 
 You're in trouble here.  Try typing  <return>  to proceed.
@@ -23400,7 +23473,7 @@ If that doesn't work, type  X <return>  to quit.
 ! Undefined control sequence.
 <write> ... `fig:partial_extrap' on page \thepage 
                                                   \space undefined\on@line .
-l.334 ...layed in Figures~\ref{fig:partial_extrap}
+l.335 ...layed in Figures~\ref{fig:partial_extrap}
                                                   -\ref{fig:partial_manual}.}
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -23410,12 +23483,12 @@ and I'll forget about whatever was undefined.
 
 
 LaTeX Warning: Reference `fig:partial_extrap' on page  undefined on input line 
-334.
+335.
 
 ! Undefined control sequence.
 <write> ... `fig:partial_manual' on page \thepage 
                                                   \space undefined\on@line .
-l.334 ...:partial_extrap}-\ref{fig:partial_manual}
+l.335 ...:partial_extrap}-\ref{fig:partial_manual}
                                                   .}
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -23425,7 +23498,7 @@ and I'll forget about whatever was undefined.
 
 
 LaTeX Warning: Reference `fig:partial_manual' on page  undefined on input line 
-334.
+335.
 
 
 ! LaTeX Error: \begin{document} ended by \end{figure}.
@@ -23434,7 +23507,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.336 \end{figure}
+l.337 \end{figure}
                   
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -23443,7 +23516,7 @@ or  <return>  to continue without it.
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.336 \end{figure}
+l.337 \end{figure}
                   
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -23454,7 +23527,7 @@ my insertion and my current dilemma will both disappear.
 ! Missing } inserted.
 <inserted text> 
                 }
-l.336 \end{figure}
+l.337 \end{figure}
                   
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -23463,17 +23536,17 @@ really didn't forget anything, try typing `2' now; then
 my insertion and my current dilemma will both disappear.
 
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 331--337
+Overfull \hbox (20.0pt too wide) in paragraph at lines 332--338
 []
  []
 
 
-Overfull \hbox (692.244pt too wide) in paragraph at lines 331--337
+Overfull \hbox (692.244pt too wide) in paragraph at lines 332--338
 []\OML/cmm/m/it/10 gb[][]$ 
  []
 
 ! Undefined control sequence.
-l.341 \section
+l.342 \section
               {Summary}
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -23489,7 +23562,7 @@ Missing character: There is no a in font nullfont!
 Missing character: There is no r in font nullfont!
 Missing character: There is no y in font nullfont!
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 341--342
+Overfull \hbox (20.0pt too wide) in paragraph at lines 342--343
 [] 
  []
 
@@ -23574,7 +23647,7 @@ Missing character: There is no t in font nullfont!
 Missing character: There is no h in font nullfont!
 Missing character: There is no e in font nullfont!
 ! Undefined control sequence.
-l.343 ...s of black box models in R using the \pkg
+l.344 ...s of black box models in R using the \pkg
                                                   {pdp} package. We also bri...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -23779,7 +23852,7 @@ Missing character: There is no f in font nullfont!
 Missing character: There is no o in font nullfont!
 Missing character: There is no r in font nullfont!
 ! Undefined control sequence.
-l.343 ...amples. There is a bright future for \pkg
+l.344 ...amples. There is a bright future for \pkg
                                                   {pdp} in terms of growth. ...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -23941,12 +24014,12 @@ Missing character: There is no s in font nullfont!
 Missing character: There is no e in font nullfont!
 Missing character: There is no . in font nullfont!
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 343--344
+Overfull \hbox (20.0pt too wide) in paragraph at lines 344--345
 []
  []
 
 ! Undefined control sequence.
-l.349 \section
+l.350 \section
               {Acknowledgments}
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -23970,7 +24043,7 @@ Missing character: There is no n in font nullfont!
 Missing character: There is no t in font nullfont!
 Missing character: There is no s in font nullfont!
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 349--350
+Overfull \hbox (20.0pt too wide) in paragraph at lines 350--351
 [] 
  []
 
@@ -23979,14 +24052,14 @@ Missing character: There is no B in font nullfont!
 Missing character: There is no D in font nullfont!
 Missing character: There is no . in font nullfont!
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 351--352
+Overfull \hbox (20.0pt too wide) in paragraph at lines 352--353
 [] 
  []
 
 \bibdata{greenwell}
 No file greenwell.bbl.
 ! Undefined control sequence.
-l.359 \address
+l.360 \address
               {Brandon M. Greenwell\\
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -24105,7 +24178,7 @@ Missing character: There is no i in font nullfont!
 Missing character: There is no c in font nullfont!
 Missing character: There is no a in font nullfont!
 ! Undefined control sequence.
-l.365 \email
+l.366 \email
             {bgreenwell@infoscitex.com}
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -24146,10 +24219,10 @@ Missing character: There is no m in font nullfont!
 
  
 Here is how much of TeX's memory you used:
- 45 strings out of 494953
- 573 string characters out of 6180977
- 61134 words of memory out of 5000000
- 3425 multiletter control sequences out of 15000+600000
+ 46 strings out of 494953
+ 589 string characters out of 6180977
+ 61167 words of memory out of 5000000
+ 3426 multiletter control sequences out of 15000+600000
  4294 words of font info for 16 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  18i,8n,14p,1220b,118s stack positions out of 5000i,500n,10000p,200000b,80000s

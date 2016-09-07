@@ -39,6 +39,12 @@ superType.boosting <- function(object) {
 
 
 #' @keywords internal
+superType.cubist <- function(object) {
+  "regression"
+}
+
+
+#' @keywords internal
 superType.C5.0 <- function(object) {
   "classification"
 }

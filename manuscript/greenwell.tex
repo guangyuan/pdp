@@ -299,7 +299,6 @@ for (i in 1:3) {
 library(ggplot2)
 ggplot(pd, aes(x = Petal.Width, y = Petal.Length, z = y, fill = y)) +
   geom_tile() + 
-  # coord_equal() +
   geom_contour(color = "white", alpha = 0.5) + 
   scale_fill_distiller(palette = "Spectral", na.value = "white") + 
   theme_bw() +

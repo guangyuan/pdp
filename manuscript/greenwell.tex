@@ -168,10 +168,10 @@ The benefit of using \code{partial} is threefold: (1) it is a generic function t
 \begin{example}
 library(earth)  # for fitting MARS models
 boston.mars <- earth(cmedv ~ ., data = boston, degree = 3)
-pd.lstat.rm <- partial(boston.mars, pred.var = c("lstat", "rm"))
-plotPartial(pd.lstat.rm)
-plotPartial(pd.lstat.rm, col.regions = colorRampPalette(c("red", "white", "blue")))
-plotPartial(pd.lstat.rm, contour = FALSE, zlab = "cmedv", drape = TRUE,
+pd <- partial(boston.mars, pred.var = c("lstat", "rm"))
+plotPartial(pd)
+plotPartial(pd, col.regions = colorRampPalette(c("red", "white", "blue")))
+plotPartial(pd, contour = FALSE, zlab = "cmedv", drape = TRUE,
             colorkey = TRUE, screen = list(z = -20, x = -60))
 \end{example}
 Note that the default color map for contour plots is the Matplotlib "viridis" color map provided through the \CRANpkg{viridis} package \citep{viridis-pkg}.
@@ -214,7 +214,7 @@ partial(boston.rf, pred.var = c("lstat", "rm"), chull = TRUE, plot = TRUE)
 
 Constructing PDPs can be quite computationally expensive. Several strategies are available to ease the computational burden in larger problems. For example, there is no need to compute partial dependence of median home value using each unique value of \code{rm} in the training data (which would require $k = 446$ passes over the data!). We could get very reasonable results using a reduced number of points. Current options are to use a grid of equally spaced values in the range of the variable of interest; the number of points ban be controlled using the \code{grid.resolution} option in the call to \code{partial}. Alternatively, a specific set of values (e.g., quantiles of interest) can be supplied through the \code{pred.grid} argument. To illustrate, the following snippet of code computes the partial dependence of median home value on \code{rm} using each option; the results are displayed in Figure~\ref{fig:partial_manual}.
 \begin{example}
-partial(boston.rf, plot = TRUE)
+partial(boston.rf, "rm", plot = TRUE)
 partial(boston.rf, "rm", grid.resolution = 30, plot = TRUE)
 partial(boston.rf, "rm", pred.grid = data.frame(rm = 3:9), plot = TRUE)
 \end{example}
@@ -295,7 +295,15 @@ for (i in 1:3) {
                  grid.resolution = 101)
   pd <- rbind(pd, cbind(tmp, Species = levels(iris$Species)[i]))
 }
-lattice::levelplot(y ~ Petal.Width * Petal.Length | Species, data = pd)
+
+library(ggplot2)
+ggplot(pd, aes(x = Petal.Width, y = Petal.Length, z = y, fill = y)) +
+  geom_tile() + 
+  # coord_equal() +
+  geom_contour(color = "white", alpha = 0.5) + 
+  scale_fill_distiller(palette = "Spectral", na.value = "white") + 
+  theme_bw() +
+  facet_grid(~ Species)
 \end{example}
 
 \begin{figure}[htbp]

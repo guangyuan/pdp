@@ -80,7 +80,8 @@ Currently supported models are described in Table~\ref{tab:models}. However, the
     \toprule
       Type of model & R package & Object class \\
       \midrule
-      Decision tree             & \pkg{party}    & \code{"BinaryTree"} \\
+      Decision tree             & \CRANpkg{C50} \citep{C50-pkg} & \code{"C5.0"} \\
+                                & \pkg{party}    & \code{"BinaryTree"} \\
                                 & \pkg{partykit} & \code{"constparty"}/\code{"party"} \\
                                 & \CRANpkg{rpart} \citep{rpart-pkg} & \code{"rpart"} \\
       Bagged decision trees     & \CRANpkg{adabag} \citep{adabag-pkg} & \code{"bagging"} \\

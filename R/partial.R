@@ -49,7 +49,10 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
       train <- object@data@get("input")
     } else {
       if (is.null(object$call$data)) {
-        stop("No data found.")
+        stop(paste0("The training data could not be extracted from ", 
+                    deparse(substitute(object)), ". Please supply the raw ",
+                    "training data using the `train` argument in the call ", 
+                    "to `partial`."))
       } else {
         train <- eval(object$call$data)
       }

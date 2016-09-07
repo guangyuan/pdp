@@ -113,7 +113,8 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
     type <- superType(object)
   } else {
     if (!(type %in% c("regression", "classification"))) {
-      stop('Only "regression" and "classification" are supported.')
+      stop(paste(deparse(substitute(type)), 'is not a valid value for `type`.', 
+                 'Please select either "regression" or "classification".'))
     }
   }
 

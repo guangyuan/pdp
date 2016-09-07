@@ -27,6 +27,7 @@ pkgs <- c("doParallel",
 library(doParallel)
 library(e1071)
 library(earth)
+library(ggplot2)
 library(partial)
 library(party)
 library(randomForest)
@@ -153,8 +154,12 @@ for (i in 1:3) {
   pd <- rbind(pd, cbind(tmp, Species = levels(iris$Species)[i]))
 }
 pdf("partial_iris_svm.pdf", width = 12, height = 4)
-lattice::levelplot(y ~ Petal.Width * Petal.Length | Species, data = pd,
-                   col.regions = colorRampPalette(c("red", "white", "blue")))
+ggplot(pd, aes(x = Petal.Width, y = Petal.Length, z = y, fill = y)) +
+  geom_tile() + 
+  geom_contour(color = "white", alpha = 0.5) + 
+  scale_fill_distiller(palette = "Spectral", na.value = "white") + 
+  theme_bw() +
+  facet_grid(~ Species)
 dev.off()
 
 

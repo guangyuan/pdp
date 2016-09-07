@@ -112,8 +112,8 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
   if (missing(type)) {
     type <- superType(object)
   } else {
-    if (!(super.type %in% c("regression", "classification"))) {
-      stop("Only regression and classification are supported.")
+    if (!(type %in% c("regression", "classification"))) {
+      stop('Only "regression" and "classification" are supported.')
     }
   }
 

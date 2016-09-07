@@ -12,7 +12,7 @@
 #'   \code{pred.grid} is not supplied). If left \code{NULL}, it will default to
 #'   minimum between \code{51} and the number of unique data points for each of
 #'   the continuous independent variables listed in \code{pred.var}.
-#' @param super.type Character string specifying the type of supervised learning.
+#' @param type Character string specifying the type of supervised learning.
 #'   Current options are \code{"regression"} or \code{"classification"}. For some
 #'   objects (e.g., tree-based models like \code{"rpart"}), \code{partial} can usually
 #'   extract the necessary information from \code{object}.
@@ -40,8 +40,8 @@ partial <- function(object, ...) {
 #' @rdname partial
 #' @export
 partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
-                            super.type, which.class = 1L, plot = FALSE,
-                            rug = FALSE, chull = FALSE, train, ...) {
+                            type, which.class = 1L, plot = FALSE, rug = FALSE, 
+                            chull = FALSE, train, ...) {
 
   # Data frame
   if (missing(train)) {
@@ -109,8 +109,8 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
   #                     sapply(train[pred.var], class)))
 
   # Determine the type of supervised learning used
-  if (missing(super.type)) {
-    super.type <- superType(object)
+  if (missing(type)) {
+    type <- superType(object)
   } else {
     if (!(super.type %in% c("regression", "classification"))) {
       stop("Only regression and classification are supported.")
@@ -118,10 +118,10 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
   }
 
   # Calculate partial dependence values
-  if (super.type == "regression") {
+  if (type == "regression") {
     pd_df <- pdRegression(object, pred.var = pred.var, pred.grid = pred.grid,
                           train = train, ...)
-  } else if (super.type == "classification") {
+  } else if (type == "classification") {
     pd_df <- pdClassification(object, pred.var = pred.var,
                               pred.grid = pred.grid, which.class = which.class,
                               train = train, ...)

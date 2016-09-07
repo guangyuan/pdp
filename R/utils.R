@@ -39,6 +39,12 @@ superType.boosting <- function(object) {
 
 
 #' @keywords internal
+superType.C5.0 <- function(object) {
+  "classification"
+}
+
+
+#' @keywords internal
 superType.earth <- function(object) {
   if (!is.null(object$glm.list) &&
       object$glm.list[[1L]]$family$family == "binomial") {

@@ -27,6 +27,13 @@ superType <- function(object) {
 
 
 #' @keywords internal
+superType.default <- function(object) {
+  warning('`type` could not be determined; assuming `type = "regression"`')
+  "regression"
+}
+
+
+#' @keywords internal
 superType.bagging <- function(object) {
   "classification"
 }

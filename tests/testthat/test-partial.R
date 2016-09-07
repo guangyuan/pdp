@@ -9,7 +9,7 @@ test_that("partial works correctly", {
   # Regression
   mtcars.lm <- lm(mpg ~ ., data = mtcars)
   pd1 <- partial(mtcars.lm, pred.var = "wt", grid.resolution = 1,
-                 super.type = "regression", train = mtcars)
+                 type = "regression", train = mtcars)
   pd2 <- partial(mtcars.lm, pred.var = "wt", pred.grid = 1)
   expect_is(pd1, "data.frame")
   expect_is(pd2, "data.frame")

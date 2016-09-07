@@ -8,8 +8,8 @@
 partial(object, ...)
 
 \method{partial}{default}(object, pred.var, pred.grid, grid.resolution = NULL,
-  super.type, which.class = 1L, plot = FALSE, rug = FALSE,
-  chull = FALSE, train, ...)
+  type, which.class = 1L, plot = FALSE, rug = FALSE, chull = FALSE,
+  train, ...)
 }
 \arguments{
 \item{object}{A fitted model object.}
@@ -28,7 +28,7 @@ use (only used for the continuous variables listed in \code{pred.var} when
 minimum between \code{51} and the number of unique data points for each of
 the continuous independent variables listed in \code{pred.var}.}
 
-\item{super.type}{Character string specifying the type of supervised learning.
+\item{type}{Character string specifying the type of supervised learning.
 Current options are \code{"regression"} or \code{"classification"}. For some
 objects (e.g., tree-based models like \code{"rpart"}), \code{partial} can usually
 extract the necessary information from \code{object}.}

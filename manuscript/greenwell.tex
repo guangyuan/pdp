@@ -141,7 +141,7 @@ partial(boston.rf, pred.var = "lstat", plot = TRUE)
 \end{example}
 The only difference is that \pkg{pdp} uses the \pkg{lattice} graphics package to produce all of its displays.
 
-For a more customizable plot, call \code{partial} with \code{plot = FALSE} and use the \code{plotPartial} function. \strong{Note:} the \dfn{pipe} operator \code{\%>\%} provided by the \CRANpkg{magrittr} package \citep{magrittr-pkg} is exported for writing more convenient code, as illustrated in snippet of code below which increases the line width, adds a LOESS smoother, and customizes the $y$-axis label.
+For a more customizable plot, call \code{partial} with \code{plot = FALSE} and use the \code{plotPartial} function. \strong{Note:} the \dfn{pipe} operator \code{\%>\%} provided by the \CRANpkg{magrittr} package \citep{magrittr-pkg} is exported for writing more convenient code, as illustrated in the example below which increases the line width, adds a LOESS smoother, and customizes the $y$-axis label.
 \begin{example}
 boston.rf %>%
   partial(pred.var = "lstat") %>%

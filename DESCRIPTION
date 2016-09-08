@@ -12,6 +12,8 @@ BugReports: https://github.com/bgreenwell/pdp/issues
 Depends:
     R (>= 3.2.5)
 Suggests:
+    C50,
+    Cubist,
     e1071,
     kernlab,
     nnet,

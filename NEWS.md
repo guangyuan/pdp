@@ -4,7 +4,7 @@
 
 * Fixed a couple of URLs and typos.
 * Added more thorough documentation.
-* Added support for "nls" objects.
+* Added support for C5.0, Cubist, nonlinear least squares, and XGBoost models.
 
 ### Changes for version 0.0.1
 

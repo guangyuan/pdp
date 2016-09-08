@@ -9,6 +9,7 @@ pdClassification <- function(object, pred.var, pred.grid, which.class,
 pdClassification.default <- function(object, pred.var, pred.grid, which.class,
                                      train, ...) {
   plyr::adply(pred.grid, .margins = 1, .fun = function(x) {
+    # FIXME: Does this copy need to be made?
     temp <- train
     temp[pred.var] <- x
     pr <- stats::predict(object, newdata = temp, type = "prob")

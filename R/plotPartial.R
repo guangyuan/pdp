@@ -3,7 +3,7 @@
 #' Plots partial dependence functions using \code{lattice} graphics.
 #'
 #' @param x An object of class{"partial_1d"} or \code{"partial_2d"}.
-#' @param smooth Logical indicating whether or nor to overlay a loess smoother.
+#' @param smooth Logical indicating whether or not to overlay a LOESS smoother.
 #'   Default is \code{FALSE}.
 #' @param contour Logical indicating whether or not to use
 #'   \code{lattice::levelplot} (\code{TRUE}) or \code{lattice::wireframe}
@@ -12,17 +12,17 @@
 #'   to the plot. If \code{TRUE} the user must supply the original training data
 #'   via the \code{train} option. Default is \code{FALSE}.
 #' @param chull Logical indicating whether or not to draw the convex hull
-#'   around the first two variables. If \code{TRUE} the user must supply the 
+#'   around the first two variables. If \code{TRUE} the user must supply the
 #'   original training data via the \code{train} option.Default is \code{FALSE}.
 #' @param number Integer specifying the number of conditional intervals for the
 #'   panel variables.
-#' @param overlap The fraction of overlap of the conditioning variables. See 
-#'   \code{?graphics::co.intervals} and \code{?lattice::equal.count} for further 
+#' @param overlap The fraction of overlap of the conditioning variables. See
+#'   \code{?graphics::co.intervals} and \code{?lattice::equal.count} for further
 #'   details.
 #' @param train Data frame containing the original training data. Only
 #'   required if \code{rug = TRUE} or \code{chull = TRUE}.
 #' @param col.regions Color vector to be used if \code{contour} is \code{TRUE}.
-#'   Defaults to the wonderful Matplotlib 'viridis' color map provided by the 
+#'   Defaults to the wonderful Matplotlib 'viridis' color map provided by the
 #'   \code{viridis} package. See \code{?viridis::viridis} for details.
 #' @param ... Additional optional arguments to be passed onto \code{levelplot},
 #'   \code{wireframe}, or \code{xyplot}.

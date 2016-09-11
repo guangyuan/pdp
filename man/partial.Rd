@@ -8,8 +8,8 @@
 partial(object, ...)
 
 \method{partial}{default}(object, pred.var, pred.grid, grid.resolution = NULL,
-  type, which.class = 1L, plot = FALSE, rug = FALSE, chull = FALSE,
-  train, ...)
+  type, which.class = 1L, plot = FALSE, smooth = FALSE, rug = FALSE,
+  chull = FALSE, train, ...)
 }
 \arguments{
 \item{object}{A fitted model object.}
@@ -39,6 +39,9 @@ probabilities to use as the "focus" class. Default is to use the first class.}
 \item{plot}{Logical indicating whether to return a data frame containing the
 partial dependence values (\code{FALSE}) or plot the partial dependence
 function directly (\code{TRUE}). Default is \code{FALSE}.}
+
+\item{smooth}{Logical indicating whether or not to overlay a LOESS smoother.
+Default is \code{FALSE}.}
 
 \item{rug}{Logical indicating whether or not to include a rug representation
 to the plot. Only used when \code{plot = TRUE}. Default is \code{FALSE}.}

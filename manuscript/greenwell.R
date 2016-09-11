@@ -3,7 +3,7 @@
 #   partial: partial: An R Package for Creating Partial Dependence Plots
 #
 #        Author: Brandon M. Greenwell
-# Date Modified: 01Sep2016
+# Date Modified: 11Sep2016
 
 
 ################################################################################
@@ -18,8 +18,8 @@ pkgs <- c("doParallel",
           "e1071",
           "ggplot2",
           "mlbench",
-          "partial",
           "party",
+          "pdp",
           "randomForest",
           "xgboost")
 # install.packages(pkgs)
@@ -29,8 +29,8 @@ library(doParallel)
 library(e1071)
 library(earth)
 library(ggplot2)
-library(partial)
 library(party)
+library(pdp)
 library(randomForest)
 library(xgboost)
 
@@ -156,9 +156,9 @@ for (i in 1:3) {
 }
 pdf("partial_iris_svm.pdf", width = 12, height = 4)
 ggplot(pd, aes(x = Petal.Width, y = Petal.Length, z = y, fill = y)) +
-  geom_tile() + 
-  geom_contour(color = "white", alpha = 0.5) + 
-  scale_fill_distiller(palette = "Spectral") + 
+  geom_tile() +
+  geom_contour(color = "white", alpha = 0.5) +
+  scale_fill_distiller(palette = "Spectral") +
   theme_bw() +
   facet_grid(~ Species)
 dev.off()
@@ -196,6 +196,9 @@ boston.xgb <- xgboost(data = data.matrix(subset(boston, select = -cmedv)),
                       max_depth = 3,
                       eta = 0.01)
 
+# partial(boston.xgb, pred.var = c("lon", "lat"), plot = TRUE, chull = TRUE,
+#         train = X, .progress = "text")
+
 # Figure 8
 pdf("boston_xgb.pdf", width = 12, height = 4)
 X <- subset(boston, select = -cmedv)
@@ -204,6 +207,6 @@ pdp1 <- plotPartial(partial(boston.xgb, pred.var = "lstat", train = X),
 pdp2 <- plotPartial(partial(boston.xgb, pred.var = "rm", train = X),
                     rug = TRUE, smooth = TRUE, train = X)
 pdp3 <- plotPartial(partial(boston.xgb, pred.var = c("lstat", "rm"),
-                            chull = TRUE, train = X), train = X)
+                            chull = TRUE, train = X), rug = TRUE, train = X)
 gridExtra::grid.arrange(pdp1, pdp2, pdp3, ncol = 3)
 dev.off()

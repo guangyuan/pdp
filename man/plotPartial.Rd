@@ -17,7 +17,7 @@ plotPartial(x, ...)
 \item{...}{Additional optional arguments to be passed onto \code{levelplot},
 \code{wireframe}, or \code{xyplot}.}
 
-\item{smooth}{Logical indicating whether or nor to overlay a loess smoother.
+\item{smooth}{Logical indicating whether or not to overlay a LOESS smoother.
 Default is \code{FALSE}.}
 
 \item{contour}{Logical indicating whether or not to use
@@ -29,21 +29,21 @@ to the plot. If \code{TRUE} the user must supply the original training data
 via the \code{train} option. Default is \code{FALSE}.}
 
 \item{chull}{Logical indicating whether or not to draw the convex hull
-around the first two variables. If \code{TRUE} the user must supply the 
+around the first two variables. If \code{TRUE} the user must supply the
 original training data via the \code{train} option.Default is \code{FALSE}.}
 
 \item{number}{Integer specifying the number of conditional intervals for the
 panel variables.}
 
-\item{overlap}{The fraction of overlap of the conditioning variables. See 
-\code{?graphics::co.intervals} and \code{?lattice::equal.count} for further 
+\item{overlap}{The fraction of overlap of the conditioning variables. See
+\code{?graphics::co.intervals} and \code{?lattice::equal.count} for further
 details.}
 
 \item{train}{Data frame containing the original training data. Only
 required if \code{rug = TRUE} or \code{chull = TRUE}.}
 
 \item{col.regions}{Color vector to be used if \code{contour} is \code{TRUE}.
-Defaults to the wonderful Matplotlib 'viridis' color map provided by the 
+Defaults to the wonderful Matplotlib 'viridis' color map provided by the
 \code{viridis} package. See \code{?viridis::viridis} for details.}
 }
 \description{

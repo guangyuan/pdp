@@ -21,6 +21,8 @@
 #' @param plot Logical indicating whether to return a data frame containing the
 #'   partial dependence values (\code{FALSE}) or plot the partial dependence
 #'   function directly (\code{TRUE}). Default is \code{FALSE}.
+#' @param smooth Logical indicating whether or not to overlay a LOESS smoother.
+#'   Default is \code{FALSE}.
 #' @param rug Logical indicating whether or not to include a rug representation
 #'   to the plot. Only used when \code{plot = TRUE}. Default is \code{FALSE}.
 #' @param chull Logical indicating wether or not to restrict the first
@@ -40,8 +42,9 @@ partial <- function(object, ...) {
 #' @rdname partial
 #' @export
 partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
-                            type, which.class = 1L, plot = FALSE, rug = FALSE, 
-                            chull = FALSE, train, ...) {
+                            type, which.class = 1L, plot = FALSE,
+                            smooth = FALSE, rug = FALSE, chull = FALSE, train,
+                            ...) {
 
   # Data frame
   if (missing(train)) {
@@ -49,9 +52,9 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
       train <- object@data@get("input")
     } else {
       if (is.null(object$call$data)) {
-        stop(paste0("The training data could not be extracted from ", 
+        stop(paste0("The training data could not be extracted from ",
                     deparse(substitute(object)), ". Please supply the raw ",
-                    "training data using the `train` argument in the call ", 
+                    "training data using the `train` argument in the call ",
                     "to `partial`."))
       } else {
         train <- eval(object$call$data)
@@ -64,8 +67,6 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
     pred.val <- lapply(pred.var, function(x) {
       if (is.factor(train[[x]])) {
         levels(train[[x]])
-      #} #else if (missing(grid.resolution)) {
-        #sort(unique(newdata[[x]]))
       } else {
         if (is.null(grid.resolution)) {
           grid.resolution <- min(length(unique(train[[x]])), 51)
@@ -92,13 +93,26 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
     }
   }
 
-  # # Restore class information
-  # for (name in names(pred.grid)) {
-  #   if (is.integer(train[[name]])) {
-  #     pred.grid[[pred.var]] <- as.intergar(pred.grid[[pred.var]])
-  #   } else if (is.numeric(train[[name]])) {
-  #     pred.grid[[pred.var]] <- as.numeric(pred.grid[[pred.var]])
+  # # Make sure class information and factor levels have been preserved
+  # if (check.class) {
+  #   for (name in names(pred.grid)) {
+  #     pred.grid[[pred.var]] <- as(pred.grid[[pred.var]],
+  #                                 Class = class(train[[pred.var]]))
+  #     if (is.integer(train[[name]])) {
+  #       pred.grid[[pred.var]] <- as.integer(pred.grid[[pred.var]])
+  #     } else if (is.numeric(train[[name]])) {
+  #       pred.grid[[pred.var]] <- as.numeric(pred.grid[[pred.var]])
   #
+  #     } else if (is.factor(train[[name]]))
+  #       if (is.ordered()) {
+  #         pred.grid[[pred.var]] <-
+  #           ordered(pred.grid[[pred.var]],
+  #                   levels = levels(pred.grid[[pred.var]]))
+  #       } else {
+  #         pred.grid[[pred.var]] <-
+  #           factor(pred.grid[[pred.var]],
+  #                  levels = levels(pred.grid[[pred.var]]))
+  #       }
   #   } else {
   #     class(pred.grid[[name]]) <- class(train[[name]])
   #   }
@@ -107,13 +121,14 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
   # # Sanity check!
   # stopifnot(all.equal(sapply(pred.grid, class),
   #                     sapply(train[pred.var], class)))
+  # }
 
   # Determine the type of supervised learning used
   if (missing(type)) {
     type <- superType(object)
   } else {
     if (!(type %in% c("regression", "classification"))) {
-      stop(paste(deparse(substitute(type)), 'is not a valid value for `type`.', 
+      stop(paste(deparse(substitute(type)), 'is not a valid value for `type`.',
                  'Please select either "regression" or "classification".'))
     }
   }
@@ -137,7 +152,8 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
 
   # Plot partial dependence function (if requested)
   if (plot) {
-    print(plotPartial(pd_df, rug = rug, train = train, col.regions = viridis::viridis))
+    print(plotPartial(pd_df, smooth = smooth, rug = rug, train = train,
+                      col.regions = viridis::viridis))
   } else {
     # Return partial dependence values
     pd_df

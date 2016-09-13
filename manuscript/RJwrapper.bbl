@@ -1,4 +1,4 @@
-\begin{thebibliography}{32}
+\begin{thebibliography}{33}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -75,6 +75,12 @@ J.~H. Friedman.
 J.~H. Friedman.
 \newblock Greedy function approximation: A gradient boosting machine.
 \newblock \emph{Annals of Statistics}, 29:\penalty0 1189--1232, 2000.
+
+\bibitem[Friedman and Popescu(2008)]{friedman-2008-predictive}
+J.~H. Friedman and B.~E. Popescu.
+\newblock Predictive learning via rule ensembles.
+\newblock \emph{Annals of Applied Statistics}, 2\penalty0 (3):\penalty0
+  916--954, 2008.
 
 \bibitem[Friedman and Stuetzle(1981)]{friedman-ppr-1981}
 J.~H. Friedman and W.~Stuetzle.

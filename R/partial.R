@@ -84,8 +84,8 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
   if (chull) {
     if (length(pred.var) >= 2 && is.numeric(train[[1L]]) &&
         is.numeric(train[[2L]])) {
-      X <- data.matrix(train[pred.var[1L:2L]])
-      Y <- data.matrix(pred.grid[1L:2L])
+      X <- na.omit(data.matrix(train[pred.var[1L:2L]]))
+      Y <- na.omit(data.matrix(pred.grid[1L:2L]))
       hpts <- grDevices::chull(X)
       hpts <- c(hpts, hpts[1])
       keep <- mgcv::in.out(X[hpts, ], Y)

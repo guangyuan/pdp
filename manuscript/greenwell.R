@@ -77,8 +77,9 @@ boston.mars <- earth(cmedv ~ ., data = boston, degree = 3)
 pd.lstat.rm <- partial(boston.mars, pred.var = c("lstat", "rm"))
 pdf("pd_lstat_rm.pdf", width = 12, height = 4)
 pdp1 <- plotPartial(pd.lstat.rm)
-pdp2 <- plotPartial(pd.lstat.rm,
-                    col.regions = colorRampPalette(c("red", "white", "blue")))
+# pdp2 <- plotPartial(pd.lstat.rm,
+#                     col.regions = colorRampPalette(c("red", "white", "blue")))
+pdp2 <- plotPartial(pd.lstat.rm, col.regions = grey.colors)
 pdp3 <- plotPartial(pd.lstat.rm, contour = FALSE, zlab = "cmedv", drape = TRUE,
                     colorkey = FALSE, screen = list(z = -20, x = -60))
 # print(p1, position = c(0, 0, 0.5, 1), more = TRUE)

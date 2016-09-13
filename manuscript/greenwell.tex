@@ -142,9 +142,9 @@ partial(boston.rf, pred.var = "lstat", plot = TRUE)
 \end{example}
 The only difference is that \pkg{pdp} uses the \pkg{lattice} graphics package to produce all of its displays.
 
-For a more customizable plot, we can set \code{plot = FALSE} in the call to \code{partial} and then use the \code{plotPartial} function on the resulting data frame. This is illustrated in the example below which increases the line width, adds a LOESS smoother, and customizes the $y$-axis label. The result is displayed in the right side of Figure~\ref{fig:pd_lstat}. \strong{Note:} the \dfn{pipe} operator \code{\%>\%} provided by the \CRANpkg{magrittr} package \citep{magrittr-pkg} is exported for writing more convenient code.
+For a more customizable plot, we can set \code{plot = FALSE} in the call to \code{partial} and then use the \code{plotPartial} function on the resulting data frame. This is illustrated in the example below which increases the line width, adds a LOESS smoother, and customizes the $y$-axis label. The result is displayed in the right side of Figure~\ref{fig:pd_lstat}. \strong{Note:} the \dfn{pipe} operator \code{\%>\%} provided by the \CRANpkg{magrittr} package \citep{magrittr-pkg} is exported whenever \pkg{pdp} is loaded for writing more readable code.
 \begin{example}
-boston.rf %>%
+boston.rf %>%  # the %>% operator is read as "and then"
   partial(pred.var = "lstat") %>%
   plotPartial(smooth = TRUE, lwd = 2, ylab = expression(f(lstat)))
 \end{example}
@@ -172,12 +172,12 @@ plotPartial(pd, col.regions = colorRampPalette(c("red", "white", "blue")))
 plotPartial(pd, contour = FALSE, zlab = "cmedv", drape = TRUE,
             colorkey = TRUE, screen = list(z = -20, x = -60))
 \end{example}
-\strong{Note:} the default color map for contour plots is the Matplotlib "viridis" color map provided through the \CRANpkg{viridis} package \citep{viridis-pkg}.
+\strong{Note:} the default color map for contour plots is the color blind-friendly matplotlib \citep{hunter-matplotlib-2007} 'viridis' color map provided by the \CRANpkg{viridis} package \citep{viridis-pkg}.
 
 \begin{widefigure}[htbp]
   \centering
   \includegraphics[width=1.0\linewidth]{pd_lstat_rm}
-  \caption{Partial dependence of \code{cmedv} on \code{lstat} and \code{rm} based on a third degree MARS model. \textit{Left}: Default plot. \textit{Middle}: Using a different color palette. \textit{Right}: Using a 3-D surface.}
+  \caption{Partial dependence of \code{cmedv} on \code{lstat} and \code{rm} based on a third degree MARS model. \textit{Left}: Default plot. \textit{Middle}: Using a black and white color palette. \textit{Right}: Using a 3-D surface.}
   \label{fig:pd_lstat_rm}
 \end{widefigure}
 
@@ -326,7 +326,7 @@ boston.xgb <- xgboost(data = data.matrix(subset(boston, select = -cmedv)),
                       nrounds = 2000, max_depth = 3, eta = 0.01)
 \end{example}
 
-To use \code{partial} with the \code{"xgb.Booster"} class, we need to supply the original training data (minus the response!) in the call to \code{partial}. The following snippet of code computes the partial dependence of \code{cmedv} on both \code{rm} and \code{lstat}, individually and together. The results are displayed in Figure~\ref{fig:boston_xgb}. Note that while \code{xgboost} requires the training data to be a matrix (or an object of class \code{"dgCMatrix"} or \code{"xgb.DMatrix"}), \code{partial} requires the training data as a data frame with factors in tact!
+To use \code{partial} with the \code{"xgb.Booster"} class, we need to supply the original training data (minus the response!) in the call to \code{partial}. The following snippet of code computes the partial dependence of \code{cmedv} on both \code{rm} and \code{lstat}, individually and together. The results are displayed in Figure~\ref{fig:boston_xgb}. \strong{Note:} while \code{xgboost} requires the training data to be an object of class \code{"matrix"}, \code{"dgCMatrix"}, or \code{"xgb.DMatrix"}, \code{partial} requires a \code{"data.frame"}.
 \begin{example}
 pred.list <- list("lstat", "rm", c("lstat", "rm"))
 for (x in pred.list) {

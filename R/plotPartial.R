@@ -99,7 +99,7 @@ plotPartial.partial <- function(x, smooth = FALSE, contour = TRUE, rug = FALSE,
                     if (is.null(train)) {
                       stop("The training data must be supplied for convex hull display.")
                     }
-                    hpts <- grDevices::chull(train[names(x)[1L:2L]])
+                    hpts <- grDevices::chull(na.omit(train[names(x)[1L:2L]]))
                     hpts <- c(hpts, hpts[1])
                     panel.lines(train[hpts, names(x)[1L:2L]],
                                 col = "black")

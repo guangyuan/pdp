@@ -28,6 +28,9 @@
 #' @param chull Logical indicating wether or not to restrict the first
 #'   two variables in \code{pred.var} to lie within the convex hull of their
 #'   data points; this effects \code{pred.grid}. Default is \code{FALSE}.
+#' @param contour Logical indicating whether or not to use
+#'   \code{lattice::levelplot} (\code{TRUE}) or \code{lattice::wireframe}
+#'   (\code{FALSE}). Default is \code{TRUE}.
 #' @param train An optional data frame containing the original training
 #'   data. This may be required depending on the class of \code{object}.
 #' @param ... Additional optional arguments to be passed onto \code{aaply}.

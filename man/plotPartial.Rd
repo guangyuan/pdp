@@ -7,9 +7,9 @@
 \usage{
 plotPartial(x, ...)
 
-\method{plotPartial}{partial}(x, smooth = FALSE, contour = TRUE,
-  rug = FALSE, chull = FALSE, number = 4, overlap = 0.1, train = NULL,
-  col.regions = viridis::viridis, ...)
+\method{plotPartial}{partial}(x, smooth = FALSE, rug = FALSE,
+  chull = FALSE, contour = TRUE, number = 4, overlap = 0.1,
+  train = NULL, col.regions = viridis::viridis, ...)
 }
 \arguments{
 \item{x}{An object of class{"partial_1d"} or \code{"partial_2d"}.}
@@ -20,10 +20,6 @@ plotPartial(x, ...)
 \item{smooth}{Logical indicating whether or not to overlay a LOESS smoother.
 Default is \code{FALSE}.}
 
-\item{contour}{Logical indicating whether or not to use
-\code{lattice::levelplot} (\code{TRUE}) or \code{lattice::wireframe}
-(\code{FALSE}). Default is \code{TRUE}.}
-
 \item{rug}{Logical indicating whether or not to include a rug representation
 to the plot. If \code{TRUE} the user must supply the original training data
 via the \code{train} option. Default is \code{FALSE}.}
@@ -31,6 +27,10 @@ via the \code{train} option. Default is \code{FALSE}.}
 \item{chull}{Logical indicating whether or not to draw the convex hull
 around the first two variables. If \code{TRUE} the user must supply the
 original training data via the \code{train} option.Default is \code{FALSE}.}
+
+\item{contour}{Logical indicating whether or not to use
+\code{lattice::levelplot} (\code{TRUE}) or \code{lattice::wireframe}
+(\code{FALSE}). Default is \code{TRUE}.}
 
 \item{number}{Integer specifying the number of conditional intervals for the
 panel variables.}

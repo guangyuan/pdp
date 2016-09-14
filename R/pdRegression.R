@@ -10,7 +10,12 @@ pdRegression.default <- function(object, pred.var, pred.grid, train,
   plyr::adply(pred.grid, .margins = 1, .fun = function(x) {
     temp <- train
     temp[pred.var] <- x
-    mean(stats::predict(object, newdata = temp), na.rm = TRUE)
+    pred <- stats::predict(object, newdata = temp)
+    # Some fitting function return a matrix (e.g., mda::mars)
+    if (is.matrix(pred) || is.data.frame(pred)) {
+      pred <- pred[, 1L, drop = TRUE]
+    }
+    mean(pred, na.rm = TRUE)
   }, ...)
 }
 

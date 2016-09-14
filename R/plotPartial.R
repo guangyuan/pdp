@@ -5,15 +5,15 @@
 #' @param x An object of class{"partial_1d"} or \code{"partial_2d"}.
 #' @param smooth Logical indicating whether or not to overlay a LOESS smoother.
 #'   Default is \code{FALSE}.
-#' @param contour Logical indicating whether or not to use
-#'   \code{lattice::levelplot} (\code{TRUE}) or \code{lattice::wireframe}
-#'   (\code{FALSE}). Default is \code{TRUE}.
 #' @param rug Logical indicating whether or not to include a rug representation
 #'   to the plot. If \code{TRUE} the user must supply the original training data
 #'   via the \code{train} option. Default is \code{FALSE}.
 #' @param chull Logical indicating whether or not to draw the convex hull
 #'   around the first two variables. If \code{TRUE} the user must supply the
 #'   original training data via the \code{train} option.Default is \code{FALSE}.
+#' @param contour Logical indicating whether or not to use
+#'   \code{lattice::levelplot} (\code{TRUE}) or \code{lattice::wireframe}
+#'   (\code{FALSE}). Default is \code{TRUE}.
 #' @param number Integer specifying the number of conditional intervals for the
 #'   panel variables.
 #' @param overlap The fraction of overlap of the conditioning variables. See
@@ -39,8 +39,8 @@ plotPartial <- function(x, ...) {
 
 #' @rdname plotPartial
 #' @export
-plotPartial.partial <- function(x, smooth = FALSE, contour = TRUE, rug = FALSE,
-                                chull = FALSE, number = 4, overlap = 0.1,
+plotPartial.partial <- function(x, smooth = FALSE, rug = FALSE, chull = FALSE,
+                                contour = TRUE, number = 4, overlap = 0.1,
                                 train = NULL, col.regions = viridis::viridis,
                                 ...) {
 

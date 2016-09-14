@@ -8,7 +8,7 @@
 \maketitle
 
 \abstract{
-Complex nonparametric models---like neural networks, random forests, and support vector machines---are more common than ever in predictive analytics, especially when dealing with large observational databases that don't adhere to the strict assumptions imposed by traditional statistical techniques (e.g., multiple linear regression). Unfortunately, it can be challenging for the uninitiated to understand the results of such models and explain them to management. Partial dependence plots offer a simple solution. Partial dependence plots are low-dimensional graphical renderings of the prediction function $\widehat{f}\left(\boldsymbol{x}\right)$ so that the relationship between the outcome and predictors of interest can be easily understood. These plots are especially useful in explaining the output from black box models. In this paper, we introduce \pkg{pdp}, a general R package for constructing partial dependence plots.
+Complex nonparametric models---like neural networks, random forests, and support vector machines---are more common than ever in predictive analytics, especially when dealing with large observational databases that don't adhere to the strict assumptions imposed by traditional statistical techniques (e.g., multiple linear regression). Unfortunately, it can be challenging to understand the results of such models and explain them to management. Partial dependence plots offer a simple solution. Partial dependence plots are low-dimensional graphical renderings of the prediction function $\widehat{f}\left(\boldsymbol{x}\right)$ so that the relationship between the outcome and predictors of interest can be easily understood. These plots are especially useful in explaining the output from black box models. In this paper, we introduce \pkg{pdp}, a general R package for constructing partial dependence plots.
 }
 
 
@@ -17,7 +17,7 @@ Complex nonparametric models---like neural networks, random forests, and support
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 
-Predictor importance is an important task in any supervised learning problem. However, ranking variables is only part of the story and once a subset of "important" features is identified it is often necessary to assess the relationship between them (or subset thereof) and the response. This can be done in many ways, but in machine learning it is often accomplished by constructing \dfn{partial dependence plots} (PDPs); see \citet{friedman-2000-greedy} for details. PDPs help visualize the relationship between a subset of the predictors (typically 1-3) and the response while accounting for the average effect of the other independent variables in the model. They are particularly effective with black box models like random forests and support vector machines.
+Predictor importance is an important task in any supervised learning problem. However, ranking variables is only part of the story and once a subset of "important" features is identified it is often necessary to assess the relationship between them (or subset thereof) and the response. This can be done in many ways, but in machine learning it is often accomplished by constructing \dfn{partial dependence plots} (PDPs); see \citet{friedman-2000-greedy} for details. PDPs help visualize the relationship between a subset of the features (typically 1-3) and the response while accounting for the average effect of the other predictors in the model. They are particularly effective with black box models like random forests and support vector machines.
 
 Let $\boldsymbol{x} = \left\{x_1, x_2, \dots, x_p\right\}$ represent the predictors in a model whose prediction function is $\widehat{f}\left(\boldsymbol{x}\right)$. If we partition $\boldsymbol{x}$ into an interest set, $\boldsymbol{z}_s$, and its compliment, $\boldsymbol{z}_c = \boldsymbol{x} \setminus \boldsymbol{z}_s$, then the "partial dependence" of the response on $\boldsymbol{z}_s$ is defined as
 \begin{equation}
@@ -74,7 +74,7 @@ The \code{partial} function evaluates the partial dependence \eqref{eqn:pdf} fro
 
 Currently supported models are described in Table~\ref{tab:models}. However, the default method \code{partial.default} is flexible enough to handle many of the model types not listed in in this table; for example, neural networks from the \CRANpkg{nnet} package \citep{venables-modern-2002} and projection pursuit regression \citep{friedman-ppr-1981} using the \code{ppr} function in the \pkg{stats} package. Although, for these cases, the user will need to specify the additional options \code{type} (i.e., \code{"regression"} or \code{"classification"}) and \code{train} (the original training data) in the call to \code{partial}---the exception in Table~\ref{tab:models} is using partial with the \code{"xgb.Booster"} class, which requires the user to specify \code{train}.
 
-\begin{table}[htbp]
+\begin{table}[!htbp]
   \begin{tabular}{p{4cm}ll}
     \toprule
       Type of model & R package & Object class \\
@@ -118,7 +118,7 @@ varImpPlot(boston.rf)  # variable importance plot
 \end{example}
 The model fit is reasonable, with an \dfn{out-of-bag} (pseudo) $R^2$ of 0.89. The variable importance scores are displayed in Figure~\ref{fig:plotmo_vs_partial}. Both plots indicate that the percentage of lower status of the population (\code{lstat}) and the average number of rooms per dwelling (\code{rm}) are highly associated with the median value of owner-occupied homes (\code{cmedv}). The question then arises, "What is the nature of these associations?" To help answer this, we can look at the partial dependence of \code{cmedv} on \code{lstat} and \code{rm}, both individually and together.
 
-\begin{figure}[htbp]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=1.0\linewidth]{boston_rf_vimp}
   \caption{Dotchart of variable importance scores for the Boston housing data based on a random forest with 500 trees.}
@@ -149,7 +149,7 @@ boston.rf %>%  # the %>% operator is read as "and then"
   plotPartial(smooth = TRUE, lwd = 2, ylab = expression(f(lstat)))
 \end{example}
 
-\begin{figure}[htbp]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=1.0\linewidth]{pd_lstat}
   \caption{Partial dependence of \code{cmedv} on \code{lstat} based on a random forest. \textit{Left}: Default plot. \textit{Right}: Customized plot obtained using the \code{plotPartial} function.}
@@ -197,7 +197,7 @@ In two or more dimensions, plotting the convex hull is more informative; it outl
 partial(boston.rf, pred.var = c("lstat", "rm"), plot = TRUE, chull = TRUE)
 \end{example}
 
-\begin{figure}[htbp]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=1.0\linewidth]{partial_extrap}
   \caption{Examples of PDPs with the addition of a rug display (left) and a convex hull (right).}
@@ -257,7 +257,7 @@ partial(ozone.mars, pred.var = c("wind", "temp", "dpg"), plot = TRUE,
         chull = TRUE, .parallel = TRUE)
 \end{example}
 
-\begin{figure}[htbp]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=0.8\linewidth]{partial_par}
   \caption{Partial dependence of \code{ozone} on \code{wind}, \code{temp}, and \code{dpg}. Since \code{dpg} is contiuous, it is first converted to a shingle; in this case, four groups with 10\% overlap.}
@@ -302,7 +302,7 @@ ggplot(pd, aes(x = Petal.Width, y = Petal.Length, z = y, fill = y)) +
   facet_grid(~ Species)
 \end{example}
 
-\begin{figure}[htbp]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=1.0\linewidth]{partial_iris_svm}
   \caption{Partial dependence of species on petal width and petal length for the iris data.}
@@ -335,7 +335,7 @@ for (x in pred.list) {
 }
 \end{example}
 
-\begin{figure}[htbp]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=1.0\linewidth]{boston_xgb}
   \caption{PDPs for the top two most important variables in the Boston housing data using XGBoost. Compare this to the random forest results displayed in Figures~\ref{fig:partial_extrap}-\ref{fig:partial_manual}.}

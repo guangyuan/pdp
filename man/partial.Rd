@@ -52,10 +52,6 @@ data points; this effects \code{pred.grid}. Default is \code{FALSE}.}
 
 \item{train}{An optional data frame containing the original training
 data. This may be required depending on the class of \code{object}.}
-
-\item{contour}{Logical indicating whether or not to use
-\code{lattice::levelplot} (\code{TRUE}) or \code{lattice::wireframe}
-(\code{FALSE}). Default is \code{TRUE}.}
 }
 \description{
 Compute partial dependence functions for various model fitting objects.

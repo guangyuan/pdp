@@ -1,10 +1,10 @@
 Package: pdp
 Type: Package
-Title: Partial Dependence Functions
+Title: Partial Dependence Plots
 Version: 0.0.2
 Authors@R: person("Brandon", "Greenwell", email = "greenwell.brandon@gmail.com",
   role = c("aut", "cre"))
-Description: A general framework for creating partial dependence plots from
+Description: A general framework for constructing partial dependence plots from
     various types machine learning models in R.
 License: GPL (>= 2)
 URL: https://github.com/bgreenwell/pdp

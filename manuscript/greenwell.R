@@ -3,7 +3,7 @@
 #   partial: partial: An R Package for Creating Partial Dependence Plots
 #
 #        Author: Brandon M. Greenwell
-# Date Modified: 11Sep2016
+# Date Modified: 16Sep2016
 
 
 ################################################################################
@@ -11,18 +11,24 @@
 ################################################################################
 
 # Set working directory
-setwd("manuscript")
+# setwd("manuscript")
 
 # List of packages required to run all the examples in this script
-pkgs <- c("doParallel",
-          "e1071",
-          "ggplot2",
-          "mlbench",
-          "party",
-          "pdp",
-          "randomForest",
-          "xgboost")
+# pkgs <- c("doParallel",
+#           "e1071",
+#           "earth",
+#           "ggplot2",
+#           "mlbench",
+#           "party",
+#           "pdp",
+#           "randomForest")
 # install.packages(pkgs)
+
+# Install latest version of xgboost
+# install.packages("drat", repos = "https://cran.rstudio.com")
+# drat:::addRepo("dmlc")
+# install.packages("data.table")  # required when installing xgboost from source!
+# install.packages("xgboost", repos = "http://dmlc.ml/drat/", type = "source")
 
 # Load required packages
 library(doParallel)
@@ -77,9 +83,9 @@ boston.mars <- earth(cmedv ~ ., data = boston, degree = 3)
 pd.lstat.rm <- partial(boston.mars, pred.var = c("lstat", "rm"))
 pdf("pd_lstat_rm.pdf", width = 12, height = 4)
 pdp1 <- plotPartial(pd.lstat.rm)
-# pdp2 <- plotPartial(pd.lstat.rm,
-#                     col.regions = colorRampPalette(c("red", "white", "blue")))
-pdp2 <- plotPartial(pd.lstat.rm, col.regions = grey.colors)
+pdp2 <- plotPartial(pd.lstat.rm,
+                    col.regions = colorRampPalette(c("red", "white", "blue")))
+# pdp2 <- plotPartial(pd.lstat.rm, col.regions = grey.colors)
 pdp3 <- plotPartial(pd.lstat.rm, contour = FALSE, zlab = "cmedv", drape = TRUE,
                     colorkey = FALSE, screen = list(z = -20, x = -60))
 # print(p1, position = c(0, 0, 0.5, 1), more = TRUE)
@@ -116,13 +122,13 @@ ozone <- read.csv(paste0("http://statweb.stanford.edu/~tibs/ElemStatLearn/",
                          "datasets/LAozone.data"), header = TRUE)
 
 # Fit a MARS model
-ozone.earth <- earth(ozone ~ ., data = ozone, degree = 3)
+ozone.mars <- earth(ozone ~ ., data = ozone, degree = 3)
 
 # Note: the following example will not work on Windows!
 
 # Figure 6
 registerDoParallel(cores = 4)  # use 4 cores
-pd <- partial(ozone.earth, pred.var = c("wind", "temp", "dpg"), chull = TRUE,
+pd <- partial(ozone.mars, pred.var = c("wind", "temp", "dpg"), chull = TRUE,
               .parallel = TRUE)
 pdf("partial_par.pdf", width = 7, height = 5)
 plotPartial(pd)

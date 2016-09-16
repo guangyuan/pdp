@@ -1,15 +1,17 @@
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/pdp)](http://cran.r-project.org/package=pdp)
 [![Build Status](https://travis-ci.org/bgreenwell/pdp.svg?branch=master)](https://travis-ci.org/bgreenwell/pdp)
 [![Coverage Status](https://img.shields.io/codecov/c/github/bgreenwell/pdp.svg)](https://codecov.io/github/bgreenwell/pdp?branch=master)
+[![Downloads](http://cranlogs.r-pkg.org/badges/pdp)](http://cranlogs.r-pkg.org/badges/pdp)
+[![Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/pdp)](http://cranlogs.r-pkg.org/badges/grand-total/pdp)
 
 pdp: An R Package for Generating Partial Dependence Plots
 ================
 
-The purpose of this package is to provide a general framework for creating _partial dependence plots_ (PDPs) in R.
+The primary purpose of this package is to provide a general framework for creating _partial dependence plots_ (PDPs) in R.
 
 ### Installation
 
-The R package `pdp` is availble from [CRAN](http://cran.r-project.org/package=pdp); the development version is hosted on [GitHub](https://github.com/bgreenwell/pdp). There are two ways to install:
+The R package `pdp` is available from [CRAN](http://cran.r-project.org/package=pdp); the development version is hosted on [GitHub](https://github.com/bgreenwell/pdp). There are two ways to install:
 ``` r
 # Install latest release from CRAN
 install.packages("pdp")

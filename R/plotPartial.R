@@ -2,7 +2,7 @@
 #'
 #' Plots partial dependence functions using \code{lattice} graphics.
 #'
-#' @param x An object of class{"partial_1d"} or \code{"partial_2d"}.
+#' @param x An object that inherits from the \code{"partial"} class.
 #' @param smooth Logical indicating whether or not to overlay a LOESS smoother.
 #'   Default is \code{FALSE}.
 #' @param rug Logical indicating whether or not to include a rug representation

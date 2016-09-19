@@ -32,6 +32,10 @@
 #'   data. This may be required depending on the class of \code{object}.
 #' @param ... Additional optional arguments to be passed onto \code{aaply}.
 #'
+#' @references
+#' J. H. Friedman. Greedy function approximation: A gradient boosting machine. 
+#' \emph{Annals of Statistics}, \bold{29: 1189–1232, 2000}.
+#'
 #' @rdname partial
 #' @export
 partial <- function(object, ...) {

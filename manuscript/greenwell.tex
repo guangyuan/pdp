@@ -72,7 +72,7 @@ Currently, only two functions are exported by \pkg{pdp}:
 \end{itemize}
 The \code{partial} function evaluates the partial dependence \eqref{eqn:pdf} from a fitted model over a grid of predictor values; the predictors are specified using the \code{pred.var} argument. If \code{plot = FALSE} (the default), \code{partial} returns an object of class \code{"partial"} which inherits from the class \code{"data.frame"}; put another way, by default, \code{partial} returns a data frame with an additional class that is recognized by the \code{plotPartial} function. The columns of the data frame are labeled in the same order as the features supplied to \code{pred.var}, and the last column is always labeled \code{y} and contains the values of the partial dependence function $\bar{f}_s\left(\boldsymbol{z}_s\right)$. If \code{plot = TRUE}, then \code{partial} makes an internal call to \code{plotPartial} and returns the PDP in the form of a \CRANpkg{lattice} plot \citep{lattice-pkg}. The \code{plotPartial} function can be used for displaying more advanced PDPs; it operates on objects of class \code{"partial"} and has many useful plotting options (e.g., the option to add a LOESS smooth). Of course, since the default output produced by \code{partial} is still a data frame, the user can use any plotting package he/she desires to visualize the results---\CRANpkg{ggplot2} \citep{ggplot2-pkg}, for instance.
 
-Currently supported models are described in Table~\ref{tab:models}. However, the default method \code{partial.default} is flexible enough to handle many of the model types not listed in in this table; for example, neural networks from the \CRANpkg{nnet} package \citep{venables-modern-2002} and projection pursuit regression \citep{friedman-ppr-1981} using the \code{ppr} function in the \pkg{stats} package. Although, for these cases, the user will need to specify the additional options \code{type} (i.e., \code{"regression"} or \code{"classification"}) and \code{train} (the original training data) in the call to \code{partial}---the exception in Table~\ref{tab:models} is using partial with the \code{"xgb.Booster"} class, which requires the user to specify \code{train}.
+Currently supported models are described in Table~\ref{tab:models}. In a lot of these cases, \code{partial} should be able to automatically determine \code{type} (i.e., \code{"regression"} or \code{"classification"}) and \code{train} (the original training data). In other cases, the user may need to specify these additional arguments. Using these additional arguments, it is possible to handle many of the model types not listed in in this table; for example, neural networks from the \CRANpkg{nnet} package \citep{venables-modern-2002} and projection pursuit regression \citep{friedman-ppr-1981} using the \code{ppr} function in the \pkg{stats} package. 
 
 \begin{table}[!htbp]
   \begin{tabular}{p{4cm}ll}
@@ -103,6 +103,12 @@ Currently supported models are described in Table~\ref{tab:models}. However, the
   \caption{Models specifically supported by the \pkg{pdp} package. \strong{Note:} package \pkg{xgboost} is only partially supported; see Section~\ref{sec:xgboost} for details.}
   \label{tab:models}
 \end{table}
+
+When additional arguments are necessary, the user will be prompted with an informative error message. For instance, the user may occasionally see the following:
+\begin{example}
+Error: The training data could not be extracted from object. Please supply the raw training data using the `train` argument in the call to `partial`.
+\end{example}
+This will occure, for example, when using partial with the \code{"xgb.Booster"} class. In fact, using \code{partial} with any object that does not store the original training data will result in the above error message.
 
 For illustration, we will use the (corrected) Boston housing data which are available from the \CRANpkg{mlbench} package \citep{mlbench-pkg}. These data contain the median value of owner-occupied homes in 506 U.S. census tracts in the Boston area, along with 13 independent variables such as the per capita crime rate by town. We begin by loading the data and omitting unimportant columns.
 \begin{example}

@@ -3,7 +3,7 @@
 #   partial: partial: An R Package for Creating Partial Dependence Plots
 #
 #        Author: Brandon M. Greenwell
-# Date Modified: 16Sep2016
+# Last Modified: September 19, 2016
 
 
 ################################################################################
@@ -29,6 +29,10 @@ setwd("manuscript")
 # drat:::addRepo("dmlc")
 # install.packages("data.table")  # required when installing xgboost from source!
 # install.packages("xgboost", repos = "http://dmlc.ml/drat/", type = "source")
+
+# Install the development version of pdp
+# install.packages("devtools")
+# devtools::install_github("bgreenwell/pdp")
 
 # Load required packages
 library(doParallel)

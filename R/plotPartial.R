@@ -11,9 +11,11 @@
 #' @param chull Logical indicating whether or not to draw the convex hull
 #'   around the first two variables. If \code{TRUE} the user must supply the
 #'   original training data via the \code{train} option.Default is \code{FALSE}.
-#' @param contour Logical indicating whether or not to use
-#'   \code{lattice::levelplot} (\code{TRUE}) or \code{lattice::wireframe}
-#'   (\code{FALSE}). Default is \code{TRUE}.
+#' @param levelplot Logical indicating whether or not to use a false color level
+#'   plot (\code{TRUE}) or a 3-D surface (\code{FALSE}). Default is \code{TRUE}.
+#' @param contour Logical indicating whether or not to add contour lines to the
+#'   level plot. Only used when \code{levelplot = TRUE}. Default is
+#'   \code{FALSE}.
 #' @param number Integer specifying the number of conditional intervals for the
 #'   panel variables.
 #' @param overlap The fraction of overlap of the conditioning variables. See
@@ -40,8 +42,9 @@ plotPartial <- function(x, ...) {
 #' @rdname plotPartial
 #' @export
 plotPartial.partial <- function(x, smooth = FALSE, rug = FALSE, chull = FALSE,
-                                contour = TRUE, number = 4, overlap = 0.1,
-                                train = NULL, col.regions = viridis::viridis,
+                                levelplot = TRUE, contour = FALSE, number = 4,
+                                overlap = 0.1, train = NULL,
+                                col.regions = viridis::viridis,
                                 ...) {
 
   # Determine number of variables to plot
@@ -77,8 +80,9 @@ plotPartial.partial <- function(x, smooth = FALSE, rug = FALSE, chull = FALSE,
   } else if (nx == 2) {
     form <- stats::as.formula(paste("y ~",
                                     paste(names(x)[1L:2L], collapse = "*")))
-    if (contour) {
-      levelplot(form, data = x, col.regions = col.regions, ...,
+    if (levelplot) {
+      levelplot(form, data = x, col.regions = col.regions, contour = contour,
+                ...,
                 panel = function(x1, y1, ...) {
                   panel.levelplot(x1, y1, ...)
                   if (rug || chull) {
@@ -99,7 +103,7 @@ plotPartial.partial <- function(x, smooth = FALSE, rug = FALSE, chull = FALSE,
                     if (is.null(train)) {
                       stop("The training data must be supplied for convex hull display.")
                     }
-                    hpts <- grDevices::chull(na.omit(train[names(x)[1L:2L]]))
+                    hpts <- grDevices::chull(stats::na.omit(train[names(x)[1L:2L]]))
                     hpts <- c(hpts, hpts[1])
                     panel.lines(train[hpts, names(x)[1L:2L]],
                                 col = "black")
@@ -117,8 +121,9 @@ plotPartial.partial <- function(x, smooth = FALSE, rug = FALSE, chull = FALSE,
     form <- stats::as.formula(paste("y ~",
                                     paste(names(x)[1L:2L], collapse = "*"), "|",
                                     paste(names(x)[3L:nx], collapse = "*")))
-    if (contour) {
-      levelplot(form, data = x, col.regions = col.regions, ...)
+    if (levelplot) {
+      levelplot(form, data = x, col.regions = col.regions, contour = contour,
+                ...)
     } else {
       wireframe(form, data = x, ...)
     }

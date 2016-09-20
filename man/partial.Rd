@@ -56,4 +56,8 @@ data. This may be required depending on the class of \code{object}.}
 \description{
 Compute partial dependence functions for various model fitting objects.
 }
+\references{
+J. H. Friedman. Greedy function approximation: A gradient boosting machine.
+\emph{Annals of Statistics}, \bold{29}: 1189-1232, 2000.
+}
 

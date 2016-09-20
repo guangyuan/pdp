@@ -13,11 +13,12 @@
 #'   minimum between \code{51} and the number of unique data points for each of
 #'   the continuous independent variables listed in \code{pred.var}.
 #' @param type Character string specifying the type of supervised learning.
-#'   Current options are \code{"regression"} or \code{"classification"}. For some
-#'   objects (e.g., tree-based models like \code{"rpart"}), \code{partial} can usually
-#'   extract the necessary information from \code{object}.
+#'   Current options are \code{"regression"} or \code{"classification"}. For
+#'   some objects (e.g., tree-based models like \code{"rpart"}), \code{partial}
+#'   can usually extract the necessary information from \code{object}.
 #' @param which.class Integer specifying which column of the matrix of predicted
-#'   probabilities to use as the "focus" class. Default is to use the first class.
+#'   probabilities to use as the "focus" class. Default is to use the first
+#'   class.
 #' @param plot Logical indicating whether to return a data frame containing the
 #'   partial dependence values (\code{FALSE}) or plot the partial dependence
 #'   function directly (\code{TRUE}). Default is \code{FALSE}.
@@ -33,8 +34,8 @@
 #' @param ... Additional optional arguments to be passed onto \code{aaply}.
 #'
 #' @references
-#' J. H. Friedman. Greedy function approximation: A gradient boosting machine. 
-#' \emph{Annals of Statistics}, \bold{29: 1189–1232, 2000}.
+#' J. H. Friedman. Greedy function approximation: A gradient boosting machine.
+#' \emph{Annals of Statistics}, \bold{29}: 1189-1232, 2000.
 #'
 #' @rdname partial
 #' @export
@@ -88,8 +89,8 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
   if (chull) {
     if (length(pred.var) >= 2 && is.numeric(train[[1L]]) &&
         is.numeric(train[[2L]])) {
-      X <- na.omit(data.matrix(train[pred.var[1L:2L]]))
-      Y <- na.omit(data.matrix(pred.grid[1L:2L]))
+      X <- stats::na.omit(data.matrix(train[pred.var[1L:2L]]))
+      Y <- stats::na.omit(data.matrix(pred.grid[1L:2L]))
       hpts <- grDevices::chull(X)
       hpts <- c(hpts, hpts[1])
       keep <- mgcv::in.out(X[hpts, ], Y)

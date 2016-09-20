@@ -69,11 +69,11 @@ The development version is located on GitHub: \url{https://github.com/bgreenwell
   \item \code{plotPartial}
 \end{itemize}
 
-The \code{partial} function evaluates the partial dependence \eqref{eqn:pdf} from a fitted model over a grid of predictor values; the fitted model and predictors are specified using the \code{object} and \code{pred.var} arguments, respectively---these are the only required arguments. If \code{plot = FALSE} (the default), \code{partial} returns an object of class \code{"partial"} which inherits from the class \code{"data.frame"}; put another way, by default, \code{partial} returns a data frame with an additional class that is recognized by the \code{plotPartial} function. The columns of the data frame are labeled in the same order as the features supplied to \code{pred.var}, and the last column is always labeled \code{y} and contains the values of the partial dependence function $\bar{f}_s\left(\boldsymbol{z}_s\right)$. If \code{plot = TRUE}, then \code{partial} makes an internal call to \code{plotPartial} and returns the PDP in the form of a \CRANpkg{lattice} plot \citep{lattice-pkg}. 
+The \code{partial} function evaluates the partial dependence \eqref{eqn:pdf} from a fitted model over a grid of predictor values; the fitted model and predictors are specified using the \code{object} and \code{pred.var} arguments, respectively---these are the only required arguments. If \code{plot = FALSE} (the default), \code{partial} returns an object of class \code{"partial"} which inherits from the class \code{"data.frame"}; put another way, by default, \code{partial} returns a data frame with an additional class that is recognized by the \code{plotPartial} function. The columns of the data frame are labeled in the same order as the features supplied to \code{pred.var}, and the last column is always labeled \code{y} and contains the values of the partial dependence function $\bar{f}_s\left(\boldsymbol{z}_s\right)$. If \code{plot = TRUE}, then \code{partial} makes an internal call to \code{plotPartial} and returns the PDP in the form of a \CRANpkg{lattice} plot \citep{lattice-pkg}.
 
-The \code{plotPartial} function can be used for displaying more advanced PDPs; it operates on objects of class \code{"partial"} and has many useful plotting options (e.g., the option to add a LOESS smooth). Of course, since the default output produced by \code{partial} is still a data frame, the user can use any plotting package he/she desires to visualize the results---\CRANpkg{ggplot2} \citep{ggplot2-pkg}, for instance.
+The \code{plotPartial} function can be used for displaying more advanced PDPs; it operates on objects of class \code{"partial"} and has many useful plotting options. For example, \code{plotPartial} makes it straight forward to add a LOESS smooth, or produce a 3-D surface instead of a false color level plot (the default). Of course, since the default output produced by \code{partial} is still a data frame, the user can easily use any plotting package he/she desires to visualize the results---\CRANpkg{ggplot2} \citep{ggplot2-pkg}, for instance.
 
-Currently supported models are described in Table~\ref{tab:models}. In a lot of these cases, \code{partial} should be able to automatically determine \code{type} (i.e., \code{"regression"} or \code{"classification"}) and \code{train} (the original training data). In other situations, the user may need to specify these additional arguments. This allows \code{partial} to be flexible enough to handle many of the model types not listed in in Table~\ref{tab:models}; for example, neural networks from the \CRANpkg{nnet} package \citep{venables-modern-2002} and projection pursuit regression \citep{friedman-ppr-1981} using the \code{ppr} function in the \pkg{stats} package. 
+Currently supported models are described in Table~\ref{tab:models}. In a lot of these cases, \code{partial} should be able to automatically determine appropriate values for the options \code{type} (i.e., \code{"regression"} or \code{"classification"}) and \code{train} (the original training data). In other situations, the user may need to specify one or both of these additional arguments. This allows \code{partial} to be flexible enough to handle many of the model types not listed in in Table~\ref{tab:models}; for example, neural networks from the \CRANpkg{nnet} package \citep{venables-modern-2002} and projection pursuit regression \citep{friedman-ppr-1981} using the \code{ppr} function in the \pkg{stats} package.
 
 \begin{table}[!htbp]
   \begin{tabular}{p{4cm}ll}
@@ -173,18 +173,19 @@ The benefit of using \code{partial} is threefold: (1) it is a generic function t
 \begin{example}
 library(earth)  # for fitting MARS models
 boston.mars <- earth(cmedv ~ ., data = boston, degree = 3)
+rwb <- colorRampPalette(c("red", "white", "blue"))
 pd <- partial(boston.mars, pred.var = c("lstat", "rm"))
 plotPartial(pd)
-plotPartial(pd, col.regions = colorRampPalette(c("red", "white", "blue")))
-plotPartial(pd, contour = FALSE, zlab = "cmedv", drape = TRUE,
+plotPartial(pd, contour = TRUE, col.regions = rwb)
+plotPartial(pd, levelplot = FALSE, zlab = "cmedv", drape = TRUE,
             colorkey = TRUE, screen = list(z = -20, x = -60))
 \end{example}
-\strong{Note:} the default color map for contour plots is the color blind-friendly matplotlib \citep{hunter-matplotlib-2007} 'viridis' color map provided by the \CRANpkg{viridis} package \citep{viridis-pkg}.
+\strong{Note:} the default color map for level plots is the color blind-friendly matplotlib \citep{hunter-matplotlib-2007} 'viridis' color map provided by the \CRANpkg{viridis} package \citep{viridis-pkg}.
 
 \begin{widefigure}[htbp]
   \centering
   \includegraphics[width=1.0\linewidth]{pd_lstat_rm}
-  \caption{Partial dependence of \code{cmedv} on \code{lstat} and \code{rm} based on a third degree MARS model. \textit{Left}: Default plot. \textit{Middle}: Using a user-specified color palette. \textit{Right}: Using a 3-D surface.}
+  \caption{Partial dependence of \code{cmedv} on \code{lstat} and \code{rm} based on a third degree MARS model. \textit{Left}: Default plot. \textit{Middle}: Adds contour lines and uses a different color palette. \textit{Right}: Using a 3-D surface.}
   \label{fig:pd_lstat_rm}
 \end{widefigure}
 
@@ -355,7 +356,7 @@ for (x in pred.list) {
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary}
 
-PDPs can be used to graphically examine the dependence of the response on low cardinality subsets of the features, accounting for the average effect of the other predictors. In this paper, we showed how to construct PDPs for various types of black box models in R using the \pkg{pdp} package. We also briefly discussed related approaches available in other R packages. Suggestions to avoid extrapolation and high exececution times were discussed and demonstrated via examples. 
+PDPs can be used to graphically examine the dependence of the response on low cardinality subsets of the features, accounting for the average effect of the other predictors. In this paper, we showed how to construct PDPs for various types of black box models in R using the \pkg{pdp} package. We also briefly discussed related approaches available in other R packages. Suggestions to avoid extrapolation and high exececution times were discussed and demonstrated via examples.
 
 In terms of future development, \pkg{pdp} can be expanded in a number of ways. For example, it would be useful to have the ability to construct PDPs for black box survival models---like conditional random forests with censored response. It would also be worthwhile to implement the partial dependence-based $H$-statistic \citep{friedman-2008-predictive} for assessing the strength of interaction between predictors.
 

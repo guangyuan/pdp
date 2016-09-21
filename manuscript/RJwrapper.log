@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.4.30)  19 SEP 2016 22:11
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.4.30)  20 SEP 2016 20:37
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1427,7 +1427,7 @@ Package microtype Info: Loading generic settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 
-<boston_rf_vimp.pdf, id=176, 505.89pt x 361.35pt>
+<boston_rf_vimp.pdf, id=174, 505.89pt x 361.35pt>
 File: boston_rf_vimp.pdf Graphic file (type pdf)
  <use boston_rf_vimp.pdf>
 Package pdftex.def Info: boston_rf_vimp.pdf used on input line 130.
@@ -1435,12 +1435,12 @@ Package pdftex.def Info: boston_rf_vimp.pdf used on input line 130.
 LaTeX Font Info:    Font shape `T1/ppl/bx/n' in size <10> not available
 (Font)              Font shape `T1/ppl/b/n' tried instead on input line 139.
 
-[3] <pd_lstat.pdf, id=198, 578.16pt x 289.08pt>
+[3] <pd_lstat.pdf, id=196, 578.16pt x 289.08pt>
 File: pd_lstat.pdf Graphic file (type pdf)
  <use pd_lstat.pdf>
 Package pdftex.def Info: pd_lstat.pdf used on input line 161.
 (pdftex.def)             Requested size: 398.33858pt x 199.16986pt.
- [4 <./boston_rf_vimp.pdf>] <pd_lstat_rm.pdf, id=225, 867.24pt x 289.08pt>
+ [4 <./boston_rf_vimp.pdf>] <pd_lstat_rm.pdf, id=223, 867.24pt x 289.08pt>
 File: pd_lstat_rm.pdf Graphic file (type pdf)
 
 <use pd_lstat_rm.pdf>
@@ -1451,14 +1451,14 @@ Overfull \hbox (56.90552pt too wide) in paragraph at lines 190--190
  []$[]$ 
  []
 
-<partial_extrap.pdf, id=228, 578.16pt x 289.08pt>
+<partial_extrap.pdf, id=226, 578.16pt x 289.08pt>
 File: partial_extrap.pdf Graphic file (type pdf)
  <use partial_extrap.pdf>
 Package pdftex.def Info: partial_extrap.pdf used on input line 210.
 (pdftex.def)             Requested size: 398.33858pt x 199.16986pt.
 
 [5 <./pd_lstat.pdf> <./pd_lstat_rm.pdf>]
-<partial_manual.pdf, id=248, 867.24pt x 289.08pt>
+<partial_manual.pdf, id=246, 867.24pt x 289.08pt>
 File: partial_manual.pdf Graphic file (type pdf)
  <use partial_manual.pdf>
 Package pdftex.def Info: partial_manual.pdf used on input line 233.
@@ -1480,19 +1480,19 @@ LaTeX Font Info:    Font shape `U/msa/m/n' will be
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
 (Font)              scaled to size 8.33606pt on input line 256.
 
-<partial_par.pdf, id=289, 505.89pt x 361.35pt>
+<partial_par.pdf, id=287, 505.89pt x 361.35pt>
 File: partial_par.pdf Graphic file (type pdf)
  <use partial_par.pdf>
 Package pdftex.def Info: partial_par.pdf used on input line 270.
 (pdftex.def)             Requested size: 318.67207pt x 227.62413pt.
- [7 <./partial_par.pdf>] <partial_iris_svm.pdf, id=309, 867.24pt x 289.08pt>
+ [7 <./partial_par.pdf>] <partial_iris_svm.pdf, id=307, 867.24pt x 289.08pt>
 File: partial_iris_svm.pdf Graphic file (type pdf)
 
 <use partial_iris_svm.pdf>
 Package pdftex.def Info: partial_iris_svm.pdf used on input line 315.
 (pdftex.def)             Requested size: 398.33858pt x 132.7799pt.
  [8 <./partial_iris_svm.pdf>]
-<boston_xgb.pdf, id=330, 867.24pt x 289.08pt>
+<boston_xgb.pdf, id=328, 867.24pt x 289.08pt>
 File: boston_xgb.pdf Graphic file (type pdf)
  <use boston_xgb.pdf>
 Package pdftex.def Info: boston_xgb.pdf used on input line 348.
@@ -1516,13 +1516,13 @@ Package rerunfilecheck Info: File `RJwrapper.brf' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 25.
  ) 
 Here is how much of TeX's memory you used:
- 22187 strings out of 494953
- 394594 string characters out of 6180977
- 491022 words of memory out of 5000000
+ 22190 strings out of 494953
+ 394615 string characters out of 6180977
+ 491041 words of memory out of 5000000
  24708 multiletter control sequences out of 15000+600000
- 68600 words of font info for 265 fonts, out of 8000000 for 9000
+ 68688 words of font info for 267 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 62i,12n,56p,1379b,647s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 62i,12n,56p,1387b,647s stack positions out of 5000i,500n,10000p,200000b,80000s
 pdfTeX warning (dest): name{Hfootnote.2} has been referenced but does not exi
 st, replaced by a fixed one
 
@@ -1541,10 +1541,10 @@ thpazo/fplmr.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/palatino/uplb8a
 share/texlive/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texliv
 e/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texlive/texmf-dist
 /fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on RJwrapper.pdf (11 pages, 515702 bytes).
+Output written on RJwrapper.pdf (11 pages, 515583 bytes).
 PDF statistics:
- 487 PDF objects out of 1000 (max. 8388607)
- 439 compressed objects within 5 object streams
+ 485 PDF objects out of 1000 (max. 8388607)
+ 438 compressed objects within 5 object streams
  77 named destinations out of 1000 (max. 500000)
  49293 words of extra memory for PDF output out of 51595 (max. 10000000)
 

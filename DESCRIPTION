@@ -24,7 +24,7 @@ Suggests:
     randomForest,
     rpart,
     testthat,
-    xgboost
+    xgboost (>= 0.6-0)
 Imports:
     grDevices,
     lattice,

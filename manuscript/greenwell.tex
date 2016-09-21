@@ -218,7 +218,7 @@ partial(boston.rf, pred.var = c("lstat", "rm"), plot = TRUE, chull = TRUE)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Addressing computational concerns}
 
-Constructing PDPs can be quite computationally expensive. Several strategies are available to ease the computational burden in larger problems. For example, there is no need to compute partial dependence of median home value using each unique value of \code{rm} in the training data (which would require $k = 446$ passes over the data!). We could get very reasonable results using a reduced number of points. Current options are to use a grid of equally spaced values in the range of the variable of interest; the number of points can be controlled using the \code{grid.resolution} option in the call to \code{partial}. Alternatively, a user-specified grid of values (e.g., containing specific quantiles of interest) can be supplied through the \code{pred.grid} argument. To demonstrate, the following snippet of code computes the partial dependence of \code{cmedv} on \code{rm} using each option; the results are displayed in Figure~\ref{fig:partial_manual}.
+Constructing PDPs can be quite computationally expensive. Several strategies are available to ease the computational burden in larger problems. For example, there is no need to compute partial dependence of \code{cmedv} using each unique value of \code{rm} in the training data (which would require $k = 446$ passes over the data!). We could get very reasonable results using a reduced number of points. Current options are to use a grid of equally spaced values in the range of the variable of interest; the number of points can be controlled using the \code{grid.resolution} option in the call to \code{partial}. Alternatively, a user-specified grid of values (e.g., containing specific quantiles of interest) can be supplied through the \code{pred.grid} argument. To demonstrate, the following snippet of code computes the partial dependence of \code{cmedv} on \code{rm} using each option; the results are displayed in Figure~\ref{fig:partial_manual}.
 \begin{example}
 partial(boston.rf, "rm", plot = TRUE)
 partial(boston.rf, "rm", grid.resolution = 30, plot = TRUE)
@@ -251,15 +251,14 @@ The model produced a generalized $R^2$ of $0.79$, similar to what was reported i
   \item \code{temp}: temperature ($^oF$) at Sandburg Air Force Base
   \item \code{dpg}: the pressure gradient (mm Hg) from LAX to Dagget, CA
 \end{itemize}
-To understand this interaction, we can use a PDP. However, since the partial dependece between three continuous variables can be computationally expensive, we will run \code{partial} in parallel.
+To understand this interaction, we can use a PDP. However, since the partial dependence between three continuous variables can be computationally expensive, we will run \code{partial} in parallel.
 
-Setting up a parallel backend is rather straightforward. To illustrate, the following snippet of sets up the \code{partial} function to run in parallel on Unix-like systems\footnote{This example will not run on Windows.} using the \pkg{doParallel} package.
+Setting up a parallel backend is rather straightforward. To demonstrate, the following snippet of code sets up the \code{partial} function to run in parallel on Unix-like systems\footnote{This example will not run on Windows.} using the \pkg{doParallel} package.
 \begin{example}
 library(doParallel)  # load parallel backend
 registerDoParallel(cores = 4)  # use 4 cores
 \end{example}
-
-Now, to run \code{partial} in parallel, all we have to do is invoke the \code{.parallel = TRUE} option and the rest is taken care of by the internal call to \pkg{plyr} and the parallel backend we loaded. This is illustrated in code chunk below which obtains the partial dependence of \code{ozone} on \code{wind}, \code{temp}, and \code{dpg} in parallel. The result is displayed in Figure~\ref{fig:partial_par}.
+Now, to run \code{partial} in parallel, all we have to do is invoke the \code{.parallel = TRUE} option and the rest is taken care of by the internal call to \pkg{plyr} and the parallel backend we loaded. This is illustrated in the code chunk below which obtains the partial dependence of \code{ozone} on \code{wind}, \code{temp}, and \code{dpg} in parallel. The result is displayed in Figure~\ref{fig:partial_par}.
 \begin{example}
 partial(ozone.mars, pred.var = c("wind", "temp", "dpg"), plot = TRUE,
         chull = TRUE, .parallel = TRUE)
@@ -284,7 +283,7 @@ f_k(x) = \log\left[p_k(x)\right] - \frac{1}{K}\sum_{i = 1}^K\log\left[p_k(x)\rig
 \end{equation}
 where $p_k(x)$ is the predicted probability for the $k$-th class. Plotting $f_k(x)$ helps us understand how the log-odds for the $k$-th class depends on different subsets of the predictor variables.
 
-To illustrate, we consider Edgar Anderson's iris data from the \pkg{datasets} package. The \code{iris} data frame contains the sepal length, sepal width, petal length, and petal width (in centimeters) for 50 flowers from each of three species of iris:  setosa, versicolor, and virginica. We fit a support vector machine with a Gaussian radial basis function kernel to the data using the \code{svm} function in the \pkg{e1071} (the tuning parameters were determined using 5-fold cross-validation).
+To illustrate, we consider Edgar Anderson's iris data from the \pkg{datasets} package. The \code{iris} data frame contains the sepal length, sepal width, petal length, and petal width (in centimeters) for 50 flowers from each of three species of iris:  setosa, versicolor, and virginica. We fit a support vector machine with a Gaussian radial basis function kernel to the data using the \code{svm} function in the \pkg{e1071} package (the tuning parameters were determined using 5-fold cross-validation).
 \begin{example}
 library(e1071)
 iris.svm <- svm(Species ~ ., data = iris, kernel = "radial", gamma = 0.75,

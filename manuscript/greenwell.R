@@ -75,7 +75,7 @@ dev.off()
 pd.lstat <- partial(boston.rf, pred.var = "lstat")
 pdf("pd_lstat.pdf", width = 8, height = 4)
 pdp1 <- plotPartial(pd.lstat)
-pdp2 <- plotPartial(pd.lstat, lwd = 2, smooth = TRUE, span = 0.5,
+pdp2 <- plotPartial(pd.lstat, lwd = 2, smooth = TRUE,
                     ylab = expression(f(lstat)))
 gridExtra::grid.arrange(pdp1, pdp2, ncol = 2)
 dev.off()

@@ -2,36 +2,42 @@
 #'
 #' Compute partial dependence functions for various model fitting objects.
 #'
-#' @param object A fitted model object.
+#' @param object A fitted model object of appropriate class (e.g., 
+#'   \code{"gbm"}, \code{"lm"}, \code{"randomForest"}, etc.).
 #' @param pred.var Character string giving the names of the predictor
-#'   variables of interest.
+#'   variables of interest. For reasons of computation/interpretation, this 
+#'   should include no more than three variables.
 #' @param pred.grid Data frame containing the joint values of the variables
 #'   listed in \code{pred.var}.
 #' @param grid.resolution Integer giving the number of equally spaced points to
 #'   use (only used for the continuous variables listed in \code{pred.var} when
 #'   \code{pred.grid} is not supplied). If left \code{NULL}, it will default to
-#'   minimum between \code{51} and the number of unique data points for each of
-#'   the continuous independent variables listed in \code{pred.var}.
+#'   the minimum between \code{51} and the number of unique data points for each 
+#'   of the continuous independent variables listed in \code{pred.var}.
 #' @param type Character string specifying the type of supervised learning.
 #'   Current options are \code{"regression"} or \code{"classification"}. For
 #'   some objects (e.g., tree-based models like \code{"rpart"}), \code{partial}
 #'   can usually extract the necessary information from \code{object}.
 #' @param which.class Integer specifying which column of the matrix of predicted
 #'   probabilities to use as the "focus" class. Default is to use the first
-#'   class.
+#'   class. Only used for classification problems (i.e., when 
+#'   \code{type = "classification"}).
 #' @param plot Logical indicating whether to return a data frame containing the
 #'   partial dependence values (\code{FALSE}) or plot the partial dependence
 #'   function directly (\code{TRUE}). Default is \code{FALSE}.
-#' @param smooth Logical indicating whether or not to overlay a LOESS smoother.
+#' @param smooth Logical indicating whether or not to overlay a LOESS smooth.
 #'   Default is \code{FALSE}.
-#' @param rug Logical indicating whether or not to include a rug representation
-#'   to the plot. Only used when \code{plot = TRUE}. Default is \code{FALSE}.
+#' @param rug Logical indicating whether or not to include rug marks on the
+#'   predictor axes. Only used when \code{plot = TRUE}. Default is \code{FALSE}.
 #' @param chull Logical indicating wether or not to restrict the first
 #'   two variables in \code{pred.var} to lie within the convex hull of their
 #'   data points; this effects \code{pred.grid}. Default is \code{FALSE}.
 #' @param train An optional data frame containing the original training
-#'   data. This may be required depending on the class of \code{object}.
-#' @param ... Additional optional arguments to be passed onto \code{aaply}.
+#'   data. This may be required depending on the class of \code{object}. For
+#'   objects that do not store a copy of the original training data, this
+#'   argument is required.
+#' @param ... Additional optional arguments to be passed onto 
+#'   \code{plyr::aaply}.
 #'
 #' @references
 #' J. H. Friedman. Greedy function approximation: A gradient boosting machine.

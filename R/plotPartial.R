@@ -3,31 +3,32 @@
 #' Plots partial dependence functions using \code{lattice} graphics.
 #'
 #' @param x An object that inherits from the \code{"partial"} class.
-#' @param smooth Logical indicating whether or not to overlay a LOESS smoother.
+#' @param smooth Logical indicating whether or not to overlay a LOESS smooth.
 #'   Default is \code{FALSE}.
-#' @param rug Logical indicating whether or not to include a rug representation
-#'   to the plot. If \code{TRUE} the user must supply the original training data
-#'   via the \code{train} option. Default is \code{FALSE}.
-#' @param chull Logical indicating whether or not to draw the convex hull
-#'   around the first two variables. If \code{TRUE} the user must supply the
-#'   original training data via the \code{train} option.Default is \code{FALSE}.
+#' @param rug Logical indicating whether or not to include rug marks on the
+#'   predictor axes. Only used when \code{plot = TRUE}. Default is \code{FALSE}.
+#' @param chull Logical indicating wether or not to restrict the first
+#'   two variables in \code{pred.var} to lie within the convex hull of their
+#'   data points; this effects \code{pred.grid}. Default is \code{FALSE}.
 #' @param levelplot Logical indicating whether or not to use a false color level
 #'   plot (\code{TRUE}) or a 3-D surface (\code{FALSE}). Default is \code{TRUE}.
 #' @param contour Logical indicating whether or not to add contour lines to the
-#'   level plot. Only used when \code{levelplot = TRUE}. Default is
+#'   level plot. Only used when \code{levelplot = TRUE}. Default is 
 #'   \code{FALSE}.
-#' @param number Integer specifying the number of conditional intervals for the
-#'   panel variables.
+#' @param number Integer specifying the number of conditional intervals to use 
+#'   for the continuous panel variables. See \code{?graphics::co.intervals} and 
+#'   \code{?lattice::equal.count} for further details.
 #' @param overlap The fraction of overlap of the conditioning variables. See
 #'   \code{?graphics::co.intervals} and \code{?lattice::equal.count} for further
 #'   details.
 #' @param train Data frame containing the original training data. Only
 #'   required if \code{rug = TRUE} or \code{chull = TRUE}.
-#' @param col.regions Color vector to be used if \code{contour} is \code{TRUE}.
-#'   Defaults to the wonderful Matplotlib 'viridis' color map provided by the
-#'   \code{viridis} package. See \code{?viridis::viridis} for details.
-#' @param ... Additional optional arguments to be passed onto \code{levelplot},
-#'   \code{wireframe}, or \code{xyplot}.
+#' @param col.regions Color vector to be used if \code{levelplot} is 
+#'   \code{TRUE}. Defaults to the wonderful Matplotlib 'viridis' color map 
+#'   provided by the \code{viridis} package. See \code{?viridis::viridis} for 
+#'   details.
+#' @param ... Additional optional arguments to be passed onto \code{dotplot}, 
+#'   \code{levelplot}, \code{xyplot}, or \code{wireframe}.
 #'
 #' @importFrom lattice dotplot equal.count levelplot panel.levelplot panel.lines
 #' @importFrom lattice panel.loess panel.xyplot panel.rug wireframe xyplot

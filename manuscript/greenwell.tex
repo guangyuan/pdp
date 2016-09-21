@@ -323,7 +323,7 @@ ggplot(pd, aes(x = Petal.Width, y = Petal.Length, z = y, fill = y)) +
 
 To round out our discussion, we provide one last example using a recently popular (and successful!) machine learning tool. XGBoost, short for eXtreme Gradient Boosting, is a popular library providing optimized distributed gradient boosting that is specifically designed to be highly efficient, flexible and portable. The associated R package \pkg{xgboost} has been used to win a number of \href{https://www.kaggle.com/}{Kaggle competitions}. It has been shown to be many times faster than the well known \pkg{gbm} package. However, unlike \pkg{gbm}, \pkg{xgboost} does not have built-in functions for constructing PDPs. Fortunately, the \pkg{pdp} package can be used to fill this gap.
 
-For illustration, we return to the Boston housing data. The code chunk below fits an \pkg{xgboost} model to the \code{boston} data frame from Section~\ref{sec:boston}; the tuning parameters were predetermined using 5-fold cross-validation. (Make sure you are using the latest version of \pkg{xgboost}: \url{https://github.com/dmlc/xgboost/tree/master/R-package}.)
+For illustration, we return to the Boston housing data. The code chunk below fits an \pkg{xgboost} model to the \code{boston} data frame from Section~\ref{sec:boston}; the tuning parameters were predetermined using 5-fold cross-validation. (Make sure you are using version 0.6-0 or later of \pkg{xgboost}: \url{https://github.com/dmlc/xgboost/tree/master/R-package}.)
 \begin{example}
 set.seed(102)  # for reproducibility
 boston.xgb <- xgboost(data = data.matrix(subset(boston, select = -cmedv)),

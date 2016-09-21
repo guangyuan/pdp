@@ -85,16 +85,13 @@ boston.mars <- earth(cmedv ~ ., data = boston, degree = 3)
 
 # Figure 3
 rwb <- colorRampPalette(c("red", "white", "blue"))
-pd.lstat.rm <- partial(boston.mars, pred.var = c("lstat", "rm"))
+pd.lstat.rm <- partial(boston.rf, pred.var = c("lstat", "rm"))
 pdf("pd_lstat_rm.pdf", width = 12, height = 4)
 pdp1 <- plotPartial(pd.lstat.rm)
 pdp2 <- plotPartial(pd.lstat.rm, contour = TRUE, col.regions = rwb)
-# pdp2 <- plotPartial(pd.lstat.rm, col.regions = grey.colors)
 pdp3 <- plotPartial(pd.lstat.rm, levelplot = FALSE, zlab = "cmedv",
                     drape = TRUE, colorkey = FALSE,
                     screen = list(z = -20, x = -60))
-# print(p1, position = c(0, 0, 0.5, 1), more = TRUE)
-# print(p2, position = c(0.5, 0, 1, 1))
 gridExtra::grid.arrange(pdp1, pdp2, pdp3, ncol = 3)
 dev.off()
 

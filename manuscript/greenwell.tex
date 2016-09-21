@@ -238,12 +238,12 @@ ozone <- read.csv(paste0("http://statweb.stanford.edu/~tibs/ElemStatLearn/",
                          "datasets/LAozone.data"), header = TRUE)
 \end{example}
 
-Next, we use MARS to model ozone concentration as a nonlinear function of the eight meteorological variables plus day of the year; we allow for up to three-way interactions.
+Next, we use the multivariate adaptive regression splines (MARS) algorithm introduced in \citet{friedman-1991-mars} to model ozone concentration as a nonlinear function of the eight meteorological variables plus day of the year; we allow for up to three-way interactions.
 \begin{example}
 ozone.mars <- earth(ozone ~ ., data = ozone, degree = 3)
 summary(ozone.mars)
 \end{example}
-The model produced a generalized $R^2$ of $0.79$, similar to what was reported in \citet{breiman-1985-estimating}. A single three-way interaction was found involving the predictors
+The MARS model produced a generalized $R^2$ of $0.79$, similar to what was reported in \citet{breiman-1985-estimating}. A single three-way interaction was found involving the predictors
 \begin{itemize}
   \item \code{wind}: wind speed (mph) at Los Angeles International Airport (LAX)
   \item \code{temp}: temperature ($^oF$) at Sandburg Air Force Base

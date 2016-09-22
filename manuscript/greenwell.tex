@@ -2,7 +2,7 @@
 % Front matter
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\title{pdp: An R Package for Creating Partial Dependence Plots}
+\title{pdp: An R Package for Constructing Partial Dependence Plots}
 \author{by Brandon M. Greenwell}
 
 \maketitle
@@ -353,7 +353,7 @@ for (x in pred.list) {
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary}
 
-PDPs can be used to graphically examine the dependence of the response on low cardinality subsets of the features, accounting for the average effect of the other predictors. In this paper, we showed how to construct PDPs for various types of black box models in R using the \pkg{pdp} package. We also briefly discussed related approaches available in other R packages. Suggestions to avoid extrapolation and high exececution times were discussed and demonstrated via examples.
+PDPs can be used to graphically examine the dependence of the response on low cardinality subsets of the features, accounting for the average effect of the other predictors. In this paper, we showed how to construct PDPs for various types of black box models in R using the \pkg{pdp} package. We also briefly discussed related approaches available in other R packages. Suggestions to avoid extrapolation and high execution times were discussed and demonstrated via examples.
 
 In terms of future development, \pkg{pdp} can be expanded in a number of ways. For example, it would be useful to have the ability to construct PDPs for black box survival models---like conditional random forests with censored response. It would also be worthwhile to implement the partial dependence-based $H$-statistic \citep{friedman-2008-predictive} for assessing the strength of interaction between predictors.
 

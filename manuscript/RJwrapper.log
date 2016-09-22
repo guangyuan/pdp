@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.4.30)  22 SEP 2016 16:52
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.4.30)  22 SEP 2016 18:27
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1510,7 +1510,7 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 25.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 25.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 25.
 Package rerunfilecheck Info: File `RJwrapper.out' has not changed.
-(rerunfilecheck)             Checksum: 144AEC7C637B5327FCBC89EDD33B5186;812.
+(rerunfilecheck)             Checksum: EC98B061827D92F16A9A37DEF49131D0;816.
 Package rerunfilecheck Info: File `RJwrapper.brf' has not changed.
 (rerunfilecheck)             Checksum: AD26111A6159DAB4B2B845BB5F14ED68;2171.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 25.

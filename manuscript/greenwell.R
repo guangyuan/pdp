@@ -13,6 +13,10 @@
 # Set working directory
 setwd("manuscript")
 
+# For now, please install the development version of pdp from GitHub. The next
+# release will be on CRAN soon.
+
+
 # List of packages required to run all the examples in this script
 # pkgs <- c("doParallel",
 #           "e1071",

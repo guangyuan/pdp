@@ -14,7 +14,11 @@
 setwd("manuscript")
 
 # For now, please install the development version of pdp from GitHub. The next
-# release will be on CRAN soon.
+# release will be on CRAN soon. I am waiting out the grace period from my last
+# submission---the only change in this version is the name of an argument in
+# the two exported functions.
+install.packages("devtools")
+devtools::install_github("bgreenwell/pdp")
 
 
 # List of packages required to run all the examples in this script

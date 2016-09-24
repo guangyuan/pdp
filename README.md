@@ -41,11 +41,11 @@ boston.rf <- randomForest(cmedv ~ ., data = boston, importance = TRUE)
 print(boston.rf)  # check model accuracy
 varImpPlot(boston.rf)  # check variable importance
 
-# Is there an interaction between Temp and Wind?
+# Is there an interaction between lstat and rm?
 partial(boston.rf, pred.var = c("lstat", "rm"), chull = TRUE, plot = TRUE,
         .progress = "text")
         
-# Look at partial dependence of median home values on location
+# Look at partial dependence of median home value on location
 pd.loc <- partial(boston.rf, pred.var = c("lon", "lat"), chull = TRUE,
                   .progress = "text")
 

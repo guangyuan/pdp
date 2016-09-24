@@ -61,7 +61,7 @@ library(xgboost)
 data(BostonHousing2, package = "mlbench")
 boston <- BostonHousing2[, -c(1, 2, 5)]  # remove unused columns
 
-# Fit a random forest and a conditional random forest using default settings
+# Fit a random forest using default settings
 set.seed(101)  # for reproducibility
 boston.rf <- randomForest(cmedv ~ ., data = boston, importance = TRUE)
 print(boston.rf)  # check model results

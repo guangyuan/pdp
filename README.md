@@ -23,20 +23,43 @@ devtools::install_github("bgreenwell/pdp")
 ### Random forest example
 
 ``` r
-# Required packages
+# Install additional packages
+install.packages(c("ggmap", "mlbench", "randomForest"))
+
+# Load required packages
+library(ggmap)
 library(pdp)
 library(randomForest)
 
-# Fit a random forest model to the airquality data
-set.seed(131)  # for reproducibility
-ozone.rf <- randomForest(Ozone ~ ., data = airquality, mtry = 3, 
-                         importance = TRUE, na.action = na.omit)
-print(ozone.rf)  # check model accuracy
+# Load the (corrected) Boston housing data
+data(BostonHousing2, package = "mlbench")
+boston <- BostonHousing2[, -c(1, 2, 5)]  # remove unused columns
 
-# Investigate variable importance
-varImpPlot(ozone.rf)
+# Fit a random forest using default settings
+set.seed(101)  # for reproducibility
+boston.rf <- randomForest(cmedv ~ ., data = boston, importance = TRUE)
+print(boston.rf)  # check model accuracy
+varImpPlot(boston.rf)  # check variable importance
 
 # Is there an interaction between Temp and Wind?
-partial(ozone.rf, pred.var = c("Temp", "Wind"), chull = TRUE, plot = TRUE)
+partial(boston.rf, pred.var = c("lstat", "rm"), chull = TRUE, plot = TRUE,
+        .progress = "text")
+        
+# Look at partial dependence of median home values on location
+pd.loc <- partial(boston.rf, pred.var = c("lon", "lat"), chull = TRUE,
+                  .progress = "text")
+
+# Overlay predictions on a map of Boston
+ll <- c(range(boston$lon), range(boston$lat))
+map <- get_map(location = c(ll[1L], ll[3L], ll[2L], ll[4L]), zoom = 11,
+               maptype = "toner-lite")
+ggmap(map) + 
+  geom_tile(aes(x = lon, y = lat, z = y, fill = y), 
+            data = pd.loc, alpha = 0.3) +
+  geom_contour(color = "white", alpha = 0.5) +
+  scale_fill_distiller(palette = "Spectral") +
+  labs(x = "Longitude", y = "Latitude")
 ```
-![](https://raw.githubusercontent.com/bgreenwell/pdp/master/pd_Temp_Wind.png)
+![](https://raw.githubusercontent.com/bgreenwell/pdp/master/pd_lstat_rm.png)
+![](https://raw.githubusercontent.com/bgreenwell/pdp/master/pd_lon_lat.png)
+

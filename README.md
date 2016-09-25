@@ -51,8 +51,7 @@ pd.loc <- partial(boston.rf, pred.var = c("lon", "lat"), chull = TRUE,
 
 # Overlay predictions on a map of Boston
 ll <- c(range(boston$lon), range(boston$lat))
-map <- get_map(location = c(ll[1L], ll[3L], ll[2L], ll[4L]), zoom = 11,
-               maptype = "toner-lite")
+map <- get_map(location = ll[c(1, 3, 2, 4)], zoom = 11, maptype = "toner-lite")
 ggmap(map) + 
   geom_tile(aes(x = lon, y = lat, z = y, fill = y), 
             data = pd.loc, alpha = 0.3) +

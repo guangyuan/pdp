@@ -53,8 +53,8 @@ pd.loc <- partial(boston.rf, pred.var = c("lon", "lat"), chull = TRUE,
 ll <- c(range(boston$lon), range(boston$lat))
 map <- get_map(location = ll[c(1, 3, 2, 4)], zoom = 11, maptype = "toner-lite")
 ggmap(map) + 
-  geom_tile(aes(x = lon, y = lat, z = y, fill = y), 
-            data = pd.loc, alpha = 0.3) +
+  geom_point(aes(x = lon, y = lat), data = boston, alpha = 0.2) +
+  geom_tile(aes(x = lon, y = lat, z = y, fill = y), data = pd.loc, alpha = 0.3) +
   geom_contour(color = "white", alpha = 0.5) +
   scale_fill_distiller(palette = "Spectral") +
   labs(x = "Longitude", y = "Latitude")

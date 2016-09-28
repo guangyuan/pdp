@@ -1,8 +1,8 @@
 # NEWS for pdp package
 
 ### Changes for version 0.0.5
-* partial now makes sure each column of pred.grid has the correct class, levels, etc.
-* partial gained a new option, levelplot, which defaults to TRUE. The original contour option has changed and now specifies whether or not to add contour lines when levelplot = TRUE.
+* `partial` now makes sure each column of `pred.grid` has the correct class, levels, etc.
+* `partial` gained a new option, `levelplot`, which defaults to `TRUE`. The original option, `contour`, has changed and now specifies whether or not to add contour lines whenever `levelplot = TRUE`.
 
 ### Changes for version 0.0.4
 * Fixed a number of URLs.

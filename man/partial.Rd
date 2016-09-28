@@ -9,7 +9,7 @@ partial(object, ...)
 
 \method{partial}{default}(object, pred.var, pred.grid, grid.resolution = NULL,
   type, which.class = 1L, plot = FALSE, smooth = FALSE, rug = FALSE,
-  chull = FALSE, train, ...)
+  chull = FALSE, train, check.class = TRUE, ...)
 }
 \arguments{
 \item{object}{A fitted model object of appropriate class (e.g., 
@@ -59,6 +59,10 @@ data points; this effects \code{pred.grid}. Default is \code{FALSE}.}
 data. This may be required depending on the class of \code{object}. For
 objects that do not store a copy of the original training data, this
 argument is required.}
+
+\item{check.class}{Logical indicating whether or not to make sure each column
+in \code{pred.grid} has the correct class, levels, etc. Default is 
+\code{TRUE}.}
 }
 \description{
 Compute partial dependence functions for various model fitting objects.

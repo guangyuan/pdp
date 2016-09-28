@@ -36,6 +36,9 @@
 #'   data. This may be required depending on the class of \code{object}. For
 #'   objects that do not store a copy of the original training data, this
 #'   argument is required.
+#' @param check.class Logical indicating whether or not to make sure each column
+#'   in \code{pred.grid} has the correct class, levels, etc. Default is 
+#'   \code{TRUE}.
 #' @param ... Additional optional arguments to be passed onto 
 #'   \code{plyr::aaply}.
 #'
@@ -55,7 +58,7 @@ partial <- function(object, ...) {
 partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
                             type, which.class = 1L, plot = FALSE,
                             smooth = FALSE, rug = FALSE, chull = FALSE, train,
-                            ...) {
+                            check.class = TRUE, ...) {
 
   # Data frame
   if (missing(train)) {
@@ -90,7 +93,12 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
     pred.grid <- expand.grid(pred.val)
   }
   names(pred.grid) <- pred.var  # FIXME: Is this even needed here?
-
+  
+  # Make sure each column has the correct class, levels, etc.
+  if (check.class) {
+    pred.grid <- copyClasses(pred.grid, train)
+  }
+  
   # Restrict grid to covext hull of first two columns
   if (chull) {
     if (length(pred.var) >= 2 && is.numeric(train[[1L]]) &&
@@ -103,36 +111,6 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
       pred.grid <- pred.grid[keep, ]
     }
   }
-
-  # # Make sure class information and factor levels have been preserved
-  # if (check.class) {
-  #   for (name in names(pred.grid)) {
-  #     pred.grid[[pred.var]] <- as(pred.grid[[pred.var]],
-  #                                 Class = class(train[[pred.var]]))
-  #     if (is.integer(train[[name]])) {
-  #       pred.grid[[pred.var]] <- as.integer(pred.grid[[pred.var]])
-  #     } else if (is.numeric(train[[name]])) {
-  #       pred.grid[[pred.var]] <- as.numeric(pred.grid[[pred.var]])
-  #
-  #     } else if (is.factor(train[[name]]))
-  #       if (is.ordered()) {
-  #         pred.grid[[pred.var]] <-
-  #           ordered(pred.grid[[pred.var]],
-  #                   levels = levels(pred.grid[[pred.var]]))
-  #       } else {
-  #         pred.grid[[pred.var]] <-
-  #           factor(pred.grid[[pred.var]],
-  #                  levels = levels(pred.grid[[pred.var]]))
-  #       }
-  #   } else {
-  #     class(pred.grid[[name]]) <- class(train[[name]])
-  #   }
-  # }
-  #
-  # # Sanity check!
-  # stopifnot(all.equal(sapply(pred.grid, class),
-  #                     sapply(train[pred.var], class)))
-  # }
 
   # Determine the type of supervised learning used
   if (missing(type)) {

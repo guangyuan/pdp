@@ -4,10 +4,10 @@
 [![Downloads](http://cranlogs.r-pkg.org/badges/pdp)](http://cranlogs.r-pkg.org/badges/pdp)
 [![Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/pdp)](http://cranlogs.r-pkg.org/badges/grand-total/pdp)
 
-pdp: An R Package for Generating Partial Dependence Plots
+pdp: An R Package for Constructing Partial Dependence Plots
 ================
 
-The primary purpose of this package is to provide a general framework for creating _partial dependence plots_ (PDPs) in R.
+The primary purpose of this package is to provide a general framework for constructing _partial dependence plots_ (PDPs) in R.
 
 ### Installation
 

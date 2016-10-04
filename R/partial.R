@@ -91,8 +91,8 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
       }
     })
     pred.grid <- expand.grid(pred.val)
+    names(pred.grid) <- pred.var  # FIXME: Is this even needed here?
   }
-  names(pred.grid) <- pred.var  # FIXME: Is this even needed here?
   
   # Make sure each column has the correct class, levels, etc.
   if (check.class) {

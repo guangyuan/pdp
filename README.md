@@ -56,7 +56,8 @@ ggmap(map) +
   geom_point(aes(x = lon, y = lat), data = boston, alpha = 0.2) +
   geom_tile(aes(x = lon, y = lat, z = y, fill = y), data = pd.loc, alpha = 0.3) +
   geom_contour(color = "white", alpha = 0.5) +
-  scale_fill_distiller(palette = "Spectral") +
+  scale_fill_distiller(palette = "Spectral", name = "Median\nvalue") +
+  coord_fixed(ratio = 1) +
   labs(x = "Longitude", y = "Latitude")
 ```
 ![](https://raw.githubusercontent.com/bgreenwell/pdp/master/pd_lstat_rm.png)

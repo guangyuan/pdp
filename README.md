@@ -11,7 +11,7 @@ The primary purpose of this package is to provide a general framework for constr
 
 ### Installation
 
-The R package `pdp` is available from [CRAN](http://cran.r-project.org/package=pdp); the development version is hosted on [GitHub](https://github.com/bgreenwell/pdp). There are two ways to install:
+The R package `pdp` is available from [CRAN](https://cran.r-project.org/package=pdp); the development version is hosted on [GitHub](https://github.com/bgreenwell/pdp). There are two ways to install:
 ``` r
 # Install latest release from CRAN
 install.packages("pdp")

@@ -12,14 +12,14 @@ partial(object, ...)
   chull = FALSE, train, check.class = TRUE, ...)
 }
 \arguments{
-\item{object}{A fitted model object of appropriate class (e.g., 
+\item{object}{A fitted model object of appropriate class (e.g.,
 \code{"gbm"}, \code{"lm"}, \code{"randomForest"}, etc.).}
 
-\item{...}{Additional optional arguments to be passed onto 
+\item{...}{Additional optional arguments to be passed onto
 \code{plyr::aaply}.}
 
 \item{pred.var}{Character string giving the names of the predictor
-variables of interest. For reasons of computation/interpretation, this 
+variables of interest. For reasons of computation/interpretation, this
 should include no more than three variables.}
 
 \item{pred.grid}{Data frame containing the joint values of the variables
@@ -28,7 +28,7 @@ listed in \code{pred.var}.}
 \item{grid.resolution}{Integer giving the number of equally spaced points to
 use (only used for the continuous variables listed in \code{pred.var} when
 \code{pred.grid} is not supplied). If left \code{NULL}, it will default to
-the minimum between \code{51} and the number of unique data points for each 
+the minimum between \code{51} and the number of unique data points for each
 of the continuous independent variables listed in \code{pred.var}.}
 
 \item{type}{Character string specifying the type of supervised learning.
@@ -38,7 +38,7 @@ can usually extract the necessary information from \code{object}.}
 
 \item{which.class}{Integer specifying which column of the matrix of predicted
 probabilities to use as the "focus" class. Default is to use the first
-class. Only used for classification problems (i.e., when 
+class. Only used for classification problems (i.e., when
 \code{type = "classification"}).}
 
 \item{plot}{Logical indicating whether to return a data frame containing the
@@ -61,7 +61,7 @@ objects that do not store a copy of the original training data, this
 argument is required.}
 
 \item{check.class}{Logical indicating whether or not to make sure each column
-in \code{pred.grid} has the correct class, levels, etc. Default is 
+in \code{pred.grid} has the correct class, levels, etc. Default is
 \code{TRUE}.}
 }
 \description{

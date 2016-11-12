@@ -48,6 +48,31 @@
 #'
 #' @rdname partial
 #' @export
+#' @examples
+#' # Fit a random forest to the airquality data
+#' library(randomForest)
+#' data(airquality)
+#' set.seed(101)  # for reproducibility
+#' ozone.rf <- randomForest(Ozone ~ ., data = airquality, importance = TRUE,
+#'                          na.action = na.omit)
+#'
+#' # Using randomForest's partialPlot function
+#' partialPlot(ozone.rf, pred.data = airquality, x.var = "Temp")
+#'
+#' # Using pdp's partial function
+#' head(partial(ozone.rf, pred.var = "Temp"))  # returns a data frame
+#' partial(ozone.rf, pred.var = "Temp", plot = TRUE, rug = TRUE)
+#'
+#' # The partial function allows for multiple predictors
+#' partial(ozone.rf, pred.var = c("Temp", "Wind"), grid.resolution = 20,
+#'         plot = TRUE, chull = TRUE, .progress = "text")
+#'
+#' # The plotPartial function offers more flexible plotting
+#' pd <- partial(ozone.rf, pred.var = c("Temp", "Wind"), grid.resolution = 20,
+#'               chull = TRUE)
+#' plotPartial(pd)  # the default
+#' plotPartial(pd, levelplot = FALSE, zlab = "Ozone", drape = TRUE,
+#'             colorkey = FALSE, screen = list(z = 120, x = -60))
 partial <- function(object, ...) {
   UseMethod("partial")
 }

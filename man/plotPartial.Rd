@@ -14,7 +14,7 @@ plotPartial(x, ...)
 \arguments{
 \item{x}{An object that inherits from the \code{"partial"} class.}
 
-\item{...}{Additional optional arguments to be passed onto \code{dotplot}, 
+\item{...}{Additional optional arguments to be passed onto \code{dotplot},
 \code{levelplot}, \code{xyplot}, or \code{wireframe}.}
 
 \item{smooth}{Logical indicating whether or not to overlay a LOESS smooth.
@@ -31,11 +31,11 @@ data points; this effects \code{pred.grid}. Default is \code{FALSE}.}
 plot (\code{TRUE}) or a 3-D surface (\code{FALSE}). Default is \code{TRUE}.}
 
 \item{contour}{Logical indicating whether or not to add contour lines to the
-level plot. Only used when \code{levelplot = TRUE}. Default is 
+level plot. Only used when \code{levelplot = TRUE}. Default is
 \code{FALSE}.}
 
-\item{number}{Integer specifying the number of conditional intervals to use 
-for the continuous panel variables. See \code{?graphics::co.intervals} and 
+\item{number}{Integer specifying the number of conditional intervals to use
+for the continuous panel variables. See \code{?graphics::co.intervals} and
 \code{?lattice::equal.count} for further details.}
 
 \item{overlap}{The fraction of overlap of the conditioning variables. See
@@ -45,12 +45,16 @@ details.}
 \item{train}{Data frame containing the original training data. Only
 required if \code{rug = TRUE} or \code{chull = TRUE}.}
 
-\item{col.regions}{Color vector to be used if \code{levelplot} is 
-\code{TRUE}. Defaults to the wonderful Matplotlib 'viridis' color map 
-provided by the \code{viridis} package. See \code{?viridis::viridis} for 
+\item{col.regions}{Color vector to be used if \code{levelplot} is
+\code{TRUE}. Defaults to the wonderful Matplotlib 'viridis' color map
+provided by the \code{viridis} package. See \code{?viridis::viridis} for
 details.}
 }
 \description{
 Plots partial dependence functions using \code{lattice} graphics.
+}
+\examples{
+# See ?partial for examples
+?partial
 }
 

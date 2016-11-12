@@ -1,7 +1,7 @@
 Package: pdp
 Type: Package
 Title: Partial Dependence Plots
-Version: 0.0.5
+Version: 0.1.0
 Authors@R: person("Brandon", "Greenwell", email = "greenwell.brandon@gmail.com",
   role = c("aut", "cre"))
 Description: A general framework for constructing partial dependence plots from
@@ -21,7 +21,6 @@ Suggests:
     nnet,
     party,
     partykit,
-    randomForest,
     rpart,
     testthat,
     xgboost
@@ -31,6 +30,7 @@ Imports:
     magrittr,
     mgcv,
     plyr,
+    randomForest,
     stats,
     viridis
 LazyData: TRUE

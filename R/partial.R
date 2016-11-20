@@ -49,6 +49,7 @@
 #' @rdname partial
 #' @export
 #' @examples
+#' \dontrun{
 #' # Fit a random forest to the airquality data
 #' library(randomForest)
 #' data(airquality)
@@ -73,6 +74,7 @@
 #' plotPartial(pd)  # the default
 #' plotPartial(pd, levelplot = FALSE, zlab = "Ozone", drape = TRUE,
 #'             colorkey = FALSE, screen = list(z = 120, x = -60))
+#' }
 partial <- function(object, ...) {
   UseMethod("partial")
 }

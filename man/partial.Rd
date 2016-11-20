@@ -68,6 +68,7 @@ in \code{pred.grid} has the correct class, levels, etc. Default is
 Compute partial dependence functions for various model fitting objects.
 }
 \examples{
+\dontrun{
 # Fit a random forest to the airquality data
 library(randomForest)
 data(airquality)
@@ -92,6 +93,7 @@ pd <- partial(ozone.rf, pred.var = c("Temp", "Wind"), grid.resolution = 20,
 plotPartial(pd)  # the default
 plotPartial(pd, levelplot = FALSE, zlab = "Ozone", drape = TRUE,
             colorkey = FALSE, screen = list(z = 120, x = -60))
+}
 }
 \references{
 J. H. Friedman. Greedy function approximation: A gradient boosting machine.

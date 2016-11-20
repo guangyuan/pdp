@@ -21,6 +21,7 @@ Suggests:
     nnet,
     party,
     partykit,
+    randomForest,
     rpart,
     testthat,
     xgboost
@@ -30,7 +31,6 @@ Imports:
     magrittr,
     mgcv,
     plyr,
-    randomForest,
     stats,
     viridis
 LazyData: TRUE

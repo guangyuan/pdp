@@ -91,6 +91,8 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
   if (missing(train)) {
     if (inherits(object, "BinaryTree") || inherits(object, "RandomForest")) {
       train <- object@data@get("input")
+    } else if (inherits(object, "train")) {
+      train <- object$trainingData
     } else {
       if (is.null(object$call$data)) {
         stop(paste0("The training data could not be extracted from ",

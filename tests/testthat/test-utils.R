@@ -7,9 +7,9 @@ context("Utility functions")
 test_that("copyClasses works correctly", {
   # Incorrect classes
   set.seed(101)
-  d1 <- data.frame(x1 = 1:3 * 1.0, 
-                   x2 = rnorm(3), 
-                   x3 = letters[1:3], 
+  d1 <- data.frame(x1 = 1:3 * 1.0,
+                   x2 = rnorm(3),
+                   x3 = letters[1:3],
                    x4 = as.factor(1:3),
                    x5 = as.factor(1:3),
                    x6 = c(1, 0, 1),
@@ -17,9 +17,9 @@ test_that("copyClasses works correctly", {
 
   # Correct classes
   set.seed(101)
-  d2 <- data.frame(x1 = 1:3, 
-                   x2 = rnorm(3), 
-                   x3 = letters[1:3], 
+  d2 <- data.frame(x1 = 1:3,
+                   x2 = rnorm(3),
+                   x3 = letters[1:3],
                    x4 = as.factor(1:3),
                    x5 = as.ordered(1:3),
                    x6 = c(TRUE, FALSE, TRUE),
@@ -28,13 +28,14 @@ test_that("copyClasses works correctly", {
   # Copy classes from d2 to d1
   d3 <- copyClasses(d1, d2)
   d4 <- copyClasses(d1[1:2, ], d2)
-  expect_identical(d2, d3)  
+  expect_identical(d2, d3)
   expect_identical(sapply(d2, levels), sapply(d4, levels))
 })
 
 test_that("avgLogit works correctly", {
   pm <- matrix(c(0.1, 0.3, 0.6), nrow = 1, ncol = 3, byrow = TRUE)
-  expect_error(avgLogit(as.data.frame(pm)))
+  pm.df <- as.data.frame(pm)
+  expect_identical(avgLogit(pm), avgLogit(pm.df))
   expect_identical(avgLogit(pm, which.class = 1L),
                    log(0.1) - (log(0.1) + log(0.3) + log(0.6)) / 3)
   expect_identical(avgLogit(pm, which.class = 2L),

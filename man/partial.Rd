@@ -69,6 +69,10 @@ Compute partial dependence functions for various model fitting objects.
 }
 \examples{
 \dontrun{
+# 
+# Random forest example (requires randomForest package)
+#
+
 # Fit a random forest to the airquality data
 library(randomForest)
 data(airquality)
@@ -93,6 +97,30 @@ pd <- partial(ozone.rf, pred.var = c("Temp", "Wind"), grid.resolution = 20,
 plotPartial(pd)  # the default
 plotPartial(pd, levelplot = FALSE, zlab = "Ozone", drape = TRUE,
             colorkey = FALSE, screen = list(z = 120, x = -60))
+
+# 
+# Interface with caret (requires caret package)
+#
+
+# Load required packages
+library(caret)  # for model training/tuning
+
+# Set up for 5-fold cross-validation
+ctrl <- trainControl(method = "cv", number = 5, verboseIter = TRUE)
+set.seed(101)  # for reproducibility
+ozone.rf2 <- train(Ozone ~ ., 
+                   data = airquality,
+                   method = "rf",
+                   importance = TRUE,
+                   na.action = na.omit,
+                   trControl = ctrl,
+                   tuneGrid = data.frame(mtry = 1:5))
+
+# Plot variable importance scores
+plot(varImp(ozone.rf2))
+
+# Partial dependence of Solar.R on Ozone
+partial(ozone.rf2, pred.var = "Solar.R", plot = TRUE, rug = TRUE, smooth = TRUE)
 }
 }
 \references{

@@ -80,6 +80,18 @@ superType.default <- function(object) {
 
 
 #' @keywords internal
+superType.train <- function(object) {
+  if (object$modelType == "Classification") {
+    "classification"
+  } else if (object$modelType == "Regression") {
+    "regression"
+  } else {
+    "other" 
+  }
+}
+
+
+#' @keywords internal
 superType.bagging <- function(object) {
   "classification"
 }

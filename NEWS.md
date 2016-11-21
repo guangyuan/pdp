@@ -1,5 +1,9 @@
 # NEWS for pdp package
 
+### Changes for version 0.2.0
+* `randomForest` is no longer imported.
+* Added support for the `caret` package (i.e., object of class `"train"`).
+
 ### Changes for version 0.1.0
 * `randomForest` is now imported.
 * Added examples.

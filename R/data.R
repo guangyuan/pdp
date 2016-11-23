@@ -1,12 +1,12 @@
 #' Boston Housing Data
-#' 
-#' Data on median housing values from 506 census tracts in the suburbs of Boston 
-#' from the 1970 census. This data frame is a corrected version of the original 
-#' data by Harrison and Rubinfeld (1978) with additional spatial information. 
-#' The data were taken directly from the \code{\link{mlbench}} package and 
-#' unneeded columns (i.e., name of town, census tract, and the uncorrected 
+#'
+#' Data on median housing values from 506 census tracts in the suburbs of Boston
+#' from the 1970 census. This data frame is a corrected version of the original
+#' data by Harrison and Rubinfeld (1978) with additional spatial information.
+#' The data were taken directly from \code{\link[mlbench]{BostonHousing2}} and
+#' unneeded columns (i.e., name of town, census tract, and the uncorrected
 #' median home value) were removed.
-#' 
+#'
 #' @docType data
 #' @keywords datasets
 #' @format A data frame with 506 rows and 16 variables.
@@ -30,44 +30,45 @@
 #' }
 #' @name boston
 #'
-#' @usage 
+#' @usage
 #' data(boston)
-#' 
-#' @examples 
+#'
+#' @examples
 #' \dontrun{
 #' # The data were obtained using the following snippet of code:
 #' data(BostonHousing2, package = "mlbench")
 #' boston <- BostonHousing2[, -c(1, 2, 5)] # remove unused columns
 #' }
-#' 
-#' @references 
-#' Harrison, D. and Rubinfeld, D.L. (1978). Hedonic prices and the demand for 
-#' clean air. Journal of Environmental Economics and Management, 5, 81–102.
-#' 
-#' Gilley, O.W., and R. Kelley Pace (1996). On the Harrison and Rubinfeld Data. 
-#' Journal of Environmental Economics and Management, 31, 403–405. 
-#' 
-#' Newman, D.J. & Hettich, S. & Blake, C.L. & Merz, C.J. (1998). UCI Repository 
-#' of machine learning databases 
-#' [http://www.ics.uci.edu/~mlearn/MLRepository.html]. Irvine, CA: University of 
+#'
+#' @references
+#' Harrison, D. and Rubinfeld, D.L. (1978). Hedonic prices and the demand for
+#' clean air. Journal of Environmental Economics and Management, 5, 81--102.
+#'
+#' Gilley, O.W., and R. Kelley Pace (1996). On the Harrison and Rubinfeld Data.
+#' Journal of Environmental Economics and Management, 31, 403--405.
+#'
+#' Newman, D.J. & Hettich, S. & Blake, C.L. & Merz, C.J. (1998). UCI Repository
+#' of machine learning databases
+#' [http://www.ics.uci.edu/~mlearn/MLRepository.html] Irvine, CA: University of
 #' California, Department of Information and Computer Science.
-#' 
-#' Pace, R. Kelley, and O.W. Gilley (1997). Using the Spatial Configuration of 
-#' the Data to Improve Estimation. Journal of the Real Estate Finance and 
-#' Economics, 14, 333–340.
-#' 
-#' Friedrich Leisch & Evgenia Dimitriadou (2010). mlbench: Machine Learning 
+#'
+#' Pace, R. Kelley, and O.W. Gilley (1997). Using the Spatial Configuration of
+#' the Data to Improve Estimation. Journal of the Real Estate Finance and
+#' Economics, 14, 333--340.
+#'
+#' Friedrich Leisch & Evgenia Dimitriadou (2010). mlbench: Machine Learning
 #' Benchmark Problems. R package version 2.1-1.
 NULL
 
 
 #' Pima Indians Diabetes Data
-#' 
-#' Diabetes test results collected by the the US National Institute of Diabetes 
-#' and Digestive and Kidney Diseases from a population of women who were at 
-#' least 21 years old, of Pima Indian heritage, and living near Phoenix, 
-#' Arizona. The data were taken directly from the \code{\link{mlbench}} package.
-#' 
+#'
+#' Diabetes test results collected by the the US National Institute of Diabetes
+#' and Digestive and Kidney Diseases from a population of women who were at
+#' least 21 years old, of Pima Indian heritage, and living near Phoenix,
+#' Arizona. The data were taken directly from the
+#' \code{\link[mlbench]{PimaIndiansDiabetes2}} package.
+#'
 #' @docType data
 #' @keywords datasets
 #' @format A data frame with 768 observations on 9 variables.
@@ -82,20 +83,25 @@ NULL
 #'   \item \code{age} Age (years).
 #'   \item \code{diabetes} Factor indicating the diabetes test result (\code{neg}/\code{pos}).
 #' }
-#' 
-#' @references 
-#' Newman, D.J. & Hettich, S. & Blake, C.L. & Merz, C.J. (1998). UCI Repository 
-#' of machine learning databases 
-#' [http://www.ics.uci.edu/~mlearn/MLRepository.html]. Irvine, CA: University of 
+#' @name pima
+#'
+#' @usage
+#' data(pima)
+#'
+#' @references
+#' Newman, D.J. & Hettich, S. & Blake, C.L. & Merz, C.J. (1998). UCI Repository
+#' of machine learning databases
+#' [http://www.ics.uci.edu/~mlearn/MLRepository.html]. Irvine, CA: University of
 #' California, Department of Information and Computer Science.
-#' 
-#' Brian D. Ripley (1996), Pattern Recognition and Neural Networks, Cambridge 
+#'
+#' Brian D. Ripley (1996), Pattern Recognition and Neural Networks, Cambridge
 #' University Press, Cambridge.
 #'
-#' Grace Whaba, Chong Gu, Yuedong Wang, and Richard Chappell (1995), Soft 
-#' Classification a.k.a. Risk Estimation via Penalized Log Likelihood and 
-#' Smoothing Spline Analysis of Variance, in D. H. Wolpert (1995), The 
+#' Grace Whaba, Chong Gu, Yuedong Wang, and Richard Chappell (1995), Soft
+#' Classification a.k.a. Risk Estimation via Penalized Log Likelihood and
+#' Smoothing Spline Analysis of Variance, in D. H. Wolpert (1995), The
 #' Mathematics of Generalization, 331-359, Addison-Wesley, Reading, MA.
-#' 
-#' Friedrich Leisch & Evgenia Dimitriadou (2010). mlbench: Machine Learning 
+#'
+#' Friedrich Leisch & Evgenia Dimitriadou (2010). mlbench: Machine Learning
 #' Benchmark Problems. R package version 2.1-1.
+NULL

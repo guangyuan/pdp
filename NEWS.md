@@ -3,6 +3,7 @@
 ### Changes for version 0.2.0
 * `randomForest` is no longer imported.
 * Added support for the `caret` package (i.e., object of class `"train"`).
+* Added example datasets: `boston` (corrected Boston housing data) and `pima` (corrected Pima Indians diabetes data).
 
 ### Changes for version 0.1.0
 * `randomForest` is now imported.

@@ -34,5 +34,5 @@ Imports:
     plyr,
     stats,
     viridis
-LazyData: TRUE
+LazyData: FALSE
 RoxygenNote: 5.0.1

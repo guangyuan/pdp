@@ -23,8 +23,8 @@ data(pima)
 Diabetes test results collected by the the US National Institute of Diabetes
 and Digestive and Kidney Diseases from a population of women who were at
 least 21 years old, of Pima Indian heritage, and living near Phoenix,
-Arizona. The data were taken directly from the
-\code{\link[mlbench]{PimaIndiansDiabetes2}} package.
+Arizona. The data were taken directly from
+\code{\link[mlbench]{PimaIndiansDiabetes2}}.
 }
 \references{
 Newman, D.J. & Hettich, S. & Blake, C.L. & Merz, C.J. (1998). UCI Repository

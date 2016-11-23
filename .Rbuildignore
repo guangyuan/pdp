@@ -3,4 +3,6 @@
 ^\.travis\.yml$
 ^.*\.png$
 ^\manuscript$
+^\data-raw$
 ^tests/testthat/Rplots\.pdf$
+

@@ -35,19 +35,15 @@ unneeded columns (i.e., name of town, census tract, and the uncorrected
 median home value) were removed.
 }
 \examples{
-\dontrun{
-# The data were obtained using the following snippet of code:
-data(BostonHousing2, package = "mlbench")
-boston <- BostonHousing2[, -c(1, 2, 5)] # remove unused columns
-}
+head(boston)
 
 }
 \references{
 Harrison, D. and Rubinfeld, D.L. (1978). Hedonic prices and the demand for
-clean air. Journal of Environmental Economics and Management, 5, 81--102.
+clean air. Journal of Environmental Economics and Management, 5, 81-102.
 
 Gilley, O.W., and R. Kelley Pace (1996). On the Harrison and Rubinfeld Data.
-Journal of Environmental Economics and Management, 31, 403--405.
+Journal of Environmental Economics and Management, 31, 403-405.
 
 Newman, D.J. & Hettich, S. & Blake, C.L. & Merz, C.J. (1998). UCI Repository
 of machine learning databases
@@ -56,7 +52,7 @@ California, Department of Information and Computer Science.
 
 Pace, R. Kelley, and O.W. Gilley (1997). Using the Spatial Configuration of
 the Data to Improve Estimation. Journal of the Real Estate Finance and
-Economics, 14, 333--340.
+Economics, 14, 333-340.
 
 Friedrich Leisch & Evgenia Dimitriadou (2010). mlbench: Machine Learning
 Benchmark Problems. R package version 2.1-1.

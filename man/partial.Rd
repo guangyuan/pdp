@@ -69,37 +69,48 @@ Compute partial dependence functions for various model fitting objects.
 }
 \examples{
 \dontrun{
-# 
-# Random forest example (requires randomForest package)
+#
+# Regression example (requires randomForest package to run)
 #
 
-# Fit a random forest to the airquality data
+# Fit a random forest to the boston housing data
 library(randomForest)
-data(airquality)
+data (boston)  # load the boston housing data
 set.seed(101)  # for reproducibility
-ozone.rf <- randomForest(Ozone ~ ., data = airquality, importance = TRUE,
-                         na.action = na.omit)
+boston.rf <- randomForest(cmedv ~ ., data = boston)
 
 # Using randomForest's partialPlot function
-partialPlot(ozone.rf, pred.data = airquality, x.var = "Temp")
+partialPlot(boston.rf, pred.data = boston, x.var = "lstat")
 
 # Using pdp's partial function
-head(partial(ozone.rf, pred.var = "Temp"))  # returns a data frame
-partial(ozone.rf, pred.var = "Temp", plot = TRUE, rug = TRUE)
+head(partial(boston.rf, pred.var = "lstat"))  # returns a data frame
+partial(boston.rf, pred.var = "lstat", plot = TRUE, rug = TRUE)
 
 # The partial function allows for multiple predictors
-partial(ozone.rf, pred.var = c("Temp", "Wind"), grid.resolution = 20,
+partial(boston.rf, pred.var = c("lstat", "rm"), grid.resolution = 40,
         plot = TRUE, chull = TRUE, .progress = "text")
 
 # The plotPartial function offers more flexible plotting
-pd <- partial(ozone.rf, pred.var = c("Temp", "Wind"), grid.resolution = 20,
-              chull = TRUE)
+pd <- partial(boston.rf, pred.var = c("lstat", "rm"), grid.resolution = 40)
 plotPartial(pd)  # the default
-plotPartial(pd, levelplot = FALSE, zlab = "Ozone", drape = TRUE,
-            colorkey = FALSE, screen = list(z = 120, x = -60))
+plotPartial(pd, levelplot = FALSE, zlab = "cmedv", drape = TRUE,
+            colorkey = FALSE, screen = list(z = -20, x = -60))
 
-# 
-# Interface with caret (requires caret package)
+#
+# Classification example (requires randomForest package to run)
+#
+
+# Fit a random forest to the Pima Indians diabetes data
+data (pima)  # load the boston housing data
+set.seed(102)  # for reproducibility
+pima.rf <- randomForest(diabetes ~ ., data = pima, na.action = na.omit)
+
+# Partial dependence of glucose on diabetes test result (neg/pos)
+partial(pima.rf, pred.var = c("glucose", "age"), plot = TRUE, chull = TRUE,
+        .progress = "text")
+
+#
+# Interface with caret (requires caret package to run)
 #
 
 # Load required packages
@@ -107,20 +118,16 @@ library(caret)  # for model training/tuning
 
 # Set up for 5-fold cross-validation
 ctrl <- trainControl(method = "cv", number = 5, verboseIter = TRUE)
-set.seed(101)  # for reproducibility
-ozone.rf2 <- train(Ozone ~ ., 
-                   data = airquality,
-                   method = "rf",
-                   importance = TRUE,
-                   na.action = na.omit,
-                   trControl = ctrl,
-                   tuneGrid = data.frame(mtry = 1:5))
 
-# Plot variable importance scores
-plot(varImp(ozone.rf2))
+# Tune a support vector machine (SVM) using a radial basis function kerel to
+# the Pima Indians diabetes data
+set.seed(103)  # for reproducibility
+pima.svm <- train(diabetes ~ ., data = pima, method = "svmRadial",
+                  prob.model = TRUE, na.action = na.omit, trControl = ctrl,
+                  tuneLength = 10)
 
-# Partial dependence of Solar.R on Ozone
-partial(ozone.rf2, pred.var = "Solar.R", plot = TRUE, rug = TRUE, smooth = TRUE)
+# Partial dependence of glucose on diabetes test result (neg/pos)
+partial(pima.svm, pred.var = "glucose", plot = TRUE, rug = TRUE)
 }
 }
 \references{

@@ -26,6 +26,10 @@ least 21 years old, of Pima Indian heritage, and living near Phoenix,
 Arizona. The data were taken directly from
 \code{\link[mlbench]{PimaIndiansDiabetes2}}.
 }
+\examples{
+head(pima)
+
+}
 \references{
 Newman, D.J. & Hettich, S. & Blake, C.L. & Merz, C.J. (1998). UCI Repository
 of machine learning databases

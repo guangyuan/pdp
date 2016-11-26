@@ -21,7 +21,7 @@ copyClasses <- function(x, y) {
   column.names <- intersect(x.names, y.names)
   for (name in column.names) {
     # Do the classes match?
-    if (!identical(class(x[[name]]), class(y[[name]])) || 
+    if (!identical(class(x[[name]]), class(y[[name]])) ||
         !identical(levels(x[[name]]), levels(y[[name]]))) {
       # Convert to numeric or integer class
       if (is.numeric(y[[name]])) {
@@ -51,7 +51,7 @@ copyClasses <- function(x, y) {
     }
   }
   # Sanity check
-  stopifnot(all.equal(sapply(x[column.names], class), 
+  stopifnot(all.equal(sapply(x[column.names], class),
                       sapply(y[column.names], class)))
   x  # return x with copied classes
 }
@@ -66,6 +66,54 @@ avgLogit <- function(x, which.class = 1L) {
   eps <- .Machine$double.eps
   mean(log(ifelse(x[, which.class] > 0, x[, which.class], eps)) -
          rowMeans(log(ifelse(x > 0, x, eps))), na.rm = TRUE)
+}
+
+
+#' @keywords internal
+trainCHull <- function(pred.var, pred.grid, train) {
+  if (length(pred.var) >= 2 && is.numeric(train[[1L]]) &&
+      is.numeric(train[[2L]])) {
+    X <- stats::na.omit(data.matrix(train[pred.var[1L:2L]]))
+    Y <- stats::na.omit(data.matrix(pred.grid[1L:2L]))
+    hpts <- grDevices::chull(X)
+    hpts <- c(hpts, hpts[1])
+    keep <- mgcv::in.out(X[hpts, ], Y)
+    pred.grid[keep, ]
+  } else {
+    pred.grid
+  }
+}
+
+
+#' @keywords internal
+predGrid <- function(object, pred.var, train, grid.resolution = NULL) {
+  UseMethod("predGrid")
+}
+
+
+#' @keywords internal
+predGrid.default <- function(object, pred.var, train, grid.resolution = NULL) {
+  pred.val <- lapply(pred.var, function(x) {
+    if (is.factor(train[[x]])) {
+      levels(train[[x]])
+    } else {
+      if (is.null(grid.resolution)) {
+        grid.resolution <- min(length(unique(train[[x]])), 51)
+      }
+      seq(from = min(train[[x]], na.rm = TRUE),
+          to = max(train[[x]], na.rm = TRUE),
+          length = grid.resolution)
+    }
+  })
+  pred.grid <- expand.grid(pred.val)
+  names(pred.grid) <- pred.var
+  pred.grid
+}
+
+
+#' @keywords internal
+predGrid.rpart <- function(object, pred.var, train, grid.resolution = NULL) {
+  splitters <- levels(object$frame$var)[levels(object$frame$var) != "<leaf>"]
 }
 
 
@@ -89,7 +137,7 @@ superType.train <- function(object) {
   } else if (object$modelType == "Regression") {
     "regression"
   } else {
-    "other" 
+    "other"
   }
 }
 

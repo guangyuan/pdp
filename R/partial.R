@@ -153,15 +153,6 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
 
   # Restrict grid to covext hull of first two columns
   if (chull) {
-    # if (length(pred.var) >= 2 && is.numeric(train[[1L]]) &&
-    #     is.numeric(train[[2L]])) {
-    #   X <- stats::na.omit(data.matrix(train[pred.var[1L:2L]]))
-    #   Y <- stats::na.omit(data.matrix(pred.grid[1L:2L]))
-    #   hpts <- grDevices::chull(X)
-    #   hpts <- c(hpts, hpts[1])
-    #   keep <- mgcv::in.out(X[hpts, ], Y)
-    #   pred.grid <- pred.grid[keep, ]
-    # }
     pred.grid <- trainCHull(pred.var, pred.grid = pred.grid, train = train)
   }
 
@@ -177,10 +168,10 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
 
   # Calculate partial dependence values
   if (type == "regression") {
-    pd_df <- pdRegression(object, pred.var = pred.var, pred.grid = pred.grid,
+    pd.df <- pdRegression(object, pred.var = pred.var, pred.grid = pred.grid,
                           train = train, ...)
   } else if (type == "classification") {
-    pd_df <- pdClassification(object, pred.var = pred.var,
+    pd.df <- pdClassification(object, pred.var = pred.var,
                               pred.grid = pred.grid, which.class = which.class,
                               train = train, ...)
   } else {
@@ -189,16 +180,16 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
   }
 
   # Create data frame of partial dependence values
-  names(pd_df) <- c(pred.var, "y")
-  class(pd_df) <- c("data.frame", "partial")
+  names(pd.df) <- c(pred.var, "y")
+  class(pd.df) <- c("data.frame", "partial")
 
   # Plot partial dependence function (if requested)
   if (plot) {
-    print(plotPartial(pd_df, smooth = smooth, rug = rug, train = train,
+    print(plotPartial(pd.df, smooth = smooth, rug = rug, train = train,
                       col.regions = viridis::viridis))
   } else {
     # Return partial dependence values
-    pd_df
+    pd.df
   }
 
 }

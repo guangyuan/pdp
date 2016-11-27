@@ -111,10 +111,12 @@ predGrid.default <- function(object, pred.var, train, grid.resolution = NULL) {
 }
 
 
-#' @keywords internal
-predGrid.rpart <- function(object, pred.var, train, grid.resolution = NULL) {
-  splitters <- levels(object$frame$var)[levels(object$frame$var) != "<leaf>"]
-}
+# TODO (bgreenwell):
+# predGrid.rpart <- NULL
+# predGrid.BinaryTree <- NULL
+# predGrid.ctree <- NULL
+# predGrid.randomForest <- NULL
+# predGrid.RandomForest <- NULL
 
 
 #' @keywords internal

@@ -37,7 +37,7 @@ install.packages(c("caret", "ggmap", "kernlab", "randomForest"))
 
 #### Regression example
 
-In this example, we fit a random forest to the Boston housing data. Note, for any of the following examples, you can see a progress bar by simply specifying `.progress = "text"` in the call to `partial`.
+In this example, we fit a random forest to the Boston housing data. Note, for any of the following examples, you can see a progress bar by simply specifying `.progress = "text"` in the call to `partial`. You may also reduce the computation time via the `grid.resolution` option in the call to `partial`.
 ```{r, message = FALSE, warning=FALSE}
 # Load required packages
 library(ggmap)  # for plotting data on maps
@@ -61,11 +61,10 @@ head(partial(boston.rf, pred.var = "lstat"))  # returns a data frame
 partial(boston.rf, pred.var = "lstat", plot = TRUE, rug = TRUE)
 
 # The partial function allows for multiple predictors
-partial(boston.rf, pred.var = c("lstat", "rm"), grid.resolution = 10,
-        plot = TRUE, chull = TRUE)
+partial(boston.rf, pred.var = c("lstat", "rm"), plot = TRUE, chull = TRUE)
 
 # The plotPartial function offers more flexible plotting
-pd <- partial(boston.rf, pred.var = c("lstat", "rm"), grid.resolution = 10)
+pd <- partial(boston.rf, pred.var = c("lstat", "rm"))
 
 # Default plot
 plotPartial(pd)
@@ -107,7 +106,7 @@ partial(pima.rf, pred.var = c("glucose", "age"), plot = TRUE, chull = TRUE)
 
 #### Interface with `caret`
 
-Finally, we demonstrate the seemless interface between the `pdp` package and the `caret` package. For illustration we use `caret`'s `train` function to tune a support vector machine (SVM) with a radial basis function kernel to the Pima Indians diabtes data. We then cinstruct PDPs from the final model for the most "important" variables. When training a model using `caret`'s `train` function, you can view tuning progress by setting `verboseIter = TRUE` in the call to `trainControl`.
+Finally, we demonstrate the seamless interface between the `pdp` package and the `caret` package; `caret` is an extremetly useful package for classification and regression training that, essentially, has one function (`train`) for fitting all kinds of predictive models in R (e.g., `glmnet`, `svm`, `xgboost`, etc.). For illustration we use `caret`'s `train` function to tune a support vector machine (SVM) with a radial basis function kernel to the Pima Indians diabetes data. We then construct PDPs from the final model for the most "important" variables. When training a model using `caret`'s `train` function, you can view tuning progress by setting `verboseIter = TRUE` in the call to `trainControl`.
 ```{r, message=FALSE, warning=FALSE}
 # Load required packages
 library(caret)  # for model training/tuning

@@ -76,7 +76,7 @@ trainCHull <- function(pred.var, pred.grid, train) {
     X <- stats::na.omit(data.matrix(train[pred.var[1L:2L]]))
     Y <- stats::na.omit(data.matrix(pred.grid[1L:2L]))
     hpts <- grDevices::chull(X)
-    hpts <- c(hpts, hpts[1])
+    hpts <- c(hpts, hpts[1L])
     keep <- mgcv::in.out(X[hpts, ], Y)
     pred.grid[keep, ]
   } else {

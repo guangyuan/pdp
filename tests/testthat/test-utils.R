@@ -1,11 +1,20 @@
 context("Utility functions")
 
 # Data frames used in the following tests
-#   regression: mtcars
-#   classification: iris
+pima2 <- na.omit(pima)
+set.seed(101)
+df.reg <- boston[sample(nrow(boston), size = 50, replace = FALSE), ]
+df.class <- pima2[sample(nrow(pima2), size = 50, replace = FALSE), ]
+
+# Switch to generic response names
+df.reg$y <- df.reg$cmedv
+df.class$y <- df.class$diabetes
+df.reg$cmedv <- NULL
+df.class$diabetes <- NULL
 
 test_that("copyClasses works correctly", {
-  # Incorrect classes
+
+  # Data frame with incorrect classes
   set.seed(101)
   d1 <- data.frame(x1 = 1:3 * 1.0,
                    x2 = rnorm(3),
@@ -15,7 +24,7 @@ test_that("copyClasses works correctly", {
                    x6 = c(1, 0, 1),
                    stringsAsFactors = TRUE)
 
-  # Correct classes
+  # Data frame with correct classes
   set.seed(101)
   d2 <- data.frame(x1 = 1:3,
                    x2 = rnorm(3),
@@ -28,13 +37,20 @@ test_that("copyClasses works correctly", {
   # Copy classes from d2 to d1
   d3 <- copyClasses(d1, d2)
   d4 <- copyClasses(d1[1:2, ], d2)
+
+  # Expectations
   expect_identical(d2, d3)
   expect_identical(sapply(d2, levels), sapply(d4, levels))
+
 })
 
 test_that("avgLogit works correctly", {
+
+  # Probabilitymatrix/data frame
   pm <- matrix(c(0.1, 0.3, 0.6), nrow = 1, ncol = 3, byrow = TRUE)
   pm.df <- as.data.frame(pm)
+
+  # Expectations
   expect_identical(avgLogit(pm), avgLogit(pm.df))
   expect_identical(avgLogit(pm, which.class = 1L),
                    log(0.1) - (log(0.1) + log(0.3) + log(0.6)) / 3)
@@ -42,60 +58,178 @@ test_that("avgLogit works correctly", {
                    log(0.3) - (log(0.1) + log(0.3) + log(0.6)) / 3)
   expect_identical(avgLogit(pm, which.class = 3L),
                    log(0.6) - (log(0.1) + log(0.3) + log(0.6)) / 3)
+
+})
+
+test_that("trainCHull works correctly", {
+
+  # Sample data frames
+  d <- trainCHull(pred.var = c("x1", "x2"),
+                  pred.grid = expand.grid(x1 = 1:10, x2 = 1:10),
+                  train = expand.grid(x1 = 1:5, x2 = 1:5))
+
+  # Expectations
+  expect_is(d, "data.frame")
+
+})
+
+test_that("predGrid works correctly", {
+
+  # Regression
+  df.reg.lm <- lm(y ~ ., data = df.reg)
+
+  # Grid values
+  grid1 <- predGrid(df.reg.lm,
+                    pred.var = "rm",
+                    train = df.reg,
+                    grid.resolution = NULL)
+  grid2 <- predGrid(df.reg.lm,
+                    pred.var = "rm",
+                    train = df.reg,
+                    grid.resolution = 2)
+
+  # Expectations
+  expect_is(grid1, "data.frame")
+  expect_is(grid2, "data.frame")
+  expect_equal(dim(grid1), c(50, 1))
+  expect_equal(dim(grid2), c(2, 1))
+
 })
 
 test_that("superType works correctly", {
 
+  ##############################################################################
   # Linear models
-  mtcars.lm <- lm(mpg ~ ., data = mtcars)
-  expect_identical(superType(mtcars.lm), "regression")
+  ##############################################################################
 
-  # Bagging and boosting ------------------
+  # Regression
+  df.reg.lm <- lm(y ~ ., data = df.reg)
 
-  # adabag
+  # Expectations
+  expect_identical(superType(df.reg.lm), "regression")
+
+
+  ##############################################################################
+  # Bagging and boosting
+  ##############################################################################
+
+  # Package: adabag
   if (require(adabag, quietly = TRUE)) {
+
+    # Classification
     set.seed(101)
-    bagging.class <- bagging(Species ~ ., data = iris, mfinal = 1)
-    boosting.class <- boosting(Species ~ ., data = iris, mfinal = 1)
-    expect_identical(superType(bagging.class), "classification")
-    expect_identical(superType(boosting.class), "classification")
+    df.class.bagging <- bagging(y ~ ., data = df.class, mfinal = 1)
+    df.class.boosting <- boosting(y ~ ., data = df.class, mfinal = 1)
+
+    # Expectations
+    expect_identical(superType(df.class.bagging), "classification")
+    expect_identical(superType(df.class.boosting), "classification")
+
   }
 
-  # ipredbag
+  # Package: ipredbag
 
-  # gbm
+  # Package: gbm
   if (require(gbm, quietly = TRUE)) {
+
+    # Regression
     set.seed(101)
-    gbm.reg <- gbm(mpg ~ ., data = mtcars, n.trees = 1,
-                   distribution = "gaussian", n.minobsinnode = 1)
-    gbm.class <- gbm(Species ~ ., data = iris, n.trees = 1,
-                     distribution = "multinomial", n.minobsinnode = 1)
-    expect_identical(superType(gbm.reg), "regression")
-    expect_identical(superType(gbm.class), "classification")
+    df.reg.gbm <- gbm(y ~ .,
+                      data = df.reg,
+                      n.trees = 1,
+                      distribution = "gaussian",
+                      n.minobsinnode = 1)
+
+    # Classification
+    set.seed(101)
+    df.class.gbm <- gbm(unclass(y) - 1 ~ .,
+                        data = df.class,
+                        n.trees = 1,
+                        distribution = "bernoulli",
+                        n.minobsinnode = 1)
+
+    # Expectations
+    expect_identical(superType(df.reg.gbm), "regression")
+    expect_identical(superType(df.class.gbm), "classification")
+
   }
 
-  # MARS models
+
+  ##############################################################################
+  # Multivariate adaptive regression splines
+  ##############################################################################
+
+  # Package: earth -------------------------------------------------------------
   if (require(earth, quietly = TRUE)) {
-    earth.reg <- earth(mpg ~ ., data = mtcars, degree = 1, linpreds =  TRUE)
-    earth.class <- earth(Species ~ ., data = iris, degree = 1, linpreds = TRUE,
-                         glm = list(family = binomial))
-    expect_identical(superType(earth.reg), "regression")
-    expect_identical(superType(earth.class), "classification")
+
+    # Regression
+    df.reg.earth <- earth(y ~ .,
+                          data = df.reg,
+                          degree = 1,
+                          linpreds =  TRUE)
+
+    # Classification
+    df.class.earth <- earth(y ~ .,
+                            data = df.class,
+                            degree = 1,
+                            linpreds = TRUE,
+                            glm = list(family = binomial))
+
+    # Expectations
+    expect_identical(superType(df.reg.earth), "regression")
+    expect_identical(superType(df.class.earth), "classification")
+
   }
 
-  # GzLMs
 
-  # Multinomial logit models
+  ##############################################################################
+  # Generalized linear models
+  ##############################################################################
 
+  # Package: stats -------------------------------------------------------------
+
+  # Regression
+  df.reg.glm <- glm(y ~ .,
+                    data = df.reg,
+                    family = gaussian)
+
+  # Classification
+  df.class.glm <- glm(y ~ .,
+                      data = df.class,
+                      family = binomial)
+
+  # Package: glmnet ------------------------------------------------------------
+
+
+  ##############################################################################
   # Random forests
+  ##############################################################################
+
+  # Package: randomForest ------------------------------------------------------
   if (require(randomForest, quietly = TRUE)) {
+
+    # Regression
     set.seed(101)
-    rf.reg <- randomForest(mpg ~ ., data = mtcars, ntrees = 1)
-    rf.class <- randomForest(Species ~ ., data = iris, ntrees = 1)
-    rf.other <- randomForest( ~ ., data = mtcars)
+    rf.reg <- randomForest(y ~ .,
+                           data = df.reg,
+                           ntrees = 1)
+
+    # Classification
+    set.seed(101)
+    rf.class <- randomForest(y ~ .,
+                             data = df.class,
+                             ntrees = 1)
+
+    # Unsupervised mode
+    set.seed(101)
+    rf.other <- randomForest( ~ .,
+                              data = df.class)
+
+    # Expectations
     expect_identical(superType(rf.reg), "regression")
     expect_identical(superType(rf.class), "classification")
     expect_identical(superType(rf.other), "unsupervised")
+
   }
 
 })

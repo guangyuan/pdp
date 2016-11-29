@@ -132,6 +132,5 @@ partial(pima.svm, pred.var = "age", plot = TRUE, rug = TRUE)
 
 # Partial dependence of glucose and age on diabetes test result (neg/pos). This
 # may take a couple minutes!
-partial(pima.svm, pred.var = c("glucose", "age"), plot = TRUE, chull = TRUE,
-        train = pima)
+partial(pima.svm, pred.var = c("glucose", "age"), plot = TRUE, chull = TRUE)
 ```

@@ -71,8 +71,8 @@ avgLogit <- function(x, which.class = 1L) {
 
 #' @keywords internal
 trainCHull <- function(pred.var, pred.grid, train) {
-  if (length(pred.var) >= 2 && is.numeric(train[[1L]]) &&
-      is.numeric(train[[2L]])) {
+  if (length(pred.var) >= 2 && is.numeric(pred.grid[[1L]]) &&
+      is.numeric(pred.grid[[2L]])) {
     X <- stats::na.omit(data.matrix(train[pred.var[1L:2L]]))
     Y <- stats::na.omit(data.matrix(pred.grid[1L:2L]))
     hpts <- grDevices::chull(X)

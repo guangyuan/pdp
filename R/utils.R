@@ -199,6 +199,8 @@ superType.nls <- function(object) {
 superType.glm <- function(object) {
   if(object$family$family == "binomial") {
     "classification"
+  } else if (object$family$family %in% 
+             c("gaussian", "Gamma", "inverse.gaussian", "poisson")) {
   } else {
     "other"
   }

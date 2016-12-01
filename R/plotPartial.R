@@ -1,6 +1,7 @@
 #' Plotting Partial Dependence Functions
 #'
-#' Plots partial dependence functions using \code{lattice} graphics.
+#' Plots partial dependence functions (i.e., marginal effects) using 
+#' \code{lattice} graphics.
 #'
 #' @param x An object that inherits from the \code{"partial"} class.
 #' @param smooth Logical indicating whether or not to overlay a LOESS smooth.

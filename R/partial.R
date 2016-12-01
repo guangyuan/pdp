@@ -1,6 +1,7 @@
 #' Partial Dependence Functions
 #'
-#' Compute partial dependence functions for various model fitting objects.
+#' Compute partial dependence (i.e., marginal effect) functions for various 
+#' model fitting objects.
 #'
 #' @param object A fitted model object of appropriate class (e.g.,
 #'   \code{"gbm"}, \code{"lm"}, \code{"randomForest"}, etc.).

@@ -10,7 +10,7 @@
 #'   predictor axes. Only used when \code{plot = TRUE}. Default is \code{FALSE}.
 #' @param chull Logical indicating wether or not to restrict the first
 #'   two variables in \code{pred.var} to lie within the convex hull of their
-#'   data points; this effects \code{pred.grid}. Default is \code{FALSE}.
+#'   training values; this affects \code{pred.grid}. Default is \code{FALSE}.
 #' @param levelplot Logical indicating whether or not to use a false color level
 #'   plot (\code{TRUE}) or a 3-D surface (\code{FALSE}). Default is \code{TRUE}.
 #' @param contour Logical indicating whether or not to add contour lines to the

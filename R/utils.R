@@ -201,6 +201,7 @@ superType.glm <- function(object) {
     "classification"
   } else if (object$family$family %in% 
              c("gaussian", "Gamma", "inverse.gaussian", "poisson")) {
+    "regression"
   } else {
     "other"
   }

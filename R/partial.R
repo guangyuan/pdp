@@ -1,6 +1,6 @@
 #' Partial Dependence Functions
 #'
-#' Compute partial dependence (i.e., marginal effect) functions for various 
+#' Compute partial dependence functions (i.e., marginal effects) for various 
 #' model fitting objects.
 #'
 #' @param object A fitted model object of appropriate class (e.g.,

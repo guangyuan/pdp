@@ -1,6 +1,6 @@
 #' Plotting Partial Dependence Functions
 #'
-#' Plots partial dependence functions (i.e., marginal effects) using 
+#' Plots partial dependence functions (i.e., marginal effects) using
 #' \code{lattice} graphics.
 #'
 #' @param x An object that inherits from the \code{"partial"} class.
@@ -51,23 +51,23 @@ plotPartial.partial <- function(x, smooth = FALSE, rug = FALSE, chull = FALSE,
                                 overlap = 0.1, train = NULL,
                                 col.regions = viridis::viridis,
                                 ...) {
-  
+
   # Determine number of variables to plot
   nx <- ncol(x) - 1  # don't count response
   if (!(nx %in% 1:3)) {
     stop("Too many variables to plot. Try using lattice or ggplot2 directly.")
   }
-  
+
   # Single predictor
   if (nx == 1) {
-    
+
     # PDPs for a single predictor
     if (is.factor(x[[1L]])) {
       pdpFactor(x, ...)
     } else {
       pdpNumeric(x, rug = rug, smooth = smooth, train = train, ...)
     }
-    
+
     # Two predictors
   } else if (nx == 2) {
 
@@ -77,35 +77,36 @@ plotPartial.partial <- function(x, smooth = FALSE, rug = FALSE, chull = FALSE,
     } else if (is.factor(x[[1L]]) || is.factor(x[[2L]])) {
       pdpNumericFactor(x, smooth = smooth, rug = rug, train = train, ...)
     } else {
-      pdpNumericNumeric(x, levelplot = levelplot, contour = contour, rug = rug, 
-                        chull = chull, train = train, col.regions = col.regions, 
+      pdpNumericNumeric(x, levelplot = levelplot, contour = contour, rug = rug,
+                        chull = chull, train = train, col.regions = col.regions,
                         ...)
     }
-    
+
     # More than two predictors
   } else {
-    
+
     # Convert additional predictors to factors using the equal count algorithm
     for (i in 3:nx) {
       if (!is.factor(x[[i]])) {
         x[[i]] <- equal.count(x[[i]], number = number, overlap = overlap)
       }
     }
-    
+
     # PDPs for more than two predictors
     if (is.factor(x[[1L]]) && is.factor(x[[2L]])) {
       pdpFactorFactorShingle(x, nx = nx, ...)
     } else if (is.factor(x[[1L]]) || is.factor(x[[2L]])) {
-      pdpNumericFactorShingle(x, nx = nx, smooth = smooth, rug = rug, ...)
+      pdpNumericFactorShingle(x, nx = nx, smooth = smooth, rug = rug,
+                              train = train, ...)
     } else {
-      pdpNumericNumericShingle(x, nx = nx, levelplot = levelplot, 
-                               contour = contour, col.regions = col.regions, 
+      pdpNumericNumericShingle(x, nx = nx, levelplot = levelplot,
+                               contour = contour, col.regions = col.regions,
                                ...)
-      
+
     }
-    
+
   }
-  
+
 }
 
 
@@ -137,22 +138,22 @@ pdpFactor <- function(x, ...) {
 
 #' @keywords internal
 pdpFactorFactor <- function(x, ...) {
-  dotplot(stats::as.formula(paste("y ~", 
-                                  paste(names(x)[1L:2L], collapse = "|"))), 
+  dotplot(stats::as.formula(paste("y ~",
+                                  paste(names(x)[1L:2L], collapse = "|"))),
           data = x, ...)
 }
 
 
 #' @keywords internal
 pdpNumericFactor <- function(x, smooth, rug, train, ...) {
-  
+
   # Lattice plot formula
   form <- if (is.factor(x[[1L]])) {
     stats::as.formula(paste("y ~", paste(names(x)[2L:1L], collapse = "|")))
   } else {
     stats::as.formula(paste("y ~", paste(names(x)[1L:2L], collapse = "|")))
   }
-  
+
   # Produce a paneled lineplot
   xyplot(form, data = x, type = "l", ...,
          panel = function(xx, yy, ...) {
@@ -169,21 +170,21 @@ pdpNumericFactor <- function(x, smooth, rug, train, ...) {
              }
            }
          })
-  
+
 }
 
 
 #' @keywords internal
-pdpNumericNumeric <- function(x, levelplot, rug, chull, train, contour, 
+pdpNumericNumeric <- function(x, levelplot, rug, chull, train, contour,
                               col.regions, ...) {
-  
+
   # Lattice plot formula
   form <- stats::as.formula(paste("y ~",
                                   paste(names(x)[1L:2L], collapse = "*")))
-  
+
   # False color level plot
   if (levelplot) {
-    
+
     # Lattice-based false color level plot
     levelplot(form, data = x, col.regions = col.regions, contour = contour,
               ...,
@@ -213,32 +214,32 @@ pdpNumericNumeric <- function(x, levelplot, rug, chull, train, contour,
                               col = "black")
                 }
               })
-  
+
   # Wireframe
   } else {
-    
+
     # Lattice-based three-dimensional wireframe plot
     wireframe(form, data = x, ...)
-    
+
   }
-  
+
 }
 
 
 #' @keywords internal
 pdpFactorFactorShingle <- function(x, nx, ...) {
-  
+
   # Produce a paneled dotplot
   dotplot(stats::as.formula(paste("y ~", names(x)[1L], "|",
-                                  paste(names(x)[2L:nx], collapse = "*"))), 
+                                  paste(names(x)[2L:nx], collapse = "*"))),
           data = x, ...)
-  
+
 }
 
 
 #' @keywords internal
-pdpNumericFactorShingle <- function(x, nx, smooth, rug, ...) {
-  
+pdpNumericFactorShingle <- function(x, nx, smooth, rug, train, ...) {
+
   # Lattice plot formula
   form <- if (is.factor(x[[1L]])) {
     stats::as.formula(paste("y ~", names(x)[2L], "|",
@@ -247,7 +248,7 @@ pdpNumericFactorShingle <- function(x, nx, smooth, rug, ...) {
     stats::as.formula(paste("y ~", names(x)[1L], "|",
                             paste(names(x)[2L:nx], collapse = "*")))
   }
-  
+
   # Produce a paneled lineplot
   xyplot(form, data = x, type = "p", ...,
          panel = function(xx, yy, ...) {
@@ -264,20 +265,20 @@ pdpNumericFactorShingle <- function(x, nx, smooth, rug, ...) {
              }
            }
          })
-  
+
 }
 
 
 #' @keywords internal
-pdpNumericNumericShingle <- function(x, nx, levelplot, contour, col.regions, 
+pdpNumericNumericShingle <- function(x, nx, levelplot, contour, col.regions,
                                      ...) {
-  
+
   # Lattice plot formula
   form <- stats::as.formula(paste("y ~",
                                   paste(names(x)[1L:2L], collapse = "*"),
                                   "|",
                                   paste(names(x)[3L:nx], collapse = "*")))
-  
+
   # Produce a false color level plot or three-dimensional plot
   if (levelplot) {
     levelplot(form, data = x, col.regions = col.regions, contour = contour,
@@ -285,5 +286,5 @@ pdpNumericNumericShingle <- function(x, nx, levelplot, contour, col.regions,
   } else {
     wireframe(form, data = x, ...)
   }
-  
+
 }

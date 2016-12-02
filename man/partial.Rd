@@ -53,7 +53,7 @@ predictor axes. Only used when \code{plot = TRUE}. Default is \code{FALSE}.}
 
 \item{chull}{Logical indicating wether or not to restrict the first
 two variables in \code{pred.var} to lie within the convex hull of their
-data points; this effects \code{pred.grid}. Default is \code{FALSE}.}
+training values; this affects \code{pred.grid}. Default is \code{FALSE}.}
 
 \item{train}{An optional data frame containing the original training
 data. This may be required depending on the class of \code{object}. For
@@ -65,7 +65,8 @@ in \code{pred.grid} has the correct class, levels, etc. Default is
 \code{TRUE}.}
 }
 \description{
-Compute partial dependence functions for various model fitting objects.
+Compute partial dependence functions (i.e., marginal effects) for various 
+model fitting objects.
 }
 \examples{
 \dontrun{

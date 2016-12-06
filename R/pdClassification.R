@@ -56,15 +56,15 @@ pdClassification.boosting <- function(object, pred.var, pred.grid, which.class,
 
 
 #' @keywords internal
-pdRegression.gbm <- function(object, pred.var, pred.grid, train, progress,
-                             parallel, paropts, ...) {
+pdClassification.gbm <- function(object, pred.var, pred.grid, which.class,
+                                 train, progress, parallel, paropts, ...) {
   # Necessary to avoid silly printing from predict.gbm
   plyr::adply(pred.grid, .margins = 1, .fun = function(x) {
     temp <- train
     temp[pred.var] <- x
     log <- utils::capture.output(pr <- stats::predict(object, newdata = temp,
-                                                      type = "raw", ...))
-    avgLogit(pr, which.class = which.class)
+                                                      type = "response", ...))
+    avgLogit(cbind(pr, 1 - pr), which.class = which.class)
   }, .progress = progress, .parallel = parallel, .paropts = paropts)
 }
 

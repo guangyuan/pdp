@@ -38,7 +38,7 @@ install.packages(c("caret", "ggmap", "kernlab", "randomForest"))
 
 #### Regression example
 
-In this example, we fit a random forest to the Boston housing data. (See `?boston` for a brief explanation of the data.) Note, for any of the following examples, you can see a progress bar by simply specifying `.progress = "text"` in the call to `partial`. You may also reduce the computation time via the `grid.resolution` option in the call to `partial`.
+In this example, we fit a random forest to the Boston housing data. (See `?boston` for a brief explanation of the data.) Note, for any of the following examples, you can see a progress bar by simply specifying `progress = "text"` in the call to `partial`. You may also reduce the computation time via the `grid.resolution` option in the call to `partial`.
 ```{r, message = FALSE, warning=FALSE, fig.show="hold"}
 # Load required packages
 library(pdp)  # for constructing PDPs
@@ -53,7 +53,7 @@ boston.rf <- randomForest(cmedv ~ ., data = boston)
 
 # Partial dependence of lstat and rm on cmedv
 partial(boston.rf, pred.var = "lstat", plot = TRUE, rug = TRUE)
-partial(boston.rf, pred.var = "age", plot = TRUE, rug = TRUE)
+partial(boston.rf, pred.var = "rm", plot = TRUE, rug = TRUE)
 partial(boston.rf, pred.var = c("lstat", "rm"), plot = TRUE, chull = TRUE)
 ```
 

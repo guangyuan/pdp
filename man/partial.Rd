@@ -9,14 +9,15 @@ partial(object, ...)
 
 \method{partial}{default}(object, pred.var, pred.grid, grid.resolution = NULL,
   type, which.class = 1L, plot = FALSE, smooth = FALSE, rug = FALSE,
-  chull = FALSE, train, check.class = TRUE, ...)
+  chull = FALSE, train, check.class = TRUE, progress = "none",
+  parallel = FALSE, paropts = NULL, ...)
 }
 \arguments{
 \item{object}{A fitted model object of appropriate class (e.g.,
 \code{"gbm"}, \code{"lm"}, \code{"randomForest"}, etc.).}
 
 \item{...}{Additional optional arguments to be passed onto
-\code{plyr::aaply}.}
+\code{stats::predict}.}
 
 \item{pred.var}{Character string giving the names of the predictor
 variables of interest. For reasons of computation/interpretation, this
@@ -63,9 +64,19 @@ argument is required.}
 \item{check.class}{Logical indicating whether or not to make sure each column
 in \code{pred.grid} has the correct class, levels, etc. Default is
 \code{TRUE}.}
+
+\item{progress}{Character string giving the name of the progress bar to use.
+See \code{plyr::create_progress_bar} for details. Default is \code{"none"}.}
+
+\item{parallel}{Logical indicating whether or not to run \code{partial} in
+parallel using a backend provided by the \code{foreach} package. Default is
+\code{FALSE}. Default is \code{NULL}.}
+
+\item{paropts}{List containing additional options passed onto
+\code{foreach::foreach} when \code{parallel = TRUE}.}
 }
 \description{
-Compute partial dependence functions (i.e., marginal effects) for various 
+Compute partial dependence functions (i.e., marginal effects) for various
 model fitting objects.
 }
 \examples{

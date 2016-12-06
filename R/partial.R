@@ -1,6 +1,6 @@
 #' Partial Dependence Functions
 #'
-#' Compute partial dependence functions (i.e., marginal effects) for various 
+#' Compute partial dependence functions (i.e., marginal effects) for various
 #' model fitting objects.
 #'
 #' @param object A fitted model object of appropriate class (e.g.,
@@ -40,8 +40,15 @@
 #' @param check.class Logical indicating whether or not to make sure each column
 #'   in \code{pred.grid} has the correct class, levels, etc. Default is
 #'   \code{TRUE}.
+#' @param progress Character string giving the name of the progress bar to use.
+#'   See \code{plyr::create_progress_bar} for details. Default is \code{"none"}.
+#' @param parallel Logical indicating whether or not to run \code{partial} in
+#'   parallel using a backend provided by the \code{foreach} package. Default is
+#'   \code{FALSE}. Default is \code{NULL}.
+#' @param paropts List containing additional options passed onto
+#'   \code{foreach::foreach} when \code{parallel = TRUE}.
 #' @param ... Additional optional arguments to be passed onto
-#'   \code{plyr::aaply}.
+#'   \code{stats::predict}.
 #'
 #' @references
 #' J. H. Friedman. Greedy function approximation: A gradient boosting machine.
@@ -121,7 +128,8 @@ partial <- function(object, ...) {
 partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
                             type, which.class = 1L, plot = FALSE,
                             smooth = FALSE, rug = FALSE, chull = FALSE, train,
-                            check.class = TRUE, ...) {
+                            check.class = TRUE, progress = "none",
+                            parallel = FALSE, paropts = NULL, ...) {
 
   # Data frame
   if (missing(train)) {
@@ -140,6 +148,11 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
       }
     }
   }
+
+  # NOTE: It is worth considering the approach taken by the plotmo package,
+  # which now has the option to compute PDPs. plotmo seems to make one large
+  # pred.grid which increases memory usage, but decreases the number of calls to
+  # stats::predict.
 
   # Predictor values of interest
   if (missing(pred.grid)) {
@@ -170,11 +183,13 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
   # Calculate partial dependence values
   if (type == "regression") {
     pd.df <- pdRegression(object, pred.var = pred.var, pred.grid = pred.grid,
-                          train = train, ...)
+                          train = train, progress = progress,
+                          parallel = parallel, paropts = paropts, ...)
   } else if (type == "classification") {
     pd.df <- pdClassification(object, pred.var = pred.var,
                               pred.grid = pred.grid, which.class = which.class,
-                              train = train, ...)
+                              train = train, progress = progress,
+                              parallel = parallel, paropts = paropts, ...)
   } else {
     stop(paste("Partial dependence values are currently only available",
                "for classification and regression problems."))

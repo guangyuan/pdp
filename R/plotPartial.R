@@ -62,7 +62,7 @@ plotPartial.partial <- function(x, smooth = FALSE, rug = FALSE, chull = FALSE,
   if (nx == 1) {
 
     # PDPs for a single predictor
-    if (is.factor(x[[1L]])) {
+    p <- if (is.factor(x[[1L]])) {
       pdpFactor(x, ...)
     } else {
       pdpNumeric(x, rug = rug, smooth = smooth, train = train, ...)
@@ -72,7 +72,7 @@ plotPartial.partial <- function(x, smooth = FALSE, rug = FALSE, chull = FALSE,
   } else if (nx == 2) {
 
     # PDPs for two predictors
-    if (is.factor(x[[1L]]) && is.factor(x[[2L]])) {
+    p <- if (is.factor(x[[1L]]) && is.factor(x[[2L]])) {
       pdpFactorFactor(x, ...)
     } else if (is.factor(x[[1L]]) || is.factor(x[[2L]])) {
       pdpNumericFactor(x, smooth = smooth, rug = rug, train = train, ...)
@@ -93,7 +93,7 @@ plotPartial.partial <- function(x, smooth = FALSE, rug = FALSE, chull = FALSE,
     }
 
     # PDPs for more than two predictors
-    if (is.factor(x[[1L]]) && is.factor(x[[2L]])) {
+    p <- if (is.factor(x[[1L]]) && is.factor(x[[2L]])) {
       pdpFactorFactorShingle(x, nx = nx, ...)
     } else if (is.factor(x[[1L]]) || is.factor(x[[2L]])) {
       pdpNumericFactorShingle(x, nx = nx, smooth = smooth, rug = rug,
@@ -106,6 +106,9 @@ plotPartial.partial <- function(x, smooth = FALSE, rug = FALSE, chull = FALSE,
     }
 
   }
+  
+  # Return "trellis" object
+  p
 
 }
 

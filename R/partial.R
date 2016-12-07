@@ -210,8 +210,8 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
 
   # Plot partial dependence function (if requested)
   if (plot) {
-    print(plotPartial(pd.df, smooth = smooth, rug = rug, train = train,
-                      col.regions = viridis::viridis))
+    plotPartial(pd.df, smooth = smooth, rug = rug, train = train,
+                col.regions = viridis::viridis)
   } else {
     # Return partial dependence values
     pd.df

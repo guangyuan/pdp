@@ -8,7 +8,8 @@
 \maketitle
 
 \abstract{
-Complex nonparametric models---like neural networks, random forests, and support vector machines---are more common than ever in predictive analytics, especially when dealing with large observational databases that don't adhere to the strict assumptions imposed by traditional statistical techniques (e.g., multiple linear regression). Unfortunately, it can be challenging to understand the results of such models and explain them to management. Partial dependence plots offer a simple solution. Partial dependence plots are low-dimensional graphical renderings of the prediction function $\widehat{f}\left(\boldsymbol{x}\right)$ so that the relationship between the outcome and predictors of interest can be easily understood. These plots are especially useful in explaining the output from black box models. In this paper, we introduce \pkg{pdp}, a general R package for constructing partial dependence plots.
+Complex nonparametric models---like neural networks, random forests, and support vector machines---are more common than ever in predictive analytics, especially when dealing with large observational databases that don't adhere to the strict assumptions imposed by traditional statistical techniques (e.g., multiple linear regression which assumes $E\left[\boldsymbol{\mathcal{Y}}\right] = \boldsymbol{X}\boldsymbol{\beta}$). Unfortunately, it can be challenging to understand the results of such models and explain them to management. Partial dependence plots offer a simple solution. Partial dependence plots are low-dimensional graphical renderings of the prediction function $\widehat{f}\left(\boldsymbol{x}\right)$ so that the relationship between the outcome and predictors of interest can be
+more easily understood. These plots are especially useful in explaining the output from black box models. In this paper, we introduce \pkg{pdp}, a general R package for constructing partial dependence plots.
 }
 
 
@@ -40,7 +41,7 @@ Constructing a PDP \eqref{eqn:pdf} in practice is rather straightforward. To sim
     \item Compute the vector of predicted values from the modified copy of the training data.
     \item Compute the average prediction to obtain $\bar{f}_1\left(x_{1i}\right)$.
   \end{enumerate}
-  \item Plot the pairs $\left[x_{1i}, \bar{f}_1\left(x_{1i}\right)\right]$ for $i = 1, 2, \dotsc, k$.
+  \item Plot the pairs $\left\{x_{1i}, \bar{f}_1\left(x_{1i}\right)\right\}$ for $i = 1, 2, \dotsc, k$.
 \end{enumerate}
 This can be quite computationally intensive since the algorithm involves $k$ passes over the training records. Fortunately, this can be parallelized quite easily (more on this in a later section). This algorithm can also be easily extended to larger subsets of two or more features as well.
 
@@ -107,7 +108,8 @@ Currently supported models are described in Table~\ref{tab:models}. In a lot of 
 
 When additional arguments are necessary, the user will be prompted with an informative error message. For instance, the user may occasionally see the following:
 \begin{example}
-Error: The training data could not be extracted from object. Please supply the raw training data using the `train` argument in the call to `partial`.
+Error: The training data could not be extracted from object. Please supply
+the raw training data using the `train` argument in the call to `partial`.
 \end{example}
 This will occur, for example, when using partial with the \code{"xgb.Booster"} class. In fact, using \code{partial} with any object that does not store the original training data will result in the above error message.
 
@@ -230,7 +232,7 @@ partial(boston.rf, "rm", pred.grid = data.frame(rm = 3:9), plot = TRUE)
   \label{fig:partial_manual}
 \end{widefigure}
 
-The \code{partial} function relies on the \CRANpkg{plyr} package \citep{plyr-pkg}, rather than R's built-in \code{for} loops. This makes it easy to request progress bars (e.g., \code{.progress = "text"}) or run \code{partial} in parallel. In fact, \code{partial} can use any of the parallel backends supported by the \pkg{foreach} package. To use this functionality, we must first load and register a supported parallel backend [e.g., \CRANpkg{doMC} \citep{doMC-pkg} or \CRANpkg{doParallel} \citep{doParallel-pkg}].
+The \code{partial} function relies on the \CRANpkg{plyr} package \citep{plyr-pkg}, rather than R's built-in \code{for} loops. This makes it easy to request progress bars (e.g., \code{progress = "text"}) or run \code{partial} in parallel. In fact, \code{partial} can use any of the parallel backends supported by the \pkg{foreach} package. To use this functionality, we must first load and register a supported parallel backend [e.g., \CRANpkg{doMC} \citep{doMC-pkg} or \CRANpkg{doParallel} \citep{doParallel-pkg}].
 
 To illustrate, we will use the Los Angeles ozone pollution data described in \citet{breiman-1985-estimating}. The data contain daily measurements of ozone concentration (\code{ozone}) along with eight meteorological quantities for 330 days in the Los Angeles basin in 1976. The data are available from \url{http://statweb.stanford.edu/~tibs/ElemStatLearn/datasets/LAozone.data}. Details, including variable information, are available from \url{http://statweb.stanford.edu/~tibs/ElemStatLearn/datasets/LAozone.info}. The following code chunk loads the data into R:
 \begin{example}
@@ -256,10 +258,10 @@ Setting up a parallel backend is rather straightforward. To demonstrate, the fol
 library(doParallel)  # load parallel backend
 registerDoParallel(cores = 4)  # use 4 cores
 \end{example}
-Now, to run \code{partial} in parallel, all we have to do is invoke the \code{.parallel = TRUE} option and the rest is taken care of by the internal call to \pkg{plyr} and the parallel backend we loaded. This is illustrated in the code chunk below which obtains the partial dependence of \code{ozone} on \code{wind}, \code{temp}, and \code{dpg} in parallel. The result is displayed in Figure~\ref{fig:partial_par}.
+Now, to run \code{partial} in parallel, all we have to do is invoke the \code{parallel = TRUE} option and the rest is taken care of by the internal call to \pkg{plyr} and the parallel backend we loaded. This is illustrated in the code chunk below which obtains the partial dependence of \code{ozone} on \code{wind}, \code{temp}, and \code{dpg} in parallel. The result is displayed in Figure~\ref{fig:partial_par}.
 \begin{example}
 partial(ozone.mars, pred.var = c("wind", "temp", "dpg"), plot = TRUE,
-        chull = TRUE, .parallel = TRUE)
+        chull = TRUE, parallel = TRUE)
 \end{example}
 
 \begin{figure}[!htbp]
@@ -294,7 +296,7 @@ Next, we plot the partial dependence of \code{Species} on both \code{Petal.Width
 pd <- NULL
 for (i in 1:3) {
   tmp <- partial(iris.svm, pred.var = c("Petal.Width", "Petal.Length"),
-                 which.class = i, grid.resolution = 101, .progress = "text")
+                 which.class = i, grid.resolution = 101, progress = "text")
   pd <- rbind(pd, cbind(tmp, Species = levels(iris$Species)[i]))
 }
 
@@ -302,7 +304,7 @@ library(ggplot2)
 ggplot(pd, aes(x = Petal.Width, y = Petal.Length, z = y, fill = y)) +
   geom_tile() +
   geom_contour(color = "white", alpha = 0.5) +
-  scale_fill_distiller(palette = "Spectral") +
+  scale_fill_distiller(name = "Average\nlogit", palette = "Spectral") +
   theme_bw() +
   facet_grid(~ Species)
 \end{example}
@@ -346,6 +348,11 @@ for (x in pred.list) {
   \caption{PDPs for the top two most important variables in the Boston housing data using XGBoost. Compare this to the random forest results displayed in Figures~\ref{fig:partial_extrap}-\ref{fig:partial_manual}.}
   \label{fig:boston_xgb}
 \end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Using partial with caret
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

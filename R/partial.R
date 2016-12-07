@@ -1,3 +1,9 @@
+# TODO:
+#   * Allow column position specification in pred.grid.
+#   * Update documentation to give details as to how the data is extracted from
+#     object when train is not specified.
+
+
 #' Partial Dependence Functions
 #'
 #' Compute partial dependence functions (i.e., marginal effects) for various
@@ -16,9 +22,9 @@
 #'   the minimum between \code{51} and the number of unique data points for each
 #'   of the continuous independent variables listed in \code{pred.var}.
 #' @param type Character string specifying the type of supervised learning.
-#'   Current options are \code{"regression"} or \code{"classification"}. For
-#'   some objects (e.g., tree-based models like \code{"rpart"}), \code{partial}
-#'   can usually extract the necessary information from \code{object}.
+#'   Current options are \code{"auto"}, \code{"regression"} or
+#'   \code{"classification"}. If \code{type = "auto"} then \code{partial} try
+#'   to extract the necessary information from \code{object}.
 #' @param which.class Integer specifying which column of the matrix of predicted
 #'   probabilities to use as the "focus" class. Default is to use the first
 #'   class. Only used for classification problems (i.e., when
@@ -126,7 +132,8 @@ partial <- function(object, ...) {
 #' @rdname partial
 #' @export
 partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
-                            type, which.class = 1L, plot = FALSE,
+                            type = c("auto", "regression", "classification"),
+                            which.class = 1L, plot = FALSE,
                             smooth = FALSE, rug = FALSE, chull = FALSE, train,
                             check.class = TRUE, progress = "none",
                             parallel = FALSE, paropts = NULL, ...) {
@@ -147,6 +154,12 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
         train <- eval(object$call$data)
       }
     }
+  }
+
+  # Throw error message if predictor names not found in training data
+  if (!all(pred.var %in% names(train))) {
+    stop(paste(paste(pred.var[!(pred.var %in% names(train))], collapse = ", "),
+               "not found in the training data."))
   }
 
   # NOTE: It is worth considering the approach taken by the plotmo package,
@@ -171,13 +184,9 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
   }
 
   # Determine the type of supervised learning used
-  if (missing(type)) {
+  type <- match.arg(type)
+  if (type == "auto") {
     type <- superType(object)
-  } else {
-    if (!(type %in% c("regression", "classification"))) {
-      stop(paste(deparse(substitute(type)), 'is not a valid value for `type`.',
-                 'Please select either "regression" or "classification".'))
-    }
   }
 
   # Calculate partial dependence values

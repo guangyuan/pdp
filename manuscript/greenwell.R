@@ -144,6 +144,16 @@ pdf("partial_par.pdf", width = 7, height = 5)
 plotPartial(pd)
 dev.off()
 
+# Figure 6
+cl <- makeCluster(4)  # use 4 cores
+registerDoParallel(cl)
+pd <- partial(ozone.mars, pred.var = c("wind", "temp", "dpg"), chull = TRUE,
+              parallel = TRUE, paropts = list(.packages = "earth"))
+stopCluster(cl)
+pdf("partial_par.pdf", width = 7, height = 5)
+plotPartial(pd)
+dev.off()
+
 
 ################################################################################
 # Edgar Anderson's iris data

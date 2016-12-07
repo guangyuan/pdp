@@ -12,11 +12,11 @@ pdRegression.default <- function(object, pred.var, pred.grid, train, progress,
     temp <- train
     temp[pred.var] <- x
     pred <- stats::predict(object, newdata = temp, ...)
-    # Some fitting function return a matrix (e.g., mda::mars)
+    # Some fitting functions return a matrix (e.g., mda::mars)
     if (is.matrix(pred) || is.data.frame(pred)) {
       pred <- pred[, 1L, drop = TRUE]
     }
-    mean(pred, na.rm = TRUE)
+    setNames(mean(pred, na.rm = TRUE), "y")
   }, .progress = progress, .parallel = parallel, .paropts = paropts)
 }
 
@@ -31,7 +31,7 @@ pdRegression.gbm <- function(object, pred.var, pred.grid, train, progress,
     log <- utils::capture.output(z <- mean(stats::predict(object,
                                                           newdata = temp, ...),
                                            na.rm = TRUE))
-    z
+    setNames(z, "y")
   }, .progress = progress, .parallel = parallel, .paropts = paropts)
 }
 
@@ -42,7 +42,7 @@ pdRegression.xgb.Booster <- function(object, pred.var, pred.grid, train,
   plyr::adply(pred.grid, .margins = 1, .fun = function(x) {
     temp <- train
     temp[pred.var] <- x
-    mean(stats::predict(object, newdata = data.matrix(temp), ...),
-         na.rm = TRUE)
+    setNames(mean(stats::predict(object, newdata = data.matrix(temp), ...),
+                  na.rm = TRUE), "y")
   }, .progress = progress, .parallel = parallel, .paropts = paropts)
 }

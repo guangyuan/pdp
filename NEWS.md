@@ -3,6 +3,8 @@
 ### Changes for version 0.3.0
 * The `...` argument in the call to `partial` now refers to additional arguments to be passed onto `stats::predict` rather than `plyr::aaply`. For example, using `partial` with `"gbm"` objects will require specification of `n.trees` which can now simply be passed to `partial` via the `...` argument.
 * Added the following arguments to `partial`: `progress` (`plyr`-based progress bars), `parallel` (`plyr`/`foreach`-based parallel execution), and `paropts` (list of additional arguments passed onto `foreach` when `parallel = TRUE`).
+* Various bug fixes.
+* `partial` now throws an informative error message when the `pred.grid` argument refers to predictors not in the original training data.
 
 ### Changes for version 0.2.0
 * `randomForest` is no longer imported.

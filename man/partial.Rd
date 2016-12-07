@@ -8,9 +8,10 @@
 partial(object, ...)
 
 \method{partial}{default}(object, pred.var, pred.grid, grid.resolution = NULL,
-  type, which.class = 1L, plot = FALSE, smooth = FALSE, rug = FALSE,
-  chull = FALSE, train, check.class = TRUE, progress = "none",
-  parallel = FALSE, paropts = NULL, ...)
+  type = c("auto", "regression", "classification"), which.class = 1L,
+  plot = FALSE, smooth = FALSE, rug = FALSE, chull = FALSE, train,
+  check.class = TRUE, progress = "none", parallel = FALSE,
+  paropts = NULL, ...)
 }
 \arguments{
 \item{object}{A fitted model object of appropriate class (e.g.,
@@ -33,9 +34,9 @@ the minimum between \code{51} and the number of unique data points for each
 of the continuous independent variables listed in \code{pred.var}.}
 
 \item{type}{Character string specifying the type of supervised learning.
-Current options are \code{"regression"} or \code{"classification"}. For
-some objects (e.g., tree-based models like \code{"rpart"}), \code{partial}
-can usually extract the necessary information from \code{object}.}
+Current options are \code{"auto"}, \code{"regression"} or
+\code{"classification"}. If \code{type = "auto"} then \code{partial} try
+to extract the necessary information from \code{object}.}
 
 \item{which.class}{Integer specifying which column of the matrix of predicted
 probabilities to use as the "focus" class. Default is to use the first

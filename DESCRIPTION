@@ -28,6 +28,7 @@ Suggests:
     xgboost
 Imports:
     grDevices,
+    gridExtra,
     lattice,
     magrittr,
     mgcv,

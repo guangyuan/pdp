@@ -16,4 +16,5 @@
 #'
 #' @docType package
 #' @name pdp
+#' @importFrom lattice trellis.last.object
 NULL

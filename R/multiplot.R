@@ -9,6 +9,7 @@
 #' @details \code{multiplot} is just a simple wrapper around 
 #'   \code{\link[gridExtra]{grid.arrange}}. For details see the documentation 
 #'   for that function.
+#' @export
 #' @examples 
 #' \dontrun{
 #' # Fit a random forest to the boston housing data

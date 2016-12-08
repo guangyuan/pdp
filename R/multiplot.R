@@ -19,7 +19,8 @@
 #' boston.rf <- randomForest(cmedv ~ ., data = boston)
 #' pdp.rm <- partial(boston.rf, pred.var = "rm", plot = TRUE)
 #' pdp.lstat <- partial(boston.rf, pred.var = "lstat", plot = TRUE)
-#' multiplot(pdp.rm, pdp.lstat, ncol = 2)
+#' pdp.rm.lstat <- partial(boston.rf, pred.var = c("rm", "lstat"), plot = TRUE)
+#' multiplot(pdp.rm, pdp.lstat, pdp.rm.lstat, ncol = 3)
 #' }
 multiplot <- function(..., nrow = NULL, ncol = NULL) {
   gridExtra::grid.arrange(..., nrow = nrow, ncol = ncol)

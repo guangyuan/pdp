@@ -64,6 +64,18 @@
 #' with an additional attribute, \code{"partial.data"}, containing the data 
 #' displayed in the plot.
 #'
+#' @note 
+#' In some cases it is difficult for \code{partial} to extract the original 
+#' training data from \code{object}. In these cases an error message is 
+#' displayed requesting the user to supply the training data via the 
+#' \code{train} argument in the call to \code{partial}. Also, in most cases 
+#' where \code{partial} can extract the needed training data from \code{object},
+#' it is taken from the same environment in which \code{partial} was called. 
+#' Therefore, it is important to not change the data used to construct 
+#' \code{object} before calling \code{partial}. This problem is completely 
+#' avoided when the training data are passed to the \code{train} argument in the 
+#' call to \code{partial}.
+#'
 #' @references
 #' J. H. Friedman. Greedy function approximation: A gradient boosting machine.
 #' \emph{Annals of Statistics}, \bold{29}: 1189-1232, 2000.

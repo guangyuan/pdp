@@ -1,9 +1,3 @@
-# TODO:
-#   * Allow column position specification in pred.grid.
-#   * Update documentation to give details as to how the data is extracted from
-#     object when train is not specified.
-
-
 #' Partial Dependence Functions
 #'
 #' Compute partial dependence functions (i.e., marginal effects) for various

@@ -108,8 +108,7 @@ plotPartial.partial <- function(x, smooth = FALSE, rug = FALSE, chull = FALSE,
   }
   
   # Print and return (invisibly) the "trellis" object
-  print(p)
-  invisible(p)
+  p
 
 }
 

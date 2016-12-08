@@ -31,7 +31,8 @@
 #'   \code{type = "classification"}).
 #' @param plot Logical indicating whether to return a data frame containing the
 #'   partial dependence values (\code{FALSE}) or plot the partial dependence
-#'   function directly (\code{TRUE}). Default is \code{FALSE}.
+#'   function directly (\code{TRUE}). Default is \code{FALSE}. See 
+#'   \code{\link{plotPartial}} for plotting details.
 #' @param smooth Logical indicating whether or not to overlay a LOESS smooth.
 #'   Default is \code{FALSE}.
 #' @param rug Logical indicating whether or not to include rug marks on the
@@ -55,6 +56,13 @@
 #'   \code{foreach::foreach} when \code{parallel = TRUE}.
 #' @param ... Additional optional arguments to be passed onto
 #'   \code{stats::predict}.
+#'
+#' @return If \code{plot = FALSE} (the default) \code{partial} returns a data 
+#' frame with the additional class \code{"partial"} that is specially recognized 
+#' by the \code{plotPartial} function. If \code{plot = TRUE} then \code{partial}
+#' returns a "trellis" object (see \code{\link[lattice]{lattice}} for details) 
+#' with an additional attribute, \code{"partial.data"}, containing the data 
+#' displayed in the plot.
 #'
 #' @references
 #' J. H. Friedman. Greedy function approximation: A gradient boosting machine.

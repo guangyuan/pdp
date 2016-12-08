@@ -209,12 +209,13 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
   class(pd.df) <- c("data.frame", "partial")
 
   # Plot partial dependence function (if requested)
-  res <- if (plot) {
-    plotPartial(pd.df, smooth = smooth, rug = rug, train = train,
-                col.regions = viridis::viridis)
+  if (plot) {
+    res <- plotPartial(pd.df, smooth = smooth, rug = rug, train = train,
+                       col.regions = viridis::viridis)
+    attr(res, "partial.data") <- pd.df
   } else {
     # Return partial dependence values
-    pd.df
+    res <- pd.df
   }
   
   # Return results

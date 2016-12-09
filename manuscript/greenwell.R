@@ -22,7 +22,8 @@ devtools::install_github("bgreenwell/pdp")
 
 
 # List of packages required to run all the examples in this script
-# pkgs <- c("doParallel",
+# pkgs <- c("caret",
+#           "doParallel",
 #           "e1071",
 #           "earth",
 #           "ggplot2",

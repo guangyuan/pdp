@@ -95,8 +95,7 @@ multiplot(p1, p2, ncol = 2)
 ################################################################################
 
 # Load the (corrected) Boston housing data
-data(BostonHousing2, package = "mlbench")
-boston <- BostonHousing2[, -c(1, 2, 5)]  # remove unused columns
+data(boston)
 
 # Fit a random forest using default settings
 set.seed(101)  # for reproducibility

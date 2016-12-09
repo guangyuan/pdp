@@ -44,6 +44,7 @@ devtools::install_github("bgreenwell/pdp")
 
 # Load required packages
 library(doParallel)
+library(caret)
 library(e1071)
 library(earth)
 library(ggplot2)
@@ -51,6 +52,42 @@ library(party)
 library(pdp)
 library(randomForest)
 library(xgboost)
+
+
+################################################################################
+# Mushroom example
+################################################################################
+
+# Train a random forest to the mushroom data using 10-fold cross-validation
+set.seed(101)
+mushroom.rf <- train(x = subset(mushroom, select = -Edibility),
+                     y = mushroom$Edibility,
+                     method = "rf",
+                     trControl = trainControl(method = "cv", number = 10, 
+                                              verboseIter = TRUE),
+                     tuneLength = 22)
+
+# Extract partial dependence of odor on odds of edibility
+pd.odor <- partial(mushroom.rf, pred.var = "odor")
+
+# Variable importance plot
+p1 <- ggplot(varImp(mushroom.rf), color = "black") +
+  theme_light() +
+  xlab("") +
+  ylab("Predictor importance") +
+  theme_bw()
+
+# Partial dependence plot
+p2 <- ggplot(pd.odor, aes(x = odor, y = y)) +
+  geom_bar(stat = "identity") +
+  geom_hline(yintercept = 0) +
+  xlab("Odor") +
+  ylab("Log odds of being edible") +
+  coord_flip() +
+  theme_bw()
+
+# Display both plots side by side
+multiplot(p1, p2, ncol = 2)
 
 
 ################################################################################
@@ -85,7 +122,7 @@ pdf("pd_lstat.pdf", width = 8, height = 4)
 pdp1 <- plotPartial(pd.lstat)
 pdp2 <- plotPartial(pd.lstat, lwd = 2, smooth = TRUE,
                     ylab = expression(f(lstat)))
-gridExtra::grid.arrange(pdp1, pdp2, ncol = 2)
+multiplot(pdp1, pdp2, ncol = 2)
 dev.off()
 
 # Fit a MARS model
@@ -100,7 +137,7 @@ pdp2 <- plotPartial(pd.lstat.rm, contour = TRUE, col.regions = rwb)
 pdp3 <- plotPartial(pd.lstat.rm, levelplot = FALSE, zlab = "cmedv",
                     drape = TRUE, colorkey = FALSE,
                     screen = list(z = -20, x = -60))
-gridExtra::grid.arrange(pdp1, pdp2, pdp3, ncol = 3)
+multiplot(pdp1, pdp2, pdp3, ncol = 3)
 dev.off()
 
 # Figure 4
@@ -111,7 +148,7 @@ pdp1 <- plotPartial(pd.lstat, rug = TRUE, train = boston)
 pdp2 <- plotPartial(pd.lstat.rm, chull = TRUE, train = boston)
 pdp3 <- plotPartial(partial(boston.rf, pred.var = c("lstat", "rm"),
                             chull = TRUE))
-gridExtra::grid.arrange(pdp1, pdp3, ncol = 2)
+multiplot(pdp1, pdp3, ncol = 2)
 dev.off()
 
 # Figure 5
@@ -119,7 +156,7 @@ pdf("partial_manual.pdf", width = 12, height = 4)
 pdp1 <- plotPartial(partial(boston.rf, "rm"))
 pdp2 <- plotPartial(partial(boston.rf, "rm", grid.resolution = 30))
 pdp3 <- plotPartial(partial(boston.rf, "rm", pred.grid = data.frame(rm = 3:9)))
-gridExtra::grid.arrange(pdp1, pdp2, pdp3, ncol = 3)
+multiplot(pdp1, pdp2, pdp3, ncol = 3)
 dev.off()
 
 
@@ -235,5 +272,5 @@ pdp2 <- plotPartial(partial(boston.xgb, pred.var = "rm", train = X),
                     rug = TRUE, smooth = TRUE, train = X)
 pdp3 <- plotPartial(partial(boston.xgb, pred.var = c("lstat", "rm"),
                             chull = TRUE, train = X), rug = TRUE, train = X)
-gridExtra::grid.arrange(pdp1, pdp2, pdp3, ncol = 3)
+multiplot(pdp1, pdp2, pdp3, ncol = 3)
 dev.off()

@@ -1,4 +1,4 @@
-\begin{thebibliography}{34}
+\begin{thebibliography}{35}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -187,6 +187,12 @@ A.~Peters and T.~Hothorn.
 \newblock \emph{ipred: Improved Predictors}, 2015.
 \newblock URL \url{https://CRAN.R-project.org/package=ipred}.
 \newblock R package version 0.9-5.
+
+\bibitem[{R Core Team}(2016)]{grid-pkg}
+{R Core Team}.
+\newblock \emph{R: A Language and Environment for Statistical Computing}.
+\newblock R Foundation for Statistical Computing, Vienna, Austria, 2016.
+\newblock URL \url{https://www.R-project.org/}.
 
 \bibitem[Sarkar(2008)]{lattice-pkg}
 D.~Sarkar.

@@ -64,18 +64,22 @@ The \pkg{pdp} package is useful for constructing PDPs for many classes of fitted
 \begin{example}
 install.packages("pdp")
 \end{example}
-The development version is located on GitHub: \url{https://github.com/bgreenwell/pdp}. Bug reports and suggestions are appreciated and should be submitted to \url{https://github.com/bgreenwell/pdp/issues}. Currently, only three functions are exported by \pkg{pdp}:
+The development version is located on GitHub: \url{https://github.com/bgreenwell/pdp}. Bug reports and suggestions are appreciated and should be submitted to \url{https://github.com/bgreenwell/pdp/issues}. Currently, only two functions are exported by \pkg{pdp}:
 \begin{itemize}
   \item \code{partial}
   \item \code{plotPartial}
-  \item \code{multiplot}
 \end{itemize}
 
 The \code{partial} function evaluates the partial dependence \eqref{eqn:pdf} from a fitted model over a grid of predictor values; the fitted model and predictors are specified using the \code{object} and \code{pred.var} arguments, respectively---these are the only required arguments. If \code{plot = FALSE} (the default), \code{partial} returns an object of class \code{"partial"} which inherits from the class \code{"data.frame"}; put another way, by default, \code{partial} returns a data frame with an additional class that is recognized by the \code{plotPartial} function. The columns of the data frame are labeled in the same order as the features supplied to \code{pred.var}, and the last column is always labeled \code{y} and contains the values of the partial dependence function $\bar{f}_s\left(\boldsymbol{z}_s\right)$. If \code{plot = TRUE}, then \code{partial} makes an internal call to \code{plotPartial} and returns the PDP in the form of a \CRANpkg{lattice} plot \citep{lattice-pkg}.
 
 The \code{plotPartial} function can be used for displaying more advanced PDPs; it operates on objects of class \code{"partial"} and has many useful plotting options. For example, \code{plotPartial} makes it straight forward to add a LOESS smooth, or produce a 3-D surface instead of a false color level plot (the default). Of course, since the default output produced by \code{partial} is still a data frame, the user can easily use any plotting package he/she desires to visualize the results---\CRANpkg{ggplot2} \citep{ggplot2-pkg}, for instance.
 
-Finally, \code{multiplot} is a simple helper function that makes it easier to display multiple PDPs on a single plot.
+\strong{Note:} as mentioned above, \pkg{pdp} relies on \pkg{lattice} for its graphics. \pkg{lattice} itself is built on top of \CRANpkg{grid} \citep{grid-pkg}. \pkg{grid} graphics behave a little differently than traditional R graphics and two points are worth making:
+\begin{enumerate}
+  \item \pkg{lattice} functions create a \code{"trellis"} object, but does not display it; the \code{print} method produces the actual display. The result is automatically printed when using these functions in the command line, but in \code{source} or inside a function, an explicit \code{print} statement is required to display the resulting graph.
+  \item Setting graphical parameters via \code{par} typically has no effect on \pkg{lattice} plots. Instead, \pkg{lattice} provides its own \code{trellis.par.set} function for modifying graphical parameters.
+\end{enumerate}
+A consequence of second point is that the \code{par} function can not be used to control the layout of multiple \pkg{lattice} (and hence \pkg{pdp}) plots. Simple solutions are available in packages \CRANpkg{latticeExtra} and \CRANpkg{gridExtra}. For convenience, \pkg{pdp} imports the \code{grid.arrange} function from \pkg{gridExtra} which makes it easy to display multiple \pkg{pdp} plots on a single page.
 
 Currently supported models are described in Table~\ref{tab:models}. In a lot of these cases, \code{partial} should be able to automatically determine appropriate values for the options \code{type} (i.e., \code{"regression"} or \code{"classification"}) and \code{train} (the original training data). In other situations, the user may need to specify one or both of these additional arguments. These two arguments allow \code{partial} to be flexible enough to handle many of the model types not listed in Table~\ref{tab:models}; for example, neural networks from the \CRANpkg{nnet} package \citep{venables-modern-2002} and projection pursuit regression \citep{friedman-ppr-1981} using the \code{ppr} function in the \pkg{stats} package.
 
@@ -228,7 +232,7 @@ partial(boston.rf, pred.var = c("lstat", "rm"), plot = TRUE, chull = TRUE)
 
 Constructing PDPs can be quite computationally expensive. Several strategies are available to ease the computational burden in larger problems. For example, there is no need to compute partial dependence of \code{cmedv} using each unique value of \code{rm} in the training data (which would require $k = 446$ passes over the data!). We could get very reasonable results using a reduced number of points. Current options are to use a grid of equally spaced values in the range of the variable of interest; the number of points can be controlled using the \code{grid.resolution} option in the call to \code{partial}. Alternatively, a user-specified grid of values (e.g., containing specific quantiles of interest) can be supplied through the \code{pred.grid} argument. To demonstrate, the following snippet of code computes the partial dependence of \code{cmedv} on \code{rm} using each option; the results are displayed in Figure~\ref{fig:partial_manual}.
 \begin{example}
-multiplot(
+grid.arrange(
   # Figure 5 (left)
   partial(boston.rf, "rm", plot = TRUE),
 
@@ -372,11 +376,19 @@ boston.xgb.tune <- train(x = data.matrix(subset(boston, select = -cmedv)),
 \end{example}
 The final model achieves a cross-validated RMSE and $R^2$ of 2.819 and 0.905, respectively. The following snippet of code computes the partial dependence of \code{cmedv} on both \code{rm} and \code{lstat}, individually and together. The results are displayed in Figure~\ref{fig:boston_xgb}.
 \begin{example}
-multiplot(
+grid.arrange(
+  # Figure 8 (left)
   partial(boston.xgb.tune, pred.var = "rm", plot = T, rug = T),
+
+  # Figure 8 (middle)
   partial(boston.xgb.tune, pred.var = "lstat", plot = T, rug = T),
+
+  # Figure 8 (right)
   partial(boston.xgb.tune, pred.var = c("lstat", "rm"), plot = T, chull = T),
-  ncol = 3)
+
+  # One column for each PDP
+  ncol = 3
+)
 \end{example}
 
 \begin{figure}[!htbp]

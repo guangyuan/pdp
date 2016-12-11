@@ -11,6 +11,19 @@
 NULL
 
 
+#' Arrange multiple grobs on a page
+#'
+#' See \code{\link[gridExtra]{grid.arrange}} for more details.
+#'
+#' @name grid.arrange
+#' @rdname grid.arrange
+#' @keywords internal
+#' @export
+#' @importFrom gridExtra grid.arrange
+#' @usage grid.arrange(..., newpage = TRUE)
+NULL
+
+
 #' @keywords internal
 copyClasses <- function(x, y) {
   x.names <- names(x)
@@ -199,7 +212,7 @@ superType.nls <- function(object) {
 superType.glm <- function(object) {
   if(object$family$family == "binomial") {
     "classification"
-  } else if (object$family$family %in% 
+  } else if (object$family$family %in%
              c("gaussian", "Gamma", "inverse.gaussian", "poisson")) {
     "regression"
   } else {

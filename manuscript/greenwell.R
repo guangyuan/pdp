@@ -17,8 +17,8 @@ setwd("manuscript")
 # release will be on CRAN soon. I am waiting out the grace period from my last
 # submission---the only change in this version is the name of an argument in
 # the two exported functions.
-install.packages("devtools")
-devtools::install_github("bgreenwell/pdp")
+# install.packages("devtools")
+# devtools::install_github("bgreenwell/pdp")
 
 
 # List of packages required to run all the examples in this script
@@ -64,7 +64,7 @@ set.seed(101)
 mushroom.rf <- train(x = subset(mushroom, select = -Edibility),
                      y = mushroom$Edibility,
                      method = "rf",
-                     trControl = trainControl(method = "cv", number = 10, 
+                     trControl = trainControl(method = "cv", number = 10,
                                               verboseIter = TRUE),
                      tuneLength = 22)
 
@@ -233,22 +233,23 @@ dev.off()
 ################################################################################
 
 # Optimize tuning parameters using 5-fold cross-validation
-# library(caret)
-# ctrl <- trainControl(method = "cv", number = 5, verboseIter = TRUE)
-# xgb.grid <- expand.grid(nrounds = c(100, 500, 1000, 2000, 5000),
-#                         max_depth = 1:6,
-#                         eta = c(0.001, 0.01, 0.1, 0.5, 1),
-#                         gamma = 0,
-#                         colsample_bytree = 1,
-#                         min_child_weight = 1)
-# set.seed(202)
-# boston.xgb.tune <- train(x = data.matrix(subset(boston, select = -cmedv)),
-#                          y = boston$cmedv,
-#                          method = "xgbTree",
-#                          metric = "RMSE",
-#                          trControl = ctrl,
-#                          tuneGrid = xgb.grid)
-# plot(boston.xgb.tune)
+library(caret)
+ctrl <- trainControl(method = "cv", number = 5, verboseIter = TRUE)
+xgb.grid <- expand.grid(nrounds = c(100, 500, 1000, 2000, 5000),
+                        max_depth = 1:6,
+                        eta = c(0.001, 0.01, 0.1, 0.5, 1),
+                        gamma = 0,
+                        colsample_bytree = 1,
+                        min_child_weight = 1,
+                        subsample = 1)
+set.seed(202)
+boston.xgb.tune <- train(x = data.matrix(subset(boston, select = -cmedv)),
+                         y = boston$cmedv,
+                         method = "xgbTree",
+                         metric = "RMSE",
+                         trControl = ctrl,
+                         tuneGrid = xgb.grid)
+plot(boston.xgb.tune)
 # boston.xgb.tune$bestTune
 #    nrounds max_depth  eta gamma colsample_bytree min_child_weight
 # 44    2000         3 0.01     0                1                1
@@ -260,17 +261,23 @@ boston.xgb <- xgboost(data = data.matrix(subset(boston, select = -cmedv)),
                       max_depth = 3,
                       eta = 0.01)
 
-# partial(boston.xgb, pred.var = c("lon", "lat"), plot = TRUE, chull = TRUE,
-#         train = X, .progress = "text")
-
 # Figure 8
 pdf("boston_xgb.pdf", width = 12, height = 4)
-X <- subset(boston, select = -cmedv)
-pdp1 <- plotPartial(partial(boston.xgb, pred.var = "lstat", train = X),
-                    rug = TRUE, smooth = TRUE, train = X)
-pdp2 <- plotPartial(partial(boston.xgb, pred.var = "rm", train = X),
-                    rug = TRUE, smooth = TRUE, train = X)
-pdp3 <- plotPartial(partial(boston.xgb, pred.var = c("lstat", "rm"),
-                            chull = TRUE, train = X), rug = TRUE, train = X)
-multiplot(pdp1, pdp2, pdp3, ncol = 3)
+multiplot(
+  partial(boston.xgb.tune, pred.var = "rm", plot = T, rug = T),
+  partial(boston.xgb.tune, pred.var = "lstat", plot = T, rug = T),
+  partial(boston.xgb.tune, pred.var = c("lstat", "rm"), plot = T, chull = T),
+  ncol = 3)
 dev.off()
+
+# # Figure 8
+# pdf("boston_xgb.pdf", width = 12, height = 4)
+# X <- subset(boston, select = -cmedv)
+# pdp1 <- plotPartial(partial(boston.xgb, pred.var = "lstat", train = X),
+#                     rug = TRUE, smooth = TRUE, train = X)
+# pdp2 <- plotPartial(partial(boston.xgb, pred.var = "rm", train = X),
+#                     rug = TRUE, smooth = TRUE, train = X)
+# pdp3 <- plotPartial(partial(boston.xgb, pred.var = c("lstat", "rm"),
+#                             chull = TRUE, train = X), rug = TRUE, train = X)
+# multiplot(pdp1, pdp2, pdp3, ncol = 3)
+# dev.off()

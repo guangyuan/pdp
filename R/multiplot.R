@@ -5,12 +5,12 @@
 #' @param ... grobs, gtables, ggplot or trellis objects.
 #' @param nrow Integer specifying the number of rows of plots.
 #' @param ncol Integer specifying the number of columns of plots.
-#' @return AN object of class \code{c("gtable", "gTree", "grob", "gDesc")}.
-#' @details \code{multiplot} is just a simple wrapper around 
-#'   \code{\link[gridExtra]{grid.arrange}}. For details see the documentation 
+#' @return An object of class \code{c("gtable", "gTree", "grob", "gDesc")}.
+#' @details \code{multiplot} is just a simple wrapper around
+#'   \code{\link[gridExtra]{grid.arrange}}. For details see the documentation
 #'   for that function.
 #' @export
-#' @examples 
+#' @examples
 #' \dontrun{
 #' # Fit a random forest to the boston housing data
 #' library(randomForest)

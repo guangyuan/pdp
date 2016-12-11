@@ -45,7 +45,8 @@ class. Only used for classification problems (i.e., when
 
 \item{plot}{Logical indicating whether to return a data frame containing the
 partial dependence values (\code{FALSE}) or plot the partial dependence
-function directly (\code{TRUE}). Default is \code{FALSE}.}
+function directly (\code{TRUE}). Default is \code{FALSE}. See 
+\code{\link{plotPartial}} for plotting details.}
 
 \item{smooth}{Logical indicating whether or not to overlay a LOESS smooth.
 Default is \code{FALSE}.}
@@ -76,9 +77,29 @@ parallel using a backend provided by the \code{foreach} package. Default is
 \item{paropts}{List containing additional options passed onto
 \code{foreach::foreach} when \code{parallel = TRUE}.}
 }
+\value{
+If \code{plot = FALSE} (the default) \code{partial} returns a data 
+frame with the additional class \code{"partial"} that is specially recognized 
+by the \code{plotPartial} function. If \code{plot = TRUE} then \code{partial}
+returns a "trellis" object (see \code{\link[lattice]{lattice}} for details) 
+with an additional attribute, \code{"partial.data"}, containing the data 
+displayed in the plot.
+}
 \description{
 Compute partial dependence functions (i.e., marginal effects) for various
 model fitting objects.
+}
+\note{
+In some cases it is difficult for \code{partial} to extract the original 
+training data from \code{object}. In these cases an error message is 
+displayed requesting the user to supply the training data via the 
+\code{train} argument in the call to \code{partial}. Also, in most cases 
+where \code{partial} can extract the needed training data from \code{object},
+it is taken from the same environment in which \code{partial} was called. 
+Therefore, it is important to not change the data used to construct 
+\code{object} before calling \code{partial}. This problem is completely 
+avoided when the training data are passed to the \code{train} argument in the 
+call to \code{partial}.
 }
 \examples{
 \dontrun{

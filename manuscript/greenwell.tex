@@ -64,15 +64,18 @@ The \pkg{pdp} package is useful for constructing PDPs for many classes of fitted
 \begin{example}
 install.packages("pdp")
 \end{example}
-The development version is located on GitHub: \url{https://github.com/bgreenwell/pdp}. Bug reports and suggestions are appreciated and should be submitted to \url{https://github.com/bgreenwell/pdp/issues}. Currently, only two functions are exported by \pkg{pdp}:
+The development version is located on GitHub: \url{https://github.com/bgreenwell/pdp}. Bug reports and suggestions are appreciated and should be submitted to \url{https://github.com/bgreenwell/pdp/issues}. Currently, only three functions are exported by \pkg{pdp}:
 \begin{itemize}
   \item \code{partial}
   \item \code{plotPartial}
+  \item \code{multiplot}
 \end{itemize}
 
 The \code{partial} function evaluates the partial dependence \eqref{eqn:pdf} from a fitted model over a grid of predictor values; the fitted model and predictors are specified using the \code{object} and \code{pred.var} arguments, respectively---these are the only required arguments. If \code{plot = FALSE} (the default), \code{partial} returns an object of class \code{"partial"} which inherits from the class \code{"data.frame"}; put another way, by default, \code{partial} returns a data frame with an additional class that is recognized by the \code{plotPartial} function. The columns of the data frame are labeled in the same order as the features supplied to \code{pred.var}, and the last column is always labeled \code{y} and contains the values of the partial dependence function $\bar{f}_s\left(\boldsymbol{z}_s\right)$. If \code{plot = TRUE}, then \code{partial} makes an internal call to \code{plotPartial} and returns the PDP in the form of a \CRANpkg{lattice} plot \citep{lattice-pkg}.
 
 The \code{plotPartial} function can be used for displaying more advanced PDPs; it operates on objects of class \code{"partial"} and has many useful plotting options. For example, \code{plotPartial} makes it straight forward to add a LOESS smooth, or produce a 3-D surface instead of a false color level plot (the default). Of course, since the default output produced by \code{partial} is still a data frame, the user can easily use any plotting package he/she desires to visualize the results---\CRANpkg{ggplot2} \citep{ggplot2-pkg}, for instance.
+
+Finally, \code{multiplot} is a simple helper function that makes it easier to display multiple PDPs on a single plot.
 
 Currently supported models are described in Table~\ref{tab:models}. In a lot of these cases, \code{partial} should be able to automatically determine appropriate values for the options \code{type} (i.e., \code{"regression"} or \code{"classification"}) and \code{train} (the original training data). In other situations, the user may need to specify one or both of these additional arguments. These two arguments allow \code{partial} to be flexible enough to handle many of the model types not listed in Table~\ref{tab:models}; for example, neural networks from the \CRANpkg{nnet} package \citep{venables-modern-2002} and projection pursuit regression \citep{friedman-ppr-1981} using the \code{ppr} function in the \pkg{stats} package.
 
@@ -113,6 +116,8 @@ the raw training data using the `train` argument in the call to `partial`.
 \end{example}
 This will occur, for example, when using partial with the \code{"xgb.Booster"} class. In fact, using \code{partial} with any object that does not store the original training data will result in the above error message.
 
+The \code{partial} function also supports object of class \code{"train"} produced using the \code{train} function from the well-known \CRANpkg{caret} package \citep{caret-pkg}. This means that \code{partial} can be used with any classification or regression model that \code{caret} supports; see \url{http://topepo.github.io/caret/available-models.html} for a current list of supported models. An example is given in Section~?.
+
 For illustration, we will use the (corrected) Boston housing data which are available from the \CRANpkg{mlbench} package \citep{mlbench-pkg}. These data contain the median value of owner-occupied homes in 506 U.S. census tracts in the Boston area, along with 13 independent variables such as the per capita crime rate by town. We begin by loading the data and omitting unimportant columns.
 \begin{example}
 data(BostonHousing2, package = "mlbench")  # mlbench must be installed!
@@ -147,12 +152,13 @@ partialPlot(boston.rf, pred.data = boston, x.var = "lstat")
 The same plot can be achieved using the \code{partial} function and setting \code{plot = TRUE} (see the left side of Figure~\ref{fig:pd_lstat}):
 \begin{example}
 library(pdp)
-partial(boston.rf, pred.var = "lstat", plot = TRUE)
+partial(boston.rf, pred.var = "lstat", plot = TRUE)  # Figure 2 (left)
 \end{example}
 The only difference is that \pkg{pdp} uses the \pkg{lattice} graphics package to produce all of its displays.
 
 For a more customizable plot, we can set \code{plot = FALSE} in the call to \code{partial} and then use the \code{plotPartial} function on the resulting data frame. This is illustrated in the example below which increases the line width, adds a LOESS smooth, and customizes the $y$-axis label. The result is displayed in the right side of Figure~\ref{fig:pd_lstat}. \strong{Note:} to encourage writing more readable code, the \dfn{pipe} operator \code{\%>\%} provided by the \CRANpkg{magrittr} package \citep{magrittr-pkg} is exported whenever \pkg{pdp} is loaded.
 \begin{example}
+# Figure 2 (right)
 boston.rf %>%  # the %>% operator is read as "and then"
   partial(pred.var = "lstat") %>%
   plotPartial(smooth = TRUE, lwd = 2, ylab = expression(f(lstat)))
@@ -175,10 +181,10 @@ The benefit of using \code{partial} is threefold: (1) it is a generic function t
 \begin{example}
 rwb <- colorRampPalette(c("red", "white", "blue"))
 pd <- partial(boston.rf, pred.var = c("lstat", "rm"))
-plotPartial(pd)
-plotPartial(pd, contour = TRUE, col.regions = rwb)
+plotPartial(pd)  # Figure 3 (left)
+plotPartial(pd, contour = TRUE, col.regions = rwb)  # Figure 3 (middle)
 plotPartial(pd, levelplot = FALSE, zlab = "cmedv", drape = TRUE,
-            colorkey = TRUE, screen = list(z = -20, x = -60))
+            colorkey = TRUE, screen = list(z = -20, x = -60))  # Figure 3 (right)
 \end{example}
 \strong{Note:} the default color map for level plots is the color blind-friendly matplotlib \citep{hunter-matplotlib-2007} 'viridis' color map provided by the \CRANpkg{viridis} package \citep{viridis-pkg}.
 
@@ -197,11 +203,13 @@ plotPartial(pd, levelplot = FALSE, zlab = "cmedv", drape = TRUE,
 
 It is not wise to draw conclusions from PDPs in regions outside the area of the training data. Here we describe two ways to mitigate the risk of extrapolation in PDPs: rug displays and convex hulls. Rug displays are one-dimensional plots added to the axes. Both \code{partial} and \code{plotPartial} have a \code{rug} option that, when set to \code{TRUE}, will display the deciles of the distribution (as well as the minimum and maximum values) for the predictors on the horizontal and vertical axes. The following snippet of code produces the left display in Figure~\ref{fig:partial_extrap}.
 \begin{example}
+# Figure 4 (left)
 partial(boston.rf, pred.var = "lstat", plot = TRUE, rug = TRUE)
 \end{example}
 
 In two or more dimensions, plotting the convex hull is more informative; it outlines the region of the predictor space that the model was trained on. When \code{chull = TRUE}, the convex hull of the first two dimensions of $\boldsymbol{z}_s$ (i.e., the first two variables supplied to \code{pred.var}) is computed; for example, if you set \code{chull = TRUE} in the call to \code{partial} only the region within the convex hull of the first two variables is plotted. Over interpreting the PDP outside of this region is considered extrapolation and is ill-advised. The right display in Figure~\ref{fig:partial_extrap} was produced using:
 \begin{example}
+# Figure 4 (right)
 partial(boston.rf, pred.var = c("lstat", "rm"), plot = TRUE, chull = TRUE)
 \end{example}
 
@@ -220,9 +228,19 @@ partial(boston.rf, pred.var = c("lstat", "rm"), plot = TRUE, chull = TRUE)
 
 Constructing PDPs can be quite computationally expensive. Several strategies are available to ease the computational burden in larger problems. For example, there is no need to compute partial dependence of \code{cmedv} using each unique value of \code{rm} in the training data (which would require $k = 446$ passes over the data!). We could get very reasonable results using a reduced number of points. Current options are to use a grid of equally spaced values in the range of the variable of interest; the number of points can be controlled using the \code{grid.resolution} option in the call to \code{partial}. Alternatively, a user-specified grid of values (e.g., containing specific quantiles of interest) can be supplied through the \code{pred.grid} argument. To demonstrate, the following snippet of code computes the partial dependence of \code{cmedv} on \code{rm} using each option; the results are displayed in Figure~\ref{fig:partial_manual}.
 \begin{example}
-partial(boston.rf, "rm", plot = TRUE)
-partial(boston.rf, "rm", grid.resolution = 30, plot = TRUE)
-partial(boston.rf, "rm", pred.grid = data.frame(rm = 3:9), plot = TRUE)
+multiplot(
+  # Figure 5 (left)
+  partial(boston.rf, "rm", plot = TRUE),
+
+  # Figure 5 (middle)
+  partial(boston.rf, "rm", grid.resolution = 30, plot = TRUE),
+
+  # Figure 5 (right)
+  partial(boston.rf, "rm", pred.grid = data.frame(rm = 3:9), plot = TRUE),
+
+  # One column for each PDP
+  ncol = 3
+)
 \end{example}
 
 \begin{widefigure}[htbp]
@@ -279,7 +297,7 @@ It is important to note that when using more than two predictor variables, \code
 For classification problems, partial dependence functions are on a scale similar to the logit; see, for example, \citet[pp. 369---370]{hastie-elements-2009}. Suppose the response is categorical with $K$ levels, then for each class we compute
 \begin{equation}
 \label{eqn:avg-logit}
-f_k(x) = \log\left[p_k(x)\right] - \frac{1}{K}\sum_{i = 1}^K\log\left[p_k(x)\right], \quad k = 1, 2, \dots, K,
+f_k(x) = \log\left[p_k(x)\right] - \frac{1}{K}\sum_{k = 1}^K\log\left[p_k(x)\right], \quad k = 1, 2, \dots, K,
 \end{equation}
 where $p_k(x)$ is the predicted probability for the $k$-th class. Plotting $f_k(x)$ helps us understand how the log-odds for the $k$-th class depends on different subsets of the predictor variables.
 
@@ -326,20 +344,39 @@ ggplot(pd, aes(x = Petal.Width, y = Petal.Length, z = y, fill = y)) +
 To round out our discussion, we provide one last example using a recently popular (and successful!) machine learning tool. XGBoost, short for eXtreme Gradient Boosting, is a popular library providing optimized distributed gradient boosting that is specifically designed to be highly efficient, flexible and portable. The associated R package \pkg{xgboost} has been used to win a number of \href{https://www.kaggle.com/}{Kaggle competitions}. It has been shown to be many times faster than the well known \pkg{gbm} package. However, unlike \pkg{gbm}, \pkg{xgboost} does not have built-in functions for constructing PDPs. Fortunately, the \pkg{pdp} package can be used to fill this gap.
 
 For illustration, we return to the Boston housing data. The code chunk below fits an \pkg{xgboost} model to the \code{boston} data frame from Section~\ref{sec:boston}; the tuning parameters were predetermined using 5-fold cross-validation. (Make sure you are using version 0.6-0 or later of \pkg{xgboost}: \url{https://github.com/dmlc/xgboost/tree/master/R-package}.)
-\begin{example}
-set.seed(102)  # for reproducibility
-boston.xgb <- xgboost(data = data.matrix(subset(boston, select = -cmedv)),
-                      label = boston$cmedv, objective = "reg:linear",
-                      nrounds = 2000, max_depth = 3, eta = 0.01)
-\end{example}
 
-To use \code{partial} with the \code{"xgb.Booster"} class, we need to supply the original training data (minus the response) in the call to \code{partial}. The following snippet of code computes the partial dependence of \code{cmedv} on both \code{rm} and \code{lstat}, individually and together. The results are displayed in Figure~\ref{fig:boston_xgb}. \strong{Note:} while \code{xgboost} requires the training data to be an object of class \code{"matrix"}, \code{"dgCMatrix"}, or \code{"xgb.DMatrix"}, \code{partial} requires a \code{"data.frame"}.
+The code chunk below uses \pkg{caret} to train an XGBoost model of a grid of tuning values using 5-fold cross-validation.
 \begin{example}
-pred.list <- list("lstat", "rm", c("lstat", "rm"))
-for (x in pred.list) {
-  partial(boston.xgb, pred.var = x, plot = TRUE, smooth = TRUE, rug = TRUE,
-          chull = TRUE, train = subset(boston, select = -cmedv))
-}
+# Optimize tuning parameters using 5-fold cross-validation
+library(caret)
+
+# Setup for 5-fold cross-validation
+ctrl <- trainControl(method = "cv", number = 5, verboseIter = TRUE)
+
+# Grid of tuning values for XGBoost
+xgb.grid <- expand.grid(nrounds = c(100, 500, 1000, 2000, 5000),
+                        max_depth = 1:6,
+                        eta = c(0.001, 0.01, 0.1, 0.5, 1),
+                        gamma = 0,
+                        colsample_bytree = 1,
+                        min_child_weight = 1)
+
+# Train an XGBoost model
+set.seed(202)
+boston.xgb.tune <- train(x = data.matrix(subset(boston, select = -cmedv)),
+                         y = boston$cmedv,
+                         method = "xgbTree",
+                         metric = "RMSE",
+                         trControl = ctrl,
+                         tuneGrid = xgb.grid)
+\end{example}
+The final model achieves a cross-validated RMSE and $R^2$ of 2.819 and 0.905, respectively. The following snippet of code computes the partial dependence of \code{cmedv} on both \code{rm} and \code{lstat}, individually and together. The results are displayed in Figure~\ref{fig:boston_xgb}.
+\begin{example}
+multiplot(
+  partial(boston.xgb.tune, pred.var = "rm", plot = T, rug = T),
+  partial(boston.xgb.tune, pred.var = "lstat", plot = T, rug = T),
+  partial(boston.xgb.tune, pred.var = c("lstat", "rm"), plot = T, chull = T),
+  ncol = 3)
 \end{example}
 
 \begin{figure}[!htbp]
@@ -349,10 +386,26 @@ for (x in pred.list) {
   \label{fig:boston_xgb}
 \end{figure}
 
+Since \code{train} always stores a copy of the training data as part of the \code{"train"} object in a component called \code{trainingData} (e.g., \code{boston.xgb.tune\$trainingData}) there is no need to supply the training data in the call to \code{partial}. However, this is not the case when using the \pkg{xgboost} package directly. For example, the following code fits the same model using the \code{xgboost} function.
+\begin{example}
+set.seed(102)  # for reproducibility
+boston.xgb <- xgboost(data = data.matrix(subset(boston, select = -cmedv)),
+                      label = boston$cmedv, objective = "reg:linear",
+                      nrounds = 2000, max_depth = 3, eta = 0.01)
+\end{example}
+To use \code{partial} with the \code{"xgb.Booster"} class, we need to supply the original training data (minus the response) in the call to \code{partial}. The following snippet of code computes the partial dependence of \code{cmedv} on \code{rm} (plot not shown). \strong{Note:} while \code{xgboost} requires the training data to be an object of class \code{"matrix"}, \code{"dgCMatrix"}, or \code{"xgb.DMatrix"}, \code{partial} requires a \code{"data.frame"}.
+\begin{example}
+partial(boston.xgb, pred.var = "rm", plot = TRUE, rug = TRUE,
+        train = subset(boston, select = -cmedv))
+\end{example}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Using partial with caret
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{example}
+% pred.list <- list("lstat", "rm", c("lstat", "rm"))
+% for (x in pred.list) {
+%   partial(boston.xgb, pred.var = x, plot = TRUE, smooth = TRUE, rug = TRUE,
+%           chull = TRUE, train = subset(boston, select = -cmedv))
+% }
+% \end{example}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

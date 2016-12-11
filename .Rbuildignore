@@ -7,4 +7,5 @@
 ^data-raw$
 ^manuscript$
 ^tests/testthat/Rplots\.pdf$
+^slowtests$
 

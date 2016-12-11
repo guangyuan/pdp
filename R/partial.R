@@ -25,7 +25,7 @@
 #'   \code{type = "classification"}).
 #' @param plot Logical indicating whether to return a data frame containing the
 #'   partial dependence values (\code{FALSE}) or plot the partial dependence
-#'   function directly (\code{TRUE}). Default is \code{FALSE}. See 
+#'   function directly (\code{TRUE}). Default is \code{FALSE}. See
 #'   \code{\link{plotPartial}} for plotting details.
 #' @param smooth Logical indicating whether or not to overlay a LOESS smooth.
 #'   Default is \code{FALSE}.
@@ -51,23 +51,23 @@
 #' @param ... Additional optional arguments to be passed onto
 #'   \code{stats::predict}.
 #'
-#' @return If \code{plot = FALSE} (the default) \code{partial} returns a data 
-#' frame with the additional class \code{"partial"} that is specially recognized 
+#' @return If \code{plot = FALSE} (the default) \code{partial} returns a data
+#' frame with the additional class \code{"partial"} that is specially recognized
 #' by the \code{plotPartial} function. If \code{plot = TRUE} then \code{partial}
-#' returns a "trellis" object (see \code{\link[lattice]{lattice}} for details) 
-#' with an additional attribute, \code{"partial.data"}, containing the data 
+#' returns a "trellis" object (see \code{\link[lattice]{lattice}} for details)
+#' with an additional attribute, \code{"partial.data"}, containing the data
 #' displayed in the plot.
 #'
-#' @note 
-#' In some cases it is difficult for \code{partial} to extract the original 
-#' training data from \code{object}. In these cases an error message is 
-#' displayed requesting the user to supply the training data via the 
-#' \code{train} argument in the call to \code{partial}. Also, in most cases 
-#' where \code{partial} can extract the needed training data from \code{object},
-#' it is taken from the same environment in which \code{partial} was called. 
-#' Therefore, it is important to not change the data used to construct 
-#' \code{object} before calling \code{partial}. This problem is completely 
-#' avoided when the training data are passed to the \code{train} argument in the 
+#' @note
+#' In some cases it is difficult for \code{partial} to extract the original
+#' training data from \code{object}. In these cases an error message is
+#' displayed requesting the user to supply the training data via the
+#' \code{train} argument in the call to \code{partial}. In most cases where
+#' \code{partial} can extract the needed training data from \code{object},
+#' it is taken from the same environment in which \code{partial} was called.
+#' Therefore, it is important to not change the data used to construct
+#' \code{object} before calling \code{partial}. This problem is completely
+#' avoided when the training data are passed to the \code{train} argument in the
 #' call to \code{partial}.
 #'
 #' @references
@@ -232,7 +232,7 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
     # Return partial dependence values
     res <- pd.df
   }
-  
+
   # Return results
   res
 

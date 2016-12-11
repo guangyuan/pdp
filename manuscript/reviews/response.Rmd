@@ -1,11 +1,15 @@
 ---
 title: "Response to Comments"
 output:
-  pdf_document: default
-  html_notebook: default
   html_document: default
+  html_notebook: default
+  pdf_document: default
   word_document: default
 ---
+
+A few additional changes have been made to the package since the original submission. The Boston housing data no longer has to be imported from the `mlbench` package; it is loaded automatically with `pdp`. `pdp` now interfaces with the `caret` package. This is breifely discussed on page X and has been incorporated into the last example.
+
+A few of the comments were related to the plotting behavior of `plotPartial`. I added a paragraph on page X that should help clarify many of these issues.
 
 ## Reviewer 1
 
@@ -282,14 +286,19 @@ Fixed. Switched to curly braces.
 #### Comment
 p2 unless the editor disagrees, there is no reason to add "install.packages("pdp")" in the text of the paper as it is assumed a user knows how to install a package.
 
+#### Response
+Fixed. Code chunk was removed.
+
 #### Comment
 p3 "Error: The training..." should be wrapped.
 
 #### Response
-Fixed.
+Fixed. The text was wrapped appropriately.
 
 #### Comment
 Fig 6: the sidebar should be labeled "ozone". Also, would it be terrible to label all axes even though it is redundant?
+
+#### Response
 
 
 #### Comment

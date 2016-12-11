@@ -60,11 +60,7 @@ Many other techniques exist for visualizing relationships between the predictors
 \section{Constructing PDPs in R}
 \label{sec:boston}
 
-The \pkg{pdp} package is useful for constructing PDPs for many classes of fitted models in R. PDPs are especially useful for visualizing the relationships discovered by complex machine learning algorithms such as a random forest. The latest stable release is available from \href{https://cran.r-project.org/package=pdp}{CRAN}:
-\begin{example}
-install.packages("pdp")
-\end{example}
-The development version is located on GitHub: \url{https://github.com/bgreenwell/pdp}. Bug reports and suggestions are appreciated and should be submitted to \url{https://github.com/bgreenwell/pdp/issues}. Currently, only two functions are exported by \pkg{pdp}:
+The \pkg{pdp} package is useful for constructing PDPs for many classes of fitted models in R. PDPs are especially useful for visualizing the relationships discovered by complex machine learning algorithms such as a random forest. The latest stable release is available from \href{https://cran.r-project.org/package=pdp}{CRAN}. The development version is located on GitHub: \url{https://github.com/bgreenwell/pdp}. Bug reports and suggestions are appreciated and should be submitted to \url{https://github.com/bgreenwell/pdp/issues}. Currently, only two functions are exported by \pkg{pdp}:
 \begin{itemize}
   \item \code{partial}
   \item \code{plotPartial}
@@ -74,12 +70,12 @@ The \code{partial} function evaluates the partial dependence \eqref{eqn:pdf} fro
 
 The \code{plotPartial} function can be used for displaying more advanced PDPs; it operates on objects of class \code{"partial"} and has many useful plotting options. For example, \code{plotPartial} makes it straight forward to add a LOESS smooth, or produce a 3-D surface instead of a false color level plot (the default). Of course, since the default output produced by \code{partial} is still a data frame, the user can easily use any plotting package he/she desires to visualize the results---\CRANpkg{ggplot2} \citep{ggplot2-pkg}, for instance.
 
-\strong{Note:} as mentioned above, \pkg{pdp} relies on \pkg{lattice} for its graphics. \pkg{lattice} itself is built on top of \CRANpkg{grid} \citep{grid-pkg}. \pkg{grid} graphics behave a little differently than traditional R graphics and two points are worth making:
+\strong{Note:} as mentioned above, \pkg{pdp} relies on \pkg{lattice} for its graphics. \pkg{lattice} itself is built on top of \CRANpkg{grid} \citep{grid-pkg}. \pkg{grid} graphics behave a little differently than traditional R graphics and two points are worth making (see \code{?lattice} for more details):
 \begin{enumerate}
-  \item \pkg{lattice} functions create a \code{"trellis"} object, but does not display it; the \code{print} method produces the actual display. The result is automatically printed when using these functions in the command line, but in \code{source} or inside a function, an explicit \code{print} statement is required to display the resulting graph.
+  \item \pkg{lattice} functions return a \code{"trellis"} object, but do not display it; the \code{print} method produces the actual display. However, due to R's automatic printing rule, the result is automatically printed when using these functions in the command line. If \code{plotPartial} is called inside of \code{source} or inside a loop (e.g., \code{for} or \code{while}), an explicit \code{print} statement is required to display the resulting graph.
   \item Setting graphical parameters via \code{par} typically has no effect on \pkg{lattice} plots. Instead, \pkg{lattice} provides its own \code{trellis.par.set} function for modifying graphical parameters.
 \end{enumerate}
-A consequence of second point is that the \code{par} function can not be used to control the layout of multiple \pkg{lattice} (and hence \pkg{pdp}) plots. Simple solutions are available in packages \CRANpkg{latticeExtra} and \CRANpkg{gridExtra}. For convenience, \pkg{pdp} imports the \code{grid.arrange} function from \pkg{gridExtra} which makes it easy to display multiple \pkg{pdp} plots on a single page.
+A consequence of second point is that the \code{par} function cannot be used to control the layout of multiple \pkg{lattice} (and hence \pkg{pdp}) plots. Simple solutions are available in packages \CRANpkg{latticeExtra} and \CRANpkg{gridExtra}. For convenience, \pkg{pdp} imports the \code{grid.arrange} function from \pkg{gridExtra} which makes it easy to display multiple \pkg{pdp} plots on a single page.
 
 Currently supported models are described in Table~\ref{tab:models}. In a lot of these cases, \code{partial} should be able to automatically determine appropriate values for the options \code{type} (i.e., \code{"regression"} or \code{"classification"}) and \code{train} (the original training data). In other situations, the user may need to specify one or both of these additional arguments. These two arguments allow \code{partial} to be flexible enough to handle many of the model types not listed in Table~\ref{tab:models}; for example, neural networks from the \CRANpkg{nnet} package \citep{venables-modern-2002} and projection pursuit regression \citep{friedman-ppr-1981} using the \code{ppr} function in the \pkg{stats} package.
 
@@ -230,19 +226,15 @@ partial(boston.rf, pred.var = c("lstat", "rm"), plot = TRUE, chull = TRUE)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Addressing computational concerns}
 
-Constructing PDPs can be quite computationally expensive. Several strategies are available to ease the computational burden in larger problems. For example, there is no need to compute partial dependence of \code{cmedv} using each unique value of \code{rm} in the training data (which would require $k = 446$ passes over the data!). We could get very reasonable results using a reduced number of points. Current options are to use a grid of equally spaced values in the range of the variable of interest; the number of points can be controlled using the \code{grid.resolution} option in the call to \code{partial}. Alternatively, a user-specified grid of values (e.g., containing specific quantiles of interest) can be supplied through the \code{pred.grid} argument. To demonstrate, the following snippet of code computes the partial dependence of \code{cmedv} on \code{rm} using each option; the results are displayed in Figure~\ref{fig:partial_manual}.
+Constructing PDPs can be quite computationally expensive. Several strategies are available to ease the computational burden in larger problems. For example, there is no need to compute partial dependence of \code{cmedv} using each unique value of \code{rm} in the training data (which would require $k = 446$ passes over the data!). We could get very reasonable results using a reduced number of points. Current options are to use a grid of equally spaced values in the range of the variable of interest; the number of points can be controlled using the \code{grid.resolution} option in the call to \code{partial}. Alternatively, a user-specified grid of values (e.g., containing specific quantiles of interest) can be supplied through the \code{pred.grid} argument. To demonstrate, the following snippet of code computes the partial dependence of \code{cmedv} on \code{rm} using each option, then uses \code{grid.arrange} to display all three PDPs on the same page; the results are displayed in Figure~\ref{fig:partial_manual}.
 \begin{example}
+p1 <- partial(boston.rf, "rm", plot = TRUE)
+p2 <- partial(boston.rf, "rm", grid.resolution = 30, plot = TRUE)
+p3 <- partial(boston.rf, "rm", pred.grid = data.frame(rm = 3:9), plot = TRUE)
 grid.arrange(
-  # Figure 5 (left)
-  partial(boston.rf, "rm", plot = TRUE),
-
-  # Figure 5 (middle)
-  partial(boston.rf, "rm", grid.resolution = 30, plot = TRUE),
-
-  # Figure 5 (right)
-  partial(boston.rf, "rm", pred.grid = data.frame(rm = 3:9), plot = TRUE),
-
-  # One column for each PDP
+  p1,  # Figure 5 (left)
+  p2,  # Figure 5 (middle)
+  p3,  # Figure 5 (right)
   ncol = 3
 )
 \end{example}
@@ -275,15 +267,17 @@ The MARS model produced a generalized $R^2$ of $0.79$, similar to what was repor
 \end{itemize}
 To understand this interaction, we can use a PDP. However, since the partial dependence between three continuous variables can be computationally expensive, we will run \code{partial} in parallel.
 
-Setting up a parallel backend is rather straightforward. To demonstrate, the following snippet of code sets up the \code{partial} function to run in parallel on Unix-like systems\footnote{This example will not run on Windows.} using the \pkg{doParallel} package.
+Setting up a parallel backend is rather straightforward. To demonstrate, the following snippet of code sets up the \code{partial} function to run in parallel on both Windows and Unix-like systems using the \pkg{doParallel} package.
 \begin{example}
 library(doParallel)  # load parallel backend
-registerDoParallel(cores = 4)  # use 4 cores
+cl <- makeCluster(4)  # use 4 workers
+registerDoParallel(cl)
 \end{example}
-Now, to run \code{partial} in parallel, all we have to do is invoke the \code{parallel = TRUE} option and the rest is taken care of by the internal call to \pkg{plyr} and the parallel backend we loaded. This is illustrated in the code chunk below which obtains the partial dependence of \code{ozone} on \code{wind}, \code{temp}, and \code{dpg} in parallel. The result is displayed in Figure~\ref{fig:partial_par}.
+Now, to run \code{partial} in parallel, all we have to do is invoke the \code{parallel = TRUE} and \code{paropts} options and the rest is taken care of by the internal call to \pkg{plyr} and the parallel backend we loaded\footnote{Notice we have to pass the names of external packages that the tasks depend on via the \code{paropts} argument; in this case, \code{"earth"}. See \code{?plyr::adply} for details.}. This is illustrated in the code chunk below which obtains the partial dependence of \code{ozone} on \code{wind}, \code{temp}, and \code{dpg} in parallel. The result is displayed in Figure~\ref{fig:partial_par}. \strong{Note:} it is considered good practice to shut down the workers by calling \code{stopCluster} when finished.
 \begin{example}
 partial(ozone.mars, pred.var = c("wind", "temp", "dpg"), plot = TRUE,
-        chull = TRUE, parallel = TRUE)
+        chull = TRUE, parallel = TRUE, paropts = list(.packages = "earth"))  # Figure 6
+stopCluster(cl)  # good practice
 \end{example}
 
 \begin{figure}[!htbp]
@@ -322,11 +316,12 @@ for (i in 1:3) {
   pd <- rbind(pd, cbind(tmp, Species = levels(iris$Species)[i]))
 }
 
+# Figure 7
 library(ggplot2)
 ggplot(pd, aes(x = Petal.Width, y = Petal.Length, z = y, fill = y)) +
   geom_tile() +
   geom_contour(color = "white", alpha = 0.5) +
-  scale_fill_distiller(name = "Average\nlogit", palette = "Spectral") +
+  scale_fill_distiller(name = "Logit", palette = "Spectral") +
   theme_bw() +
   facet_grid(~ Species)
 \end{example}
@@ -349,7 +344,7 @@ To round out our discussion, we provide one last example using a recently popula
 
 For illustration, we return to the Boston housing data. The code chunk below fits an \pkg{xgboost} model to the \code{boston} data frame from Section~\ref{sec:boston}; the tuning parameters were predetermined using 5-fold cross-validation. (Make sure you are using version 0.6-0 or later of \pkg{xgboost}: \url{https://github.com/dmlc/xgboost/tree/master/R-package}.)
 
-The code chunk below uses \pkg{caret} to train an XGBoost model of a grid of tuning values using 5-fold cross-validation.
+The code chunk below uses \pkg{caret} to train an XGBoost model over a grid of tuning values using 5-fold cross-validation.
 \begin{example}
 # Optimize tuning parameters using 5-fold cross-validation
 library(caret)
@@ -367,26 +362,22 @@ xgb.grid <- expand.grid(nrounds = c(100, 500, 1000, 2000, 5000),
 
 # Train an XGBoost model
 set.seed(202)
-boston.xgb.tune <- train(x = data.matrix(subset(boston, select = -cmedv)),
-                         y = boston$cmedv,
-                         method = "xgbTree",
-                         metric = "RMSE",
-                         trControl = ctrl,
-                         tuneGrid = xgb.grid)
+boston.xgb <- train(x = data.matrix(subset(boston, select = -cmedv)),
+                    y = boston$cmedv,
+                    method = "xgbTree",
+                    metric = "RMSE",
+                    trControl = ctrl,
+                    tuneGrid = xgb.grid)
 \end{example}
-The final model achieves a cross-validated RMSE and $R^2$ of 2.819 and 0.905, respectively. The following snippet of code computes the partial dependence of \code{cmedv} on both \code{rm} and \code{lstat}, individually and together. The results are displayed in Figure~\ref{fig:boston_xgb}.
+The model with the smallest root-mean-squared error (RMSE) had \code{nrounds = 2000}, \code{max\_depth = 3}, \code{eta = 0.01}, and achieved a cross-validated RMSE and $R^2$ of 2.819 and 0.905, respectively. The following snippet of code computes the partial dependence of \code{cmedv} on both \code{rm} and \code{lstat}, individually and together, and then uses \code{grid.arrange} to display al three PDPs on the same page. The results are displayed in Figure~\ref{fig:boston_xgb}.
 \begin{example}
+p1 <- partial(boston.xgb, pred.var = "rm", plot = T, rug = T)
+p2 <- partial(boston.xgb, pred.var = "lstat", plot = T, rug = T)
+p3 <- partial(boston.xgb, pred.var = c("lstat", "rm"), plot = T, chull = T),
 grid.arrange(
-  # Figure 8 (left)
-  partial(boston.xgb.tune, pred.var = "rm", plot = T, rug = T),
-
-  # Figure 8 (middle)
-  partial(boston.xgb.tune, pred.var = "lstat", plot = T, rug = T),
-
-  # Figure 8 (right)
-  partial(boston.xgb.tune, pred.var = c("lstat", "rm"), plot = T, chull = T),
-
-  # One column for each PDP
+  p1,  # Figure 8 (left)
+  p2,  # Figure 8 (middle)
+  p3,  # Figure 8 (right)
   ncol = 3
 )
 \end{example}
@@ -400,7 +391,7 @@ grid.arrange(
 
 Since \code{train} always stores a copy of the training data as part of the \code{"train"} object in a component called \code{trainingData} (e.g., \code{boston.xgb.tune\$trainingData}) there is no need to supply the training data in the call to \code{partial}. However, this is not the case when using the \pkg{xgboost} package directly. For example, the following code fits the same model using the \code{xgboost} function.
 \begin{example}
-set.seed(102)  # for reproducibility
+set.seed(203)  # for reproducibility
 boston.xgb <- xgboost(data = data.matrix(subset(boston, select = -cmedv)),
                       label = boston$cmedv, objective = "reg:linear",
                       nrounds = 2000, max_depth = 3, eta = 0.01)
@@ -410,14 +401,6 @@ To use \code{partial} with the \code{"xgb.Booster"} class, we need to supply the
 partial(boston.xgb, pred.var = "rm", plot = TRUE, rug = TRUE,
         train = subset(boston, select = -cmedv))
 \end{example}
-
-% \begin{example}
-% pred.list <- list("lstat", "rm", c("lstat", "rm"))
-% for (x in pred.list) {
-%   partial(boston.xgb, pred.var = x, plot = TRUE, smooth = TRUE, rug = TRUE,
-%           chull = TRUE, train = subset(boston, select = -cmedv))
-% }
-% \end{example}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -88,7 +88,7 @@ p2 <- ggplot(pd.odor, aes(x = odor, y = y)) +
   theme_bw()
 
 # Display both plots side by side
-multiplot(p1, p2, ncol = 2)
+grid.arrange(p1, p2, ncol = 2)
 
 
 ################################################################################
@@ -122,7 +122,7 @@ pdf("pd_lstat.pdf", width = 8, height = 4)
 pdp1 <- plotPartial(pd.lstat)
 pdp2 <- plotPartial(pd.lstat, lwd = 2, smooth = TRUE,
                     ylab = expression(f(lstat)))
-multiplot(pdp1, pdp2, ncol = 2)
+grid.arrange(pdp1, pdp2, ncol = 2)
 dev.off()
 
 # Fit a MARS model
@@ -132,31 +132,31 @@ boston.mars <- earth(cmedv ~ ., data = boston, degree = 3)
 rwb <- colorRampPalette(c("red", "white", "blue"))
 pd.lstat.rm <- partial(boston.rf, pred.var = c("lstat", "rm"))
 pdf("pd_lstat_rm.pdf", width = 12, height = 4)
-pdp1 <- plotPartial(pd.lstat.rm)
-pdp2 <- plotPartial(pd.lstat.rm, contour = TRUE, col.regions = rwb)
-pdp3 <- plotPartial(pd.lstat.rm, levelplot = FALSE, zlab = "cmedv",
-                    drape = TRUE, colorkey = FALSE,
-                    screen = list(z = -20, x = -60))
-multiplot(pdp1, pdp2, pdp3, ncol = 3)
+p1 <- plotPartial(pd.lstat.rm)
+p2 <- plotPartial(pd.lstat.rm, contour = TRUE, col.regions = rwb)
+p3 <- plotPartial(pd.lstat.rm, levelplot = FALSE, zlab = "cmedv", drape = TRUE,
+                  colorkey = FALSE, screen = list(z = -20, x = -60))
+grid.arrange(p1, p2, p3, ncol = 3)
 dev.off()
 
 # Figure 4
-pd.lstat <- partial(boston.rf, pred.var = "lstat")
-# pdf("partial_extrap.pdf", width = 12, height = 4)
 pdf("partial_extrap.pdf", width = 8, height = 4)
-pdp1 <- plotPartial(pd.lstat, rug = TRUE, train = boston)
-pdp2 <- plotPartial(pd.lstat.rm, chull = TRUE, train = boston)
-pdp3 <- plotPartial(partial(boston.rf, pred.var = c("lstat", "rm"),
-                            chull = TRUE))
-multiplot(pdp1, pdp3, ncol = 2)
+p1 <- partial(boston.rf, pred.var = "lstat", plot = TRUE, rug = TRUE)
+p2 <- partial(boston.rf, pred.var = c("lstat", "rm"), plot = TRUE, chull = TRUE)
+grid.arrange(p1, p2, ncol = 2)
 dev.off()
 
 # Figure 5
 pdf("partial_manual.pdf", width = 12, height = 4)
-pdp1 <- plotPartial(partial(boston.rf, "rm"))
-pdp2 <- plotPartial(partial(boston.rf, "rm", grid.resolution = 30))
-pdp3 <- plotPartial(partial(boston.rf, "rm", pred.grid = data.frame(rm = 3:9)))
-multiplot(pdp1, pdp2, pdp3, ncol = 3)
+p1 <- partial(boston.rf, "rm", plot = TRUE)
+p2 <- partial(boston.rf, "rm", grid.resolution = 30, plot = TRUE)
+p3 <- partial(boston.rf, "rm", pred.grid = data.frame(rm = 3:9), plot = TRUE)
+grid.arrange(
+  p1,  # Figure 5 (left)
+  p2,  # Figure 5 (middle)
+  p3,  # Figure 5 (right)
+  ncol = 3
+)
 dev.off()
 
 
@@ -173,22 +173,20 @@ ozone.mars <- earth(ozone ~ ., data = ozone, degree = 3)
 
 # Note: the following example will not work on Windows!
 
-# Figure 6
-registerDoParallel(cores = 4)  # use 4 cores
-pd <- partial(ozone.mars, pred.var = c("wind", "temp", "dpg"), chull = TRUE,
-              .parallel = TRUE)
+# Figure 6 (Unix/Linux)
 pdf("partial_par.pdf", width = 7, height = 5)
-plotPartial(pd)
+registerDoParallel(cores = 4)  # use 4 cores
+partial(ozone.mars, pred.var = c("wind", "temp", "dpg"), plot = TRUE,
+        chull = TRUE, parallel = TRUE)  # Figure 6
 dev.off()
 
-# Figure 6
+# Figure 6 (Windows)
+pdf("partial_par.pdf", width = 7, height = 5)
 cl <- makeCluster(4)  # use 4 cores
 registerDoParallel(cl)
-pd <- partial(ozone.mars, pred.var = c("wind", "temp", "dpg"), chull = TRUE,
-              parallel = TRUE, paropts = list(.packages = "earth"))
+partial(ozone.mars, pred.var = c("wind", "temp", "dpg"), plot = TRUE,
+        chull = TRUE, parallel = TRUE, paropts = list(.packages = "earth"))  # Figure 6
 stopCluster(cl)
-pdf("partial_par.pdf", width = 7, height = 5)
-plotPartial(pd)
 dev.off()
 
 
@@ -222,7 +220,7 @@ pdf("partial_iris_svm.pdf", width = 12, height = 4)
 ggplot(pd, aes(x = Petal.Width, y = Petal.Length, z = y, fill = y)) +
   geom_tile() +
   geom_contour(color = "white", alpha = 0.5) +
-  scale_fill_distiller(palette = "Spectral") +
+  scale_fill_distiller(name = "Logit", palette = "Spectral") +
   theme_bw() +
   facet_grid(~ Species)
 dev.off()
@@ -263,7 +261,7 @@ boston.xgb <- xgboost(data = data.matrix(subset(boston, select = -cmedv)),
 
 # Figure 8
 pdf("boston_xgb.pdf", width = 12, height = 4)
-multiplot(
+grid.arrange(
   partial(boston.xgb.tune, pred.var = "rm", plot = T, rug = T),
   partial(boston.xgb.tune, pred.var = "lstat", plot = T, rug = T),
   partial(boston.xgb.tune, pred.var = c("lstat", "rm"), plot = T, chull = T),
@@ -279,5 +277,5 @@ dev.off()
 #                     rug = TRUE, smooth = TRUE, train = X)
 # pdp3 <- plotPartial(partial(boston.xgb, pred.var = c("lstat", "rm"),
 #                             chull = TRUE, train = X), rug = TRUE, train = X)
-# multiplot(pdp1, pdp2, pdp3, ncol = 3)
+# grid.arrange(pdp1, pdp2, pdp3, ncol = 3)
 # dev.off()

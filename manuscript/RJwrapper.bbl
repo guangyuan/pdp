@@ -1,4 +1,4 @@
-\begin{thebibliography}{35}
+\begin{thebibliography}{37}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -33,6 +33,12 @@ R.~Analytics and S.~Weston.
   2015{\natexlab{c}}.
 \newblock URL \url{https://CRAN.R-project.org/package=foreach}.
 \newblock R package version 1.4.3.
+
+\bibitem[Auguie(2016)]{gridExtra-pkg}
+B.~Auguie.
+\newblock \emph{gridExtra: Miscellaneous Functions for "Grid" Graphics}, 2016.
+\newblock URL \url{https://CRAN.R-project.org/package=gridExtra}.
+\newblock R package version 2.2.1.
 
 \bibitem[Bache and Wickham(2014)]{magrittr-pkg}
 S.~M. Bache and H.~Wickham.
@@ -200,6 +206,13 @@ D.~Sarkar.
 \newblock Springer, New York, 2008.
 \newblock URL \url{http://lmdvr.r-forge.r-project.org}.
 \newblock ISBN 978-0-387-75968-5.
+
+\bibitem[Sarkar and Andrews(2016)]{latticeExtra-pkg}
+D.~Sarkar and F.~Andrews.
+\newblock \emph{latticeExtra: Extra Graphical Utilities Based on Lattice},
+  2016.
+\newblock URL \url{https://CRAN.R-project.org/package=latticeExtra}.
+\newblock R package version 0.6-28.
 
 \bibitem[Therneau et~al.(2015)Therneau, Atkinson, and Ripley]{rpart-pkg}
 T.~Therneau, B.~Atkinson, and B.~Ripley.

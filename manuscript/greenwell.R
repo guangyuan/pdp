@@ -173,12 +173,12 @@ ozone.mars <- earth(ozone ~ ., data = ozone, degree = 3)
 
 # Note: the following example will not work on Windows!
 
-# Figure 6 (Unix/Linux)
-pdf("partial_par.pdf", width = 7, height = 5)
-registerDoParallel(cores = 4)  # use 4 cores
-partial(ozone.mars, pred.var = c("wind", "temp", "dpg"), plot = TRUE,
-        chull = TRUE, parallel = TRUE)  # Figure 6
-dev.off()
+# # Figure 6 (Unix/Linux)
+# pdf("partial_par.pdf", width = 7, height = 5)
+# registerDoParallel(cores = 4)  # use 4 cores
+# partial(ozone.mars, pred.var = c("wind", "temp", "dpg"), plot = TRUE,
+#         chull = TRUE, parallel = TRUE)  # Figure 6
+# dev.off()
 
 # Figure 6 (Windows)
 pdf("partial_par.pdf", width = 7, height = 5)
@@ -186,9 +186,21 @@ cl <- makeCluster(4)  # use 4 cores
 registerDoParallel(cl)
 partial(ozone.mars, pred.var = c("wind", "temp", "dpg"), plot = TRUE,
         chull = TRUE, parallel = TRUE, paropts = list(.packages = "earth"))  # Figure 6
+trellis.focus("legend", side = "right", clipp.off = TRUE, highlight = FALSE)
+grid.text("ozone", 0.2, 1.05, hjust = 0.5, vjust = 1)
+trellis.unfocus()
 stopCluster(cl)
 dev.off()
 
+cl <- makeCluster(4)  # use 4 cores
+registerDoParallel(cl)
+p <- partial(ozone.mars, pred.var = c("wind", "temp", "dpg"), plot = FALSE,
+             chull = TRUE, parallel = TRUE, paropts = list(.packages = "earth"))  # Figure 6
+stopCluster(cl)
+plotPartial(p)
+trellis.focus("legend", side = "right", clipp.off = TRUE, highlight = FALSE)
+grid.text("ozone", 0.2, 1.05, hjust = 0.5, vjust = 1)
+trellis.unfocus()
 
 ################################################################################
 # Edgar Anderson's iris data

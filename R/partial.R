@@ -177,6 +177,11 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
                "not found in the training data."))
   }
 
+  # Throw an error message of one of the predictors is labelled "y"
+  if ("y" %in% pred.var) {
+    stop("\"y\" cannot be a predictor name.")
+  }
+
   # NOTE: It is worth considering the approach taken by the plotmo package,
   # which now has the option to compute PDPs. plotmo seems to make one large
   # pred.grid which increases memory usage, but decreases the number of calls to

@@ -327,7 +327,8 @@ head(pd.Girth)
 #### Comment
 The package could be more powerful if you allowed a predict function as a parameter. For instance, you cannot currently use random forests to illustrate classification probabilities.
 #### Response
-I agree, and I have changed the behavior of `...` to refer to additional parameters to `stats::predict` (e.g., the `n.trees` argument in `predict.gbm`.)
+I agree, and I have changed the behavior of `...` to refer to additional parameters to `stats::predict` (e.g., the `n.trees` argument in `predict.gbm`.). However, I'm not sure yet about the scale on which the predictions are plotted. For now, I am more comfortable leaving as the usual logit scale defined for PDPs (mostly so that they are defined the same whatever the number of class outcomes). But I am not opposed to making this (simple) change in the future. I have added this as a feature request: https://github.com/bgreenwell/pdp/issues/21.
+
 
 #### Comment
 p7 I believe there are packages allowing for parallelization in Windows. Can you switch the example so this works on all platforms?

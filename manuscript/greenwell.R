@@ -56,42 +56,6 @@ library(xgboost)
 
 
 ################################################################################
-# Mushroom example
-################################################################################
-
-# Train a random forest to the mushroom data using 10-fold cross-validation
-set.seed(101)
-mushroom.rf <- train(x = subset(mushroom, select = -Edibility),
-                     y = mushroom$Edibility,
-                     method = "rf",
-                     trControl = trainControl(method = "cv", number = 10,
-                                              verboseIter = TRUE),
-                     tuneLength = 22)
-
-# Extract partial dependence of odor on odds of edibility
-pd.odor <- partial(mushroom.rf, pred.var = "odor")
-
-# Variable importance plot
-p1 <- ggplot(varImp(mushroom.rf), color = "black") +
-  theme_light() +
-  xlab("") +
-  ylab("Predictor importance") +
-  theme_bw()
-
-# Partial dependence plot
-p2 <- ggplot(pd.odor, aes(x = odor, y = y)) +
-  geom_bar(stat = "identity") +
-  geom_hline(yintercept = 0) +
-  xlab("Odor") +
-  ylab("Log odds of being edible") +
-  coord_flip() +
-  theme_bw()
-
-# Display both plots side by side
-grid.arrange(p1, p2, ncol = 2)
-
-
-################################################################################
 # Boston housing example
 ################################################################################
 
@@ -224,12 +188,12 @@ iris.svm <- svm(Species ~ ., data = iris, kernel = "radial", gamma = 0.75,
 pd <- NULL
 for (i in 1:3) {
   tmp <- partial(iris.svm, pred.var = c("Petal.Width", "Petal.Length"),
-                 which.class = i, .progress = "text",
+                 which.class = i, progress = "text",
                  grid.resolution = 101)
   pd <- rbind(pd, cbind(tmp, Species = levels(iris$Species)[i]))
 }
 pdf("partial_iris_svm.pdf", width = 12, height = 4)
-ggplot(pd, aes(x = Petal.Width, y = Petal.Length, z = y, fill = y)) +
+ggplot(pd, aes(x = Petal.Width, y = Petal.Length, z = yhat, fill = yhat)) +
   geom_tile() +
   geom_contour(color = "white", alpha = 0.5) +
   scale_fill_distiller(name = "Logit", palette = "Spectral") +

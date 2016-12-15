@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.4.30)  12 DEC 2016 21:41
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.4.30)  14 DEC 2016 22:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1364,13 +1364,16 @@ LaTeX Font Info:    Font shape `U/msb/m/n' will be
 (Font)              scaled to size 5.21004pt on input line 13.
 LaTeX Font Info:    Font shape `T1/ppl/bx/n' in size <12> not available
 (Font)              Font shape `T1/ppl/b/n' tried instead on input line 19.
-LaTeX Font Info:    Try loading font information for T1+zi4 on input line 48.
+ [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+
+]
+LaTeX Font Info:    Try loading font information for T1+zi4 on input line 60.
 
 (/usr/share/texlive/texmf-dist/tex/latex/inconsolata/t1zi4.fd
 File: t1zi4.fd 2014/06/22 T1/zi4 (Inconsolata)
 )
 LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
-(Font)              scaled to size 9.18004pt on input line 48.
+(Font)              scaled to size 9.18004pt on input line 60.
 Package microtype Info: Loading generic settings for font family
 (microtype)             `zi4' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
@@ -1381,28 +1384,25 @@ Package microtype Info: Character `textendash ' is missing
 Package microtype Info: Character `textemdash ' is missing
 (microtype)             in font `T1/zi4/m/n/9'.
 (microtype)             Ignoring protrusion settings for this character.
- [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
-
-]
-LaTeX Font Info:    Try loading font information for TS1+ppl on input line 65.
+LaTeX Font Info:    Try loading font information for TS1+ppl on input line 77.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ppl.fd
 File: ts1ppl.fd 2001/06/04 font definitions for TS1/ppl.
 ) [2]
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 10.42007pt on input line 83.
+(Font)              scaled to size 10.42007pt on input line 95.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 7.91925pt on input line 83.
+(Font)              scaled to size 7.91925pt on input line 95.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 6.25204pt on input line 83.
+(Font)              scaled to size 6.25204pt on input line 95.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 10.42007pt on input line 83.
+(Font)              scaled to size 10.42007pt on input line 95.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 7.91925pt on input line 83.
+(Font)              scaled to size 7.91925pt on input line 95.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 6.25204pt on input line 83.
+(Font)              scaled to size 6.25204pt on input line 95.
 LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
-(Font)              scaled to size 10.20004pt on input line 87.
+(Font)              scaled to size 10.20004pt on input line 99.
 Package microtype Info: Character `textendash ' is missing
 (microtype)             in font `T1/zi4/m/n/10'.
 (microtype)             Ignoring protrusion settings for this character.
@@ -1410,107 +1410,108 @@ Package microtype Info: Character `textemdash ' is missing
 (microtype)             in font `T1/zi4/m/n/10'.
 (microtype)             Ignoring protrusion settings for this character.
 
-Overfull \hbox (6.53165pt too wide) in paragraph at lines 83--108
+Overfull \hbox (6.53165pt too wide) in paragraph at lines 95--120
 [][] 
  []
 
-LaTeX Font Info:    Try loading font information for TS1+zi4 on input line 115.
+[3]
+LaTeX Font Info:    Try loading font information for TS1+zi4 on input line 127.
 
-(/usr/share/texlive/texmf-dist/tex/latex/inconsolata/ts1zi4.fd
+ (/usr/share/texlive/texmf-dist/tex/latex/inconsolata/ts1zi4.fd
 File: ts1zi4.fd 2014/06/22 Fontinst v1.933 font definitions for TS1/zi4.
 )
 LaTeX Font Info:    Font shape `TS1/zi4/m/n' will be
-(Font)              scaled to size 9.18004pt on input line 115.
+(Font)              scaled to size 9.18004pt on input line 127.
 Package microtype Info: Loading generic settings for font family
 (microtype)             `zi4' (encoding: TS1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- [3]
-<boston_rf_vimp.pdf, id=211, 505.89pt x 361.35pt>
+
+<boston_rf_vimp.pdf, id=216, 505.89pt x 361.35pt>
 File: boston_rf_vimp.pdf Graphic file (type pdf)
  <use boston_rf_vimp.pdf>
-Package pdftex.def Info: boston_rf_vimp.pdf used on input line 137.
+Package pdftex.def Info: boston_rf_vimp.pdf used on input line 149.
 (pdftex.def)             Requested size: 398.33858pt x 284.53156pt.
 LaTeX Font Info:    Font shape `T1/ppl/bx/n' in size <10> not available
-(Font)              Font shape `T1/ppl/b/n' tried instead on input line 146.
+(Font)              Font shape `T1/ppl/b/n' tried instead on input line 158.
 
-[4 <./boston_rf_vimp.pdf>] <pd_lstat.pdf, id=230, 578.16pt x 289.08pt>
+[4 <./boston_rf_vimp.pdf>] <pd_lstat.pdf, id=237, 578.16pt x 289.08pt>
 File: pd_lstat.pdf Graphic file (type pdf)
 
 <use pd_lstat.pdf>
-Package pdftex.def Info: pd_lstat.pdf used on input line 169.
+Package pdftex.def Info: pd_lstat.pdf used on input line 181.
 (pdftex.def)             Requested size: 398.33858pt x 199.16986pt.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 8.33606pt on input line 180.
+(Font)              scaled to size 8.33606pt on input line 192.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 8.33606pt on input line 180.
- <pd_lstat_rm.pdf, id=242, 867.24pt x 289.08pt>
+(Font)              scaled to size 8.33606pt on input line 192.
+ [5 <./pd_lstat.pdf>]
+<pd_lstat_rm.pdf, id=264, 867.24pt x 289.08pt>
 File: pd_lstat_rm.pdf Graphic file (type pdf)
-
-<use pd_lstat_rm.pdf>
-Package pdftex.def Info: pd_lstat_rm.pdf used on input line 202.
+ <use pd_lstat_rm.pdf>
+Package pdftex.def Info: pd_lstat_rm.pdf used on input line 214.
 (pdftex.def)             Requested size: 512.1496pt x 170.72333pt.
 
-Overfull \hbox (56.90552pt too wide) in paragraph at lines 202--202
+Overfull \hbox (56.90552pt too wide) in paragraph at lines 214--214
  []$[]$ 
  []
 
-[5 <./pd_lstat.pdf>] <partial_extrap.pdf, id=261, 578.16pt x 289.08pt>
+<partial_extrap.pdf, id=267, 578.16pt x 289.08pt>
 File: partial_extrap.pdf Graphic file (type pdf)
-
-<use partial_extrap.pdf>
-Package pdftex.def Info: partial_extrap.pdf used on input line 224.
+ <use partial_extrap.pdf>
+Package pdftex.def Info: partial_extrap.pdf used on input line 236.
 (pdftex.def)             Requested size: 398.33858pt x 199.16986pt.
- [6 <./pd_lstat_rm.pdf> <./partial_extrap.pdf>]
-<partial_manual.pdf, id=277, 867.24pt x 289.08pt>
+
+[6 <./pd_lstat_rm.pdf>] <partial_manual.pdf, id=283, 867.24pt x 289.08pt>
 File: partial_manual.pdf Graphic file (type pdf)
- <use partial_manual.pdf>
-Package pdftex.def Info: partial_manual.pdf used on input line 254.
+
+<use partial_manual.pdf>
+Package pdftex.def Info: partial_manual.pdf used on input line 266.
 (pdftex.def)             Requested size: 409.72124pt x 136.57336pt.
 
-Overfull \hbox (56.90552pt too wide) in paragraph at lines 254--254
+Overfull \hbox (56.90552pt too wide) in paragraph at lines 266--266
  []$[]$ 
  []
 
 
-Overfull \hbox (18.31128pt too wide) in paragraph at lines 258--259
+Overfull \hbox (18.31128pt too wide) in paragraph at lines 270--271
 \T1/ppl/m/n/9 (-20) in-for-ma-tion, are avail-able from [][]$\T1/zi4/m/n/9 http
  : / / statweb . stanford . edu / ~tibs / ElemStatLearn / datasets / LAozone .
  []
 
-[7 <./partial_manual.pdf>]
+[7 <./partial_extrap.pdf> <./partial_manual.pdf>]
 LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
-(Font)              scaled to size 8.16003pt on input line 283.
+(Font)              scaled to size 8.16003pt on input line 295.
 Package microtype Info: Character `textendash ' is missing
 (microtype)             in font `T1/zi4/m/n/8'.
 (microtype)             Ignoring protrusion settings for this character.
 Package microtype Info: Character `textemdash ' is missing
 (microtype)             in font `T1/zi4/m/n/8'.
 (microtype)             Ignoring protrusion settings for this character.
- <partial_par.pdf, id=319, 505.89pt x 361.35pt>
+
+<partial_par.pdf, id=327, 505.89pt x 361.35pt>
 File: partial_par.pdf Graphic file (type pdf)
-
-<use partial_par.pdf>
-Package pdftex.def Info: partial_par.pdf used on input line 297.
+ <use partial_par.pdf>
+Package pdftex.def Info: partial_par.pdf used on input line 309.
 (pdftex.def)             Requested size: 318.67207pt x 227.62413pt.
- [8 <./partial_par.pdf>]
-<partial_iris_svm.pdf, id=338, 867.24pt x 289.08pt>
+ [8 <./partial_par.pdf>] <partial_iris_svm.pdf, id=344, 867.24pt x 289.08pt>
 File: partial_iris_svm.pdf Graphic file (type pdf)
- <use partial_iris_svm.pdf>
-Package pdftex.def Info: partial_iris_svm.pdf used on input line 343.
-(pdftex.def)             Requested size: 398.33858pt x 132.7799pt.
 
-[9 <./partial_iris_svm.pdf>] <boston_xgb.pdf, id=356, 867.24pt x 289.08pt>
+<use partial_iris_svm.pdf>
+Package pdftex.def Info: partial_iris_svm.pdf used on input line 355.
+(pdftex.def)             Requested size: 398.33858pt x 132.7799pt.
+ [9] <boston_xgb.pdf, id=356, 867.24pt x 289.08pt>
 File: boston_xgb.pdf Graphic file (type pdf)
 
 <use boston_xgb.pdf>
-Package pdftex.def Info: boston_xgb.pdf used on input line 396.
+Package pdftex.def Info: boston_xgb.pdf used on input line 408.
 (pdftex.def)             Requested size: 398.33858pt x 132.7799pt.
- [10 <./boston_xgb.pdf>] (./RJwrapper.bbl (./RJwrapper.brf)
+ [10 <./partial_iris_svm.pdf>] (./RJwrapper.bbl
+(./RJwrapper.brf)
 \tf@brf=\write6
 \openout6 = `RJwrapper.brf'.
 
-[11] [12])) [13]
+ [11 <./boston_xgb.pdf>] [12])) [13]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 25.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 25.
  (./RJwrapper.aux)
@@ -1519,17 +1520,17 @@ Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 25.
 Package rerunfilecheck Info: File `RJwrapper.out' has not changed.
 (rerunfilecheck)             Checksum: EC98B061827D92F16A9A37DEF49131D0;816.
 Package rerunfilecheck Info: File `RJwrapper.brf' has not changed.
-(rerunfilecheck)             Checksum: D21B80023268CA7D58D55A6B602B83F5;2346.
+(rerunfilecheck)             Checksum: 02F3DBB2E294391DA4F43F9D2EE6DAD5;2468.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 25.
  ) 
 Here is how much of TeX's memory you used:
- 22230 strings out of 494953
- 395223 string characters out of 6180977
- 492213 words of memory out of 5000000
- 24735 multiletter control sequences out of 15000+600000
- 69238 words of font info for 271 fonts, out of 8000000 for 9000
+ 22243 strings out of 494953
+ 395467 string characters out of 6180977
+ 491296 words of memory out of 5000000
+ 24742 multiletter control sequences out of 15000+600000
+ 69654 words of font info for 274 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 62i,12n,56p,1387b,673s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 62i,17n,56p,1387b,663s stack positions out of 5000i,500n,10000p,200000b,80000s
 pdfTeX warning (dest): name{Hfootnote.3} has been referenced but does not exi
 st, replaced by a fixed one
 
@@ -1546,15 +1547,16 @@ type1/public/inconsolata/Inconsolata-zi4r.pfb></usr/share/texlive/texmf-dist/fo
 nts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/ty
 pe1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
 lic/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/ma
-thpazo/fplmr.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/palatino/uplb8a
-.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/palatino/uplbi8a.pfb></usr/
-share/texlive/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texliv
-e/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texlive/texmf-dist
-/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on RJwrapper.pdf (13 pages, 519847 bytes).
+thpazo/fplmr.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/sym
+bols/msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/palatino/uplb8a.
+pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/palatino/uplbi8a.pfb></usr/s
+hare/texlive/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texlive
+/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/urw/palatino/uplri8a.pfb>
+Output written on RJwrapper.pdf (13 pages, 525226 bytes).
 PDF statistics:
- 533 PDF objects out of 1000 (max. 8388607)
- 484 compressed objects within 5 object streams
- 86 named destinations out of 1000 (max. 500000)
+ 545 PDF objects out of 1000 (max. 8388607)
+ 495 compressed objects within 5 object streams
+ 88 named destinations out of 1000 (max. 500000)
  49805 words of extra memory for PDF output out of 51595 (max. 10000000)
 

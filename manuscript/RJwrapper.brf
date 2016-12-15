@@ -1,5 +1,7 @@
-\backcite {friedman-2000-greedy}{{1}{2.1}{section.2.1}}
-\backcite {randomForest-pkg}{{1}{2.1}{Item.5}}
+\backcite {harrison-1978-hedonic}{{1}{2.1}{section.2.1}}
+\backcite {harrison-1978-hedonic}{{1}{2.1}{section.2.1}}
+\backcite {friedman-2000-greedy}{{1}{2.1}{equation.2.1.1}}
+\backcite {randomForest-pkg}{{2}{2.1}{Item.5}}
 \backcite {party-pkg}{{2}{2.1}{Item.5}}
 \backcite {partykit-pkg}{{2}{2.1}{Item.5}}
 \backcite {pdp-pkg}{{2}{2.1}{Item.5}}
@@ -8,33 +10,33 @@
 \backcite {goldstein-peeking-2015}{{2}{2.1}{Item.5}}
 \backcite {fox-car-2011}{{2}{2.1}{Item.5}}
 \backcite {fox-effects-2003}{{2}{2.1}{Item.5}}
-\backcite {lattice-pkg}{{2}{2.2}{section.2.2}}
-\backcite {ggplot2-pkg}{{2}{2.2}{section.2.2}}
-\backcite {grid-pkg}{{2}{2.2}{section.2.2}}
+\backcite {lattice-pkg}{{3}{2.2}{section.2.2}}
+\backcite {ggplot2-pkg}{{3}{2.2}{section.2.2}}
+\backcite {grid-pkg}{{3}{2.2}{section.2.2}}
 \backcite {latticeExtra-pkg}{{3}{2.2}{Item.7}}
 \backcite {gridExtra-pkg}{{3}{2.2}{Item.7}}
 \backcite {venables-modern-2002}{{3}{2.2}{Item.7}}
 \backcite {friedman-ppr-1981}{{3}{2.2}{Item.7}}
-\backcite {C50-pkg}{{3}{\caption@xref {??}{ on input line 87}}{table.caption.2}}
-\backcite {rpart-pkg}{{3}{\caption@xref {??}{ on input line 90}}{table.caption.2}}
-\backcite {adabag-pkg}{{3}{\caption@xref {??}{ on input line 91}}{table.caption.2}}
-\backcite {ipred-pkg}{{3}{\caption@xref {??}{ on input line 92}}{table.caption.2}}
-\backcite {adabag-pkg}{{3}{\caption@xref {??}{ on input line 93}}{table.caption.2}}
-\backcite {Cubist-pkg}{{3}{\caption@xref {??}{ on input line 96}}{table.caption.2}}
-\backcite {earth-pkg}{{3}{\caption@xref {??}{ on input line 103}}{table.caption.2}}
-\backcite {e1071-pkg}{{3}{\caption@xref {??}{ on input line 104}}{table.caption.2}}
-\backcite {kernlab-pkg}{{3}{\caption@xref {??}{ on input line 105}}{table.caption.2}}
-\backcite {caret-pkg}{{3}{2.2}{table.caption.2}}
-\backcite {mlbench-pkg}{{3}{2.2}{table.caption.2}}
-\backcite {magrittr-pkg}{{4}{2.2.1}{subsection.2.2.1}}
+\backcite {C50-pkg}{{3}{\caption@xref {??}{ on input line 99}}{table.caption.2}}
+\backcite {rpart-pkg}{{3}{\caption@xref {??}{ on input line 102}}{table.caption.2}}
+\backcite {adabag-pkg}{{3}{\caption@xref {??}{ on input line 103}}{table.caption.2}}
+\backcite {ipred-pkg}{{3}{\caption@xref {??}{ on input line 104}}{table.caption.2}}
+\backcite {adabag-pkg}{{3}{\caption@xref {??}{ on input line 105}}{table.caption.2}}
+\backcite {Cubist-pkg}{{3}{\caption@xref {??}{ on input line 108}}{table.caption.2}}
+\backcite {earth-pkg}{{3}{\caption@xref {??}{ on input line 115}}{table.caption.2}}
+\backcite {e1071-pkg}{{3}{\caption@xref {??}{ on input line 116}}{table.caption.2}}
+\backcite {kernlab-pkg}{{3}{\caption@xref {??}{ on input line 117}}{table.caption.2}}
+\backcite {caret-pkg}{{4}{2.2}{table.caption.2}}
+\backcite {mlbench-pkg}{{4}{2.2}{table.caption.2}}
+\backcite {magrittr-pkg}{{5}{2.2.1}{subsection.2.2.1}}
 \backcite {foreach-pkg}{{5}{2.2.2}{subsection.2.2.2}}
-\backcite {hunter-matplotlib-2007}{{5}{2.2.2}{subsection.2.2.2}}
-\backcite {viridis-pkg}{{5}{2.2.2}{subsection.2.2.2}}
+\backcite {hunter-matplotlib-2007}{{6}{2.2.2}{subsection.2.2.2}}
+\backcite {viridis-pkg}{{6}{2.2.2}{subsection.2.2.2}}
 \backcite {plyr-pkg}{{7}{2.2.4}{figure.caption.7}}
 \backcite {doMC-pkg}{{7}{2.2.4}{figure.caption.7}}
 \backcite {doParallel-pkg}{{7}{2.2.4}{figure.caption.7}}
 \backcite {breiman-1985-estimating}{{7}{2.2.4}{figure.caption.7}}
 \backcite {friedman-1991-mars}{{7}{2.2.4}{figure.caption.7}}
-\backcite {breiman-1985-estimating}{{7}{2.2.4}{figure.caption.7}}
-\backcite {hastie-elements-2009}{{8}{2.2.5}{subsection.2.2.5}}
+\backcite {breiman-1985-estimating}{{8}{2.2.4}{figure.caption.7}}
+\backcite {hastie-elements-2009}{{9}{2.2.5}{subsection.2.2.5}}
 \backcite {friedman-2008-predictive}{{11}{2.3}{section.2.3}}

@@ -1,4 +1,4 @@
-\begin{thebibliography}{37}
+\begin{thebibliography}{38}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -114,6 +114,12 @@ B.~Greenwell.
   Functions}, 2016.
 \newblock URL \url{https://CRAN.R-project.org/package=partial}.
 \newblock R package version 0.0.1.
+
+\bibitem[Harrison and Rubinfeld(1978)]{harrison-1978-hedonic}
+D.~Harrison and D.~L. Rubinfeld.
+\newblock Hedonic housing prices and the demand for clean air.
+\newblock \emph{Journal of Environmental Economics and Management}, 5\penalty0
+  (1):\penalty0 81--102, 1978.
 
 \bibitem[Hastie et~al.(2009)Hastie, Tibshirani, and
   Friedman]{hastie-elements-2009}

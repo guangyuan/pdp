@@ -5,6 +5,7 @@
 * Added the following arguments to `partial`: `progress` (`plyr`-based progress bars), `parallel` (`plyr`/`foreach`-based parallel execution), and `paropts` (list of additional arguments passed onto `foreach` when `parallel = TRUE`).
 * Various bug fixes.
 * `partial` now throws an informative error message when the `pred.grid` argument refers to predictors not in the original training data.
+* The column name for the predicted value has been changed from `"y"` to `"yhat"`.
 
 ### Changes for version 0.2.0
 * `randomForest` is no longer imported.

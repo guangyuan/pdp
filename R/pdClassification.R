@@ -13,7 +13,7 @@ pdClassification.default <- function(object, pred.var, pred.grid, which.class,
     temp <- train
     temp[pred.var] <- x
     pr <- stats::predict(object, newdata = temp, type = "prob", ...)
-    stats::setNames(avgLogit(pr, which.class = which.class), "y")
+    stats::setNames(avgLogit(pr, which.class = which.class), "yhat")
   }, .progress = progress, .parallel = parallel, .paropts = paropts)
 }
 
@@ -26,7 +26,8 @@ pdClassification.glm <- function(object, pred.var, pred.grid, which.class,
     temp[pred.var] <- x
     pr <- stats::predict(object, newdata = temp, type = "response", ...)
     # Binary regression returns a vector of predicted probabilities!
-    stats::setNames(avgLogit(cbind(pr, 1 - pr), which.class = which.class), "y")
+    stats::setNames(avgLogit(cbind(pr, 1 - pr),
+                             which.class = which.class), "yhat")
   }, .progress = progress, .parallel = parallel, .paropts = paropts)
 }
 
@@ -38,7 +39,7 @@ pdClassification.bagging <- function(object, pred.var, pred.grid, which.class,
     temp <- train
     temp[pred.var] <- x
     pr <- stats::predict(object, newdata = temp, ...)$prob
-    stats::setNames(avgLogit(pr, which.class = which.class), "y")
+    stats::setNames(avgLogit(pr, which.class = which.class), "yhat")
   }, .progress = progress, .parallel = parallel, .paropts = paropts)
 }
 
@@ -50,7 +51,7 @@ pdClassification.boosting <- function(object, pred.var, pred.grid, which.class,
     temp <- train
     temp[pred.var] <- x
     pr <- stats::predict(object, newdata = temp, ...)$prob
-    stats::setNames(avgLogit(pr, which.class = which.class), "y")
+    stats::setNames(avgLogit(pr, which.class = which.class), "yhat")
   }, .progress = progress, .parallel = parallel, .paropts = paropts)
 }
 
@@ -64,7 +65,8 @@ pdClassification.gbm <- function(object, pred.var, pred.grid, which.class,
     temp[pred.var] <- x
     log <- utils::capture.output(pr <- stats::predict(object, newdata = temp,
                                                       type = "response", ...))
-    stats::setNames(avgLogit(cbind(pr, 1 - pr), which.class = which.class), "y")
+    stats::setNames(avgLogit(cbind(pr, 1 - pr),
+                             which.class = which.class), "yhat")
   }, .progress = progress, .parallel = parallel, .paropts = paropts)
 }
 
@@ -82,7 +84,7 @@ pdClassification.xgb.Booster <- function(object, pred.var, pred.grid,
     } else {
       dim(pr) <- c(nrow(train), object$params$num_class)  # reshape into matrix
     }
-    stats::setNames(avgLogit(pr, which.class = which.class), "y")
+    stats::setNames(avgLogit(pr, which.class = which.class), "yhat")
   }, .progress = progress, .parallel = parallel, .paropts = paropts)
 }
 
@@ -98,7 +100,7 @@ pdClassification.ksvm <- function(object, pred.var, pred.grid, which.class,
     temp <- train
     temp[pred.var] <- x
     pr <- kernlab::predict(object, newdata = temp, type = "probabilities", ...)
-    stats::setNames(avgLogit(pr, which.class = which.class), "y")
+    stats::setNames(avgLogit(pr, which.class = which.class), "yhat")
   }, .progress = progress, .parallel = parallel, .paropts = paropts)
 }
 
@@ -114,7 +116,7 @@ pdClassification.nnet <- function(object, pred.var, pred.grid, which.class,
     } else {
       stats::predict(object, newdata = temp, type = "raw", ...)
     }
-    stats::setNames(avgLogit(pr, which.class = which.class), "y")
+    stats::setNames(avgLogit(pr, which.class = which.class), "yhat")
   }, .progress = progress, .parallel = parallel, .paropts = paropts)
 }
 
@@ -131,6 +133,6 @@ pdClassification.svm <- function(object, pred.var, pred.grid, which.class,
     temp[pred.var] <- x
     pr <- attr(stats::predict(object, newdata = temp, probability = TRUE, ...),
                which = "probabilities")
-    stats::setNames(avgLogit(pr, which.class = which.class), "y")
+    stats::setNames(avgLogit(pr, which.class = which.class), "yhat")
   }, .progress = progress, .parallel = parallel, .paropts = paropts)
 }

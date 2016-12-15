@@ -152,6 +152,12 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
                             check.class = TRUE, progress = "none",
                             parallel = FALSE, paropts = NULL, ...) {
 
+  # Error message to display when training data cannot be extracted form object
+  mssg <- paste0("The training data could not be extracted from ",
+                 deparse(substitute(object)), ". Please supply the raw ",
+                 "training data using the `train` argument in the call to ,",
+                 "`partial`.")
+
   # Data frame
   if (missing(train)) {
     if (inherits(object, "BinaryTree") || inherits(object, "RandomForest")) {
@@ -159,12 +165,11 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
     } else if (inherits(object, "train")) {
       train <- object$trainingData
       train$.outcome <- NULL  # remove .outcome column
+    } else if (isS4(object)) {
+      stop(mssg)
     } else {
       if (is.null(object$call$data)) {
-        stop(paste0("The training data could not be extracted from ",
-                    deparse(substitute(object)), ". Please supply the raw ",
-                    "training data using the `train` argument in the call ",
-                    "to `partial`."))
+        stop(mssg)
       } else {
         train <- eval(object$call$data)
       }
@@ -225,7 +230,7 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
   }
 
   # Create data frame of partial dependence values
-  names(pd.df) <- c(pred.var, "y")
+  names(pd.df) <- c(pred.var, "yhat")
   class(pd.df) <- c("data.frame", "partial")
 
   # Plot partial dependence function (if requested)

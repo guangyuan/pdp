@@ -35,7 +35,7 @@ install.packages(c("caret", "ggmap", "kernlab", "randomForest"))
 
 #### Regression example
 
-In this example, we fit a random forest to the Boston housing data. (See `?boston` for a brief explanation of the data.) Note, for any of the following examples, you can see a progress bar by simply specifying `.progress = "text"` in the call to `partial`. You may also reduce the computation time via the `grid.resolution` option in the call to `partial`.
+In this example, we fit a random forest to the Boston housing data. (See `?boston` for a brief explanation of the data.) Note, for any of the following examples, you can see a progress bar by simply specifying `progress = "text"` in the call to `partial`. You may also reduce the computation time via the `grid.resolution` option in the call to `partial`.
 
 ```r
 # Load required packages
@@ -50,12 +50,15 @@ set.seed(101)  # for reproducibility
 boston.rf <- randomForest(cmedv ~ ., data = boston)
 
 # Partial dependence of lstat and rm on cmedv
-partial(boston.rf, pred.var = "lstat", plot = TRUE, rug = TRUE)
-partial(boston.rf, pred.var = "age", plot = TRUE, rug = TRUE)
-partial(boston.rf, pred.var = c("lstat", "rm"), plot = TRUE, chull = TRUE)
+grid.arrange(
+  partial(boston.rf, pred.var = "lstat", plot = TRUE, rug = TRUE),
+  partial(boston.rf, pred.var = "rm", plot = TRUE, rug = TRUE),
+  partial(boston.rf, pred.var = c("lstat", "rm"), plot = TRUE, chull = TRUE),
+  ncol = 3
+)
 ```
 
-![](README_files/figure-html/unnamed-chunk-3-1.png)![](README_files/figure-html/unnamed-chunk-3-2.png)![](README_files/figure-html/unnamed-chunk-3-3.png)
+![](README_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
 
 
 #### Classification example 
@@ -71,13 +74,12 @@ data (pima)  # load the boston housing data
 pima.svm <- ksvm(diabetes ~ ., data = pima, type = "C-svc", kernel = "rbfdot",
                  C = 0.5, prob.model = TRUE)
 
-# Partial dependence of glucose on diabetes test result (neg/pos). 
-partial(pima.svm, pred.var = "glucose", plot = TRUE, rug = TRUE, train = pima)
-partial(pima.svm, pred.var = "age", plot = TRUE, rug = TRUE, train = pima)
-partial(pima.svm, pred.var = "mass", plot = TRUE, rug = TRUE, train = pima)
+# Partial dependence of glucose and age on diabetes test result (neg/pos). 
+partial(pima.svm, pred.var = c("glucose", "age"), plot = TRUE, chull = TRUE,
+        train = pima)
 ```
 
-![](README_files/figure-html/unnamed-chunk-4-1.png)![](README_files/figure-html/unnamed-chunk-4-2.png)![](README_files/figure-html/unnamed-chunk-4-3.png)
+![](README_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 
 
 #### Interface with `caret`
@@ -112,7 +114,12 @@ pima.xgb <- train(diabetes ~ ., data = pima, method = "xgbTree",
                   tuneGrid = xgb.grid)
 
 # Partial dependence of glucose and age on diabetes test result (neg/pos)
-partial(pima.xgb, pred.var = c("glucose", "age"), plot = TRUE, chull = TRUE)
+grid.arrange(
+  partial(pima.xgb, pred.var = "glucose", plot = TRUE, rug = TRUE),
+  partial(pima.xgb, pred.var = "age", plot = TRUE, rug = TRUE),
+  partial(pima.xgb, pred.var = "mass", plot = TRUE, rug = TRUE),
+  ncol = 3 
+)
 ```
 
 ![](README_files/figure-html/unnamed-chunk-5-1.png)<!-- -->

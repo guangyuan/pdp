@@ -39,7 +39,7 @@ install.packages(c("caret", "ggmap", "kernlab", "randomForest"))
 #### Regression example
 
 In this example, we fit a random forest to the Boston housing data. (See `?boston` for a brief explanation of the data.) Note, for any of the following examples, you can see a progress bar by simply specifying `progress = "text"` in the call to `partial`. You may also reduce the computation time via the `grid.resolution` option in the call to `partial`.
-```{r, message = FALSE, warning=FALSE, fig.show="hold"}
+```{r, message = FALSE, warning=FALSE, fig.width=12, fig.height=4}
 # Load required packages
 library(pdp)  # for constructing PDPs
 library(randomForest)  # for random forest algorithm
@@ -52,9 +52,13 @@ set.seed(101)  # for reproducibility
 boston.rf <- randomForest(cmedv ~ ., data = boston)
 
 # Partial dependence of lstat and rm on cmedv
-partial(boston.rf, pred.var = "lstat", plot = TRUE, rug = TRUE)
-partial(boston.rf, pred.var = "rm", plot = TRUE, rug = TRUE)
-partial(boston.rf, pred.var = c("lstat", "rm"), plot = TRUE, chull = TRUE)
+grid.arrange(
+  partial(boston.rf, pred.var = "lstat", plot = TRUE, rug = TRUE),
+  partial(boston.rf, pred.var = "rm", plot = TRUE, rug = TRUE),
+  partial(boston.rf, pred.var = c("lstat", "rm"), plot = TRUE, chull = TRUE),
+  ncol = 3
+)
+
 ```
 
 
@@ -71,7 +75,8 @@ pima.svm <- ksvm(diabetes ~ ., data = pima, type = "C-svc", kernel = "rbfdot",
                  C = 0.5, prob.model = TRUE)
 
 # Partial dependence of glucose and age on diabetes test result (neg/pos). 
-partial(pima.svm, pred.var = c("glucose", "age"), plot = TRUE, chull = TRUE)
+partial(pima.svm, pred.var = c("glucose", "age"), plot = TRUE, chull = TRUE,
+        train = pima)
 ```
 
 
@@ -80,7 +85,7 @@ partial(pima.svm, pred.var = c("glucose", "age"), plot = TRUE, chull = TRUE)
 Finally, we demonstrate the construction of PDPs from models fit using the `caret` package; `caret` is an extremetly useful package for classification and regression training that, essentially, has one function (`train`) for fitting all kinds of predictive models in R (e.g., `glmnet`, `svm`, `xgboost`, etc.). 
 
 For illustration we use `caret`'s `train` function to tune an [XGBoost](https://github.com/dmlc/xgboost) model to the Pima Indians diabetes data using 5-fold cross-validation. We then use the final model to construct PDPs for `glucose` and `age`. Note, when training a model using `caret`'s `train` function, you can view tuning progress by setting `verboseIter = TRUE` in the call to `trainControl`.
-```{r, message=FALSE, warning=FALSE}
+```{r, message=FALSE, warning=FALSE, fig.width=15, fig.height=5}
 # Load required packages
 library(caret)  # for model training/tuning
 
@@ -106,7 +111,10 @@ pima.xgb <- train(diabetes ~ ., data = pima, method = "xgbTree",
                   tuneGrid = xgb.grid)
 
 # Partial dependence of glucose and age on diabetes test result (neg/pos)
-partial(pima.xgb, pred.var = "glucose", plot = TRUE, rug = TRUE)
-partial(pima.xgb, pred.var = "age", plot = TRUE, rug = TRUE)
-partial(pima.xgb, pred.var = "mass", plot = TRUE, chull = TRUE)
+grid.arrange(
+  partial(pima.xgb, pred.var = "glucose", plot = TRUE, rug = TRUE),
+  partial(pima.xgb, pred.var = "age", plot = TRUE, rug = TRUE),
+  partial(pima.xgb, pred.var = "mass", plot = TRUE, rug = TRUE),
+  ncol = 3 
+)
 ```

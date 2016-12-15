@@ -106,7 +106,7 @@ plotPartial.partial <- function(x, smooth = FALSE, rug = FALSE, chull = FALSE,
     }
 
   }
-  
+
   # Print and return (invisibly) the "trellis" object
   p
 
@@ -115,7 +115,7 @@ plotPartial.partial <- function(x, smooth = FALSE, rug = FALSE, chull = FALSE,
 
 #' @keywords internal
 pdpNumeric <- function(x, smooth, rug, train = NULL, ...) {
-  xyplot(stats::as.formula(paste("y ~", names(x)[1L])), data = x,
+  xyplot(stats::as.formula(paste("yhat ~", names(x)[1L])), data = x,
          type = "l", ..., panel = function(xx, yy, ...) {
            panel.xyplot(xx, yy, col = "black", ...)
            if (smooth) {
@@ -135,13 +135,13 @@ pdpNumeric <- function(x, smooth, rug, train = NULL, ...) {
 
 #' @keywords internal
 pdpFactor <- function(x, ...) {
-  dotplot(stats::as.formula(paste("y ~", names(x)[1L])), data = x, ...)
+  dotplot(stats::as.formula(paste("yhat ~", names(x)[1L])), data = x, ...)
 }
 
 
 #' @keywords internal
 pdpFactorFactor <- function(x, ...) {
-  dotplot(stats::as.formula(paste("y ~",
+  dotplot(stats::as.formula(paste("yhat ~",
                                   paste(names(x)[1L:2L], collapse = "|"))),
           data = x, ...)
 }
@@ -152,9 +152,9 @@ pdpNumericFactor <- function(x, smooth, rug, train, ...) {
 
   # Lattice plot formula
   form <- if (is.factor(x[[1L]])) {
-    stats::as.formula(paste("y ~", paste(names(x)[2L:1L], collapse = "|")))
+    stats::as.formula(paste("yhat ~", paste(names(x)[2L:1L], collapse = "|")))
   } else {
-    stats::as.formula(paste("y ~", paste(names(x)[1L:2L], collapse = "|")))
+    stats::as.formula(paste("yhat ~", paste(names(x)[1L:2L], collapse = "|")))
   }
 
   # Produce a paneled lineplot
@@ -182,7 +182,7 @@ pdpNumericNumeric <- function(x, levelplot, rug, chull, train, contour,
                               col.regions, ...) {
 
   # Lattice plot formula
-  form <- stats::as.formula(paste("y ~",
+  form <- stats::as.formula(paste("yhat ~",
                                   paste(names(x)[1L:2L], collapse = "*")))
 
   # False color level plot
@@ -233,7 +233,7 @@ pdpNumericNumeric <- function(x, levelplot, rug, chull, train, contour,
 pdpFactorFactorShingle <- function(x, nx, ...) {
 
   # Produce a paneled dotplot
-  dotplot(stats::as.formula(paste("y ~", names(x)[1L], "|",
+  dotplot(stats::as.formula(paste("yhat ~", names(x)[1L], "|",
                                   paste(names(x)[2L:nx], collapse = "*"))),
           data = x, ...)
 
@@ -245,10 +245,10 @@ pdpNumericFactorShingle <- function(x, nx, smooth, rug, train, ...) {
 
   # Lattice plot formula
   form <- if (is.factor(x[[1L]])) {
-    stats::as.formula(paste("y ~", names(x)[2L], "|",
+    stats::as.formula(paste("yhat ~", names(x)[2L], "|",
                             paste(names(x)[c(1L, 3L:nx)], collapse = "*")))
   } else {
-    stats::as.formula(paste("y ~", names(x)[1L], "|",
+    stats::as.formula(paste("yhat ~", names(x)[1L], "|",
                             paste(names(x)[2L:nx], collapse = "*")))
   }
 
@@ -277,7 +277,7 @@ pdpNumericNumericShingle <- function(x, nx, levelplot, contour, col.regions,
                                      ...) {
 
   # Lattice plot formula
-  form <- stats::as.formula(paste("y ~",
+  form <- stats::as.formula(paste("yhat ~",
                                   paste(names(x)[1L:2L], collapse = "*"),
                                   "|",
                                   paste(names(x)[3L:nx], collapse = "*")))

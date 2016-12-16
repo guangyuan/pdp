@@ -1,5 +1,6 @@
 \backcite {harrison-1978-hedonic}{{1}{2.1}{section.2.1}}
 \backcite {harrison-1978-hedonic}{{1}{2.1}{section.2.1}}
+\backcite {harrison-1978-hedonic}{{1}{2.1}{section.2.1}}
 \backcite {friedman-2000-greedy}{{1}{2.1}{equation.2.1.1}}
 \backcite {randomForest-pkg}{{2}{2.1}{Item.5}}
 \backcite {party-pkg}{{2}{2.1}{Item.5}}
@@ -17,15 +18,15 @@
 \backcite {gridExtra-pkg}{{3}{2.2}{Item.7}}
 \backcite {venables-modern-2002}{{3}{2.2}{Item.7}}
 \backcite {friedman-ppr-1981}{{3}{2.2}{Item.7}}
-\backcite {C50-pkg}{{3}{\caption@xref {??}{ on input line 99}}{table.caption.2}}
-\backcite {rpart-pkg}{{3}{\caption@xref {??}{ on input line 102}}{table.caption.2}}
-\backcite {adabag-pkg}{{3}{\caption@xref {??}{ on input line 103}}{table.caption.2}}
-\backcite {ipred-pkg}{{3}{\caption@xref {??}{ on input line 104}}{table.caption.2}}
-\backcite {adabag-pkg}{{3}{\caption@xref {??}{ on input line 105}}{table.caption.2}}
-\backcite {Cubist-pkg}{{3}{\caption@xref {??}{ on input line 108}}{table.caption.2}}
-\backcite {earth-pkg}{{3}{\caption@xref {??}{ on input line 115}}{table.caption.2}}
-\backcite {e1071-pkg}{{3}{\caption@xref {??}{ on input line 116}}{table.caption.2}}
-\backcite {kernlab-pkg}{{3}{\caption@xref {??}{ on input line 117}}{table.caption.2}}
+\backcite {C50-pkg}{{3}{\caption@xref {??}{ on input line 98}}{table.caption.2}}
+\backcite {rpart-pkg}{{3}{\caption@xref {??}{ on input line 101}}{table.caption.2}}
+\backcite {adabag-pkg}{{3}{\caption@xref {??}{ on input line 102}}{table.caption.2}}
+\backcite {ipred-pkg}{{3}{\caption@xref {??}{ on input line 103}}{table.caption.2}}
+\backcite {adabag-pkg}{{3}{\caption@xref {??}{ on input line 104}}{table.caption.2}}
+\backcite {Cubist-pkg}{{3}{\caption@xref {??}{ on input line 107}}{table.caption.2}}
+\backcite {earth-pkg}{{3}{\caption@xref {??}{ on input line 114}}{table.caption.2}}
+\backcite {e1071-pkg}{{3}{\caption@xref {??}{ on input line 115}}{table.caption.2}}
+\backcite {kernlab-pkg}{{3}{\caption@xref {??}{ on input line 116}}{table.caption.2}}
 \backcite {caret-pkg}{{4}{2.2}{table.caption.2}}
 \backcite {mlbench-pkg}{{4}{2.2}{table.caption.2}}
 \backcite {magrittr-pkg}{{5}{2.2.1}{subsection.2.2.1}}

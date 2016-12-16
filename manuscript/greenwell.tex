@@ -8,8 +8,7 @@
 \maketitle
 
 \abstract{
-Complex nonparametric models---like neural networks, random forests, and support vector machines---are more common than ever in predictive analytics, especially when dealing with large observational databases that don't adhere to the strict assumptions imposed by traditional statistical techniques (e.g., multiple linear regression which assumes linearity, homoscedasticity, and normality). Unfortunately, it can be challenging to understand the results of such models and explain them to management. Partial dependence plots offer a simple solution. Partial dependence plots are low-dimensional graphical renderings of the prediction function $\widehat{f}\left(\boldsymbol{x}\right)$ so that the relationship between the outcome and predictors of interest can be
-more easily understood. These plots are especially useful in explaining the output from black box models. In this paper, we introduce \pkg{pdp}, a general R package for constructing partial dependence plots.
+Complex nonparametric models---like neural networks, random forests, and support vector machines---are more common than ever in predictive analytics, especially when dealing with large observational databases that don't adhere to the strict assumptions imposed by traditional statistical techniques (e.g., multiple linear regression which assumes linearity, homoscedasticity, and normality). Unfortunately, it can be challenging to understand the results of such models and explain them to management. Partial dependence plots offer a simple solution. Partial dependence plots are low-dimensional graphical renderings of the prediction function $\widehat{f}\left(\boldsymbol{x}\right)$ so that the relationship between the outcome and predictors of interest can be more easily understood. These plots are especially useful in explaining the output from black box models. In this paper, we introduce \pkg{pdp}, a general R package for constructing partial dependence plots.
 }
 
 
@@ -18,17 +17,17 @@ more easily understood. These plots are especially useful in explaining the outp
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 
-\citet{harrison-1978-hedonic} were among the first to analyze the well-known Boston housing data. One of their goals was to find a housing value equation using data on median housing values from 506 census tracts in the suburbs of Boston from the 1970 census. The prediction equation from one of there regression analyses is reproduced in Equation~\eqref{eqn:boston}. \citet{harrison-1978-hedonic} took great care and time to find this model which obtained an $R^2$ of roughly 0.81. Part of the payoff for there efforts was a reasonable fitting model with an interpretable equation. For example, the equation tells us that an increase in median home value is associated with an increase in the average number of rooms per dwelling.
+\citet{harrison-1978-hedonic} were among the first to analyze the well-known Boston housing data. One of their goals was to find a housing value equation using data on median housing values from $n = 506$ census tracts in the suburbs of Boston from the 1970 census; see Table IV of \citet{harrison-1978-hedonic} for a description of each variable. The data violate many classical assumptions like linearity, normality, and constant variance. Nonetheless, \citeauthor{harrison-1978-hedonic}---using a combination of transformations, significance testing, and grid searches---were able to find a reasonable fitting model ($R^2 = 0.81$). Part of the payoff for there efforts was an interpretable prediction equation which is reproduced in Equation~\eqref{eqn:boston}.
 \begin{equation}
 \label{eqn:boston}
 \begin{split}
 \widehat{\log\left(MV\right)} &= 9.76 + 0.0063 RM^2 + 8.98\times10^{-5} AGE - 0.19\log\left(DIS\right) + 0.096\log\left(RAD\right) \\
-  &\quad - 4.20\times10^{-4} TAX - 0.031 PTRATIO + 0.36\left(B - 0.63\right)^2 - 0.37\log\left(LSTAT\right) \\
-  &\quad - 0.012 CRIM + 8.03\time10^{-5} ZN + 2.41\times10^{-4} INDUS + 0.088 CHAS - 0.0064 NOX^2
+  & \quad - 4.20\times10^{-4} TAX - 0.031 PTRATIO + 0.36\left(B - 0.63\right)^2 - 0.37\log\left(LSTAT\right) \\
+  & \quad - 0.012 CRIM + 8.03\time10^{-5} ZN + 2.41\times10^{-4}  INDUS + 0.088 CHAS - 0.0064 NOX^2
 \end{split}
 \end{equation}
 
-Many modern nonparametric models, however, can fit the data automatically in seconds---typically with higher accuracy. The downfall, however, is some loss of interpretation; for example, there is usually no prediction formula like in Equation~\eqref{eqn:boston}. Fortunately, these methods can still provide insight into the data, but it is not in the form of simple equations. For example, many modern methods, like boosting and random forests, can assign importance scores to all of the predictors.
+Nowadays, supervised learning algorithms can fit the data automatically in seconds---typically with higher accuracy. (We will revisit the Boston housing data in Section~\ref{sec:boston}) The downfall, however, is some loss of interpretation; for example, there is usually no simple prediction formula like in Equation~\eqref{eqn:boston}. Fortunately, these methods can still provide insight into the data, but it is not in the form of simple equations. For example, many modern methods, like boosting and random forests, can assign importance scores to all of the predictors in the training data.
 
 Determining predictor importance is a crucial task in any supervised learning problem. However, ranking variables is only part of the story and once a subset of "important" features is identified it is often necessary to assess the relationship between them (or subset thereof) and the response. This can be done in many ways, but in machine learning it is often accomplished by constructing \dfn{partial dependence plots} (PDPs); see \citet{friedman-2000-greedy} for details. PDPs help visualize the relationship between a subset of the features (typically 1-3) and the response while accounting for the average effect of the other predictors in the model. They are particularly effective with black box models like random forests and support vector machines.
 
@@ -84,7 +83,7 @@ The \code{plotPartial} function can be used for displaying more advanced PDPs; i
 
 \strong{Note:} as mentioned above, \pkg{pdp} relies on \pkg{lattice} for its graphics. \pkg{lattice} itself is built on top of \CRANpkg{grid} \citep{grid-pkg}. \pkg{grid} graphics behave a little differently than traditional R graphics, and two points are worth making (see \code{?lattice} for more details):
 \begin{enumerate}
-  \item \pkg{lattice} functions return a \code{"trellis"} object, but do not display it; the \code{print} method produces the actual display. However, due to R's automatic printing rule, the result is automatically printed when using these functions in the command line. If \code{plotPartial} is called inside of \code{source} or inside a loop (e.g., \code{for} or \code{while}), an explicit \code{print} statement is required to display the resulting graph.
+  \item \pkg{lattice} functions return a \code{"trellis"} object, but do not display it; the \code{print} method produces the actual display. However, due to R's automatic printing rule, the result is automatically printed when using these functions in the command line. If \code{plotPartial} is called inside of \code{source} or inside a loop (e.g., \code{for} or \code{while}), an explicit \code{print} statement is required to display the resulting graph; hence, the same is true when using \code{partial} with \code{plot = TRUE}.
   \item Setting graphical parameters via \code{par} typically has no effect on \pkg{lattice} plots. Instead, \pkg{lattice} provides its own \code{trellis.par.set} function for modifying graphical parameters.
 \end{enumerate}
 A consequence of the second point is that the \code{par} function cannot be used to control the layout of multiple \pkg{lattice} (and hence \pkg{pdp}) plots. Simple solutions are available in packages \CRANpkg{latticeExtra} \citep{latticeExtra-pkg} and \CRANpkg{gridExtra} \citep{gridExtra-pkg}. For convenience, \pkg{pdp} imports the \code{grid.arrange} function from \pkg{gridExtra} which makes it easy to display multiple \pkg{pdp} plots on a single page.
@@ -128,7 +127,7 @@ the raw training data using the `train` argument in the call to `partial`.
 \end{example}
 This will occur, for example, when using partial with the \code{"xgb.Booster"} class (see Section~\ref{sec:xgboost}). In fact, using \code{partial} with any object that does not store the original training data will result in the above error message.
 
-The \code{partial} function also supports object of class \code{"train"} produced using the \code{train} function from the well-known \CRANpkg{caret} package \citep{caret-pkg}. This means that \code{partial} can be used with any classification or regression model that has been fit using \pkg{caret}'s \code{train} function; see \url{http://topepo.github.io/caret/available-models.html} for a current list of models supported by \pkg{caret}. An example is given in Section~\ref{sec:xgboost}.
+The \code{partial} function also supports objects of class \code{"train"} produced using the \code{train} function from the well-known \CRANpkg{caret} package \citep{caret-pkg}. This means that \code{partial} can be used with any classification or regression model that has been fit using \pkg{caret}'s \code{train} function; see \url{http://topepo.github.io/caret/available-models.html} for a current list of models supported by \pkg{caret}. An example is given in Section~\ref{sec:xgboost}.
 
 For illustration, we will use the (corrected) Boston housing data which are available from the \CRANpkg{mlbench} package \citep{mlbench-pkg}. These data contain the median value of owner-occupied homes in 506 U.S. census tracts in the Boston area, along with 13 independent variables such as the per capita crime rate by town. We begin by loading the data and omitting unimportant columns.
 \begin{example}
@@ -410,7 +409,8 @@ grid.arrange(
   \label{fig:boston_xgb}
 \end{figure}
 
-Since \code{train} always stores a copy of the training data as part of the \code{"train"} object in a component called \code{trainingData} (e.g., \code{boston.xgb.tune\$trainingData}) there is no need to supply the training data in the call to \code{partial}. However, this is not the case when using the \pkg{xgboost} package directly. For example, the following code fits the same model using the \code{xgboost} function.
+%Since \code{train} defaults to storing a copy of the training data as part of the \code{"train"} object in a component called \code{trainingData} (e.g., \code{boston.xgb.tune\$trainingData}) there is no need to supply the training data in the call to \code{partial}. However, this is not the case when using the \pkg{xgboost} package directly. For example, the following code fits the same model using the \code{xgboost} function.
+Since \code{train} defaults to storing a copy of the training data as part of the \code{"train"} object there is no need to supply it in the call to \code{partial}. However, this is not the case when using the \pkg{xgboost} package directly. For example, the following code fits the same model using the \code{xgboost} function.
 \begin{example}
 set.seed(203)  # for reproducibility
 boston.xgb <- xgboost(data = data.matrix(subset(boston, select = -cmedv)),

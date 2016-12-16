@@ -10,7 +10,7 @@ output:
 Thanks to the reviewers and editor for the well thought out comments. I believe that they have greatly imporved, not only the manuscript, but the package it describes as well. I hope that my responses are at least satisfactory. Please find below a copy of the reviewers comments along with my responses.
 
 
-## Reviewer 1
+## ----------Reviewer 1----------
 
 
 #### Comment
@@ -23,13 +23,12 @@ library(pdp)
 pd <- partial(ozone.rf, pred.var="Temp")
 plotPartial(pd)
 ```
-
 #### Response
-This is simply a side effect of using `lattice` to produce the plots. If sourcing a script, then the plot needs to be explicitly printed (e.g., `print(plotPartial(pd))`).
+This is simply a side effect of using `lattice` to produce the plots. If sourcing a script, then the plot needs to be explicitly printed (e.g., `print(plotPartial(pd))`). This has been explained in both the documentation and the manuscript in a **Note:** on 3.
 
 
 #### Comment
-I couldn't get `partial` to work with `gbm` (version 2.1.1) models (although I didn't try very hard).  Perhaps this is because the `gbm` maintainer changed the `gbm` interface in a non-backcompatible way.  The following (where `gbm.mod` is a model built using the gbm package)
+I couldn't get `partial` to work with `gbm` (version 2.1.1) models (although I didn't try very hard).  Perhaps this is because the `gbm` maintainer changed the `gbm` interface in a non-backcompatible way. The following (where `gbm.mod` is a model built using the gbm package)
 ```{r, eval=FALSE}
 partial(gbm.mod, pred.var="age")
 ```
@@ -46,16 +45,14 @@ but that gives
 ```{r, eval=FALSE}
 Error in .fun(piece, ...) : unused argument (n.trees = 100)
 ```
-
 #### Response
-This been fixed in `pdp` (version 0.3.0), but requires the user to supply `n.trees` in the call to `partial`. So, `partial(gbm.mod, pred.var="age", n.trees=100)` should work now. The test suite is being expanded, as suggested in a later comment, to help catch more errors like this.
+The `gbm` maintainer did contact me a while back and this has been fixed in `pdp` (version 0.3.0). The user will still have to supply `n.trees` in the call to `partial`. The test suite is being expanded, as suggested in a later comment, to help catch more errors like this.
 
 
 #### Comment
 Standard partial matching isn't implemented (e.g., `partial(..., type="r")`).
-
 #### Response
-Partial matching is now implemented, but only for the `type` argument.
+Partial matching is now implemented, but only for the `type` argument. Thanks for the suggestion.
 
 
 #### Comment
@@ -71,7 +68,6 @@ data <- data.frame(V1=1:10, V2=1:10)
 mod <- lm(V2~V1, data=data)
 partial(mod, pred.var="V1", plot=TRUE) # error
 ```
-
 #### Response
 This has been fixed in `pdp` (version 0.3.0). This was simply a side effect of `partial`'s internal use of `plyr::adply` which uses default variable names (e.g., `V1`, `V2`, etc.). This caused the column `V1` in the output data frame to be overwritten, producing the error. 
 ```{r, eval=TRUE}
@@ -110,6 +106,8 @@ issues, but at least mention in the documentation that this kind of
 thing can happen, and how to avoid it (basically call partial in the
 same environment used to build the model, and don't change any of the
 data used to build the model).
+#### Response
+Aggred! Unfortunately, some functions just don't store a copy of the training data. I have expanded the code to work harder, especially for `S4` methods, to inform the user to supply the training data when necessary. The documentation for `partial` has also been expanded to discuss this.
 
 
 #### Comment
@@ -126,7 +124,6 @@ data(trees)
 mod <- lm(Volume~., data=trees)
 partial(mod, pred.var="nosuchvariable", plot=TRUE) # obscure err msg
 ```
-
 #### Response
 This has been fixed in `pdp` (version 0.3.0) by adding an informative error message listing which variables are the cause of the issue.
 ```{r, eval=FALSE}
@@ -136,23 +133,20 @@ mod <- lm(Volume~., data=trees)
 partial(mod, pred.var=c("Girth", "foo", "bar"), plot=TRUE)
 ```
 ```
-Error in partial.default(mod, pred.var = "nosuchvariable", plot = TRUE) : 
-  nosuchvariable not found in the training data.
+Error in partial.default(mod, pred.var = c("Girth", "foo", "bar"), plot = TRUE) : foo, bar not found in the training data.
 ```
 
 
 #### Comment
 On page 2 of the paper it says "The columns of the data frame are labeled in the same order as the features supplied to `pred.var`, and the last column is always labeled `y`". What happens if `y` is one of the predictors?
-
 #### Response
-The last column is labeled `y` for consistency with `gbm` and `randomForest` behavior. Unfortunately, both `pdp::partial` and `randomForest::partialPlot` fail in this case; `gbm`, however, does not fail. I think regardless of what the default column name is, there is always the possibility of this issue. I filed an issue on the GitHub issue page: https://github.com/bgreenwell/pdp/issues/20. In the mean time, `partial` will throw an error describing the problem so that the user can take action.
+The last column is now labeled `yhat`; which is less likely to be a predictor name. When one of the predictors is labeled `"y"` `randomForest::partialPlot` fails while `gbm::plot.gbm` does not. I think regardless of what the default column name is, there is always the possibility of this issue. This has been filed as an issue on the `pdp` GitHib page :
 
 
 #### Comment
 Hastie et al. in the book cited in the paper say "Although such a collection [of partial dependence plots] can seldom provide a comprehensive depiction of the approximation, it can often produce helpful clues".  Therefore in in the abstract for the paper, to avoid overselling consider changing "relationship between the outcome and predictors of interest can be easily understood" to "relationship between the outcome and predictors of interest can be more easily understood".
-
 #### Response
-Fixed.
+Fixed. Thanks for the suggestion.
 
 
 #### Comment
@@ -161,9 +155,8 @@ On page 3 in the PDF of the paper, add a newline to the error message in the pap
 Error: The training data could not be extracted from object. Please
 supply the raw training data using the ...
 ```
-
 #### Response
-Fixed.
+Fixed. Thanks for pointing that out.
 
 
 #### Comment
@@ -172,16 +165,14 @@ Is there any reason the package is called `pdp` but the main function is called 
 library(pdp)
 ?pdp # fails
 ```
-
 #### Response
 The package was originally called `partial`, but at the time of its original submission this conflicted with a CRAN package of the same name (but with mixed lowercase/uppercase letetrs). So, I decided to change the name of the package to `pdp`; besides, I think `partial` and `plotPartial` work well together as function names. However, I did add a help page describing the package, main functions, etc. So, `?pdp` no longer fails. I am, however, not opposed to creating an alias to `partial` called `pdp` in the future.
 
 
 #### Comment
 `partial` should return the same value regardless of whether or not the `plot` argument is used?
-
 #### Response
-I dont think so and this is the same behavior for the PDP functions in `randomForest` and `gbm` (not that `pdp` needs to immitate the behavior of these packages PDP functions). However, I did add the partial dependence data as an attribute to the returned `"trellis"` object (i.e., plot) so that the user can extract the data easily from that if necessary (e.g., if they do not like the plot and don't want to re-run partial). For example,
+I dont think so, and this is the same behavior for the PDP functions in `randomForest` and `gbm` (not that `pdp` needs to immitate the behavior of these packages PDP functions). However, I did add the partial dependence data as an attribute to the returned `"trellis"` object (i.e., plot) so that the user can extract the data easily from that if necessary (e.g., if they do not like the plot and don't want to re-run partial). For example,
 ```{r}
 library(pdp)
 data(trees)
@@ -190,7 +181,7 @@ pd.Girth <- partial(mod, pred.var = "Girth")  # data only
 pdp.Girth <- partial(mod, pred.var = "Girth", plot = TRUE)  # plot
 identical(pd.Girth, attr(pdp.Girth, "partial.data"))  # should be identical
 ```
-Also the `lattice` function `trellis.last.object` is now exported when `pdp` is loaded. This will be useful when the user does not store the resulting plot in the call to `partial` but needs to retrieve the outout data to avoid re-running `partial` when computation time is a concern. For example,
+Also, the `lattice` function `trellis.last.object` is now exported when `pdp` is loaded. This will be useful when the user does not store the resulting plot in the call to `partial` but needs to retrieve the outout data to avoid re-running `partial` when computation time is a concern. For example,
 ```{r}
 library(pdp)
 data(trees)
@@ -200,6 +191,7 @@ pdp.Girth <- lattice::trellis.last.object()
 pd.Girth <- attr(pdp.Girth, "partial.data")
 head(pd.Girth)
 ```
+Thanks for the suggestion!
 
 
 #### Comment
@@ -209,7 +201,6 @@ par(mfrow=c(2,2))
 partial(ozone.rf, pred.var = "Temp", plot = TRUE)
 partial(ozone.rf, pred.var = "Wind", plot = TRUE)
 ```
-
 #### Response
 The command `par(mfrow = c(2, 2))` does not work with `"trellice"` objects, such as those produced by `lattice` which `partial` relies on for producing its plots. Other methods are available. For example, using the `gridExtra` package:
 ```{r, eval=TRUE}
@@ -221,21 +212,26 @@ pdp1 <- partial(ozone.rf, pred.var = "Temp", plot = TRUE)
 pdp2 <- partial(ozone.rf, pred.var = "Wind", plot = TRUE)
 gridExtra::grid.arrange(pdp1, pdp2, ncol = 2)
 ```
-For convenience, `pdp` now imports the `grid.extra` function and this has been incorporated into the manuscript where appropriate.
+For convenience, `pdp` now imports the `grid.extra` function and this has been incorporated into the manuscripts examples where appropriate.
+
+However, since `partial` returns a data frame by default, using `par` would work in the following case
+```{r, eval=FALSE}
+par(mfrow=c(2,2))
+plot(partial(ozone.rf, pred.var = "Temp"), type = "l")
+plot(partial(ozone.rf, pred.var = "Wind"), type = "l")
+```
 
 
 #### Comment
 It would be nice if the functions automatically plotted all the (important) variables in a grid of plots, without forcing the user to explicitly specify them.
-
 #### Response 
-I agree, this would be a nice feature, but the problem I see is that not all models emit a "variable importance". The `caret` package has a come a loong way in this regard. At this point, I think it is simpler to have the user select which variables they would like to see plotted (it forces them to explore the results). I am not opposed to including this feature in the future. I added this as a feature request: https://github.com/bgreenwell/pdp/issues/19. 
+I agree, this would be a nice feature, but the problem I see is that not all models emit a "variable importance". The `caret` package has a come a long way in this regard. At this point, I think it is simpler to have the user select which variables they would like to see plotted (it forces them to explore the results). I am not opposed to including this feature in the future. I added added a possible solution along with a feature request: https://github.com/bgreenwell/pdp/issues/19. 
 
 
 #### Comment
 It would be nice if the functions automatically got the data from the model used to build the model in more cases without forcing the user to explicitly specify the data.  Since XGBoost seems now quite popular, perhaps the authors of that package could be persuaded to make the original model data available for functions like partial (currently XGBoost uses a custom object `xgb.DMatrix` which is currently write-only -- one can't access the data stored in `xgb.DMatrix`).
-
 #### Response
-This is also true for the fitting functions in other package (e.g., `kernlab::ksvm`). As time goes on, the coverage will certainly be inncreased to make it easier on the user. For example, `partial` now works with `caret` which always stores the taining data in a component called `trainingData`. I suspect that the package maintainers for `xgboost`, would be hesitent in storing a copy of the training data, especially since the package is often used for modeling large data sets; they probably do not want to store a copy of the data with the fitted model object for memory reasons.
+This is also true for the fitting functions in other package (e.g., `kernlab::ksvm`). As time goes on, the coverage will certainly be inncreased to make it easier on the user. For example, `partial` now works with `caret` which, by default, stores the taining data in a component called `trainingData`. I suspect that the package maintainers for `xgboost`  would be hesitent in storing a copy of the training data, especially since the package is often used for modeling large data sets; they probably do not want to store a copy of the data with the fitted model object for memory reasons.
 
 
 #### Comment
@@ -245,7 +241,7 @@ Consider adding a `slowtests` directory (below `pdp/inst/` or elsewhere) that ha
 This is a good suggestion and is currently under development. In fact, the `gbm` maintainers have already contacted me about a breaking change caused by the next planned release of their package.
 
 
-## Reviewer 2
+## ----------Reviewer 2----------
 
 
 #### Comment 

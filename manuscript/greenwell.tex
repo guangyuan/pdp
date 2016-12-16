@@ -23,11 +23,11 @@ Complex nonparametric models---like neural networks, random forests, and support
 \begin{split}
 \widehat{\log\left(MV\right)} &= 9.76 + 0.0063 RM^2 + 8.98\times10^{-5} AGE - 0.19\log\left(DIS\right) + 0.096\log\left(RAD\right) \\
   & \quad - 4.20\times10^{-4} TAX - 0.031 PTRATIO + 0.36\left(B - 0.63\right)^2 - 0.37\log\left(LSTAT\right) \\
-  & \quad - 0.012 CRIM + 8.03\time10^{-5} ZN + 2.41\times10^{-4}  INDUS + 0.088 CHAS - 0.0064 NOX^2
+  & \quad - 0.012 CRIM + 8.03\times10^{-5} ZN + 2.41\times10^{-4} INDUS + 0.088 CHAS - 0.0064 NOX^2
 \end{split}
 \end{equation}
 
-Nowadays, supervised learning algorithms can fit the data automatically in seconds---typically with higher accuracy. (We will revisit the Boston housing data in Section~\ref{sec:boston}) The downfall, however, is some loss of interpretation; for example, there is usually no simple prediction formula like in Equation~\eqref{eqn:boston}. Fortunately, these methods can still provide insight into the data, but it is not in the form of simple equations. For example, many modern methods, like boosting and random forests, can assign importance scores to all of the predictors in the training data.
+Nowadays, supervised learning algorithms can fit the data automatically in seconds---typically with higher accuracy. (We will revisit the Boston housing data in Section~\ref{sec:boston}.) The downfall, however, is some loss of interpretation; for example, there is usually no simple prediction formula like in Equation~\eqref{eqn:boston}. Fortunately, these methods can still provide insight into the data, but it is not in the form of simple equations. For example, many modern methods, like boosting and random forests, can assign importance scores to all of the predictors in the training data.
 
 Determining predictor importance is a crucial task in any supervised learning problem. However, ranking variables is only part of the story and once a subset of "important" features is identified it is often necessary to assess the relationship between them (or subset thereof) and the response. This can be done in many ways, but in machine learning it is often accomplished by constructing \dfn{partial dependence plots} (PDPs); see \citet{friedman-2000-greedy} for details. PDPs help visualize the relationship between a subset of the features (typically 1-3) and the response while accounting for the average effect of the other predictors in the model. They are particularly effective with black box models like random forests and support vector machines.
 
@@ -129,7 +129,7 @@ This will occur, for example, when using partial with the \code{"xgb.Booster"} c
 
 The \code{partial} function also supports objects of class \code{"train"} produced using the \code{train} function from the well-known \CRANpkg{caret} package \citep{caret-pkg}. This means that \code{partial} can be used with any classification or regression model that has been fit using \pkg{caret}'s \code{train} function; see \url{http://topepo.github.io/caret/available-models.html} for a current list of models supported by \pkg{caret}. An example is given in Section~\ref{sec:xgboost}.
 
-For illustration, we will use the (corrected) Boston housing data which are available from the \CRANpkg{mlbench} package \citep{mlbench-pkg}. These data contain the median value of owner-occupied homes in 506 U.S. census tracts in the Boston area, along with 13 independent variables such as the per capita crime rate by town. We begin by loading the data and omitting unimportant columns.
+For illustration, we will use the (corrected) Boston housing data which are available from the \CRANpkg{mlbench} package \citep{mlbench-pkg}. These data contain the median value of owner-occupied homes in 506 U.S. census tracts in the Boston area, along with 13 independent variables such as the per capita crime rate by town. These are the same data analyzed in \citet{harrison-1978-hedonic}, but with a few corrections and additional spatial variables. We begin by loading the data and omitting unimportant columns.
 \begin{example}
 data(BostonHousing2, package = "mlbench")  # mlbench must be installed!
 boston <- BostonHousing2[, -c(1, 2, 5)]

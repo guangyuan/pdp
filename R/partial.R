@@ -70,6 +70,9 @@
 #' avoided when the training data are passed to the \code{train} argument in the
 #' call to \code{partial}.
 #'
+#' It is poosible to retrieve the most recent PDP constructed by \code{partial}
+#' even after it is deleted. Simply use \code{trellis.last.object()}.
+#'
 #' @references
 #' J. H. Friedman. Greedy function approximation: A gradient boosting machine.
 #' \emph{Annals of Statistics}, \bold{29}: 1189-1232, 2000.
@@ -172,6 +175,13 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
         stop(mssg)
       } else {
         train <- eval(object$call$data)
+        if (!(is.data.frame(train))) {
+          if (is.matrix(train)) {
+            train <- as.data.frame(train)
+          } else {
+            stop(mssg)
+          }
+        }
       }
     }
   }

@@ -100,6 +100,9 @@ Therefore, it is important to not change the data used to construct
 \code{object} before calling \code{partial}. This problem is completely
 avoided when the training data are passed to the \code{train} argument in the
 call to \code{partial}.
+
+It is poosible to retrieve the most recent PDP constructed by \code{partial}
+even after it is deleted. Simply use
 }
 \examples{
 \dontrun{

@@ -24,6 +24,19 @@ NULL
 NULL
 
 
+#' Retrieve the last Trellis Object
+#'
+#' See \code{\link[lattice]{trellis.last.object}} for more details.
+#'
+#' @name trellis.last.object
+#' @rdname trellis.last.object
+#' @keywords internal
+#' @export
+#' @importFrom lattice  trellis.last.object
+#' @usage trellis.last.object(..., prefix)
+NULL
+
+
 #' @keywords internal
 copyClasses <- function(x, y) {
   x.names <- names(x)

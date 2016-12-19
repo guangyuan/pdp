@@ -197,46 +197,76 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
     stop("\"y\" cannot be a predictor name.")
   }
 
-  # NOTE: It is worth considering the approach taken by the plotmo package,
-  # which now has the option to compute PDPs. plotmo seems to make one large
-  # pred.grid which increases memory usage, but decreases the number of calls to
-  # stats::predict.
+  # Construct partial dependence data
+  if (inherits(object, "gbm") && missing(pred.grid)) {
 
-  # Predictor values of interest
-  if (missing(pred.grid)) {
-    pred.grid <- predGrid(object, pred.var = pred.var, train = train,
-                          grid.resolution = grid.resolution)
-  }
+    # Assign value to grid.resolution
+    if (is.null(grid.resolution)) {
+      grid.resolution <- 100
+    }
 
-  # Make sure each column has the correct class, factor levels, etc.
-  if (check.class) {
-    pred.grid <- copyClasses(pred.grid, train)
-  }
+    # FIXME: This behavior needs to be documented!
 
-  # Restrict grid to covext hull of first two columns
-  if (chull) {
-    pred.grid <- trainCHull(pred.var, pred.grid = pred.grid, train = train)
-  }
+    # Call gbm::plot.gbm directly; this is MUCH FASTER!
+    pd.df <- gbm::plot.gbm(object, i.var = pred.var,
+                           continuous.resolution = grid.resolution,
+                           return.grid = TRUE)
 
-  # Determine the type of supervised learning used
-  type <- match.arg(type)
-  if (type == "auto") {
-    type <- superType(object)
-  }
+    # Restrict to convex hull of first two predictors, if requested
+    if (chull) {
+      pd.df <- if (length(pred.var) >= 2 && is.numeric(pd.df[[1L]]) &&
+          is.numeric(pd.df[[2L]])) {
+        X <- stats::na.omit(data.matrix(train[pred.var[1L:2L]]))
+        Y <- stats::na.omit(data.matrix(pd.df[, -ncol(pd.df),
+                                              drop = FALSE][1L:2L]))
+        hpts <- grDevices::chull(X)
+        hpts <- c(hpts, hpts[1L])
+        keep <- mgcv::in.out(X[hpts, ], Y)
+        pd.df[keep, ]
+      } else {
+        pd.df
+      }
+    }
 
-  # Calculate partial dependence values
-  if (type == "regression") {
-    pd.df <- pdRegression(object, pred.var = pred.var, pred.grid = pred.grid,
-                          train = train, progress = progress,
-                          parallel = parallel, paropts = paropts, ...)
-  } else if (type == "classification") {
-    pd.df <- pdClassification(object, pred.var = pred.var,
-                              pred.grid = pred.grid, which.class = which.class,
-                              train = train, progress = progress,
-                              parallel = parallel, paropts = paropts, ...)
   } else {
-    stop(paste("Partial dependence values are currently only available",
-               "for classification and regression problems."))
+
+    # Predictor values of interest
+    if (missing(pred.grid)) {
+      pred.grid <- predGrid(object, pred.var = pred.var, train = train,
+                            grid.resolution = grid.resolution)
+    }
+
+    # Make sure each column has the correct class, factor levels, etc.
+    if (check.class) {
+      pred.grid <- copyClasses(pred.grid, train)
+    }
+
+    # Restrict grid to covext hull of first two columns
+    if (chull) {
+      pred.grid <- trainCHull(pred.var, pred.grid = pred.grid, train = train)
+    }
+
+    # Determine the type of supervised learning used
+    type <- match.arg(type)
+    if (type == "auto") {
+      type <- superType(object)
+    }
+
+    # Calculate partial dependence values
+    if (type == "regression") {
+      pd.df <- pdRegression(object, pred.var = pred.var, pred.grid = pred.grid,
+                            train = train, progress = progress,
+                            parallel = parallel, paropts = paropts, ...)
+    } else if (type == "classification") {
+      pd.df <- pdClassification(object, pred.var = pred.var,
+                                pred.grid = pred.grid, which.class = which.class,
+                                train = train, progress = progress,
+                                parallel = parallel, paropts = paropts, ...)
+    } else {
+      stop(paste("Partial dependence values are currently only available",
+                 "for classification and regression problems."))
+    }
+
   }
 
   # Create data frame of partial dependence values

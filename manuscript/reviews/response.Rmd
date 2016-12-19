@@ -48,7 +48,7 @@ Error in .fun(piece, ...) : unused argument (n.trees = 100)
 ```
 
 ### Response 1.2
-This has been fixed in `pdp` (version 0.3.0). The user will still have to supply `n.trees` in the call to `partial`. Also, as suggested in another comment, a `/slowtests` directory is underway and will help prevent future issues like this. Thanks for cathing this.
+This has been fixed in `pdp` (version 0.3.0). The user may still have to supply `n.trees` in the call to `partial` (depending on which version of `gbm` they are using). Also, as suggested in another comment, a `/slowtests` directory is underway and will help prevent future issues like this. Thanks for cathing this.
 
 
 ### Comment 1.3

@@ -102,7 +102,7 @@ avoided when the training data are passed to the \code{train} argument in the
 call to \code{partial}.
 
 It is poosible to retrieve the most recent PDP constructed by \code{partial}
-even after it is deleted. Simply use
+even after it is deleted. Simply use \code{trellis.last.object()}.
 }
 \examples{
 \dontrun{

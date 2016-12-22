@@ -35,6 +35,11 @@
 #'   plot(partial(boston.rf, pred.var = pred), type = "l")
 #' }
 #'
+#' # Construct a two-way PDP for the top two predictors
+#' boston.rf %>%
+#'   partial(topPredictors(., n = 2), chull = TRUE) %>%
+#'   plotPartial()
+#'
 #' }
 topPredictors <- function(object, n = 1L, ...) {
   UseMethod("topPredictors")

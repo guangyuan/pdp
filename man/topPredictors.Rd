@@ -4,7 +4,7 @@
 \alias{topPredictors}
 \alias{topPredictors.default}
 \alias{topPredictors.train}
-\title{Top Predictors}
+\title{Extract Most "Important" Predictors (Experimental)}
 \usage{
 topPredictors(object, n = 1L, ...)
 
@@ -48,6 +48,11 @@ par(mfrow = c(2, 2))
 for (pred in topPredictors(boston.rf, 4)) {
   plot(partial(boston.rf, pred.var = pred), type = "l")
 }
+
+# Construct a two-way PDP for the top two predictors
+boston.rf \%>\%
+  partial(topPredictors(., n = 2), chull = TRUE) \%>\%
+  plotPartial()
 
 }
 }

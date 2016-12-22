@@ -106,6 +106,7 @@ even after it is deleted. Simply use \code{trellis.last.object()}.
 }
 \examples{
 \dontrun{
+
 #
 # Regression example (requires randomForest package to run)
 #
@@ -165,6 +166,7 @@ pima.svm <- train(diabetes ~ ., data = pima, method = "svmRadial",
 
 # Partial dependence of glucose on diabetes test result (neg/pos)
 partial(pima.svm, pred.var = "glucose", plot = TRUE, rug = TRUE)
+
 }
 }
 \references{

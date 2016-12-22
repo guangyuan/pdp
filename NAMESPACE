@@ -2,10 +2,13 @@
 
 S3method(partial,default)
 S3method(plotPartial,partial)
+S3method(topPredictors,default)
+S3method(topPredictors,train)
 export("%>%")
 export(grid.arrange)
 export(partial)
 export(plotPartial)
+export(topPredictors)
 export(trellis.last.object)
 importFrom(gridExtra,grid.arrange)
 importFrom(lattice,dotplot)

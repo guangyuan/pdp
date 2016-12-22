@@ -81,6 +81,7 @@
 #' @export
 #' @examples
 #' \dontrun{
+#'
 #' #
 #' # Regression example (requires randomForest package to run)
 #' #
@@ -140,6 +141,7 @@
 #'
 #' # Partial dependence of glucose on diabetes test result (neg/pos)
 #' partial(pima.svm, pred.var = "glucose", plot = TRUE, rug = TRUE)
+#'
 #' }
 partial <- function(object, ...) {
   UseMethod("partial")
@@ -259,9 +261,10 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
                             parallel = parallel, paropts = paropts, ...)
     } else if (type == "classification") {
       pd.df <- pdClassification(object, pred.var = pred.var,
-                                pred.grid = pred.grid, which.class = which.class,
-                                train = train, progress = progress,
-                                parallel = parallel, paropts = paropts, ...)
+                                pred.grid = pred.grid,
+                                which.class = which.class, train = train,
+                                progress = progress, parallel = parallel,
+                                paropts = paropts, ...)
     } else {
       stop(paste("Partial dependence values are currently only available",
                  "for classification and regression problems."))

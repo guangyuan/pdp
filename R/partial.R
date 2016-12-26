@@ -73,9 +73,14 @@
 #' It is poosible to retrieve the most recent PDP constructed by \code{partial}
 #' even after it is deleted. Simply use \code{trellis.last.object()}.
 #'
+#' If \code{object} inherits from class \code{"gbm"} and \code{pred.grid} is not
+#' specified, then \code{partial} makes an internal call to \code{gbm::plot.gbm}
+#' in order to exploit \code{gbm}'s implementation of the weighted tree
+#' traversal method described in Friedman (2001).
+#'
 #' @references
 #' J. H. Friedman. Greedy function approximation: A gradient boosting machine.
-#' \emph{Annals of Statistics}, \bold{29}: 1189-1232, 2000.
+#' \emph{Annals of Statistics}, \bold{29}: 1189-1232, 2001.
 #'
 #' @rdname partial
 #' @export
@@ -157,48 +162,6 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
                             check.class = TRUE, progress = "none",
                             parallel = FALSE, paropts = NULL, ...) {
 
-  # Error message to display when training data cannot be extracted form object
-  mssg <- paste0("The training data could not be extracted from ",
-                 deparse(substitute(object)), ". Please supply the raw ",
-                 "training data using the `train` argument in the call to ,",
-                 "`partial`.")
-
-  # Data frame
-  if (missing(train)) {
-    if (inherits(object, "BinaryTree") || inherits(object, "RandomForest")) {
-      train <- object@data@get("input")
-    } else if (inherits(object, "train")) {
-      train <- object$trainingData
-      train$.outcome <- NULL  # remove .outcome column
-    } else if (isS4(object)) {
-      stop(mssg)
-    } else {
-      if (is.null(object$call$data)) {
-        stop(mssg)
-      } else {
-        train <- eval(object$call$data)
-        if (!(is.data.frame(train))) {
-          if (is.matrix(train)) {
-            train <- as.data.frame(train)
-          } else {
-            stop(mssg)
-          }
-        }
-      }
-    }
-  }
-
-  # Throw error message if predictor names not found in training data
-  if (!all(pred.var %in% names(train))) {
-    stop(paste(paste(pred.var[!(pred.var %in% names(train))], collapse = ", "),
-               "not found in the training data."))
-  }
-
-  # Throw an error message of one of the predictors is labelled "y"
-  if ("y" %in% pred.var) {
-    stop("\"y\" cannot be a predictor name.")
-  }
-
   # Construct partial dependence data
   if (inherits(object, "gbm") && missing(pred.grid)) {
 
@@ -206,8 +169,6 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
     if (is.null(grid.resolution)) {
       grid.resolution <- 100
     }
-
-    # FIXME: This behavior needs to be documented!
 
     # Call gbm::plot.gbm directly; this is MUCH FASTER!
     pd.df <- gbm::plot.gbm(object, i.var = pred.var,
@@ -231,6 +192,27 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
     }
 
   } else {
+
+    # If not supplied, try to extract training data from object
+    if (missing(train)) {
+      train <- getTrainingData(object)
+    }
+
+    # Allow column position specification
+    if (is.numeric(pred.var)) {
+      pred.var <- names(train)[pred.var]
+    }
+
+    # Throw error message if predictor names not found in training data
+    if (!all(pred.var %in% names(train))) {
+      stop(paste(paste(pred.var[!(pred.var %in% names(train))], collapse = ", "),
+                 "not found in the training data."))
+    }
+
+    # Throw an error message of one of the predictors is labelled "y"
+    if ("y" %in% pred.var) {
+      stop("\"y\" cannot be a predictor name.")
+    }
 
     # Predictor values of interest
     if (missing(pred.grid)) {

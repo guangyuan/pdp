@@ -103,6 +103,11 @@ call to \code{partial}.
 
 It is poosible to retrieve the most recent PDP constructed by \code{partial}
 even after it is deleted. Simply use \code{trellis.last.object()}.
+
+If \code{object} inherits from class \code{"gbm"} and \code{pred.grid} is not
+specified, then \code{partial} makes an internal call to \code{gbm::plot.gbm}
+in order to exploit \code{gbm}'s implementation of the weighted tree
+traversal method described in Friedman (2001).
 }
 \examples{
 \dontrun{
@@ -171,6 +176,6 @@ partial(pima.svm, pred.var = "glucose", plot = TRUE, rug = TRUE)
 }
 \references{
 J. H. Friedman. Greedy function approximation: A gradient boosting machine.
-\emph{Annals of Statistics}, \bold{29}: 1189-1232, 2000.
+\emph{Annals of Statistics}, \bold{29}: 1189-1232, 2001.
 }
 

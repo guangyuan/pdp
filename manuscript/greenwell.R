@@ -287,5 +287,11 @@ dev.off()
 # # Figure 8
 # pdf("boston_xgb.pdf", width = 12, height = 4)
 X <- subset(boston, select = -cmedv)
-partial(boston.xgb, pred.var = "lstat", train = X, rug = TRUE)
+grid.arrange(
+  partial(boston.xgb, pred.var = "lstat", plot = TRUE, rug = TRUE, train = X),
+  partial(boston.xgb, pred.var = "lstat", plot = TRUE, rug = TRUE, train = X),
+  partial(boston.xgb, pred.var = c("lstat", "rm"), plot = TRUE, chull = TRUE,
+          train = X),
+  ncol = 3
+)
 # dev.off()

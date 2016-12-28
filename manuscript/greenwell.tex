@@ -16,6 +16,7 @@ Complex nonparametric models---like neural networks, random forests, and support
 % Introduction
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
+\label{sec:intro}
 
 \citet{harrison-1978-hedonic} were among the first to analyze the well-known Boston housing data. One of their goals was to find a housing value equation using data on median housing values from $n = 506$ census tracts in the suburbs of Boston from the 1970 census; see Table IV of \citet{harrison-1978-hedonic} for a description of each variable. The data violate many classical assumptions like linearity, normality, and constant variance. Nonetheless, \citeauthor{harrison-1978-hedonic}---using a combination of transformations, significance testing, and grid searches---were able to find a reasonable fitting model ($R^2 = 0.81$). Part of the payoff for there efforts was an interpretable prediction equation which is reproduced in Equation~\eqref{eqn:boston}.
 \begin{equation}
@@ -45,6 +46,8 @@ Equation~\eqref{eqn:avg_fun} can be estimated from a set of training data by
 where $\boldsymbol{z}_{i, c}$ $\left(i = 1, 2, \dots, n\right)$ are the values of $\boldsymbol{z}_c$ that occur in the training sample; that is, we average out the effects of all the other predictors in the model.
 
 Constructing a PDP \eqref{eqn:pdf} in practice is rather straightforward. To simplify, let $\boldsymbol{z}_s = x_1$ be the predictor variable of interest with unique values $\left\{x_{11}, x_{12}, \dots, x_{1k}\right\}$. The partial dependence of the response on $x_1$ can be constructed as follows:
+
+\begin{algorithm}
 \begin{enumerate}
   \item For $i \in \left\{1, 2, \dots, k\right\}$:
   \begin{enumerate}
@@ -54,7 +57,9 @@ Constructing a PDP \eqref{eqn:pdf} in practice is rather straightforward. To sim
   \end{enumerate}
   \item Plot the pairs $\left\{x_{1i}, \bar{f}_1\left(x_{1i}\right)\right\}$ for $i = 1, 2, \dotsc, k$.
 \end{enumerate}
-This can be quite computationally intensive since the algorithm involves $k$ passes over the training records. Fortunately, this can be parallelized quite easily (more on this in a later section). This algorithm can also be easily extended to larger subsets of two or more features as well.
+\caption{A simple algorithm for consructing the partial dependence of the response on a single predictor $x_1$. \label{alg:pdp}}
+\end{algorithm}
+Algorithm~\ref{alg:pdp} can be quite computationally intensive since it involves $k$ passes over the training records. Fortunately, this can be parallelized quite easily (more on this in a later section). This algorithm can also be easily extended to larger subsets of two or more features as well.
 
 Limited implementations of Friedman's PDPs are available in packages \CRANpkg{randomForest} \citep{randomForest-pkg} and \CRANpkg{gbm}, among others; these are all limited in the sense that they only apply to the models fit using the respective package. For example, the \code{partialPlot} function in \pkg{randomForest} only applies to objects of class \code{"randomForest"} and the \code{plot} function in \pkg{gbm} only applies to \code{"gbm"} objects. While the \pkg{randomForest} implementation will only allow for a single predictor, the \pkg{gbm} implementation can deal with any subset of the predictor space. Partial dependence functions are not restricted to tree-based models; they can be applied to any supervised learning algorithm (e.g., multiple linear regression and neural networks). However, to our knowledge, there is no general package for constructing PDPs  in R. For example, PDPs for a \dfn{conditional random forest} as implemented by the \code{cforest} function in the \CRANpkg{party} and \CRANpkg{partykit} packages; see \citet{party-pkg} and \citet{partykit-pkg}, respectively. The \CRANpkg{pdp} \citep{pdp-pkg} package tries to close this gap by offering a general framework for constructing PDPs that can be applied to several classes of fitted models.
 
@@ -313,7 +318,11 @@ lattice::trellis.unfocus()
 It is important to note that when using more than two predictor variables, \code{plotPartial} produces a trellis display. The first two variables given to \code{pred.var} are used for the horizontal and vertical axes, and additional variables define the panels. If the panel variables are continuous, then shingles\footnote{A shingle is a special Trellis data structure that consists of a numeric vector along with intervals that define the "levels" of the shingle. The intervals may be allowed to overlap.} are produced first using the equal count algorithm (see, for example, \code{?lattice::equal.count}). Hence, it will be more effective to use categorical variables to define the panels in higher dimensional displays when possible.
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Classification problems
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Classification problems}
+\label{sec:class}
 
 For classification problems, partial dependence functions are on a scale similar to the logit; see, for example, \citet[pp. 369---370]{hastie-elements-2009}. Suppose the response is categorical with $K$ levels, then for each class we compute
 \begin{equation}
@@ -363,45 +372,41 @@ ggplot(pd, aes(x = Petal.Width, y = Petal.Length, z = yhat, fill = yhat)) +
 \subsection{User-defined prediction functions}
 \label{sec:prediction}
 
-By default, \code{partial} constructs PDPs for regression on the response scale, and PDPs for classification on the logit\footnote{Add footnote here!} scale. However, in some cases it may be more informative to view PDPs on the probability scale.
+PDPs are essentially just averaged predictions; see, for example, step 1. (c) in Algorithm~\ref{alg:pdp}. As pointed at by \citet{goldstein-peeking-2015}, since traditional PDPs are based on the sample mean, strong interactions can conceal the complexity of the modeled relationship between the response and predictors of interest. This was part of the motivation behind \citeauthor*{goldstein-peeking-2015}'s ICE curves.
 
-It is possible to provide your own prediction function to via the \code{pred.fun} argument in the call to \code{partial}. This is useful if, for example, the user requires PDPs for classification problems on the probability scale.
+With \code{partial} it is possible to replace the mean in step 1. (c) with, say, the median, or obtain PDPs for classification problems on the raw probability scale. It is even possible to obtain ICE curves. This flexibility is due to the new \code{pred.fun} argument in \code{partial} (starting with \pkg{pdp} version 0.4.0). This argument accepts an optional prediction function that requires two arguments: \code{object} and \code{newdata}. The supplied prediction function must return either (i) a single prediction---typically an averaged prediction---or  (ii) a vector of predictions. The two examples below illustrate.
 
-By default, this function computes Equation~\eqref{eqn:pdf} and requires two arguments: \code{object} and \code{newdata}. This makes it possible to replace the sample mean in Equation~\eqref{eqn:pdf} with the median, or the logit in Equation~\eqref{eqn:avg-logit} with the predicted probaility of a particular class.
-
-The prediction function provided to \code{pred.fun} must have two specific arguments: \code{object} and \code{newdata}. Additionally, the function must return a single value---typically the mean of the predicted values.
-
-For regression problems, the default prediction function is given by
+Using the \code{pred.fun} argument it is possible to obtain PDPs for classification problems on the probability scale; we just need to write a function that extracts the predicted class probabilities of interest and then averages the result. The snippet of code below uses the fitted SVM from Section~\ref{sec:class} to extract the average predicted probability of belonging to the \code{Setosa} class.
 \begin{example}
-pred.fun <- function(object, newdata) {
-  mean(predict(object, newdata), na.rm = TRUE)
-}
-\end{example}
-which corresponds to Equation~\eqref{eqn:pdf}.
-
-To obtain PDPs on the probability scale we just need to write a function that extracts the predicted class probabilities of interest and the averages the result. The snippet of code below does uses the fitted SVM from the previous example to extract the predicted probability of belonging to the setosa species.
-\begin{example}
-probFun <- function(object, newdata) {
+pred.prob <- function(object, newdata) {  # see ?predict.svm
   pred <- predict(object, newdata, probability = TRUE)
   prob.setosa <- attr(pred, which = "probabilities")[, "setosa"]
   mean(prob.setosa)
 }
 \end{example}
-Next, we simply pass this function via the \code{pred.fun} argument in the call to \code{partial}. This result is displayed in Figure~\ref{fig:partial_iris_prob}.
+Next, we simply pass this function via the \code{pred.fun} argument in the call to \code{partial}. The result is displayed in Figure~\ref{fig:partial_iris_prob}.
 \begin{example}
 # Figure 8
-partial(iris.svm, pred.var = "Petal.Width", pred.fun = probFun, plot = TRUE,
+partial(iris.svm, pred.var = "Petal.Width", pred.fun = pred.prob, plot = TRUE,
         rug = TRUE)
 \end{example}
 
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=1.0\linewidth]{partial_iris_svm_prob}
-  \caption{Partial dependence of \code{Species} on \code{Petal.Width} and \code{Petal.Length} plotted on the probability scale; in this case, the probabiltity of belonging to the setosa species.}
+  \caption{Partial dependence of \code{Species} on \code{Petal.Width} and \code{Petal.Length} plotted on the probability scale; in this case, the probabiltity of belonging to the \code{Setosa} species.}
   \label{fig:partial_iris_prob}
 \end{figure}
 
-This argument makes \code{partial} quite flexible. For instance, it is possible to obtain the indivudal conditional expectation (ICE) curves described in \citet{goldstein-peeking-2015} and made available in the \pkg{ICEbox} package. To obtain ICE curves, the user must supply \code{pred.fun} with a function that simply returns the desired type of prediction for each observation. This is demonstarted for the Boston housing example in the code snippet below.
+\newpage
+
+For regression problems, the default prediction function is essentially
+\begin{example}
+pred.fun <- function(object, newdata) {
+  mean(predict(object, newdata), na.rm = TRUE)
+}
+\end{example}
+This corresponds to step step 1. (c) in Algorithm~\ref{alg:pdp}. Suppose we would like ICE curves instead. To accomplish this we simply need to pass a prediction function that returns a vector of predictions, one for each observation in \code{newdata}. This is demonstarted for the Boston housing example in the code snippet below.
 \begin{example}
 pred.ice <- function(object, newdata) {  # all predictions
   predict(object, newdata)
@@ -409,7 +414,8 @@ pred.ice <- function(object, newdata) {  # all predictions
 lstat.ice <- partial(boston.randomForest, pred.var = "lstat",
                      pred.fun = pred.ice)  # Figure 9 (left)
 \end{example}
-Whenever returns a data frame that also inherits from class \code{"partial.ice"}. The only difference is the addition of a new column called \code{"obs"} which indicates which observation a curve belongs to; in this example there is one for each unique observation. To further illustrate, the code below constructs ICE curves for specific quantiles of the predictions. The results, along with the typical PDP for \code{lstat}, are displayed in Figure~\ref{fig:partial_boston_ice}.
+
+Recall that \code{partial} constructs a data frame that also inherits from class \code{"partial"}. When the function supplied to \code{pred.fun} returns multiple predictions, \code{partial} instead constructs a data frame that also inherits from class \code{"partial.ice"}. The only difference is the addition of a new column called \code{"obs"} which indicates which observation a curve belongs to; in this example, there is one curve for each unique observation in \code{boston}. To further illustrate, the code below constructs ICE curves for specific quantiles of the predictions. The results, along with the traditional PDP for \code{lstat}, are displayed in Figure~\ref{fig:partial_boston_ice}.
 \begin{example}
 pred.ice.quan <- function(object, newdata) {  # quantiles of predictions
   quantile(predict(object, newdata), probs = 1:9/10)

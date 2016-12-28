@@ -172,6 +172,7 @@ getTrainingData.train <- function(object) {
     stop(mssg)
   }
   train$.outcome <- NULL  # remove .outcome column
+  train
 }
 
 

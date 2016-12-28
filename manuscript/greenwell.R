@@ -247,13 +247,13 @@ dev.off()
 # Optimize tuning parameters using 5-fold cross-validation
 library(caret)
 ctrl <- trainControl(method = "cv", number = 5, verboseIter = TRUE)
-xgb.grid <- expand.grid(nrounds = c(100, 500, 1000, 2000, 5000),
-                        max_depth = 1:6,
-                        eta = c(0.001, 0.01, 0.1, 0.5, 1),
+xgb.grid <- expand.grid(nrounds = c(500, 1000, 2000, 5000),
+                        max_depth = 1:4,
+                        eta = c(0.001, 0.01, 0.1),
                         gamma = 0,
                         colsample_bytree = 1,
                         min_child_weight = 1,
-                        subsample = 1)
+                        subsample = c(0.8, 1))
 set.seed(202)
 boston.xgb.tune <- train(x = data.matrix(subset(boston, select = -cmedv)),
                          y = boston$cmedv,
@@ -262,6 +262,7 @@ boston.xgb.tune <- train(x = data.matrix(subset(boston, select = -cmedv)),
                          trControl = ctrl,
                          tuneGrid = xgb.grid)
 plot(boston.xgb.tune)
+print(boston.xgb.tune$bestTune)
 # boston.xgb.tune$bestTune
 #    nrounds max_depth  eta gamma colsample_bytree min_child_weight
 # 44    2000         3 0.01     0                1                1

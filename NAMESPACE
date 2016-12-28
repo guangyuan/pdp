@@ -2,6 +2,7 @@
 
 S3method(partial,default)
 S3method(plotPartial,partial)
+S3method(plotPartial,partial.ice)
 S3method(topPredictors,default)
 S3method(topPredictors,train)
 export("%>%")

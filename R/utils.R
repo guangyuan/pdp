@@ -129,7 +129,7 @@ getTrainingData.default <- function(object) {
   if (isS4(object)) {
     stop(mssg)
   } else {
-    train <- eval(getCall(object)$data)
+    train <- eval(stats::getCall(object)$data)
     if (is.null(train)) {
       stop(mssg)
     } else {

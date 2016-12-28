@@ -113,6 +113,41 @@ plotPartial.partial <- function(x, smooth = FALSE, rug = FALSE, chull = FALSE,
 }
 
 
+#' @rdname plotPartial
+#' @export
+plotPartial.partial.ice <- function(x, rug = FALSE, train = NULL, ...) {
+  if (is.factor(x[[1L]])) {
+    dotplot(stats::as.formula(paste("yhat ~", names(x)[1L])), data = x,
+            groups = x$obs, type = "l", ...,
+            panel = function(xx, yy, ...) {
+              panel.xyplot(xx, yy, col = "black", ...)
+              if (rug) {
+                if (is.null(train)) {
+                  stop("The training data must be supplied for rug display.")
+                } else {
+                  panel.rug(stats::quantile(train[[names(x)[1L]]],
+                                            probs = 0:10/10, na.rm = TRUE))
+                }
+              }
+            })
+  } else {
+    xyplot(stats::as.formula(paste("yhat ~", names(x)[1L])), data = x,
+           groups = x$obs, type = "l", ...,
+           panel = function(xx, yy, ...) {
+             panel.xyplot(xx, yy, col = "black", ...)
+             if (rug) {
+               if (is.null(train)) {
+                 stop("The training data must be supplied for rug display.")
+               } else {
+                 panel.rug(stats::quantile(train[[names(x)[1L]]],
+                                           probs = 0:10/10, na.rm = TRUE))
+               }
+             }
+           })
+  }
+}
+
+
 #' @keywords internal
 pdpNumeric <- function(x, smooth, rug, train = NULL, ...) {
   xyplot(stats::as.formula(paste("yhat ~", names(x)[1L])), data = x,

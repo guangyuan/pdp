@@ -10,6 +10,10 @@
 #'   should include no more than three variables.
 #' @param pred.grid Data frame containing the joint values of the variables
 #'   listed in \code{pred.var}.
+#' @param pred.fun Optional prediction function that requires two arguments:
+#'   \code{object} and \code{newdata}. If specified, then the function must
+#'   return a single prediction or a vector of predictions (i.e., not a matrix
+#'   or data frame). Default is \code{NULL}.
 #' @param grid.resolution Integer giving the number of equally spaced points to
 #'   use (only used for the continuous variables listed in \code{pred.var} when
 #'   \code{pred.grid} is not supplied). If left \code{NULL}, it will default to
@@ -63,24 +67,38 @@
 #' training data from \code{object}. In these cases an error message is
 #' displayed requesting the user to supply the training data via the
 #' \code{train} argument in the call to \code{partial}. In most cases where
-#' \code{partial} can extract the needed training data from \code{object},
-#' it is taken from the same environment in which \code{partial} was called.
-#' Therefore, it is important to not change the data used to construct
+#' \code{partial} can extract the required training data from \code{object},
+#' it is taken from the same environment in which \code{partial} is called.
+#' Therefore, it is important to not change the training data used to construct
 #' \code{object} before calling \code{partial}. This problem is completely
 #' avoided when the training data are passed to the \code{train} argument in the
 #' call to \code{partial}.
 #'
-#' It is poosible to retrieve the most recent PDP constructed by \code{partial}
-#' even after it is deleted. Simply use \code{trellis.last.object()}.
+#' It is possible to retrieve the most recent PDP constructed by \code{partial}
+#' after it is deleted (as long as no other \code{"trellis"} objects have
+#' been created since); simply use \code{trellis.last.object()}.
 #'
-#' If \code{object} inherits from class \code{"gbm"} and \code{pred.grid} is not
-#' specified, then \code{partial} makes an internal call to \code{gbm::plot.gbm}
-#' in order to exploit \code{gbm}'s implementation of the weighted tree
-#' traversal method described in Friedman (2001).
+#' It is possible for \code{partial} to run much faster if \code{object}
+#' inherits from class \code{"gbm"}. In particular, if \code{object} inherits
+#' from class \code{"gbm"} and \code{pred.grid} is not specified, then
+#' \code{partial} makes an internal call to \code{gbm::plot.gbm} in order to
+#' exploit \code{gbm}'s implementation of the weighted tree traversal method
+#' described in Friedman (2001).
+#'
+#' If the prediction function given to \code{pred.fun} returns a prediction for
+#' each observation in \code{newdata} then the result will be a PDP for each
+#' observation. These are called individual conditional expectation (ICE)
+#' curves; see Goldstein et al. (2015) and \code{\link[ICEbox]{ice}} for
+#' details.
 #'
 #' @references
 #' J. H. Friedman. Greedy function approximation: A gradient boosting machine.
 #' \emph{Annals of Statistics}, \bold{29}: 1189-1232, 2001.
+#'
+#' Goldstein, A., Kapelner, A., Bleich, J., and Pitkin, E., Peeking Inside the
+#' Black Box: Visualizing Statistical Learning With Plots of Individual
+#' Conditional Expectation. (2014) \emph{Journal of Computational and Graphical
+#' Statistics}, \bold{24}(1): 44-65, 2015.
 #'
 #' @rdname partial
 #' @export
@@ -155,7 +173,8 @@ partial <- function(object, ...) {
 
 #' @rdname partial
 #' @export
-partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
+partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
+                            grid.resolution = NULL,
                             type = c("auto", "regression", "classification"),
                             which.class = 1L, plot = FALSE,
                             smooth = FALSE, rug = FALSE, chull = FALSE, train,
@@ -163,7 +182,7 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
                             parallel = FALSE, paropts = NULL, ...) {
 
   # Construct partial dependence data
-  if (inherits(object, "gbm") && missing(pred.grid)) {
+  if (inherits(object, "gbm") && missing(pred.grid) && is.null(pred.fun)) {
 
     # Assign value to grid.resolution
     if (is.null(grid.resolution)) {
@@ -192,6 +211,15 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
     }
 
   } else {
+
+    # Match pred.var function if not NULL
+    if (!is.null(pred.fun)) {
+      pred.fun <- match.fun(pred.fun)
+      if (!identical(names(formals(pred.fun)), c("object", "newdata"))) {
+        stop(paste0("pred.fun requires a function with only two arguments: ",
+                    "object, and newdata."))
+      }
+    }
 
     # If not supplied, try to extract training data from object
     if (missing(train)) {
@@ -239,11 +267,12 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
     # Calculate partial dependence values
     if (type == "regression") {
       pd.df <- pdRegression(object, pred.var = pred.var, pred.grid = pred.grid,
-                            train = train, progress = progress,
-                            parallel = parallel, paropts = paropts, ...)
+                            pred.fun = pred.fun, train = train,
+                            progress = progress, parallel = parallel,
+                            paropts = paropts, ...)
     } else if (type == "classification") {
       pd.df <- pdClassification(object, pred.var = pred.var,
-                                pred.grid = pred.grid,
+                                pred.grid = pred.grid, pred.fun = pred.fun,
                                 which.class = which.class, train = train,
                                 progress = progress, parallel = parallel,
                                 paropts = paropts, ...)
@@ -254,9 +283,19 @@ partial.default <- function(object, pred.var, pred.grid, grid.resolution = NULL,
 
   }
 
-  # Create data frame of partial dependence values
-  names(pd.df) <- c(pred.var, "yhat")
-  class(pd.df) <- c("data.frame", "partial")
+  # Construct an appropriate data frame
+  if (any(grepl("^yhat\\.", names(pd.df)))) {  # assume ICE curves
+    # Convert from wide to long format
+    pd.df <- stats::reshape(pd.df, varying = (length(pred.var) + 1):ncol(pd.df),
+                            direction = "long")
+    pd.df$id <- NULL  # remove id column
+    pd.df <- pd.df[, c(pred.var, "yhat", "time")]  # rearrange columns
+    names(pd.df)[ncol(pd.df)] <- "obs"  # rename "time" column
+    class(pd.df) <- c("data.frame", "partial.ice")
+  } else {
+    names(pd.df) <- c(pred.var, "yhat")
+    class(pd.df) <- c("data.frame", "partial")
+  }
 
   # Plot partial dependence function (if requested)
   if (plot) {

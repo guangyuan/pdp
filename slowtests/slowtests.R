@@ -42,8 +42,8 @@ best.iter <- gbm.perf(boston.gbm, method = "cv")
 
 # Compare plots for `lstat`
 par(mfrow = c(1, 2))
-plot(partial(boston.gbm, pred.var = "lstat", n.trees = best.iter), type = "l",
-     main = "pdp::partial")
+plot(partial(boston.gbm, pred.var = "lstat", n.trees = best.iter,
+             grid.resolution = 51), type = "l", main = "pdp::partial")
 plot(boston.gbm, i.var = "lstat", n.trees = best.iter,
      continuous.resolution = 51, main = "gbm::plot.gbm")
 
@@ -78,6 +78,19 @@ grid.arrange(
   p,
   ncol = 2
 )
+
+
+# Try user-specified response scale
+par(mfrow = c(1, 2))
+plot(partial(pima.gbm, pred.var = "glucose",
+             pred.fun = function(object, newdata) {
+               mean(predict(object, newdata, type = "response", n.trees = best.iter))
+             },
+             grid.resolution = 51, progress = "text"),
+     type = "l", main = "pdp::partial")
+plot(pima.gbm, i.var = "glucose", type = "response", n.trees = best.iter,
+     continuous.resolution = 51)
+title("gbm::plot.gbm")
 
 
 ################################################################################

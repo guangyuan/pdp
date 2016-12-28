@@ -3,6 +3,7 @@
 \name{plotPartial}
 \alias{plotPartial}
 \alias{plotPartial.partial}
+\alias{plotPartial.partial.ice}
 \title{Plotting Partial Dependence Functions}
 \usage{
 plotPartial(x, ...)
@@ -10,6 +11,8 @@ plotPartial(x, ...)
 \method{plotPartial}{partial}(x, smooth = FALSE, rug = FALSE,
   chull = FALSE, levelplot = TRUE, contour = FALSE, number = 4,
   overlap = 0.1, train = NULL, col.regions = viridis::viridis, ...)
+
+\method{plotPartial}{partial.ice}(x, rug = FALSE, train = NULL, ...)
 }
 \arguments{
 \item{x}{An object that inherits from the \code{"partial"} class.}

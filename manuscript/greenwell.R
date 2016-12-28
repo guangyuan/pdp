@@ -201,6 +201,44 @@ ggplot(pd, aes(x = Petal.Width, y = Petal.Length, z = yhat, fill = yhat)) +
   facet_grid(~ Species)
 dev.off()
 
+# Figure 8
+probFun <- function(object, newdata) {
+  pred <- predict(object, newdata, probability = TRUE)
+  prob.setosa <- attr(pred, which = "probabilities")[, "setosa"]
+  mean(prob.setosa)
+}
+pdf("partial_iris_svm_prob.pdf", width = 12, height = 4)
+grid.arrange(
+  partial(iris.svm, pred.var = "Petal.Width", pred.fun = probFun, plot = TRUE),
+  partial(iris.svm, pred.var = "Petal.Length", pred.fun = probFun, plot = TRUE),
+  partial(iris.svm, pred.var = c("Petal.Width", "Petal.Length"),
+          pred.fun = probFun, plot = TRUE),
+  ncol = 3
+)
+dev.off()
+
+# Figure 9
+pred.ice <- function(object, newdata) {
+  predict(object, newdata)
+}
+pred.ice.quan <- function(object, newdata) {
+  quantile(predict(object, newdata), probs = 1:9/10)
+}
+lstat.ice <- partial(boston.randomForest, pred.var = "lstat",
+                     pred.fun = pred.ice)
+lstat.ice.quan <- partial(boston.randomForest, pred.var = "lstat",
+                          pred.fun = pred.ice.quan)
+lstat.pdp <- partial(boston.randomForest, pred.var = "lstat")
+ylim <- c(3.196822, 52.149681)
+pdf("partial_boston_ice.pdf", width = 12, height = 4)
+grid.arrange(
+  plotPartial(lstat.ice, alpha = 0.1, ylim = ylim),
+  plotPartial(lstat.ice.quan, ylim = ylim),
+  plotPartial(lstat.pdp, ylim = ylim),
+  ncol = 3
+)
+dev.off()
+
 
 ################################################################################
 # Using partial with the XGBoost library

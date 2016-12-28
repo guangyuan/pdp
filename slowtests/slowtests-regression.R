@@ -107,6 +107,14 @@ plot(
               predictor = "lstat")
 )
 
+pred.ice.trim <- function(object, newdata) {
+  mean(predict(object, newdata, n.trees = best.iter), trim = 0.2)
+}
+lstat.ice.trim <- partial(boston.gbm, pred.var = "lstat",
+                          pred.fun = pred.ice.trim)
+plotPartial(lstat.ice.trim, main = "PDP (trimmed mean)", ylim = ylim)
+
+
 ################################################################################
 # "randomForest" objects: randomForest package
 ################################################################################

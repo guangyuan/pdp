@@ -36,7 +36,7 @@ pdRegression.xgb.Booster <- function(object, pred.var, pred.grid, pred.fun,
     temp <- train
     temp[pred.var] <- x
     out <- if (is.null(pred.fun)) {
-      pred <- stats::predict(object, newdata = temp, ...)
+      pred <- stats::predict(object, newdata = data.matrix(temp), ...)
       if (is.matrix(pred) || is.data.frame(pred)) {
         pred <- pred[, 1L, drop = TRUE]
       }

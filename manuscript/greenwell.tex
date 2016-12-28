@@ -427,7 +427,7 @@ lstat.ice.quan <- partial(boston.randomForest, pred.var = "lstat",
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=1.0\linewidth]{partial_boston_ice}
-  \caption{ICE plots and PDP for the Boston housing data. \textit{Left}: ICE curves. \textit{Middle}: Specific quantiles of ICE curves. \textit{Right}: Standard PDP.}
+  \caption{ICE curves and PDP depicting the relationship between \code{cmedv} and \code{lstat} for the Boston housing example. \textit{Left}: ICE curves. \textit{Middle}: Specific quantiles of ICE curves. \textit{Right}: Standard PDP.}
   \label{fig:partial_boston_ice}
 \end{figure}
 
@@ -448,12 +448,13 @@ library(caret)
 ctrl <- trainControl(method = "cv", number = 5, verboseIter = TRUE)
 
 # Grid of tuning values for XGBoost.
-xgb.grid <- expand.grid(nrounds = c(100, 500, 1000, 2000, 5000),
-                        max_depth = 1:6,
-                        eta = c(0.001, 0.01, 0.1, 0.5, 1),
+xgb.grid <- expand.grid(nrounds = c(1000, 2000, 3000),
+                        max_depth = 1:4,
+                        eta = c(0.001, 0.01, 0.1),
                         gamma = 0,
                         colsample_bytree = 1,
-                        min_child_weight = 1)
+                        min_child_weight = 1,
+                        subsample = c(0.5, 0.75, 1))
 
 # Train an XGBoost model
 set.seed(202)
@@ -464,7 +465,7 @@ boston.xgb <- train(x = data.matrix(subset(boston, select = -cmedv)),
                     trControl = ctrl,
                     tuneGrid = xgb.grid)
 \end{example}
-The model with the smallest root-mean-squared error (RMSE) had \code{nrounds = 2000}, \code{max\_depth = 3}, \code{eta = 0.01}, and achieved a cross-validated RMSE and $R^2$ of 2.819 and 0.905, respectively. The following snippet of code computes the partial dependence of \code{cmedv} on both \code{rm} and \code{lstat}, individually and together, and then uses \code{grid.arrange} to display all three PDPs on the same page. The results are displayed in Figure~\ref{fig:boston_xgb}.
+The model with the smallest root-mean-squared error (RMSE) had \code{nrounds = 3000}, \code{max\_depth = 3}, \code{eta = 0.01}, and \code{subsample = 0.75}; the final model achieved a cross-validated RMSE and $R^2$ of 2.789 and 0.906, respectively. The following snippet of code computes the partial dependence of \code{cmedv} on both \code{rm} and \code{lstat}, individually and together, and then uses \code{grid.arrange} to display all three PDPs on the same page. The results are displayed in Figure~\ref{fig:boston_xgb}.
 \begin{example}
 grid.arrange(
   # Figure 8 (left)

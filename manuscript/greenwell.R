@@ -247,13 +247,13 @@ dev.off()
 # Optimize tuning parameters using 5-fold cross-validation
 library(caret)
 ctrl <- trainControl(method = "cv", number = 5, verboseIter = TRUE)
-xgb.grid <- expand.grid(nrounds = c(500, 1000, 2000, 5000),
+xgb.grid <- expand.grid(nrounds = c(1000, 2000, 3000),
                         max_depth = 1:4,
                         eta = c(0.001, 0.01, 0.1),
                         gamma = 0,
                         colsample_bytree = 1,
                         min_child_weight = 1,
-                        subsample = c(0.8, 1))
+                        subsample = c(0.5, 0.75, 1))
 set.seed(202)
 boston.xgb.tune <- train(x = data.matrix(subset(boston, select = -cmedv)),
                          y = boston$cmedv,
@@ -270,27 +270,22 @@ set.seed(102)
 boston.xgb <- xgboost(data = data.matrix(subset(boston, select = -cmedv)),
                       label = boston$cmedv,
                       objective = "reg:linear",
-                      nrounds = 2000,
+                      nrounds = 3000,
                       max_depth = 3,
-                      eta = 0.01)
+                      eta = 0.01,
+                      subsample = 0.75)
 
 # Figure 8
 pdf("boston_xgb.pdf", width = 12, height = 4)
 grid.arrange(
-  partial(boston.xgb.tune, pred.var = "rm", plot = T, rug = T),
   partial(boston.xgb.tune, pred.var = "lstat", plot = T, rug = T),
+  partial(boston.xgb.tune, pred.var = "rm", plot = T, rug = T),
   partial(boston.xgb.tune, pred.var = c("lstat", "rm"), plot = T, chull = T),
   ncol = 3)
 dev.off()
 
 # # Figure 8
 # pdf("boston_xgb.pdf", width = 12, height = 4)
-# X <- subset(boston, select = -cmedv)
-# pdp1 <- plotPartial(partial(boston.xgb, pred.var = "lstat", train = X),
-#                     rug = TRUE, smooth = TRUE, train = X)
-# pdp2 <- plotPartial(partial(boston.xgb, pred.var = "rm", train = X),
-#                     rug = TRUE, smooth = TRUE, train = X)
-# pdp3 <- plotPartial(partial(boston.xgb, pred.var = c("lstat", "rm"),
-#                             chull = TRUE, train = X), rug = TRUE, train = X)
-# grid.arrange(pdp1, pdp2, pdp3, ncol = 3)
+X <- subset(boston, select = -cmedv)
+partial(boston.xgb, pred.var = "lstat", train = X, rug = TRUE)
 # dev.off()

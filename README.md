@@ -74,9 +74,13 @@ data (pima)  # load the boston housing data
 pima.svm <- ksvm(diabetes ~ ., data = pima, type = "C-svc", kernel = "rbfdot",
                  C = 0.5, prob.model = TRUE)
 
-# Partial dependence of glucose and age on diabetes test result (neg/pos). 
-partial(pima.svm, pred.var = c("glucose", "age"), plot = TRUE, chull = TRUE,
-        train = pima)
+# Partial dependence of glucose and age on diabetes test result (neg/pos).
+grid.arrange(
+  partial(pima.svm, pred.var = "glucose", plot = TRUE, train = pima),
+  partial(pima.svm, pred.var = "age", plot = TRUE, train = pima),
+  partial(pima.svm, pred.var = c("glucose", "age"), plot = TRUE, train = pima),
+  ncol = 3
+)
 ```
 
 ![](README_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
@@ -97,17 +101,17 @@ ctrl <- trainControl(method = "cv", number = 5)
 
 # Grid of tuning parameter values
 xgb.grid <- expand.grid(
-  nrounds = 500,
-  max_depth = 1:6,
-  eta = c(0.001, 0.01, 0.1, 0.2, 0.3, 0.5),
+  nrounds = c(1000, 2000),
+  max_depth = 2:4,
+  eta = c(0.001, 0.01, 0.1),
   gamma = 0, 
   colsample_bytree = 1,
   min_child_weight = 1,
-  subsample = 1
+  subsample = c(0.5, 0.75, 1)
 )
 
-# Tune a support vector machine (SVM) using a radial basis function kerel to
-# the Pima Indians diabetes data. This may take a few minutes!
+# Tune am XGBoost model to the Pima Indians diabetes data. This may take a few 
+# minutes!
 set.seed(103)  # for reproducibility
 pima.xgb <- train(diabetes ~ ., data = pima, method = "xgbTree",
                   prob.model = TRUE, na.action = na.omit, trControl = ctrl,

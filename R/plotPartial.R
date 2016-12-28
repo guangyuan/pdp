@@ -52,26 +52,43 @@ plotPartial.partial <- function(x, smooth = FALSE, rug = FALSE, chull = FALSE,
                                 col.regions = viridis::viridis,
                                 ...) {
 
+  # Determine of x contains multiple PDPs
+  multi <- if ("yhat.id" %in% names(x)) {
+    TRUE
+  } else {
+    FALSE
+  }
+
   # Determine number of variables to plot
-  nx <- ncol(x) - 1  # don't count response
-  if (!(nx %in% 1:3)) {
+  nx <- if (multi) {
+    ncol(x) - 2  # don't count yhat or yhat.id
+  } else {
+    ncol(x) - 1  # don't count yhat
+  }
+
+  # Throw error if too difficult to plot
+  if ((!multi && !(nx %in% 1:3)) || (multi && (nx > 1))) {
     stop("Too many variables to plot. Try using lattice or ggplot2 directly.")
   }
 
-  # Single predictor
-  if (nx == 1) {
+  # Determine which type of plot to produce
+  if (multi) {
 
-    # PDPs for a single predictor
+    # Multiple PDPs for a single predictor
+    p <- pdpMulti(x, rug = rug, train = train, ...)
+
+  } else if (nx == 1) {
+
+    # PDP for a single predictor
     p <- if (is.factor(x[[1L]])) {
       pdpFactor(x, ...)
     } else {
       pdpNumeric(x, rug = rug, smooth = smooth, train = train, ...)
     }
 
-    # Two predictors
   } else if (nx == 2) {
 
-    # PDPs for two predictors
+    # PDP for two predictors
     p <- if (is.factor(x[[1L]]) && is.factor(x[[2L]])) {
       pdpFactorFactor(x, ...)
     } else if (is.factor(x[[1L]]) || is.factor(x[[2L]])) {
@@ -82,7 +99,6 @@ plotPartial.partial <- function(x, smooth = FALSE, rug = FALSE, chull = FALSE,
                         ...)
     }
 
-    # More than two predictors
   } else {
 
     # Convert additional predictors to factors using the equal count algorithm
@@ -92,7 +108,7 @@ plotPartial.partial <- function(x, smooth = FALSE, rug = FALSE, chull = FALSE,
       }
     }
 
-    # PDPs for more than two predictors
+    # PDP for more than two predictors
     p <- if (is.factor(x[[1L]]) && is.factor(x[[2L]])) {
       pdpFactorFactorShingle(x, nx = nx, ...)
     } else if (is.factor(x[[1L]]) || is.factor(x[[2L]])) {
@@ -113,14 +129,13 @@ plotPartial.partial <- function(x, smooth = FALSE, rug = FALSE, chull = FALSE,
 }
 
 
-#' @rdname plotPartial
-#' @export
-plotPartial.partial.ice <- function(x, rug = FALSE, train = NULL, ...) {
+#' @keywords internal
+pdpMulti <- function(x, rug = FALSE, train = NULL, ...) {
   if (is.factor(x[[1L]])) {
     dotplot(stats::as.formula(paste("yhat ~", names(x)[1L])), data = x,
-            groups = x$obs, type = "l", ...,
+            groups = x$yhat.id, type = "l", ...,
             panel = function(xx, yy, ...) {
-              panel.xyplot(xx, yy, col = "black", ...)
+              panel.dotplot(xx, yy, col = "black", ...)
               if (rug) {
                 if (is.null(train)) {
                   stop("The training data must be supplied for rug display.")
@@ -132,7 +147,7 @@ plotPartial.partial.ice <- function(x, rug = FALSE, train = NULL, ...) {
             })
   } else {
     xyplot(stats::as.formula(paste("yhat ~", names(x)[1L])), data = x,
-           groups = x$obs, type = "l", ...,
+           groups = x$yhat.id, type = "l", ...,
            panel = function(xx, yy, ...) {
              panel.xyplot(xx, yy, col = "black", ...)
              if (rug) {

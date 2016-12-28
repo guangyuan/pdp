@@ -21,7 +21,11 @@ pdClassification.default <- function(object, pred.var, pred.grid, pred.fun,
     if (length(out) == 1) {
       stats::setNames(out, "yhat")
     } else {
-      stats::setNames(out, paste0("yhat.", 1L:length(out)))
+      if (is.null(names(out))) {
+        stats::setNames(out, paste0("yhat.", 1L:length(out)))
+      } else {
+        stats::setNames(out, paste0("yhat.", names(out)))
+      }
     }
   }, .progress = progress, .parallel = parallel, .paropts = paropts)
 }
@@ -43,7 +47,11 @@ pdClassification.glm <- function(object, pred.var, pred.grid, pred.fun,
     if (length(out) == 1) {
       stats::setNames(out, "yhat")
     } else {
-      stats::setNames(out, paste0("yhat.", 1L:length(out)))
+      if (is.null(names(out))) {
+        stats::setNames(out, paste0("yhat.", 1L:length(out)))
+      } else {
+        stats::setNames(out, paste0("yhat.", names(out)))
+      }
     }
   }, .progress = progress, .parallel = parallel, .paropts = paropts)
 }
@@ -65,7 +73,11 @@ pdClassification.bagging <- function(object, pred.var, pred.grid, pred.fun,
     if (length(out) == 1) {
       stats::setNames(out, "yhat")
     } else {
-      stats::setNames(out, paste0("yhat.", 1L:length(out)))
+      if (is.null(names(out))) {
+        stats::setNames(out, paste0("yhat.", 1L:length(out)))
+      } else {
+        stats::setNames(out, paste0("yhat.", names(out)))
+      }
     }
   }, .progress = progress, .parallel = parallel, .paropts = paropts)
 }
@@ -87,7 +99,11 @@ pdClassification.boosting <- function(object, pred.var, pred.grid, pred.fun,
     if (length(out) == 1) {
       stats::setNames(out, "yhat")
     } else {
-      stats::setNames(out, paste0("yhat.", 1L:length(out)))
+      if (is.null(names(out))) {
+        stats::setNames(out, paste0("yhat.", 1L:length(out)))
+      } else {
+        stats::setNames(out, paste0("yhat.", names(out)))
+      }
     }
   }, .progress = progress, .parallel = parallel, .paropts = paropts)
 }
@@ -113,7 +129,11 @@ pdClassification.gbm <- function(object, pred.var, pred.grid, pred.fun,
     if (length(out) == 1) {
       stats::setNames(out, "yhat")
     } else {
-      stats::setNames(out, paste0("yhat.", 1L:length(out)))
+      if (is.null(names(out))) {
+        stats::setNames(out, paste0("yhat.", 1L:length(out)))
+      } else {
+        stats::setNames(out, paste0("yhat.", names(out)))
+      }
     }
   }, .progress = progress, .parallel = parallel, .paropts = paropts)
 }
@@ -140,7 +160,11 @@ pdClassification.xgb.Booster <- function(object, pred.var, pred.grid, pred.fun,
     if (length(out) == 1) {
       stats::setNames(out, "yhat")
     } else {
-      stats::setNames(out, paste0("yhat.", 1L:length(out)))
+      if (is.null(names(out))) {
+        stats::setNames(out, paste0("yhat.", 1L:length(out)))
+      } else {
+        stats::setNames(out, paste0("yhat.", names(out)))
+      }
     }
   }, .progress = progress, .parallel = parallel, .paropts = paropts)
 }
@@ -166,7 +190,11 @@ pdClassification.ksvm <- function(object, pred.var, pred.grid, pred.fun,
     if (length(out) == 1) {
       stats::setNames(out, "yhat")
     } else {
-      stats::setNames(out, paste0("yhat.", 1L:length(out)))
+      if (is.null(names(out))) {
+        stats::setNames(out, paste0("yhat.", 1L:length(out)))
+      } else {
+        stats::setNames(out, paste0("yhat.", names(out)))
+      }
     }
   }, .progress = progress, .parallel = parallel, .paropts = paropts)
 }
@@ -192,7 +220,11 @@ pdClassification.nnet <- function(object, pred.var, pred.grid, pred.fun,
     if (length(out) == 1) {
       stats::setNames(out, "yhat")
     } else {
-      stats::setNames(out, paste0("yhat.", 1L:length(out)))
+      if (is.null(names(out))) {
+        stats::setNames(out, paste0("yhat.", 1L:length(out)))
+      } else {
+        stats::setNames(out, paste0("yhat.", names(out)))
+      }
     }
   }, .progress = progress, .parallel = parallel, .paropts = paropts)
 }
@@ -219,7 +251,11 @@ pdClassification.svm <- function(object, pred.var, pred.grid, pred.fun,
     if (length(out) == 1) {
       stats::setNames(out, "yhat")
     } else {
-      stats::setNames(out, paste0("yhat.", 1L:length(out)))
+      if (is.null(names(out))) {
+        stats::setNames(out, paste0("yhat.", 1L:length(out)))
+      } else {
+        stats::setNames(out, paste0("yhat.", names(out)))
+      }
     }
   }, .progress = progress, .parallel = parallel, .paropts = paropts)
 }

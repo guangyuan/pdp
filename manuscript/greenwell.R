@@ -46,6 +46,7 @@ setwd("manuscript")
 # Load required packages
 library(doParallel)
 library(caret)
+library(dplyr)
 library(e1071)
 library(earth)
 library(ggplot2)
@@ -196,7 +197,7 @@ pdf("partial_iris_svm.pdf", width = 12, height = 4)
 ggplot(pd, aes(x = Petal.Width, y = Petal.Length, z = yhat, fill = yhat)) +
   geom_tile() +
   geom_contour(color = "white", alpha = 0.5) +
-  scale_fill_distiller(name = "Logit", palette = "Spectral") +
+  scale_fill_distiller(name = "Centered\nlogit", palette = "Spectral") +
   theme_bw() +
   facet_grid(~ Species)
 dev.off()
@@ -238,6 +239,33 @@ grid.arrange(
   ncol = 3
 )
 dev.off()
+
+# Use partial to obtain ICE curves for age
+pred.ice <- function(object, newdata) predict(object, newdata)
+age.ice <- partial(boston.randomForest, pred.var = "age", pred.fun = pred.ice)
+
+# Post-process age.ice to obtain c-ICE curves
+age.ice <- age.ice %>%
+  group_by(yhat.id) %>%
+  mutate(yhat.centered = yhat - first(yhat))
+
+# ICE curves
+p1 <- ggplot(age.ice, aes(age, yhat)) +
+  geom_line(aes(group = yhat.id), alpha = 0.3) +
+  stat_summary(fun.y = mean, geom = "line", col = "red", size = 2)
+
+# c-ICE curves
+p2 <- ggplot(age.ice, aes(age, yhat.centered)) +
+  geom_line(aes(group = yhat.id), alpha = 0.3) +
+  stat_summary(fun.y = mean, geom = "line", col = "red", size = 2)
+
+# Figure 10
+pdf("partial_boston_ice_pdp.pdf", width = 8, height = 4)
+grid.arrange(p1, p2, ncol = 2)
+dev.off()
+
+
+
 
 
 ################################################################################

@@ -28,9 +28,9 @@ Complex nonparametric models---like neural networks, random forests, and support
 \end{split}
 \end{equation}
 
-Nowadays, supervised learning algorithms can fit the data automatically in seconds---typically with higher accuracy. (We will revisit the Boston housing data in Section~\ref{sec:boston}.) The downfall, however, is some loss of interpretation; for example, there is usually no simple prediction formula like in Equation~\eqref{eqn:boston}. Fortunately, these methods can still provide insight into the data, but it is not in the form of simple equations. For example, many modern methods, like boosting and random forests, can assign importance scores to all of the predictors in the training data.
+Nowadays, many supervised learning algorithms can fit the data automatically in seconds---typically with higher accuracy. (We will revisit the Boston housing data in Section~\ref{sec:boston}.) The downfall, however, is some loss of interpretation; for example, there is usually no simple prediction formula like in Equation~\eqref{eqn:boston}. Fortunately, these models can still provide insight into the data, but it is not in the form of simple equations. For example, many modern methods, like boosting and random forests, can assign importance scores to all of the predictors in the training data.
 
-Determining predictor importance is a crucial task in any supervised learning problem. However, ranking variables is only part of the story and once a subset of "important" features is identified it is often necessary to assess the relationship between them (or subset thereof) and the response. This can be done in many ways, but in machine learning it is often accomplished by constructing \dfn{partial dependence plots} (PDPs); see \citet{friedman-2001-greedy} for details. PDPs help visualize the relationship between a subset of the features (typically 1-3) and the response while accounting for the average effect of the other predictors in the model. They are particularly effective with black box models like random forests and support vector machines.
+While determining predictor importance is a crucial task in any supervised learning problem, ranking variables is only part of the story and once a subset of "important" features is identified it is often necessary to assess the relationship between them (or subset thereof) and the response. This can be done in many ways, but in machine learning it is often accomplished by constructing \dfn{partial dependence plots} (PDPs); see \citet{friedman-2001-greedy} for details. PDPs help visualize the relationship between a subset of the features (typically 1-3) and the response while accounting for the average effect of the other predictors in the model. They are particularly effective with black box models like random forests and support vector machines.
 
 Let $\boldsymbol{x} = \left\{x_1, x_2, \dots, x_p\right\}$ represent the predictors in a model whose prediction function is $\widehat{f}\left(\boldsymbol{x}\right)$. If we partition $\boldsymbol{x}$ into an interest set, $\boldsymbol{z}_s$, and its compliment, $\boldsymbol{z}_c = \boldsymbol{x} \setminus \boldsymbol{z}_s$, then the "partial dependence" of the response on $\boldsymbol{z}_s$ is defined as
 \begin{equation}
@@ -65,7 +65,7 @@ Limited implementations of Friedman's PDPs are available in packages \CRANpkg{ra
 
 The \CRANpkg{plotmo} package \citep{plotmo-pkg} is one alternative to \pkg{pdp}. According to its author, \pkg{plotmo} constructs "a poor man's partial dependence plot." In particular, it plots a model's response when varying one or two predictors while holding the other predictors in the model constant (continuous features are fixed at their median value, while factors are held at their first level). These plots allow for up to two variables at a time. They are also less accurate than PDPs, but are faster to construct. For additive models (i.e., models with no interactions), these plots are identical in shape to PDPs.
 
-PDPs can be misleading in the presence of substantial interactions \citep{goldstein-peeking-2015}. To overcome this issue \citeauthor*{goldstein-peeking-2015} developed the concept of \dfn{individual conditional expectation} (ICE) plots---available in the \CRANpkg{ICEbox} package. \pkg{ICEbox} only allows for one variable at a time (i.e., no multivariate displays), though color can be used effectively to display information about an additional predictor. The ability to construct derivative plots is also available in \pkg{ICEbox}.
+PDPs can be misleading in the presence of substantial interactions \citep{goldstein-peeking-2015}. To overcome this issue \citeauthor*{goldstein-peeking-2015} developed the concept of \dfn{individual conditional expectation} (ICE) plots---available in the \CRANpkg{ICEbox} package. ICE plots display the estimated relationship between the response and a predictor of interest for each observation. Consequently, the PDP for a predictor of interest can be obtained by averaging the corresponding ICE curves across all observations. In Section~\ref{sec:prediction}, it is shown how to obtain ICE curves using the \pkg{pdp} package (which is slightly faster than \pkg{ICEbox}). \pkg{ICEbox} only allows for one variable at a time (i.e., no multivariate displays), though color can be used effectively to display information about an additional predictor. The ability to construct centered ICE (c-ICE) plots and derivative ICE (d-ICE) plots is also available in \pkg{ICEbox}; c-ICE plots help visualize heterogeneity in the modeled relationship between observations, and d-ICE plots help to explore interaction effects.
 
 Many other techniques exist for visualizing relationships between the predictors and the response based on a fitted model. For example, the \CRANpkg{car} package \citep{fox-car-2011} contains many functions for constructing partial-residual and marginal-model plots. The \CRANpkg{effects} package \citep{fox-effects-2003} is also of interest. It provides tabular and graphical displays for the terms in parametric models. However, these methods were designed for simpler parametric models (e.g., linear and generalized linear models), whereas \pkg{plotmo}, \pkg{ICEbox}, and \pkg{pdp} are more useful for black box models (although, they can be used for simple parametric models as well).
 
@@ -76,13 +76,13 @@ Many other techniques exist for visualizing relationships between the predictors
 \section{Constructing PDPs in R}
 \label{sec:boston}
 
-The \pkg{pdp} package is useful for constructing PDPs for many classes of fitted models in R. PDPs are especially useful for visualizing the relationships discovered by complex machine learning algorithms such as a random forest. The latest stable release is available from \href{https://cran.r-project.org/package=pdp}{CRAN}. The development version is located on GitHub: \url{https://github.com/bgreenwell/pdp}. Bug reports and suggestions are appreciated and should be submitted to \url{https://github.com/bgreenwell/pdp/issues}. Currently, only two functions are exported by \pkg{pdp}:
+The \pkg{pdp} package is useful for constructing PDPs for many classes of fitted models in R. PDPs are especially useful for visualizing the relationships discovered by complex machine learning algorithms such as a random forest. The latest stable release is available from \href{https://cran.r-project.org/package=pdp}{CRAN}. The development version is located on GitHub: \url{https://github.com/bgreenwell/pdp}. Bug reports and suggestions are appreciated and should be submitted to \url{https://github.com/bgreenwell/pdp/issues}. The two most important functions exported by \pkg{pdp} are:
 \begin{itemize}
   \item \code{partial}
   \item \code{plotPartial}
 \end{itemize}
 
-The \code{partial} function evaluates the partial dependence \eqref{eqn:pdf} from a fitted model over a grid of predictor values; the fitted model and predictors are specified using the \code{object} and \code{pred.var} arguments, respectively---these are the only required arguments. If \code{plot = FALSE} (the default), \code{partial} returns an object of class \code{"partial"} which inherits from the class \code{"data.frame"}; put another way, by default, \code{partial} returns a data frame with an additional class that is recognized by the \code{plotPartial} function. The columns of the data frame are labeled in the same order as the features supplied to \code{pred.var}, and the last column is always labeled \code{yhat} and contains the values of the partial dependence function $\bar{f}_s\left(\boldsymbol{z}_s\right)$. If \code{plot = TRUE}, then \code{partial} makes an internal call to \code{plotPartial} and returns the PDP in the form of a \CRANpkg{lattice} plot \citep{lattice-pkg}.
+The \code{partial} function evaluates the partial dependence \eqref{eqn:pdf} from a fitted model over a grid of predictor values; the fitted model and predictors are specified using the \code{object} and \code{pred.var} arguments, respectively---these are the only required arguments. If \code{plot = FALSE} (the default), \code{partial} returns an object of class \code{"partial"} which inherits from the class \code{"data.frame"}; put another way, by default, \code{partial} returns a data frame with an additional class that is recognized by the \code{plotPartial} function. The columns of the data frame are labeled in the same order as the features supplied to \code{pred.var}, and the last column is always labeled \code{yhat}\footnote{There is one exception to this. When a function supplied via the \code{pred.fun} argument (this argument is discussed in Section~\ref{sec:prediction}) returns multiple predictions, the last two columns will be labeled \code{yhat} and \code{yhat.id}.} and contains the values of the partial dependence function $\bar{f}_s\left(\boldsymbol{z}_s\right)$. If \code{plot = TRUE}, then \code{partial} makes an internal call to \code{plotPartial} and returns the PDP in the form of a \CRANpkg{lattice} plot \citep{lattice-pkg}.
 
 The \code{plotPartial} function can be used for displaying more advanced PDPs; it operates on objects of class \code{"partial"} and has many useful plotting options. For example, \code{plotPartial} makes it straight forward to add a LOESS smooth, or produce a 3-D surface instead of a false color level plot (the default). Of course, since the default output produced by \code{partial} is still a data frame, the user can easily use any plotting package he/she desires to visualize the results---\CRANpkg{ggplot2} \citep{ggplot2-pkg}, for instance.
 
@@ -353,7 +353,7 @@ library(ggplot2)
 ggplot(pd, aes(x = Petal.Width, y = Petal.Length, z = yhat, fill = yhat)) +
   geom_tile() +
   geom_contour(color = "white", alpha = 0.5) +
-  scale_fill_distiller(name = "Logit", palette = "Spectral") +
+  scale_fill_distiller(name = "Centered\nlogit", palette = "Spectral") +
   theme_bw() +
   facet_grid(~ Species)
 \end{example}
@@ -372,11 +372,11 @@ ggplot(pd, aes(x = Petal.Width, y = Petal.Length, z = yhat, fill = yhat)) +
 \subsection{User-defined prediction functions}
 \label{sec:prediction}
 
-PDPs are essentially just averaged predictions; see, for example, step 1. (c) in Algorithm~\ref{alg:pdp}. As pointed at by \citet{goldstein-peeking-2015}, since traditional PDPs are based on the sample mean, strong interactions can conceal the complexity of the modeled relationship between the response and predictors of interest. This was part of the motivation behind \citeauthor*{goldstein-peeking-2015}'s ICE curves.
+PDPs are essentially just averaged predictions; see, for example, step 1. (c) in Algorithm~\ref{alg:pdp}. As pointed out by \citet{goldstein-peeking-2015}, since traditional PDPs are based on the sample mean, strong interactions can conceal the complexity of the modeled relationship between the response and predictors of interest. This was part of the motivation behind \citeauthor*{goldstein-peeking-2015}'s ICE curves.
 
-With \code{partial} it is possible to replace the mean in step 1. (c) with, say, the median, or obtain PDPs for classification problems on the raw probability scale. It is even possible to obtain ICE curves. This flexibility is due to the new \code{pred.fun} argument in \code{partial} (starting with \pkg{pdp} version 0.4.0). This argument accepts an optional prediction function that requires two arguments: \code{object} and \code{newdata}. The supplied prediction function must return either (i) a single prediction---typically an averaged prediction---or  (ii) a vector of predictions. The two examples below illustrate.
+With \code{partial} it is possible to replace the mean in step 1. (c) with, say, the median or trimmed mean, or obtain PDPs for classification problems on the raw probability scale. It is even possible to obtain ICE curves. This flexibility is due to the new \code{pred.fun} argument in \code{partial} (starting with \pkg{pdp} version 0.4.0). This argument accepts an optional prediction function that requires two arguments: \code{object} and \code{newdata}. The supplied prediction function must return either a single prediction or a vector of predictions. If the mean of all the predictions is returned, this is equivalent to a traditional PDP. If a vector of predictions is returned (i.e., one for each observation), then this is equivalent to the ICE plot procedure. The two examples below illustrate.
 
-Using the \code{pred.fun} argument it is possible to obtain PDPs for classification problems on the probability scale; we just need to write a function that extracts the predicted class probabilities of interest and then averages the result. The snippet of code below uses the fitted SVM from Section~\ref{sec:class} to extract the average predicted probability of belonging to the \code{Setosa} class.
+Using the \code{pred.fun} argument it is possible to obtain PDPs for classification problems on the probability scale; we just need to write a function that extracts the predicted class probabilities of interest and then averages the result. The snippet of code below uses the fitted SVM from the iris example of Section~\ref{sec:class} to extract the average predicted probability of belonging to the \code{Setosa} class.
 \begin{example}
 pred.prob <- function(object, newdata) {  # see ?predict.svm
   pred <- predict(object, newdata, probability = TRUE)
@@ -384,11 +384,18 @@ pred.prob <- function(object, newdata) {  # see ?predict.svm
   mean(prob.setosa)
 }
 \end{example}
-Next, we simply pass this function via the \code{pred.fun} argument in the call to \code{partial}. The result is displayed in Figure~\ref{fig:partial_iris_prob}.
+Next, we simply pass this function via the \code{pred.fun} argument in the call to \code{partial}. The following chunk of code uses \code{partial} and \code{grid.arrange} to construct PDPs for \code{Petal.Width} and \code{Petal.Length} on the probability scale. The results are displayed in Figure~\ref{fig:partial_iris_prob}.
 \begin{example}
-# Figure 8
-partial(iris.svm, pred.var = "Petal.Width", pred.fun = pred.prob, plot = TRUE,
-        rug = TRUE)
+grid.arrange(
+  # Figure 8 (left)
+  partial(iris.svm, pred.var = "Petal.Width", pred.fun = pred.prob, plot = TRUE),
+  # Figure 8 (middle)
+  partial(iris.svm, pred.var = "Petal.Length", pred.fun = pred.prob, plot = TRUE),
+  # Figure 8 (right)
+  partial(iris.svm, pred.var = c("Petal.Width", "Petal.Length"),
+          pred.fun = pred.prob, plot = TRUE),
+  ncol = 3
+)
 \end{example}
 
 \begin{figure}[!htbp]
@@ -415,7 +422,7 @@ lstat.ice <- partial(boston.randomForest, pred.var = "lstat",
                      pred.fun = pred.ice)  # Figure 9 (left)
 \end{example}
 
-Recall that \code{partial} constructs a data frame that also inherits from class \code{"partial"}. When the function supplied to \code{pred.fun} returns multiple predictions, \code{partial} instead constructs a data frame that also inherits from class \code{"partial.ice"}. The only difference is the addition of a new column called \code{"obs"} which indicates which observation a curve belongs to; in this example, there is one curve for each unique observation in \code{boston}. To further illustrate, the code below constructs ICE curves for specific quantiles of the predictions. The results, along with the traditional PDP for \code{lstat}, are displayed in Figure~\ref{fig:partial_boston_ice}.
+When the function supplied to \code{pred.fun} returns multiple predictions, the data frame returned by \code{partial} includes an additional column, \code{yhat.id}, that indicates which observation a curve belongs to; in this example, there is one curve for each unique observation in \code{boston}. To further illustrate, the code below constructs ICE curves for specific quantiles of the predictions. The results, along with the traditional PDP for \code{lstat}, are displayed in Figure~\ref{fig:partial_boston_ice}.
 \begin{example}
 pred.ice.quan <- function(object, newdata) {  # quantiles of predictions
   quantile(predict(object, newdata), probs = 1:9/10)
@@ -427,8 +434,42 @@ lstat.ice.quan <- partial(boston.randomForest, pred.var = "lstat",
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=1.0\linewidth]{partial_boston_ice}
-  \caption{ICE curves and PDP depicting the relationship between \code{cmedv} and \code{lstat} for the Boston housing example. \textit{Left}: ICE curves. \textit{Middle}: Specific quantiles of ICE curves. \textit{Right}: Standard PDP.}
+  \caption{ICE curves and PDP depicting the relationship between \code{cmedv} and \code{lstat} for the Boston housing example (the same $y$-axis limits are used for each plot). \textit{Left}: ICE curves. \textit{Middle}: Specific quantiles of ICE curves. \textit{Right}: Standard PDP.}
   \label{fig:partial_boston_ice}
+\end{figure}
+
+Using \CRANpkg{dplyr} \citep{dplyr-pkg}, it is rather straightforward to post-process ICE curves to obtain c-ICE curves; see Equation (4) on page 49 of \citet{goldstein-peeking-2015}. The code snippet below illustrates this for the Boston housing example using the predictor \code{age}.
+\begin{example}
+# Use partial to obtain ICE curves
+pred.ice <- function(object, newdata) predict(object, newdata)
+age.ice <- partial(boston.randomForest, pred.var = "age", pred.fun = pred.ice)
+
+# Post-process age.ice to obtain c-ICE curves
+library(dplyr)
+age.ice <- age.ice %>%
+  group_by(yhat.id) %>%
+  mutate(yhat.centered = yhat - first(yhat))
+\end{example}
+Furthermore, using \pkg{ggplot2}, we can easily display ICE curves along with the PDP. This can be accomplished by using the \code{stat\_summary} function to average the ICE curves together. The code snippet below uses \pkg{ggplot2} and \code{grid.arrange} to plot ICE curves and c-ICE curves for \code{age} in the Boston housing example. The results are displayed in Figure~\ref{fig:partial_boston_ice_pdp}; compare these to Figures 3-4 in \citet{goldstein-peeking-2015}.
+\begin{example}
+# ICE curves
+p1 <- ggplot(age.ice, aes(age, yhat)) +
+  geom_line(aes(group = yhat.id), alpha = 0.3) +
+  stat_summary(fun.y = mean, geom = "line", col = "red", size = 2)
+
+# c-ICE curves
+p2 <- ggplot(age.ice, aes(age, yhat.centered)) +
+  geom_line(aes(group = yhat.id), alpha = 0.3) +
+  stat_summary(fun.y = mean, geom = "line", col = "red", size = 2)
+
+# Figure 10
+grid.arrange(p1, p2, ncol = 2)
+\end{example}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=1.0\linewidth]{partial_boston_ice_pdp}
+  \caption{ICE curves (black curves) and PDP (red curve) depicting the relationship between \code{cmedv} and \code{age} for the Boston housing example. \textit{Left}: Uncentered. \textit{Right}: Centered.}
+  \label{fig:partial_boston_ice_pdp}
 \end{figure}
 
 

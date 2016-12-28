@@ -79,40 +79,31 @@ plot(boston.gbm, i.var = "lstat", type = "response", n.trees = best.iter,
 title("gbm::plot.gbm")
 
 
-# Plot ICE curves
-pred.ice <- function(object, newdata) {
-  predict(object, newdata, n.trees = best.iter)
-}
-pred.ice.quan <- function(object, newdata) {
-  quantile(predict(object, newdata, n.trees = best.iter), probs = 1:9/10)
-}
-lstat.ice <- partial(boston.gbm, pred.var = "lstat",
-                     pred.fun = pred.ice)
-lstat.ice.quan <- partial(boston.gbm, pred.var = "lstat",
-                          pred.fun = pred.ice.quan)
-lstat.pdp <- partial(boston.gbm, pred.var = "lstat")
-ylim <- c(5.475361, 52.642910)
+# PDPs for lstat based on the mean (left) and median (right)
 grid.arrange(
-  plotPartial(lstat.ice, alpha = 0.1, main = "ICE curves", ylim = ylim),
-  plotPartial(lstat.ice.quan, main = "ICE curve quantiles", ylim = ylim),
-  plotPartial(lstat.pdp, main = "PDP", ylim = ylim),
-  ncol = 3
+  partial(boston.gbm, pred.var = "lstat", plot = TRUE),
+  partial(boston.gbm, pred.var = "lstat", plot = TRUE,
+          pred.fun = function(object, newdata) {
+            median(predict(object, newdata, n.trees = best.iter), na.rm = TRUE)
+          }),
+  ncol = 2
 )
 
-# Compare to results from ICEbox package
-plot(
-  ICEbox::ice(boston.randomForest,
-              X = subset(boston, select = -cmedv),
-              y = boston$cmedv,
-              predictor = "lstat")
-)
+# ICE curves
+partial(boston.gbm, pred.var = "lstat", plot = TRUE,
+        pred.fun = function(object, newdata) {
+          predict(object, newdata, n.trees = best.iter)
+        })
 
-pred.ice.trim <- function(object, newdata) {
-  mean(predict(object, newdata, n.trees = best.iter), trim = 0.2)
-}
-lstat.ice.trim <- partial(boston.gbm, pred.var = "lstat",
-                          pred.fun = pred.ice.trim)
-plotPartial(lstat.ice.trim, main = "PDP (trimmed mean)", ylim = ylim)
+# PDPs based on the mean and median
+pdp <- partial(boston.gbm, pred.var = "lstat",
+               pred.fun = function(object, newdata) {
+                 c("pdp: mean" = mean(predict(object, newdata,
+                                              n.trees = best.iter)),
+                   "pdp: median" = median(predict(object, newdata,
+                                                  n.trees = best.iter)))
+               })
+lattice::xyplot(yhat ~ lstat | yhat.id, data = pdp, type = "l")
 
 
 ################################################################################
@@ -130,6 +121,7 @@ boston.randomForest <- randomForest(cmedv ~ .,
                                   ntree = 500,
                                   importance = FALSE)
 
+# PDPs for lstat based on the mean (left) and median (right)
 grid.arrange(
   partial(boston.randomForest, pred.var = "lstat", plot = TRUE),
   partial(boston.randomForest, pred.var = "lstat", plot = TRUE,
@@ -139,5 +131,28 @@ grid.arrange(
   ncol = 2
 )
 
+# ICE curves
+partial(boston.randomForest, pred.var = "lstat", plot = TRUE,
+        pred.fun = function(object, newdata) {
+          predict(object, newdata)
+        })
+
+# PDPs based on the mean and median
+pdp <- partial(boston.randomForest, pred.var = "lstat",
+               pred.fun = function(object, newdata) {
+                 c("pdp: mean" = mean(predict(object, newdata)),
+                   "pdp: median" = median(predict(object, newdata)))
+               })
+lattice::xyplot(yhat ~ lstat | yhat.id, data = pdp, type = "l")
 
 
+# Use ggplot2 to show ICE curves and PDP
+pred.ice <- function(object, newdata) predict(object, newdata)
+lstat.pdp <- partial(boston.randomForest, pred.var = "lstat", plot = TRUE)
+lstat.ice <- partial(boston.randomForest, pred.var = "lstat",
+                     pred.fun = pred.ice)
+library(ggplot2)
+lstat.icecurves <- ggplot(lstat.ice.data, aes(lstat, yhat)) +
+  geom_line(aes(group = yhat.id), alpha = 0.5) +
+  stat_summary(fun.y = mean, geom = "line", col = "red", size = 2)
+grid.arrange(lstat.icecurves, lstat.pdp, ncol = 2)

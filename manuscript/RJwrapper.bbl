@@ -1,4 +1,4 @@
-\begin{thebibliography}{38}
+\begin{thebibliography}{39}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -251,5 +251,11 @@ H.~Wickham.
 \newblock \emph{Journal of Statistical Software}, 40\penalty0 (1):\penalty0
   1--29, 2011.
 \newblock URL \url{http://www.jstatsoft.org/v40/i01/}.
+
+\bibitem[Wickham and Francois(2016)]{dplyr-pkg}
+H.~Wickham and R.~Francois.
+\newblock \emph{dplyr: A Grammar of Data Manipulation}, 2016.
+\newblock URL \url{https://CRAN.R-project.org/package=dplyr}.
+\newblock R package version 0.5.0.
 
 \end{thebibliography}

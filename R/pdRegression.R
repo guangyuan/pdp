@@ -23,7 +23,11 @@ pdRegression.default <- function(object, pred.var, pred.grid, pred.fun,
     if (length(out) == 1) {
       stats::setNames(out, "yhat")
     } else {
-      stats::setNames(out, paste0("yhat.", 1L:length(out)))
+      if (is.null(names(out))) {
+        stats::setNames(out, paste0("yhat.", 1L:length(out)))
+      } else {
+        stats::setNames(out, paste0("yhat.", names(out)))
+      }
     }
   }, .progress = progress, .parallel = parallel, .paropts = paropts)
 }
@@ -47,7 +51,11 @@ pdRegression.xgb.Booster <- function(object, pred.var, pred.grid, pred.fun,
     if (length(out) == 1) {
       stats::setNames(out, "yhat")
     } else {
-      stats::setNames(out, paste0("yhat.", 1L:length(out)))
+      if (is.null(names(out))) {
+        stats::setNames(out, paste0("yhat.", 1L:length(out)))
+      } else {
+        stats::setNames(out, paste0("yhat.", names(out)))
+      }
     }
   }, .progress = progress, .parallel = parallel, .paropts = paropts)
 }

@@ -290,12 +290,12 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
                             direction = "long")
     pd.df$id <- NULL  # remove id column
     pd.df <- pd.df[, c(pred.var, "yhat", "time")]  # rearrange columns
-    names(pd.df)[ncol(pd.df)] <- "obs"  # rename "time" column
-    class(pd.df) <- c("data.frame", "partial.ice")
+    names(pd.df)[ncol(pd.df)] <- "yhat.id"  # rename "time" column
   } else {
     names(pd.df) <- c(pred.var, "yhat")
-    class(pd.df) <- c("data.frame", "partial")
   }
+  rownames(pd.df) <- NULL  # remove row names
+  class(pd.df) <- c("data.frame", "partial")
 
   # Plot partial dependence function (if requested)
   if (plot) {

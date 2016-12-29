@@ -19,15 +19,15 @@
 \backcite {venables-modern-2002}{{3}{2.2}{Item.7}}
 \backcite {friedman-ppr-1981}{{3}{2.2}{Item.7}}
 \backcite {caret-pkg}{{3}{2.2}{table.caption.2}}
-\backcite {C50-pkg}{{4}{\caption@xref {??}{ on input line 103}}{table.caption.2}}
-\backcite {rpart-pkg}{{4}{\caption@xref {??}{ on input line 106}}{table.caption.2}}
-\backcite {adabag-pkg}{{4}{\caption@xref {??}{ on input line 107}}{table.caption.2}}
-\backcite {ipred-pkg}{{4}{\caption@xref {??}{ on input line 108}}{table.caption.2}}
-\backcite {adabag-pkg}{{4}{\caption@xref {??}{ on input line 109}}{table.caption.2}}
-\backcite {Cubist-pkg}{{4}{\caption@xref {??}{ on input line 112}}{table.caption.2}}
-\backcite {earth-pkg}{{4}{\caption@xref {??}{ on input line 119}}{table.caption.2}}
-\backcite {e1071-pkg}{{4}{\caption@xref {??}{ on input line 120}}{table.caption.2}}
-\backcite {kernlab-pkg}{{4}{\caption@xref {??}{ on input line 121}}{table.caption.2}}
+\backcite {C50-pkg}{{4}{\caption@xref {??}{ on input line 104}}{table.caption.2}}
+\backcite {rpart-pkg}{{4}{\caption@xref {??}{ on input line 107}}{table.caption.2}}
+\backcite {adabag-pkg}{{4}{\caption@xref {??}{ on input line 108}}{table.caption.2}}
+\backcite {ipred-pkg}{{4}{\caption@xref {??}{ on input line 109}}{table.caption.2}}
+\backcite {adabag-pkg}{{4}{\caption@xref {??}{ on input line 110}}{table.caption.2}}
+\backcite {Cubist-pkg}{{4}{\caption@xref {??}{ on input line 113}}{table.caption.2}}
+\backcite {earth-pkg}{{4}{\caption@xref {??}{ on input line 120}}{table.caption.2}}
+\backcite {e1071-pkg}{{4}{\caption@xref {??}{ on input line 121}}{table.caption.2}}
+\backcite {kernlab-pkg}{{4}{\caption@xref {??}{ on input line 122}}{table.caption.2}}
 \backcite {mlbench-pkg}{{4}{2.2}{table.caption.2}}
 \backcite {harrison-1978-hedonic}{{4}{2.2}{table.caption.2}}
 \backcite {magrittr-pkg}{{5}{2.2.1}{subsection.2.2.1}}
@@ -37,13 +37,14 @@
 \backcite {plyr-pkg}{{7}{2.2.4}{figure.caption.7}}
 \backcite {doMC-pkg}{{7}{2.2.4}{figure.caption.7}}
 \backcite {doParallel-pkg}{{7}{2.2.4}{figure.caption.7}}
-\backcite {breiman-1985-estimating}{{7}{2.2.4}{figure.caption.7}}
+\backcite {friedman-2001-greedy}{{7}{3}{subsection.2.2.4}}
+\backcite {breiman-1985-estimating}{{8}{2.2.4}{figure.caption.7}}
 \backcite {friedman-1991-mars}{{8}{2.2.4}{figure.caption.7}}
 \backcite {breiman-1985-estimating}{{8}{2.2.4}{figure.caption.7}}
 \backcite {hastie-elements-2009}{{9}{2.2.5}{subsection.2.2.5}}
 \backcite {goldstein-peeking-2015}{{10}{2.2.6}{subsection.2.2.6}}
 \backcite {goldstein-peeking-2015}{{10}{2.2.6}{subsection.2.2.6}}
-\backcite {dplyr-pkg}{{11}{2.2.6}{figure.caption.11}}
-\backcite {goldstein-peeking-2015}{{11}{2.2.6}{figure.caption.11}}
+\backcite {dplyr-pkg}{{12}{2.2.6}{figure.caption.11}}
+\backcite {goldstein-peeking-2015}{{12}{2.2.6}{figure.caption.11}}
 \backcite {goldstein-peeking-2015}{{12}{2.2.6}{figure.caption.11}}
 \backcite {friedman-2008-predictive}{{14}{2.3}{section.2.3}}

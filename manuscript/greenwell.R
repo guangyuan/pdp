@@ -225,11 +225,11 @@ pred.ice <- function(object, newdata) {
 pred.ice.quan <- function(object, newdata) {
   quantile(predict(object, newdata), probs = 1:9/10)
 }
-lstat.ice <- partial(boston.randomForest, pred.var = "lstat",
+lstat.ice <- partial(boston.rf, pred.var = "lstat",
                      pred.fun = pred.ice)
-lstat.ice.quan <- partial(boston.randomForest, pred.var = "lstat",
+lstat.ice.quan <- partial(boston.rf, pred.var = "lstat",
                           pred.fun = pred.ice.quan)
-lstat.pdp <- partial(boston.randomForest, pred.var = "lstat")
+lstat.pdp <- partial(boston.rf, pred.var = "lstat")
 ylim <- c(3.196822, 52.149681)
 pdf("partial_boston_ice.pdf", width = 12, height = 4)
 grid.arrange(
@@ -242,7 +242,7 @@ dev.off()
 
 # Use partial to obtain ICE curves for age
 pred.ice <- function(object, newdata) predict(object, newdata)
-age.ice <- partial(boston.randomForest, pred.var = "age", pred.fun = pred.ice)
+age.ice <- partial(boston.rf, pred.var = "age", pred.fun = pred.ice)
 
 # Post-process age.ice to obtain c-ICE curves
 age.ice <- age.ice %>%
@@ -251,21 +251,18 @@ age.ice <- age.ice %>%
 
 # ICE curves
 p1 <- ggplot(age.ice, aes(age, yhat)) +
-  geom_line(aes(group = yhat.id), alpha = 0.3) +
-  stat_summary(fun.y = mean, geom = "line", col = "red", size = 2)
+  geom_line(aes(group = yhat.id), alpha = 0.2) +
+  stat_summary(fun.y = mean, geom = "line", col = "red", size = 1)
 
 # c-ICE curves
 p2 <- ggplot(age.ice, aes(age, yhat.centered)) +
-  geom_line(aes(group = yhat.id), alpha = 0.3) +
-  stat_summary(fun.y = mean, geom = "line", col = "red", size = 2)
+  geom_line(aes(group = yhat.id), alpha = 0.2) +
+  stat_summary(fun.y = mean, geom = "line", col = "red", size = 1)
 
 # Figure 10
 pdf("partial_boston_ice_pdp.pdf", width = 8, height = 4)
 grid.arrange(p1, p2, ncol = 2)
 dev.off()
-
-
-
 
 
 ################################################################################

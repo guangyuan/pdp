@@ -18,14 +18,15 @@ Complex nonparametric models---like neural networks, random forests, and support
 \section{Introduction}
 \label{sec:intro}
 
-\citet{harrison-1978-hedonic} were among the first to analyze the well-known Boston housing data. One of their goals was to find a housing value equation using data on median housing values from $n = 506$ census tracts in the suburbs of Boston from the 1970 census; see Table IV of \citet{harrison-1978-hedonic} for a description of each variable. The data violate many classical assumptions like linearity, normality, and constant variance. Nonetheless, \citeauthor{harrison-1978-hedonic}---using a combination of transformations, significance testing, and grid searches---were able to find a reasonable fitting model ($R^2 = 0.81$). Part of the payoff for there efforts was an interpretable prediction equation which is reproduced in Equation~\eqref{eqn:boston}.
+\citet{harrison-1978-hedonic} were among the first to analyze the well-known Boston housing data. One of their goals was to find a housing value equation using data on median housing values from $n = 506$ census tracts in the suburbs of Boston from the 1970 census; see Table IV of \citet{harrison-1978-hedonic} for a description of each variable. The data violate many classical assumptions like linearity, normality, and constant variance. Nonetheless, \citeauthor{harrison-1978-hedonic}---using a combination of transformations, significance testing, and grid searches---were able to find a reasonable fitting model ($R^2 = 0.81$). Part of the payoff for there time and efforts was an interpretable prediction equation which is reproduced in Equation~\eqref{eqn:boston}.
 \begin{equation}
 \label{eqn:boston}
-\begin{split}
+\begin{aligned}
 \widehat{\log\left(MV\right)} &= 9.76 + 0.0063 RM^2 + 8.98\times10^{-5} AGE - 0.19\log\left(DIS\right) + 0.096\log\left(RAD\right) \\
   & \quad - 4.20\times10^{-4} TAX - 0.031 PTRATIO + 0.36\left(B - 0.63\right)^2 - 0.37\log\left(LSTAT\right) \\
-  & \quad - 0.012 CRIM + 8.03\times10^{-5} ZN + 2.41\times10^{-4} INDUS + 0.088 CHAS - 0.0064 NOX^2
-\end{split}
+  & \quad - 0.012 CRIM + 8.03\times10^{-5} ZN + 2.41\times10^{-4} INDUS + 0.088 CHAS \\
+  & \quad - 0.0064 NOX^2
+\end{aligned}
 \end{equation}
 
 Nowadays, many supervised learning algorithms can fit the data automatically in seconds---typically with higher accuracy. (We will revisit the Boston housing data in Section~\ref{sec:boston}.) The downfall, however, is some loss of interpretation; for example, there is usually no simple prediction formula like in Equation~\eqref{eqn:boston}. Fortunately, these models can still provide insight into the data, but it is not in the form of simple equations. For example, many modern methods, like boosting and random forests, can assign importance scores to all of the predictors in the training data.
@@ -59,7 +60,7 @@ Constructing a PDP \eqref{eqn:pdf} in practice is rather straightforward. To sim
 \end{enumerate}
 \caption{A simple algorithm for consructing the partial dependence of the response on a single predictor $x_1$. \label{alg:pdp}}
 \end{algorithm}
-Algorithm~\ref{alg:pdp} can be quite computationally intensive since it involves $k$ passes over the training records. Fortunately, this can be parallelized quite easily (more on this in a later section). This algorithm can also be easily extended to larger subsets of two or more features as well.
+Algorithm~\ref{alg:pdp} can be quite computationally intensive since it involves $k$ passes over the training records. Fortunately, this can be parallelized quite easily (more on this in Section~\ref{sec:computational}). This algorithm can also be easily extended to larger subsets of two or more features as well.
 
 Limited implementations of Friedman's PDPs are available in packages \CRANpkg{randomForest} \citep{randomForest-pkg} and \CRANpkg{gbm}, among others; these are all limited in the sense that they only apply to the models fit using the respective package. For example, the \code{partialPlot} function in \pkg{randomForest} only applies to objects of class \code{"randomForest"} and the \code{plot} function in \pkg{gbm} only applies to \code{"gbm"} objects. While the \pkg{randomForest} implementation will only allow for a single predictor, the \pkg{gbm} implementation can deal with any subset of the predictor space. Partial dependence functions are not restricted to tree-based models; they can be applied to any supervised learning algorithm (e.g., multiple linear regression and neural networks). However, to our knowledge, there is no general package for constructing PDPs  in R. For example, PDPs for a \dfn{conditional random forest} as implemented by the \code{cforest} function in the \CRANpkg{party} and \CRANpkg{partykit} packages; see \citet{party-pkg} and \citet{partykit-pkg}, respectively. The \CRANpkg{pdp} \citep{pdp-pkg} package tries to close this gap by offering a general framework for constructing PDPs that can be applied to several classes of fitted models.
 
@@ -193,20 +194,24 @@ boston.rf %>%  # the %>% operator is read as "and then"
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Multi-predictor PDPs}
 
-The benefit of using \code{partial} is threefold: (1) it is a generic function that can be used for various types of fitted models (not just random forests), (2) it will allow for any number of predictors to be used (e.g., multivariate displays), and (3) it can utilize any of the parallel backends supported by the \CRANpkg{foreach} package \citep{foreach-pkg}; we discuss parallel execution in a later section. For example, the following code chunk uses the random forest model to assess the joint effect of \code{lstat} and \code{rm} on \code{cmedv}. The \code{grid.arrange} function is then used to display three PDPs, which make use of various \code{plotPartial} options\footnote{See Section~\ref{sec:computational} for an example of how to add a label to the colorkey in these types of graphs.}, on the same graph. The result is displayed in Figure~\ref{fig:pd_lstat_rm}.
+The benefit of using \code{partial} is threefold: (1) it is a generic function that can be used for various types of fitted models (not just random forests), (2) it will allow for any number of predictors to be used (e.g., multivariate displays), and (3) it can utilize any of the parallel backends supported by the \CRANpkg{foreach} package \citep{foreach-pkg}; we discuss parallel execution in a later section. For example, the following code chunk uses the random forest model to assess the joint effect of \code{lstat} and \code{rm} on \code{cmedv}. The \code{grid.arrange} function is used to display three PDPs, which make use of various \code{plotPartial} options\footnote{See Section~\ref{sec:computational} for an example of how to add a label to the colorkey in these types of graphs.}, on the same graph. The results are displayed in Figure~\ref{fig:pd_lstat_rm}.
 \begin{example}
-rwb <- colorRampPalette(c("red", "white", "blue"))
+# Compute partial dependence data for lstat and rm
 pd <- partial(boston.rf, pred.var = c("lstat", "rm"))
-grid.arrange(
-  # Figure 3 (left)
-  plotPartial(pd),
-  # Figure 3 (middle)
-  plotPartial(pd, contour = TRUE, col.regions = rwb),
-  # Figure 3 (right)
-  plotPartial(pd, levelplot = FALSE, zlab = "cmedv", drape = TRUE,
-              colorkey = TRUE, screen = list(z = -20, x = -60)),
-  ncol = 3
-)
+
+# Default PDP
+pdp1 <- plotPartial(pd)
+
+# Add contour lines and use a different color palette
+rwb <- colorRampPalette(c("red", "white", "blue"))
+pdp2 <- plotPartial(pd, contour = TRUE, col.regions = rwb)
+
+# 3-D surface
+pdp3 <- plotPartial(pd, levelplot = FALSE, zlab = "cmedv", drape = TRUE,
+                    colorkey = TRUE, screen = list(z = -20, x = -60))
+
+# Display plots side by side (Figure 3)
+grid.arrange(pdp1, pdp2, pdp3, ncol = 3)
 \end{example}
 \strong{Note:} the default color map for level plots is the color blind-friendly matplotlib \citep{hunter-matplotlib-2007} 'viridis' color map provided by the \CRANpkg{viridis} package \citep{viridis-pkg}.
 
@@ -249,14 +254,12 @@ partial(boston.rf, pred.var = c("lstat", "rm"), plot = TRUE, chull = TRUE)
 \subsection{Addressing computational concerns}
 \label{sec:computational}
 
-Constructing PDPs can be quite computationally expensive. Several strategies are available to ease the computational burden in larger problems. For example, there is no need to compute partial dependence of \code{cmedv} using each unique value of \code{rm} in the training data (which would require $k = 446$ passes over the data!). We could get very reasonable results using a reduced number of points. Current options are to use a grid of equally spaced values in the range of the variable of interest; the number of points can be controlled using the \code{grid.resolution} option in the call to \code{partial}. Alternatively, a user-specified grid of values (e.g., containing specific quantiles of interest) can be supplied through the \code{pred.grid} argument. To demonstrate, the following snippet of code computes the partial dependence of \code{cmedv} on \code{rm} using each option, then uses \code{grid.arrange} to display all three PDPs on the same page; the results are displayed in Figure~\ref{fig:partial_manual}.
+Constructing PDPs can be quite computationally expensive\footnote{The exception is regression trees based on single-variable splits which can make use of the efficient weighted tree traversal method described in \citet{friedman-2001-greedy}, however, only the \pkg{gbm} package seems to make use of this approach; consequently, \pkg{pdp} can also exploit this strategy when used with \pkg{gbm} models (see \code{?partial} for details).} Several strategies are available to ease the computational burden in larger problems. For example, there is no need to compute partial dependence of \code{cmedv} using each unique value of \code{rm} in the training data (which would require $k = 446$ passes over the data!). We could get very reasonable results using a reduced number of points. Current options are to use a grid of equally spaced values in the range of the variable of interest; the number of points can be controlled using the \code{grid.resolution} option in the call to \code{partial}. Alternatively, a user-specified grid of values (e.g., containing specific quantiles of interest) can be supplied through the \code{pred.grid} argument. To demonstrate, the following snippet of code computes the partial dependence of \code{cmedv} on \code{rm} using each option, then uses \code{grid.arrange} to display all three PDPs on the same page; the results are displayed in Figure~\ref{fig:partial_manual}.
 \begin{example}
+# Display plots side by side (Figure 5)
 grid.arrange(
-  # Figure 5 (left)
   partial(boston.rf, "rm", plot = TRUE),
-  # Figure 5 (middle)
   partial(boston.rf, "rm", grid.resolution = 30, plot = TRUE),
-  # Figure 5 (right)
   partial(boston.rf, "rm", pred.grid = data.frame(rm = 3:9), plot = TRUE),
   ncol = 3
 )
@@ -386,12 +389,10 @@ pred.prob <- function(object, newdata) {  # see ?predict.svm
 \end{example}
 Next, we simply pass this function via the \code{pred.fun} argument in the call to \code{partial}. The following chunk of code uses \code{partial} and \code{grid.arrange} to construct PDPs for \code{Petal.Width} and \code{Petal.Length} on the probability scale. The results are displayed in Figure~\ref{fig:partial_iris_prob}.
 \begin{example}
+# Display plots side by side (Figure 8)
 grid.arrange(
-  # Figure 8 (left)
   partial(iris.svm, pred.var = "Petal.Width", pred.fun = pred.prob, plot = TRUE),
-  # Figure 8 (middle)
   partial(iris.svm, pred.var = "Petal.Length", pred.fun = pred.prob, plot = TRUE),
-  # Figure 8 (right)
   partial(iris.svm, pred.var = c("Petal.Width", "Petal.Length"),
           pred.fun = pred.prob, plot = TRUE),
   ncol = 3
@@ -405,8 +406,6 @@ grid.arrange(
   \label{fig:partial_iris_prob}
 \end{figure}
 
-\newpage
-
 For regression problems, the default prediction function is essentially
 \begin{example}
 pred.fun <- function(object, newdata) {
@@ -415,22 +414,19 @@ pred.fun <- function(object, newdata) {
 \end{example}
 This corresponds to step step 1. (c) in Algorithm~\ref{alg:pdp}. Suppose we would like ICE curves instead. To accomplish this we simply need to pass a prediction function that returns a vector of predictions, one for each observation in \code{newdata}. This is demonstarted for the Boston housing example in the code snippet below.
 \begin{example}
-pred.ice <- function(object, newdata) {  # all predictions
-  predict(object, newdata)
-}
-lstat.ice <- partial(boston.randomForest, pred.var = "lstat",
-                     pred.fun = pred.ice)  # Figure 9 (left)
+lstat.ice <- partial(boston.rf, pred.var = "lstat",
+                     pred.fun = function(object, newdata) {
+                       predict(object, newdata)
+                     })  # see Figure 9 (left)
 \end{example}
 
 When the function supplied to \code{pred.fun} returns multiple predictions, the data frame returned by \code{partial} includes an additional column, \code{yhat.id}, that indicates which observation a curve belongs to; in this example, there is one curve for each unique observation in \code{boston}. To further illustrate, the code below constructs ICE curves for specific quantiles of the predictions. The results, along with the traditional PDP for \code{lstat}, are displayed in Figure~\ref{fig:partial_boston_ice}.
 \begin{example}
-pred.ice.quan <- function(object, newdata) {  # quantiles of predictions
-  quantile(predict(object, newdata), probs = 1:9/10)
-}
-lstat.ice.quan <- partial(boston.randomForest, pred.var = "lstat",
-                          pred.fun = pred.ice.quan)  # Figure 9 (middle)
+lstat.quan <- partial(boston.rf, pred.var = "lstat",
+                      pred.fun = function(object, newdata) {
+                        quantile(predict(object, newdata), probs = 1:9/10)
+                      })  # see Figure 9 (middle)
 \end{example}
-
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=1.0\linewidth]{partial_boston_ice}
@@ -442,7 +438,7 @@ Using \CRANpkg{dplyr} \citep{dplyr-pkg}, it is rather straightforward to post-pr
 \begin{example}
 # Use partial to obtain ICE curves
 pred.ice <- function(object, newdata) predict(object, newdata)
-age.ice <- partial(boston.randomForest, pred.var = "age", pred.fun = pred.ice)
+age.ice <- partial(boston.rf, pred.var = "age", pred.fun = pred.ice)
 
 # Post-process age.ice to obtain c-ICE curves
 library(dplyr)
@@ -454,15 +450,15 @@ Furthermore, using \pkg{ggplot2}, we can easily display ICE curves along with th
 \begin{example}
 # ICE curves
 p1 <- ggplot(age.ice, aes(age, yhat)) +
-  geom_line(aes(group = yhat.id), alpha = 0.3) +
-  stat_summary(fun.y = mean, geom = "line", col = "red", size = 2)
+  geom_line(aes(group = yhat.id), alpha = 0.2) +
+  stat_summary(fun.y = mean, geom = "line", col = "red", size = 1)
 
 # c-ICE curves
 p2 <- ggplot(age.ice, aes(age, yhat.centered)) +
-  geom_line(aes(group = yhat.id), alpha = 0.3) +
-  stat_summary(fun.y = mean, geom = "line", col = "red", size = 2)
+  geom_line(aes(group = yhat.id), alpha = 0.2) +
+  stat_summary(fun.y = mean, geom = "line", col = "red", size = 1)
 
-# Figure 10
+# Display plots side by side (Figure 10)
 grid.arrange(p1, p2, ncol = 2)
 \end{example}
 \begin{figure}[!htbp]
@@ -508,12 +504,10 @@ boston.xgb <- train(x = data.matrix(subset(boston, select = -cmedv)),
 \end{example}
 The model with the smallest root-mean-squared error (RMSE) had \code{nrounds = 3000}, \code{max\_depth = 3}, \code{eta = 0.01}, and \code{subsample = 0.75}; the final model achieved a cross-validated RMSE and $R^2$ of 2.789 and 0.906, respectively. The following snippet of code computes the partial dependence of \code{cmedv} on both \code{rm} and \code{lstat}, individually and together, and then uses \code{grid.arrange} to display all three PDPs on the same page. The results are displayed in Figure~\ref{fig:boston_xgb}.
 \begin{example}
+# Display plots side by side (Figure 11)
 grid.arrange(
-  # Figure 8 (left)
   partial(boston.xgb, pred.var = "rm", plot = TRUE, rug = TRUE),
-  # Figure 8 (middle)
   partial(boston.xgb, pred.var = "lstat", plot = TRUE, rug = TRUE),
-  # Figure 8 (right)
   partial(boston.xgb, pred.var = c("lstat", "rm"), plot = TRUE, chull = TRUE),
   ncol = 3
 )

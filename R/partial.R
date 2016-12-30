@@ -184,7 +184,13 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
   # Construct partial dependence data
   if (inherits(object, "gbm") && missing(pred.grid) && is.null(pred.fun)) {
 
-    # Assign value to grid.resolution
+    # If not supplied, try to extract training data from object when plot = TRUE
+    if (plot && missing(train)) {
+      train <- getTrainingData(object)
+    }
+
+    # Make sure grid.resolution is not NULL. If it is, use the same default as
+    # continuous.resolution in gbm::plot.gbm.
     if (is.null(grid.resolution)) {
       grid.resolution <- 100
     }
@@ -192,7 +198,7 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
     # Call gbm::plot.gbm directly; this is MUCH FASTER!
     pd.df <- gbm::plot.gbm(object, i.var = pred.var,
                            continuous.resolution = grid.resolution,
-                           return.grid = TRUE)
+                           return.grid = TRUE, ...)
 
     # Restrict to convex hull of first two predictors, if requested
     if (chull) {

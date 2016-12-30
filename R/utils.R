@@ -133,11 +133,11 @@ getTrainingData.default <- function(object) {
     if (is.null(train)) {
       stop(mssg)
     } else {
-      warning(paste0("No training data given! Attempting to extract training",
-                     " data from ", deparse(substitute(object)), "'s call. ",
-                     "If available, the data will be evaluated within the ",
-                     "environment from which `partial` was called."),
-              call. = FALSE)
+      # warning(paste0("No training data given! Attempting to extract training",
+      #                " data from ", deparse(substitute(object)), "'s call. ",
+      #                "If available, the data will be evaluated within the ",
+      #                "environment from which `partial` was called."),
+      #         call. = FALSE)
       if (!(is.data.frame(train))) {
         if (is.matrix(train) || is.list(train)) {
           train <- as.data.frame(train)

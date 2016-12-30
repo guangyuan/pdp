@@ -29,7 +29,7 @@ Complex nonparametric models---like neural networks, random forests, and support
 \end{aligned}
 \end{equation}
 
-Nowadays, many supervised learning algorithms can fit the data automatically in seconds---typically with higher accuracy. (We will revisit the Boston housing data in Section~\ref{sec:boston}.) The downfall, however, is some loss of interpretation; for example, there is usually no simple prediction formula like in Equation~\eqref{eqn:boston}. Fortunately, these models can still provide insight into the data, but it is not in the form of simple equations. For example, many modern methods, like boosting and random forests, can assign importance scores to all of the predictors in the training data.
+Nowadays, many supervised learning algorithms can fit the data automatically in seconds---typically with higher accuracy. (We will revisit the Boston housing data in Section~\ref{sec:boston}.) The downfall, however, is some loss of interpretation; for example, these algorithms typically do not produce simple prediction formulas like in Equation~\eqref{eqn:boston}. Fortunately, these models can still provide insight into the data, but it is not in the form of simple equations. For example, many modern methods, like boosting and random forests, can assign importance scores to all of the predictors in the training data.
 
 While determining predictor importance is a crucial task in any supervised learning problem, ranking variables is only part of the story and once a subset of "important" features is identified it is often necessary to assess the relationship between them (or subset thereof) and the response. This can be done in many ways, but in machine learning it is often accomplished by constructing \dfn{partial dependence plots} (PDPs); see \citet{friedman-2001-greedy} for details. PDPs help visualize the relationship between a subset of the features (typically 1-3) and the response while accounting for the average effect of the other predictors in the model. They are particularly effective with black box models like random forests and support vector machines.
 
@@ -377,9 +377,9 @@ ggplot(pd, aes(x = Petal.Width, y = Petal.Length, z = yhat, fill = yhat)) +
 
 PDPs are essentially just averaged predictions; see, for example, step 1. (c) in Algorithm~\ref{alg:pdp}. As pointed out by \citet{goldstein-peeking-2015}, since traditional PDPs are based on the sample mean, strong interactions can conceal the complexity of the modeled relationship between the response and predictors of interest. This was part of the motivation behind \citeauthor*{goldstein-peeking-2015}'s ICE curves.
 
-With \code{partial} it is possible to replace the mean in step 1. (c) with, say, the median or trimmed mean, or obtain PDPs for classification problems on the raw probability scale. It is even possible to obtain ICE curves. This flexibility is due to the new \code{pred.fun} argument in \code{partial} (starting with \pkg{pdp} version 0.4.0). This argument accepts an optional prediction function that requires two arguments: \code{object} and \code{newdata}. The supplied prediction function must return either a single prediction or a vector of predictions. If the mean of all the predictions is returned, this is equivalent to a traditional PDP. If a vector of predictions is returned (i.e., one for each observation), then this is equivalent to the ICE plot procedure. The two examples below illustrate.
+With \code{partial} it is possible to replace the mean in step 1. (c) with any other function (e.g., the median or trimmed mean), or obtain PDPs for classification problems on the probability scale. It is even possible to obtain ICE curves. This flexibility is due to the new \code{pred.fun} argument in \code{partial} (starting with \pkg{pdp} version 0.4.0). This argument accepts an optional prediction function that requires two arguments: \code{object} and \code{newdata}. The supplied prediction function must return either a single prediction or a vector of predictions. If the mean of all the predictions is returned, the result will be equivalent to the traditional PDP. If a vector of predictions is returned (i.e., one for each observation), the result will be equivalent to the ICE plot procedure. The examples below illustrate.
 
-Using the \code{pred.fun} argument it is possible to obtain PDPs for classification problems on the probability scale; we just need to write a function that extracts the predicted class probabilities of interest and then averages the result. The snippet of code below uses the fitted SVM from the iris example of Section~\ref{sec:class} to extract the average predicted probability of belonging to the \code{Setosa} class.
+Using the \code{pred.fun} argument it is possible to obtain PDPs for classification problems on the probability scale; we just need to write a function that extracts the predicted class probabilities of interest and then averages the result. The function below can be used with the fitted SVM from the iris example of Section~\ref{sec:class} to extract the average predicted probability of belonging to the \code{Setosa} class.
 \begin{example}
 pred.prob <- function(object, newdata) {  # see ?predict.svm
   pred <- predict(object, newdata, probability = TRUE)
@@ -412,49 +412,40 @@ pred.fun <- function(object, newdata) {
   mean(predict(object, newdata), na.rm = TRUE)
 }
 \end{example}
-This corresponds to step step 1. (c) in Algorithm~\ref{alg:pdp}. Suppose we would like ICE curves instead. To accomplish this we simply need to pass a prediction function that returns a vector of predictions, one for each observation in \code{newdata}. This is demonstarted for the Boston housing example in the code snippet below.
-\begin{example}
-lstat.ice <- partial(boston.rf, pred.var = "lstat",
-                     pred.fun = function(object, newdata) {
-                       predict(object, newdata)
-                     })  # see Figure 9 (left)
-\end{example}
-
-When the function supplied to \code{pred.fun} returns multiple predictions, the data frame returned by \code{partial} includes an additional column, \code{yhat.id}, that indicates which observation a curve belongs to; in this example, there is one curve for each unique observation in \code{boston}. To further illustrate, the code below constructs ICE curves for specific quantiles of the predictions. The results, along with the traditional PDP for \code{lstat}, are displayed in Figure~\ref{fig:partial_boston_ice}.
-\begin{example}
-lstat.quan <- partial(boston.rf, pred.var = "lstat",
-                      pred.fun = function(object, newdata) {
-                        quantile(predict(object, newdata), probs = 1:9/10)
-                      })  # see Figure 9 (middle)
-\end{example}
-\begin{figure}[!htbp]
-  \centering
-  \includegraphics[width=1.0\linewidth]{partial_boston_ice}
-  \caption{ICE curves and PDP depicting the relationship between \code{cmedv} and \code{lstat} for the Boston housing example (the same $y$-axis limits are used for each plot). \textit{Left}: ICE curves. \textit{Middle}: Specific quantiles of ICE curves. \textit{Right}: Standard PDP.}
-  \label{fig:partial_boston_ice}
-\end{figure}
-
-Using \CRANpkg{dplyr} \citep{dplyr-pkg}, it is rather straightforward to post-process ICE curves to obtain c-ICE curves; see Equation (4) on page 49 of \citet{goldstein-peeking-2015}. The code snippet below illustrates this for the Boston housing example using the predictor \code{age}.
+This corresponds to step step 1. (c) in Algorithm~\ref{alg:pdp}. Suppose we would like ICE curves instead. To accomplish this we simply need to pass a prediction function that returns a vector of predictions, one for each observation in \code{newdata}. The code snippet below illustrates this for the Boston housing example using the predictor \code{rm}. The result is displayed in Figure~\ref{fig:ice_boston}. \strong{Note:} when the function supplied to \code{pred.fun} returns multiple predictions, the data frame returned by \code{partial} includes an additional column, \code{yhat.id}, that indicates which curve a point belongs to; in this example, there is one curve for each observation in \code{boston}.
 \begin{example}
 # Use partial to obtain ICE curves
 pred.ice <- function(object, newdata) predict(object, newdata)
 age.ice <- partial(boston.rf, pred.var = "age", pred.fun = pred.ice)
 
-# Post-process age.ice to obtain c-ICE curves
+# Figure 9
+plotPartial(age.ice, rug = TRUE, train = boston, alpha = 0.3)
+\end{example}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.8\linewidth]{ice_boston}
+  \caption{ICE curves depicting the relationship between \code{cmedv} and \code{rm} for the Boston housing example. Each curve corresponds to a different observation.}
+  \label{fig:ice_boston}
+\end{figure}
+
+The curves in Figure~\ref{fig:ice_boston} indicate some heterogeneity in the fitted model (i.e., some of the curves depict the opposite relationship). Such heterogeneity can be easier to spot using c-ICE curves; see Equation (4) on page 49 of \citet{goldstein-peeking-2015}. Using \CRANpkg{dplyr} \citep{dplyr-pkg}, it is rather straightforward to post-process the output from \code{partial} to obtain c-ICE curves (similar to the construction of \dfn{raw change scores} \citep[pg. 130]{fitzmaurice-2011-applied} for longitudinal data). This is shown below.
+\begin{example}
+# Post-process rm.ice to obtain c-ICE curves
 library(dplyr)
-age.ice <- age.ice %>%
+rm.ice <- rm.ice %>%
   group_by(yhat.id) %>%
   mutate(yhat.centered = yhat - first(yhat))
 \end{example}
-Furthermore, using \pkg{ggplot2}, we can easily display ICE curves along with the PDP. This can be accomplished by using the \code{stat\_summary} function to average the ICE curves together. The code snippet below uses \pkg{ggplot2} and \code{grid.arrange} to plot ICE curves and c-ICE curves for \code{age} in the Boston housing example. The results are displayed in Figure~\ref{fig:partial_boston_ice_pdp}; compare these to Figures 3-4 in \citet{goldstein-peeking-2015}.
+
+Since the PDP is just the average of the corresponding ICE curves, it is quite simple to display both on the same plot. This can be accomplished by using the \code{stat\_summary} function from the \pkg{ggplot2} package to average the ICE curves together. The code snippet below uses \pkg{ggplot2} and \code{grid.arrange} to plot ICE curves and c-ICE curves for the predictor \code{rm} in the Boston housing example. The results are displayed in Figure~\ref{fig:ice_cice_boston}.
 \begin{example}
-# ICE curves
-p1 <- ggplot(age.ice, aes(age, yhat)) +
+# ICE curves with their average
+p1 <- ggplot(rm.ice, aes(rm, yhat)) +
   geom_line(aes(group = yhat.id), alpha = 0.2) +
   stat_summary(fun.y = mean, geom = "line", col = "red", size = 1)
 
-# c-ICE curves
-p2 <- ggplot(age.ice, aes(age, yhat.centered)) +
+# c-ICE curves with their average
+p2 <- ggplot(rm.ice, aes(rm, yhat.centered)) +
   geom_line(aes(group = yhat.id), alpha = 0.2) +
   stat_summary(fun.y = mean, geom = "line", col = "red", size = 1)
 
@@ -463,9 +454,9 @@ grid.arrange(p1, p2, ncol = 2)
 \end{example}
 \begin{figure}[!htbp]
   \centering
-  \includegraphics[width=1.0\linewidth]{partial_boston_ice_pdp}
-  \caption{ICE curves (black curves) and PDP (red curve) depicting the relationship between \code{cmedv} and \code{age} for the Boston housing example. \textit{Left}: Uncentered. \textit{Right}: Centered.}
-  \label{fig:partial_boston_ice_pdp}
+  \includegraphics[width=1.0\linewidth]{ice_cice_boston}
+  \caption{ICE curves (black curves) and their average (red curve) depicting the relationship between \code{cmedv} and \code{rm} for the Boston housing example. \textit{Left}: Uncentered (here the red curve is just the traditional PDP). \textit{Right}: Centered.}
+  \label{fig:ice_cice_boston}
 \end{figure}
 
 

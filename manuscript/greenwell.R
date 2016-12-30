@@ -240,27 +240,32 @@ grid.arrange(
 )
 dev.off()
 
-# Use partial to obtain ICE curves for age
+# Use partial to obtain ICE curves for rm
 pred.ice <- function(object, newdata) predict(object, newdata)
-age.ice <- partial(boston.rf, pred.var = "age", pred.fun = pred.ice)
+rm.ice <- partial(boston.rf, pred.var = "rm", pred.fun = pred.ice)
 
-# Post-process age.ice to obtain c-ICE curves
-age.ice <- age.ice %>%
+# Figure 9
+pdf("ice_boston.pdf", width = 7, height = 5)
+plotPartial(rm.ice, rug = TRUE, train = boston, alpha = 0.2)
+dev.off()
+
+# Post-process rm.ice to obtain c-ICE curves
+rm.ice <- rm.ice %>%
   group_by(yhat.id) %>%
   mutate(yhat.centered = yhat - first(yhat))
 
-# ICE curves
-p1 <- ggplot(age.ice, aes(age, yhat)) +
+# ICE curves with PDP
+p1 <- ggplot(rm.ice, aes(rm, yhat)) +
   geom_line(aes(group = yhat.id), alpha = 0.2) +
   stat_summary(fun.y = mean, geom = "line", col = "red", size = 1)
 
-# c-ICE curves
-p2 <- ggplot(age.ice, aes(age, yhat.centered)) +
+# c-ICE curves with centered PDP
+p2 <- ggplot(rm.ice, aes(rm, yhat.centered)) +
   geom_line(aes(group = yhat.id), alpha = 0.2) +
   stat_summary(fun.y = mean, geom = "line", col = "red", size = 1)
 
 # Figure 10
-pdf("partial_boston_ice_pdp.pdf", width = 8, height = 4)
+pdf("ice_cice_boston.pdf", width = 8, height = 4)
 grid.arrange(p1, p2, ncol = 2)
 dev.off()
 

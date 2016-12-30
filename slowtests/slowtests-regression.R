@@ -16,6 +16,44 @@ library(pdp)
 # Load data
 data(boston)
 
+# Prediction functions
+pred.ice <- function(object, newdata) predict(object, newdata)
+pred.med <- function(object, newdata) median(predict(object, newdata))
+
+
+################################################################################
+# "cubist" objects: Cubist package
+################################################################################
+
+# Load required packages
+library(Cubist)
+
+# Fit a glm to the boston indians cmedv data
+boston.cubist <- cubist(x = subset(boston, select = -cmedv),
+                        y = boston$cmedv,
+                        committees = 100)
+
+# PDPs for lstat and rm
+grid.arrange(
+  partial(boston.cubist, pred.var = "lstat", plot = TRUE, rug = TRUE,
+          train = boston),
+  partial(boston.cubist, pred.var = "rm", plot = TRUE, rug = TRUE,
+          train = boston),
+  partial(boston.cubist, pred.var = c("lstat", "rm"), plot = TRUE,
+          chull = TRUE, train = boston),
+  ncol = 3
+)
+
+# User-specified prediction functions
+grid.arrange(
+  partial(boston.cubist, pred.var = "lstat", pred.fun = pred.ice, plot = TRUE,
+          rug = TRUE, train = boston),
+  partial(boston.cubist, pred.var = "lstat", pred.fun = pred.med, plot = TRUE,
+          rug = TRUE, train = boston),
+  ncol = 2
+)
+
+
 
 ################################################################################
 # "lm" objects: stats package
@@ -24,8 +62,47 @@ data(boston)
 # Fit a glm to the boston indians cmedv data
 boston.lm <- lm(cmedv ~ ., data = boston)
 
-# Construct a PDP for lstat
-partial(boston.lm, pred.var = "lstat", plot = TRUE)
+# PDPs for lstat and rm
+grid.arrange(
+  partial(boston.lm, pred.var = "lstat", plot = TRUE, rug = TRUE),
+  partial(boston.lm, pred.var = "rm", plot = TRUE, rug = TRUE),
+  partial(boston.lm, pred.var = c("lstat", "rm"), plot = TRUE, chull = TRUE),
+  ncol = 3
+)
+
+# User-specified prediction functions
+grid.arrange(
+  partial(boston.lm, pred.var = "lstat", pred.fun = pred.ice, plot = TRUE,
+          rug = TRUE),
+  partial(boston.lm, pred.var = "lstat", pred.fun = pred.med, plot = TRUE,
+          rug = TRUE),
+  ncol = 2
+)
+
+
+################################################################################
+# "glm" objects: stats package
+################################################################################
+
+# Fit a glm to the boston indians cmedv data
+boston.glm <- glm(cmedv ~ ., data = boston, family)
+
+# PDPs for lstat and rm
+grid.arrange(
+  partial(boston.glm, pred.var = "lstat", plot = TRUE, rug = TRUE),
+  partial(boston.glm, pred.var = "rm", plot = TRUE, rug = TRUE),
+  partial(boston.glm, pred.var = c("lstat", "rm"), plot = TRUE, chull = TRUE),
+  ncol = 3
+)
+
+# User-specified prediction functions
+grid.arrange(
+  partial(boston.glm, pred.var = "lstat", pred.fun = pred.ice, plot = TRUE,
+          rug = TRUE),
+  partial(boston.glm, pred.var = "lstat", pred.fun = pred.med, plot = TRUE,
+          rug = TRUE),
+  ncol = 2
+)
 
 
 ################################################################################
@@ -47,63 +124,36 @@ boston.gbm <- gbm(cmedv ~ .,
 best.iter <- gbm.perf(boston.gbm, method = "OOB")
 summary(boston.gbm, n.trees = best.iter, las = 1)
 
-# Compare plots for `lstat`
-par(mfrow = c(1, 2))
+# PDPs for lstat and rm
+grid.arrange(
+  partial(boston.gbm, pred.var = "lstat", plot = TRUE, rug = TRUE,
+          n.trees = best.iter),
+  partial(boston.gbm, pred.var = "rm", plot = TRUE, rug = TRUE),
+  partial(boston.gbm, pred.var = c("lstat", "rm"), plot = TRUE, chull = TRUE),
+  ncol = 3
+)
+
+# User-specified prediction functions
+grid.arrange(
+  partial(boston.gbm, pred.var = "lstat", pred.fun = function(object, newdata) {
+            predict(object, newdata, n.trees = best.iter)
+          }, plot = TRUE, rug = TRUE),
+  partial(boston.gbm, pred.var = "lstat", pred.fun = function(object, newdata) {
+            median(predict(object, newdata, n.trees = best.iter))
+          }, plot = TRUE, rug = TRUE),
+  ncol = 2
+)
+
+# Compare to gbm::plot.gbm
+par(mfrow = c(1, 3))
 plot(partial(boston.gbm, pred.var = "lstat", n.trees = best.iter), type = "l",
      main = "pdp::partial")
-plot(boston.gbm, i.var = "lstat", n.trees = best.iter,
-     continuous.resolution = 51, main = "gbm::plot.gbm")
-
-# Compare plots for `lstat` and `age`
-p <- plot(boston.gbm, i.var = c("lstat", "mass"), n.trees = best.iter,
-          continuous.resolution = 51)
-grid.arrange(
-  partial(boston.gbm, pred.var = c("lstat", "mass"), plot = TRUE,
-          chull = TRUE, progress = "text", n.trees = best.iter),
-  p,
-  ncol = 2
-)
-
-
-# Try user-specified response scale
-par(mfrow = c(1, 2))
 plot(partial(boston.gbm, pred.var = "lstat",
              pred.fun = function(object, newdata) {
-               median(predict(object, newdata, type = "response",
-                            n.trees = best.iter))
-             },
-             grid.resolution = 51, progress = "text"),
-     type = "l", main = "pdp::partial")
-plot(boston.gbm, i.var = "lstat", type = "response", n.trees = best.iter,
-     continuous.resolution = 51)
-title("gbm::plot.gbm")
-
-
-# PDPs for lstat based on the mean (left) and median (right)
-grid.arrange(
-  partial(boston.gbm, pred.var = "lstat", plot = TRUE),
-  partial(boston.gbm, pred.var = "lstat", plot = TRUE,
-          pred.fun = function(object, newdata) {
-            median(predict(object, newdata, n.trees = best.iter), na.rm = TRUE)
-          }),
-  ncol = 2
-)
-
-# ICE curves
-partial(boston.gbm, pred.var = "lstat", plot = TRUE,
-        pred.fun = function(object, newdata) {
-          predict(object, newdata, n.trees = best.iter)
-        })
-
-# PDPs based on the mean and median
-pdp <- partial(boston.gbm, pred.var = "lstat",
-               pred.fun = function(object, newdata) {
-                 c("pdp: mean" = mean(predict(object, newdata,
-                                              n.trees = best.iter)),
-                   "pdp: median" = median(predict(object, newdata,
-                                                  n.trees = best.iter)))
-               })
-lattice::xyplot(yhat ~ lstat | yhat.id, data = pdp, type = "l")
+               mean(predict(object, newdata, n.trees = best.iter))
+             }), type = "l", main = "pdp::partial (pred.fun)")
+plot(boston.gbm, i.var = "lstat", n.trees = best.iter,
+     continuous.resolution = 51, main = "gbm::plot.gbm")
 
 
 ################################################################################
@@ -115,44 +165,27 @@ library(randomForest)
 
 # Fit a random forest to the boston indians cmedv data
 set.seed(101)
-boston.randomForest <- randomForest(cmedv ~ .,
-                                  data = boston,
-                                  na.action = na.omit,
-                                  ntree = 500,
-                                  importance = FALSE)
+boston.rf <- randomForest(cmedv ~ ., data = boston)
 
-# PDPs for lstat based on the mean (left) and median (right)
+# PDPs for lstat and rm
 grid.arrange(
-  partial(boston.randomForest, pred.var = "lstat", plot = TRUE),
-  partial(boston.randomForest, pred.var = "lstat", plot = TRUE,
-          pred.fun = function(object, newdata) {
-            median(predict(object, newdata), na.rm = TRUE)
-          }),
+  partial(boston.rf, pred.var = "lstat", plot = TRUE, rug = TRUE),
+  partial(boston.rf, pred.var = "rm", plot = TRUE, rug = TRUE),
+  partial(boston.rf, pred.var = c("lstat", "rm"), plot = TRUE, chull = TRUE),
+  ncol = 3
+)
+
+# User-specified prediction functions
+grid.arrange(
+  partial(boston.rf, pred.var = "lstat", pred.fun = pred.ice, plot = TRUE,
+          rug = TRUE),
+  partial(boston.rf, pred.var = "lstat", pred.fun = pred.med, plot = TRUE,
+          rug = TRUE),
   ncol = 2
 )
 
-# ICE curves
-partial(boston.randomForest, pred.var = "lstat", plot = TRUE,
-        pred.fun = function(object, newdata) {
-          predict(object, newdata)
-        })
-
-# PDPs based on the mean and median
-pdp <- partial(boston.randomForest, pred.var = "lstat",
-               pred.fun = function(object, newdata) {
-                 c("pdp: mean" = mean(predict(object, newdata)),
-                   "pdp: median" = median(predict(object, newdata)))
-               })
-lattice::xyplot(yhat ~ lstat | yhat.id, data = pdp, type = "l")
-
-
-# Use ggplot2 to show ICE curves and PDP
-pred.ice <- function(object, newdata) predict(object, newdata)
-lstat.pdp <- partial(boston.randomForest, pred.var = "lstat", plot = TRUE)
-lstat.ice <- partial(boston.randomForest, pred.var = "lstat",
-                     pred.fun = pred.ice)
-library(ggplot2)
-lstat.icecurves <- ggplot(lstat.ice.data, aes(lstat, yhat)) +
-  geom_line(aes(group = yhat.id), alpha = 0.5) +
-  stat_summary(fun.y = mean, geom = "line", col = "red", size = 2)
-grid.arrange(lstat.icecurves, lstat.pdp, ncol = 2)
+# Compare to gbm::plot.gbm
+par(mfrow = c(1, 2))
+plot(partial(boston.rf, pred.var = "lstat"), type = "l", main = "pdp::partial")
+partialPlot(boston.rf, pred.data = boston, x.var = "lstat",
+            main = "randomForest::partialPlot")

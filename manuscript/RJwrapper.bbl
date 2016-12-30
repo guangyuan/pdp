@@ -1,4 +1,4 @@
-\begin{thebibliography}{39}
+\begin{thebibliography}{40}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -58,6 +58,12 @@ F.~L. .~E. Dimitriadou.
 \newblock \emph{mlbench: Machine Learning Benchmark Problems}, 2010.
 \newblock URL \url{https://CRAN.R-project.org/package=mlbench}.
 \newblock R package version 2.1-1.
+
+\bibitem[Fitzmaurice et~al.(2011)Fitzmaurice, Laird, and
+  Ware]{fitzmaurice-2011-applied}
+G.~Fitzmaurice, N.~Laird, and J.~Ware.
+\newblock \emph{Applied Longitudinal Analysis}.
+\newblock Wiley Series in Probability and Statistics. Wiley, 2011.
 
 \bibitem[Fox(2003)]{fox-effects-2003}
 J.~Fox.

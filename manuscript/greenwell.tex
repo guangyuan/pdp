@@ -412,7 +412,7 @@ pred.fun <- function(object, newdata) {
   mean(predict(object, newdata), na.rm = TRUE)
 }
 \end{example}
-This corresponds to step step 1. (c) in Algorithm~\ref{alg:pdp}. Suppose we would like ICE curves instead. To accomplish this we simply need to pass a prediction function that returns a vector of predictions, one for each observation in \code{newdata}. The code snippet below illustrates this for the Boston housing example using the predictor \code{rm}. The result is displayed in Figure~\ref{fig:ice_boston}. \strong{Note:} when the function supplied to \code{pred.fun} returns multiple predictions, the data frame returned by \code{partial} includes an additional column, \code{yhat.id}, that indicates which curve a point belongs to; in this example, there is one curve for each observation in \code{boston}.
+This corresponds to step step 1. (c) in Algorithm~\ref{alg:pdp}. Suppose we would like ICE curves instead. To accomplish this we simply need to pass a prediction function that returns a vector of predictions, one for each observation in \code{newdata}. The code snippet below illustrates this for the Boston housing example using the predictor \code{rm}. The result is displayed in Figure~\ref{fig:ice_boston}. \strong{Note:} when the function supplied to \code{pred.fun} returns multiple predictions, the data frame returned by \code{partial} includes an additional column, \code{yhat.id}, that indicates which curve a point belongs to; in the following code chunk, there will be one curve for each observation in \code{boston}.
 \begin{example}
 # Use partial to obtain ICE curves
 pred.ice <- function(object, newdata) predict(object, newdata)
@@ -468,32 +468,17 @@ grid.arrange(p1, p2, ncol = 2)
 
 To round out our discussion, we provide one last example using a recently popular (and successful!) machine learning tool. XGBoost, short for eXtreme Gradient Boosting, is a popular library providing optimized distributed gradient boosting that is specifically designed to be highly efficient, flexible and portable. The associated R package \pkg{xgboost} has been used to win a number of \href{https://www.kaggle.com/}{Kaggle competitions}. It has been shown to be many times faster than the well-known \pkg{gbm} package. However, unlike \pkg{gbm}, \pkg{xgboost} does not have built-in functions for constructing PDPs. Fortunately, the \pkg{pdp} package can be used to fill this gap.
 
-For illustration, we return to the Boston housing data. The code chunk below uses \pkg{caret} to train an XGBoost model to the \code{boston} data frame from Section~\ref{sec:boston} over a grid of tuning values (see \code{?xgboost::xgboost} for an explanation of the various tuning parameters). The optimal combination of tuning parameter values is selected via 5-fold cross-validation.
+For illustration, we return to the Boston housing example. The code chunk below uses \pkg{caret} to tune an \pkg{xgboost} model using 10-fold cross-validation. (After loading \pkg{caret}, use \code{getModelInfo("xgbTree")} for information on tuning \pkg{xgboost} models.) \strong{Warning:} The following code chunk may take a few minutes to run.
 \begin{example}
-library(caret)
-
-# Setup for 5-fold cross-validation
-ctrl <- trainControl(method = "cv", number = 5, verboseIter = TRUE)
-
-# Grid of tuning values for XGBoost.
-xgb.grid <- expand.grid(nrounds = c(1000, 2000, 3000),
-                        max_depth = 1:4,
-                        eta = c(0.001, 0.01, 0.1),
-                        gamma = 0,
-                        colsample_bytree = 1,
-                        min_child_weight = 1,
-                        subsample = c(0.5, 0.75, 1))
-
-# Train an XGBoost model
-set.seed(202)
+# Tune an XGBoost model using 10-fold cross-validation
+library(caret)  # functions related to classification and regression training
+set.seed(202)  # for reproducibility
 boston.xgb <- train(x = data.matrix(subset(boston, select = -cmedv)),
-                    y = boston$cmedv,
-                    method = "xgbTree",
-                    metric = "RMSE",
-                    trControl = ctrl,
-                    tuneGrid = xgb.grid)
+                    y = boston$cmedv, method = "xgbTree", metric = "Rsquared",
+                    trControl = trainControl(method = "cv", number = 10),
+                    tuneLength = 10)
 \end{example}
-The model with the smallest root-mean-squared error (RMSE) had \code{nrounds = 3000}, \code{max\_depth = 3}, \code{eta = 0.01}, and \code{subsample = 0.75}; the final model achieved a cross-validated RMSE and $R^2$ of 2.789 and 0.906, respectively. The following snippet of code computes the partial dependence of \code{cmedv} on both \code{rm} and \code{lstat}, individually and together, and then uses \code{grid.arrange} to display all three PDPs on the same page. The results are displayed in Figure~\ref{fig:boston_xgb}.
+The optimal model had a cross-validated $R^2$ of $0.902$ which was achieved using \code{nrounds = 100}, \code{max\_depth = 5}, \code{eta = 0.3}, \code{gamma = 0}, \code{colsample\_bytree = 0.8}, \code{min\_child\_weight = 1}, and \code{subsample = 0.9444444}. The following snippet of code computes the partial dependence of \code{cmedv} on both \code{rm} and \code{lstat}, individually and together, and then uses \code{grid.arrange} to display all three PDPs on the same page. The results are displayed in Figure~\ref{fig:boston_xgb}.
 \begin{example}
 # Display plots side by side (Figure 11)
 grid.arrange(
@@ -503,21 +488,21 @@ grid.arrange(
   ncol = 3
 )
 \end{example}
-
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=1.0\linewidth]{boston_xgb}
-  \caption{PDPs for the top two most important variables in the Boston housing data using XGBoost. Compare this to the random forest results displayed in Figures~\ref{fig:partial_extrap}-\ref{fig:partial_manual}.}
+  \caption{PDPs for the top two most important variables in the Boston housing data using \pkg{xgboost}. Compare this to the random forest results displayed in Figures~\ref{fig:partial_extrap}-\ref{fig:partial_manual}.}
   \label{fig:boston_xgb}
 \end{figure}
 
-%Since \code{train} defaults to storing a copy of the training data as part of the \code{"train"} object in a component called \code{trainingData} (e.g., \code{boston.xgb.tune\$trainingData}) there is no need to supply the training data in the call to \code{partial}. However, this is not the case when using the \pkg{xgboost} package directly. For example, the following code fits the same model using the \code{xgboost} function.
 Since \code{train} defaults to storing a copy of the training data as part of the \code{"train"} object there is no need to supply it in the call to \code{partial}. However, this is not the case when using the \pkg{xgboost} package directly. For example, the following code fits the same model using the \code{xgboost} function.
 \begin{example}
 set.seed(203)  # for reproducibility
 boston.xgb <- xgboost(data = data.matrix(subset(boston, select = -cmedv)),
                       label = boston$cmedv, objective = "reg:linear",
-                      nrounds = 2000, max_depth = 3, eta = 0.01)
+                      nrounds = 100, max_depth = 5, eta = 0.3, gamma = 0,
+                      colsample_bytree = 0.8, min_child_weight = 1,
+                      subsample = 0.9444444)
 \end{example}
 To use \code{partial} with the \code{"xgb.Booster"} class, we need to supply the original training data (minus the response) in the call to \code{partial}. The following snippet of code computes the partial dependence of \code{cmedv} on \code{rm} (plot not shown). (Make sure you are using version 0.6-0 or later of \pkg{xgboost}: \url{https://github.com/dmlc/xgboost/tree/master/R-package}.) \strong{Note:} while \code{xgboost} requires the training data to be an object of class \code{"matrix"}, \code{"dgCMatrix"}, or \code{"xgb.DMatrix"}, \code{partial} requires a \code{"data.frame"} that does not contain the response column.
 \begin{example}

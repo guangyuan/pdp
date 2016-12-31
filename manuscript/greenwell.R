@@ -274,47 +274,54 @@ dev.off()
 # Using partial with the XGBoost library
 ################################################################################
 
-# Optimize tuning parameters using 5-fold cross-validation
-library(caret)
-ctrl <- trainControl(method = "cv", number = 5, verboseIter = TRUE)
-xgb.grid <- expand.grid(nrounds = c(1000, 2000, 3000),
-                        max_depth = 1:4,
-                        eta = c(0.001, 0.01, 0.1),
-                        gamma = 0,
-                        colsample_bytree = 1,
-                        min_child_weight = 1,
-                        subsample = c(0.5, 0.75, 1))
+# Tune an XGBoost model using 10-fold cross-validation
 set.seed(202)
-boston.xgb.tune <- train(x = data.matrix(subset(boston, select = -cmedv)),
-                         y = boston$cmedv,
-                         method = "xgbTree",
-                         metric = "RMSE",
-                         trControl = ctrl,
-                         tuneGrid = xgb.grid)
-plot(boston.xgb.tune)
-print(boston.xgb.tune$bestTune)
-# boston.xgb.tune$bestTune
-#    nrounds max_depth  eta gamma colsample_bytree min_child_weight
-# 44    2000         3 0.01     0                1                1
-set.seed(102)
-boston.xgb <- xgboost(data = data.matrix(subset(boston, select = -cmedv)),
-                      label = boston$cmedv,
-                      objective = "reg:linear",
-                      nrounds = 3000,
-                      max_depth = 3,
-                      eta = 0.01,
-                      subsample = 0.75)
+boston.xgb <- train(x = data.matrix(subset(boston, select = -cmedv)),
+                    y = boston$cmedv,
+                    method = "xgbTree",
+                    metric = "Rsquared",
+                    trControl = trainControl(method = "cv", number = 10),
+                    tuneLength = 10)
+plot(boston.xgb)
+print(boston.xgb)
+# Tuning parameter 'gamma' was held constant at a value of 0
+# Tuning parameter 'min_child_weight' was
+# held constant at a value of 1
+# Rsquared was used to select the optimal model using  the largest value.
+# The final values used for the model were
+#   nrounds = 100
+#   max_depth = 5
+#   eta = 0.3
+#   gamma = 0
+#   colsample_bytree = 0.8
+#   min_child_weight = 1
+#   subsample = 0.9444444
+# filter(boston.xgb$results,
+#        nrounds == 100 &
+#          max_depth == 5 &
+#          eta == 0.3 &
+#          gamma == 0 &
+#          colsample_bytree == 0.8 &
+#          min_child_weight == 1 &
+#          subsample == 0.94444444444444444444444)
 
 # Figure 8
 pdf("boston_xgb.pdf", width = 12, height = 4)
 grid.arrange(
-  partial(boston.xgb.tune, pred.var = "lstat", plot = T, rug = T),
-  partial(boston.xgb.tune, pred.var = "rm", plot = T, rug = T),
-  partial(boston.xgb.tune, pred.var = c("lstat", "rm"), plot = T, chull = T),
+  partial(boston.xgb, pred.var = "lstat", plot = TRUE, rug = TRUE),
+  partial(boston.xgb, pred.var = "rm", plot = TRUE, rug = TRUE),
+  partial(boston.xgb, pred.var = c("lstat", "rm"), plot = TRUE, chull = TRUE),
   ncol = 3)
 dev.off()
 
-# # Figure 8
+# Use xgboost function directly
+set.seed(203)
+boston.xgb <- xgboost(data = data.matrix(subset(boston, select = -cmedv)),
+                      label = boston$cmedv, objective = "reg:linear",
+                      nrounds = 100, max_depth = 5, eta = 0.3, gamma = 0,
+                      colsample_bytree = 0.8, min_child_weight = 1,
+                      subsample = 0.9444444)
+
 # pdf("boston_xgb.pdf", width = 12, height = 4)
 X <- subset(boston, select = -cmedv)
 grid.arrange(

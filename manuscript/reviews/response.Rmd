@@ -112,7 +112,7 @@ same environment used to build the model, and don't change any of the
 data used to build the model).
 
 ### Response 1.5
-Agreed! The documentation for `partial` has also been expanded to discuss this. Unfortunately, some functions just don't store a copy of the training data. However, I have expanded the code to work harder---especially for `S4` methods---to inform the user to supply the training data when necessary. 
+Agreed! The documentation for `partial` has also been expanded to discuss this. Unfortunately, some functions don't store a copy of the training data. However, I have expanded the code to work harder---especially for `S4` methods---to inform the user to supply the training data when necessary. 
 
 
 ### Comment 1.6
@@ -147,7 +147,7 @@ Error in partial.default(mod, pred.var = c("Girth", "foo", "bar"), plot = TRUE) 
 On page 2 of the paper it says "The columns of the data frame are labeled in the same order as the features supplied to `pred.var`, and the last column is always labeled `y`". What happens if `y` is one of the predictors?
 
 ### Response 1.7
-The last column is now labeled `yhat`; which is less likely to be a predictor name. When one of the predictors is labeled `"y"` `randomForest::partialPlot` fails while `gbm::plot.gbm` does not. I think regardless of what the default column name is, there is always the possibility of this issue. This has been filed as an issue on the `pdp` GitHib page: https://github.com/bgreenwell/pdp/issues/22.
+The last column is now labeled `yhat`, which is less likely to be a predictor name. When one of the predictors is labeled `"y"` `randomForest::partialPlot` fails while `gbm::plot.gbm` does not. I think regardless of what the default column name is, there is always the possibility of this issue. This has been filed as an issue on the `pdp` GitHib page: https://github.com/bgreenwell/pdp/issues/22.
 
 
 ### Comment 1.8

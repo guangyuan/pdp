@@ -375,11 +375,11 @@ ggplot(pd, aes(x = Petal.Width, y = Petal.Length, z = yhat, fill = yhat)) +
 \subsection{User-defined prediction functions}
 \label{sec:prediction}
 
-PDPs are essentially just averaged predictions; see, for example, step 1. (c) in Algorithm~\ref{alg:pdp}. As pointed out by \citet{goldstein-peeking-2015}, since traditional PDPs are based on the sample mean, strong interactions can conceal the complexity of the modeled relationship between the response and predictors of interest. This was part of the motivation behind \citeauthor*{goldstein-peeking-2015}'s ICE curves.
+PDPs are essentially just averaged predictions; see, for example, step 1. (c) in Algorithm~\ref{alg:pdp}. Consequently, as pointed out by \citet{goldstein-peeking-2015}, strong interactions can conceal the complexity of the modeled relationship between the response and predictors of interest. This was part of the motivation behind \citeauthor*{goldstein-peeking-2015}'s ICE plot procedure.
 
-With \code{partial} it is possible to replace the mean in step 1. (c) with any other function (e.g., the median or trimmed mean), or obtain PDPs for classification problems on the probability scale. It is even possible to obtain ICE curves. This flexibility is due to the new \code{pred.fun} argument in \code{partial} (starting with \pkg{pdp} version 0.4.0). This argument accepts an optional prediction function that requires two arguments: \code{object} and \code{newdata}. The supplied prediction function must return either a single prediction or a vector of predictions. If the mean of all the predictions is returned, the result will be equivalent to the traditional PDP. If a vector of predictions is returned (i.e., one for each observation), the result will be equivalent to the ICE plot procedure. The examples below illustrate.
+With \code{partial} it is possible to replace the mean in step 1. (c) of Algorithm~\ref{alg:pdp} with any other function (e.g., the median or trimmed mean), or obtain PDPs for classification problems on the probability scale. It is even possible to obtain ICE curves. This flexibility is due to the new \code{pred.fun} argument in \code{partial} (starting with \pkg{pdp} version 0.4.0). This argument accepts an optional prediction function that requires two arguments: \code{object} and \code{newdata}. The supplied prediction function must return either a single prediction or a vector of predictions. Returing the mean of all the predictions will result in the traditional PDP. Returing a vector of predictions (i.e., one for each observation) will result in a set of ICE curves. The examples below illustrate.
 
-Using the \code{pred.fun} argument it is possible to obtain PDPs for classification problems on the probability scale; we just need to write a function that extracts the predicted class probabilities of interest and then averages the result. The function below can be used with the fitted SVM from the iris example of Section~\ref{sec:class} to extract the average predicted probability of belonging to the \code{Setosa} class.
+Using the \code{pred.fun} argument, it is possible to obtain PDPs for classification problems on the probability scale. We just need to write a function that computes the predicted class probability of interest averaged across all observations. The function below can be used with the fitted SVM from the iris example of Section~\ref{sec:class} to extract the average predicted probability of belonging to the \code{Setosa} class.
 \begin{example}
 pred.prob <- function(object, newdata) {  # see ?predict.svm
   pred <- predict(object, newdata, probability = TRUE)
@@ -387,16 +387,18 @@ pred.prob <- function(object, newdata) {  # see ?predict.svm
   mean(prob.setosa)
 }
 \end{example}
-Next, we simply pass this function via the \code{pred.fun} argument in the call to \code{partial}. The following chunk of code uses \code{partial} and \code{grid.arrange} to construct PDPs for \code{Petal.Width} and \code{Petal.Length} on the probability scale. The results are displayed in Figure~\ref{fig:partial_iris_prob}.
+Next, we simply pass this function via the \code{pred.fun} argument in the call to \code{partial}. The following chunk of code construct PDPs for \code{Petal.Width} and \code{Petal.Length} on the probability scale. The results are displayed in Figure~\ref{fig:partial_iris_prob}.
 \begin{example}
-# Display plots side by side (Figure 8)
-grid.arrange(
-  partial(iris.svm, pred.var = "Petal.Width", pred.fun = pred.prob, plot = TRUE),
-  partial(iris.svm, pred.var = "Petal.Length", pred.fun = pred.prob, plot = TRUE),
-  partial(iris.svm, pred.var = c("Petal.Width", "Petal.Length"),
-          pred.fun = pred.prob, plot = TRUE),
-  ncol = 3
-)
+# PDPs for Petal.Width and Petal.Length on the probability scale
+pdp.pw <- partial(iris.svm, pred.var = "Petal.Width", pred.fun = pred.prob,
+                  plot = TRUE)
+pdp.pl <- partial(iris.svm, pred.var = "Petal.Length", pred.fun = pred.prob,
+                  plot = TRUE)
+pdp.pw.pl <- partial(iris.svm, pred.var = c("Petal.Width", "Petal.Length"),
+                     pred.fun = pred.prob, plot = TRUE)
+
+# Figure 8
+grid.arrange(pdp.pw, pdp.pl, pdp.pw.pl, ncol = 3)
 \end{example}
 
 \begin{figure}[!htbp]
@@ -437,7 +439,7 @@ rm.ice <- rm.ice %>%
   mutate(yhat.centered = yhat - first(yhat))
 \end{example}
 
-Since the PDP is just the average of the corresponding ICE curves, it is quite simple to display both on the same plot. This can be accomplished by using the \code{stat\_summary} function from the \pkg{ggplot2} package to average the ICE curves together. The code snippet below uses \pkg{ggplot2} and \code{grid.arrange} to plot ICE curves and c-ICE curves for the predictor \code{rm} in the Boston housing example. The results are displayed in Figure~\ref{fig:ice_cice_boston}.
+Since the PDP is just the average of the corresponding ICE curves, it is quite simple to display both on the same plot. This can be accomplished by using the \code{stat\_summary} function from the \pkg{ggplot2} package to average the ICE curves together. The code snippet below plots the ICE curves and c-ICE curves, along with their averages, for the predictor \code{rm} in the Boston housing example. The results are displayed in Figure~\ref{fig:ice_cice_boston}.
 \begin{example}
 # ICE curves with their average
 p1 <- ggplot(rm.ice, aes(rm, yhat)) +
@@ -449,7 +451,7 @@ p2 <- ggplot(rm.ice, aes(rm, yhat.centered)) +
   geom_line(aes(group = yhat.id), alpha = 0.2) +
   stat_summary(fun.y = mean, geom = "line", col = "red", size = 1)
 
-# Display plots side by side (Figure 10)
+# Figure 10
 grid.arrange(p1, p2, ncol = 2)
 \end{example}
 \begin{figure}[!htbp]
@@ -478,15 +480,16 @@ boston.xgb <- train(x = data.matrix(subset(boston, select = -cmedv)),
                     trControl = trainControl(method = "cv", number = 10),
                     tuneLength = 10)
 \end{example}
-The optimal model had a cross-validated $R^2$ of $0.902$ which was achieved using \code{nrounds = 100}, \code{max\_depth = 5}, \code{eta = 0.3}, \code{gamma = 0}, \code{colsample\_bytree = 0.8}, \code{min\_child\_weight = 1}, and \code{subsample = 0.9444444}. The following snippet of code computes the partial dependence of \code{cmedv} on both \code{rm} and \code{lstat}, individually and together, and then uses \code{grid.arrange} to display all three PDPs on the same page. The results are displayed in Figure~\ref{fig:boston_xgb}.
+The optimal model had a cross-validated $R^2$ of $0.902$ (use \code{print(boston.xgb\$bestTune)} to view the optimum tuning parameters). The next snippet of code computes the partial dependence of \code{cmedv} on both \code{rm} and \code{lstat}, individually and together. The results are displayed in Figure~\ref{fig:boston_xgb}.
 \begin{example}
-# Display plots side by side (Figure 11)
-grid.arrange(
-  partial(boston.xgb, pred.var = "rm", plot = TRUE, rug = TRUE),
-  partial(boston.xgb, pred.var = "lstat", plot = TRUE, rug = TRUE),
-  partial(boston.xgb, pred.var = c("lstat", "rm"), plot = TRUE, chull = TRUE),
-  ncol = 3
-)
+# PDPs for lstat and rm
+pdp.lstat <- partial(boston.xgb, pred.var = "lstat", plot = TRUE, rug = TRUE)
+pdp.rm <- partial(boston.xgb, pred.var = "rm", plot = TRUE, rug = TRUE)
+pdp.lstat.rm <- partial(boston.xgb, pred.var = c("lstat", "rm"),
+                        plot = TRUE, chull = TRUE)
+
+# Figure 11
+grid.arrange(pdp.lstat, pdp.rm, pdp.lstat.rm, ncol = 3)
 \end{example}
 \begin{figure}[!htbp]
   \centering
@@ -494,8 +497,9 @@ grid.arrange(
   \caption{PDPs for the top two most important variables in the Boston housing data using \pkg{xgboost}. Compare this to the random forest results displayed in Figures~\ref{fig:partial_extrap}-\ref{fig:partial_manual}.}
   \label{fig:boston_xgb}
 \end{figure}
+%\code{nrounds = 100}, \code{max\_depth = 5}, \code{eta = 0.3}, \code{gamma = 0}, \code{colsample\_bytree = 0.8}, \code{min\_child\_weight = 1}, and \code{subsample = 0.9444444}
 
-Since \code{train} defaults to storing a copy of the training data as part of the \code{"train"} object there is no need to supply it in the call to \code{partial}. However, this is not the case when using the \pkg{xgboost} package directly. For example, the following code fits the same model using the \code{xgboost} function.
+The \code{train} function creates objects of class \code{"train"}, whereas the \code{xgboost} function creates objects of class \code{"xgb.Booster"}. Since \code{train} defaults to storing a copy of the training data as part of the \code{"train"} object, there is no need to supply it in the call to \code{partial} in this example. However, this is not the case when using the \pkg{xgboost} package directly. To illustrate, we fit the same model using the \code{xgboost} function with the tuning parameters found previously using \pkg{caret}.
 \begin{example}
 set.seed(203)  # for reproducibility
 boston.xgb <- xgboost(data = data.matrix(subset(boston, select = -cmedv)),
@@ -504,7 +508,7 @@ boston.xgb <- xgboost(data = data.matrix(subset(boston, select = -cmedv)),
                       colsample_bytree = 0.8, min_child_weight = 1,
                       subsample = 0.9444444)
 \end{example}
-To use \code{partial} with the \code{"xgb.Booster"} class, we need to supply the original training data (minus the response) in the call to \code{partial}. The following snippet of code computes the partial dependence of \code{cmedv} on \code{rm} (plot not shown). (Make sure you are using version 0.6-0 or later of \pkg{xgboost}: \url{https://github.com/dmlc/xgboost/tree/master/R-package}.) \strong{Note:} while \code{xgboost} requires the training data to be an object of class \code{"matrix"}, \code{"dgCMatrix"}, or \code{"xgb.DMatrix"}, \code{partial} requires a \code{"data.frame"} that does not contain the response column.
+To use \code{partial} with \code{"xgb.Booster"} objects, we need to supply the original training data (minus the response) in the call to \code{partial}. The following snippet of code computes the partial dependence of \code{cmedv} on \code{rm} (plot not shown). (Make sure you are using version 0.6-0 or later of \pkg{xgboost}: \url{https://github.com/dmlc/xgboost/tree/master/R-package}.) \strong{Note:} while \code{xgboost} requires the training data to be an object of class \code{"matrix"}, \code{"dgCMatrix"}, or \code{"xgb.DMatrix"}, \code{partial} requires a \code{"data.frame"} that does not contain the response column.
 \begin{example}
 partial(boston.xgb, pred.var = "rm", plot = TRUE, rug = TRUE,
         train = subset(boston, select = -cmedv))

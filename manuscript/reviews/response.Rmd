@@ -266,7 +266,7 @@ This is a good suggestion and is currently under development: https://github.com
 The Introduction immediately introduces the PDP. You must first motivate why it is important. In a linear model, they are not important. In a linear model with simple interactions, likewise. They first become important if you have non-parametric machine-learning techniques. Further, they are not the only idea extant when trying to explain a predictor's impact on the response. This paper would benefit if you can give a bit more of a lit review here.
 
 ### Response
-I agree that PDPs are not as useful in "simple" linear models (e.g., few variables, only two-way interactions, etc.), but certainly there will be cases where PDPs will be extremely useful (e.g., many terms, complex interactions, etc.). In fact, linear models are still common in machine learning/computer science/data science (they just typically contain many terms). I also agree that PDPs are not the only, or sometimes best, approach to understanding the impact of a subset of the predictor's on the response. Brief descriptions and references are given for many alternatives: marginal model plots (`plotmo`), individual conditional expectation plots (`ICEbox`)---which are described as an alternatve to PDPs when strong interactions are suspected, effect plots (`effects`), and a few others available in the `car` package. Unless the editor disagrees, I don't think it is necessary to go into more detail than what is already provided at the end of the introduction. Nonetheless, I added a bit more of a motivational introduction that links to the examples using the Boston housing data. 
+I agree that PDPs are not as useful in "simple" linear models (e.g., few variables, only two-way interactions, etc.), but certainly there will be cases where PDPs will be extremely useful (e.g., many terms, complex interactions, etc.). In fact, linear models are still common in machine learning/computer science/data science (they just typically contain many terms). I also agree that PDPs are not the only, or sometimes best, approach to understanding the impact of a subset of the predictor's on the response. Brief descriptions and references are given for many alternatives: marginal model plots (`plotmo`), individual conditional expectation plots (`ICEbox`)---which are described as an alternatve to PDPs when strong interactions are suspected, effect plots (`effects`), and a few other techniques available in the `car` package. Unless the editor disagrees, I don't think it is necessary to go into more detail than what is already provided at the end of the introduction. Nonetheless, I have expanded the introduction (which links to the Boston housing example used throughout the paper) and included more background on the `ICEbox` package.
 
 
 ## Important Clarifications Required:
@@ -281,6 +281,7 @@ Top of p2. The `ICEbox` package allows for general construction and visualizatio
 
 ### Comment
 All `pdp` figures throughout the paper: Can you make explicit in the caption what code produces the left and right subfigures? I would use the subfigure package in latex and then put a comment in the R code e.g. # Fig 3b.
+
 ### Response
 Rather than using subfigures, which I think would look messy with all the code, I made quite an attempt to comment which pieces of code produce which figure. Also, in response to another reviewer's comments, the code which produces figures containing multiple plots is better described and demonstrated. See, for example, the section called Multi-predictor PDPs.
 
@@ -289,6 +290,7 @@ Rather than using subfigures, which I think would look messy with all the code, 
 
 ### Comment
 p1 abstract: strict assumptions imposed by traditional statistical models
+
 ### Response
 Added some clarification here; in particular, normality, constant variance, and linearity.
 
@@ -325,14 +327,15 @@ The sidebar (i.e., colorkey) has been labeled, but for this example only. As sad
 Fig 7: as beautiful as this is, you should label the sidebar as "logit" or "centered logit" instead of "y".
 
 ### Response 2.9
-Fixed. Color key labeled "Logit".
+Fixed. Color key labeled "Centered logit".
 
 
 ### Suggestions for the software
 
 
 ### Comment
-I understand that you like the feature of having a one-shot function partial to both generate and plot the PDP. I realize that the default is `FALS`E. However, I still think it's a disservice to the user as constructing PDP's is computationally intense and if they get the plot wrong or it's not to their liking, they will have to regenerate the whole thing again. So, it is my opinion that you should take it out and force two steps: generation and illustration.
+I understand that you like the feature of having a one-shot function partial to both generate and plot the PDP. I realize that the default is `FALSE`. However, I still think it's a disservice to the user as constructing PDP's is computationally intense and if they get the plot wrong or it's not to their liking, they will have to regenerate the whole thing again. So, it is my opinion that you should take it out and force two steps: generation and illustration.
+
 ### Response
 While I am not suggesting that the `partial` function needs to mimic the behavior of the PDP fucntions in `randomForest` and `gbm`, I do find it useful to be able to plot the results without forcing the user to store them. However, I agree with your concern which is why `partial` has `plot = FALSE` as the default. Furthermore, I have made it possible to retrieve the raw PDP data even when \code{plot = TRUE}. This is because the "trellis" object returned by `partial` \ `plotPartial` now contains an additional `partial.data` attribute. This is described in the package documentation. For example,
 ```{r, eval=TRUE}
@@ -348,8 +351,9 @@ head(pd.Girth)
 
 ### Comment
 The package could be more powerful if you allowed a predict function as a parameter. For instance, you cannot currently use random forests to illustrate classification probabilities.
+
 ### Response
-I agree, and I have changed the behavior of `...` to refer to additional parameters to `stats::predict` (e.g., the `n.trees` argument in `predict.gbm`.). However, I'm not sure yet about the scale on which the predictions are plotted for classification problems. For now, I am more comfortable leaving it as the usual logit scale defined for PDPs (mostly so that they are defined the same whatever the number of class outcomes). But I am not opposed to making this (simple) change in the future. I have added this as a feature request: https://github.com/bgreenwell/pdp/issues/21.
+This is a good suggestion. First, I have changed the behavior of `...` to refer to additional arguments in `predict` (e.g., the `n.trees` argument in `predict.gbm`.). Second, `partial` gained a new argument, `pred.fun`, where the user can provide an optional prediction function. This makes `partial` far more flexible. For example, you can use this argument to construct PDPs on the probability scale, or to construct ICE curves. These are illusrated in the new section labeled: **User-defined prediction functions**
 
 
 ### Comment 2.12

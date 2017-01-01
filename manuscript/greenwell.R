@@ -288,33 +288,32 @@ print(boston.xgb)
 # Tuning parameter 'min_child_weight' was
 # held constant at a value of 1
 # Rsquared was used to select the optimal model using  the largest value.
-# The final values used for the model were
-#   nrounds = 100
-#   max_depth = 5
-#   eta = 0.3
-#   gamma = 0
+# The final values used for the model were:
+#            nrounds = 100
+#          max_depth = 5
+#                eta = 0.3
+#              gamma = 0
 #   colsample_bytree = 0.8
 #   min_child_weight = 1
-#   subsample = 0.9444444
-# filter(boston.xgb$results,
-#        nrounds == 100 &
-#          max_depth == 5 &
-#          eta == 0.3 &
-#          gamma == 0 &
-#          colsample_bytree == 0.8 &
-#          min_child_weight == 1 &
-#          subsample == 0.94444444444444444444444)
+#          subsample = 0.9444444
 
-# Figure 8
+# Print the cross-validated resuts
+# filter(boston.xgb$results, nrounds == 100 & max_depth == 5 & eta == 0.3 &
+#        gamma == 0 & colsample_bytree == 0.8 & min_child_weight == 1 &
+#        subsample == 0.94444444444444444444444)
+
+# PDPs for lstat and rm
+pdp.lstat <- partial(boston.xgb, pred.var = "lstat", plot = TRUE, rug = TRUE)
+pdp.rm <- partial(boston.xgb, pred.var = "rm", plot = TRUE, rug = TRUE)
+pdp.lstat.rm <- partial(boston.xgb, pred.var = c("lstat", "rm"),
+                        plot = TRUE, chull = TRUE)
+
+# Figure 11
 pdf("boston_xgb.pdf", width = 12, height = 4)
-grid.arrange(
-  partial(boston.xgb, pred.var = "lstat", plot = TRUE, rug = TRUE),
-  partial(boston.xgb, pred.var = "rm", plot = TRUE, rug = TRUE),
-  partial(boston.xgb, pred.var = c("lstat", "rm"), plot = TRUE, chull = TRUE),
-  ncol = 3)
+grid.arrange(pdp.lstat, pdp.rm, pdp.lstat.rm, ncol = 3)
 dev.off()
 
-# Use xgboost function directly
+# Use use xgboost function directly
 set.seed(203)
 boston.xgb <- xgboost(data = data.matrix(subset(boston, select = -cmedv)),
                       label = boston$cmedv, objective = "reg:linear",

@@ -388,7 +388,7 @@ superType.xgb.Booster <- function(object) {
 
 #' @keywords internal
 superType.svm <- function(object) {
-  if (is.null(object$levels)) {
+  if (object$type %in% c(3, 4)) {
     "regression"
   } else {
     "classification"

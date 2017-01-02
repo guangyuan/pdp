@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.4.30)  1 JAN 2017 19:21
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.4.30)  2 JAN 2017 12:35
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1427,9 +1427,16 @@ Package microtype Info: Character `textendash ' is missing
 Package microtype Info: Character `textemdash ' is missing
 (microtype)             in font `T1/zi4/m/n/8'.
 (microtype)             Ignoring protrusion settings for this character.
- [3]
+
+Overfull \hbox (11.79349pt too wide) in paragraph at lines 107--108
+\T1/ppl/m/n/9 (-20) mat-i-cally de-ter-mine an ap-pro-pri-ate value for the ar-
+gu-ment \T1/zi4/m/n/9 type \T1/ppl/m/n/9 (-20) (i.e., \T1/zi4/m/n/9 "regression
+" \T1/ppl/m/n/9 (-20) or \T1/zi4/m/n/9 "classification"\T1/ppl/m/n/9 (-20) ).
+ []
+
+[3]
 LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
-(Font)              scaled to size 10.20004pt on input line 116.
+(Font)              scaled to size 10.20004pt on input line 114.
 Package microtype Info: Character `textendash ' is missing
 (microtype)             in font `T1/zi4/m/n/10'.
 (microtype)             Ignoring protrusion settings for this character.
@@ -1437,7 +1444,7 @@ Package microtype Info: Character `textemdash ' is missing
 (microtype)             in font `T1/zi4/m/n/10'.
 (microtype)             Ignoring protrusion settings for this character.
 
-Overfull \hbox (6.53165pt too wide) in paragraph at lines 112--137
+Overfull \hbox (6.53165pt too wide) in paragraph at lines 110--137
 [][] 
  []
 
@@ -1453,92 +1460,92 @@ Package microtype Info: Loading generic settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
  [4]
-<boston_rf_vimp.pdf, id=254, 505.89pt x 361.35pt>
+<boston_rf_vimp.pdf, id=257, 505.89pt x 361.35pt>
 File: boston_rf_vimp.pdf Graphic file (type pdf)
  <use boston_rf_vimp.pdf>
-Package pdftex.def Info: boston_rf_vimp.pdf used on input line 166.
+Package pdftex.def Info: boston_rf_vimp.pdf used on input line 165.
 (pdftex.def)             Requested size: 398.33858pt x 284.53156pt.
 LaTeX Font Info:    Font shape `T1/ppl/bx/n' in size <10> not available
-(Font)              Font shape `T1/ppl/b/n' tried instead on input line 175.
+(Font)              Font shape `T1/ppl/b/n' tried instead on input line 174.
 
-[5 <./boston_rf_vimp.pdf>] <pd_lstat.pdf, id=272, 578.16pt x 289.08pt>
+[5 <./boston_rf_vimp.pdf>] <pd_lstat.pdf, id=275, 578.16pt x 289.08pt>
 File: pd_lstat.pdf Graphic file (type pdf)
 
 <use pd_lstat.pdf>
-Package pdftex.def Info: pd_lstat.pdf used on input line 198.
+Package pdftex.def Info: pd_lstat.pdf used on input line 197.
 (pdftex.def)             Requested size: 398.33858pt x 199.16986pt.
- <pd_lstat_rm.pdf, id=284, 867.24pt x 289.08pt>
+ <pd_lstat_rm.pdf, id=287, 867.24pt x 289.08pt>
 File: pd_lstat_rm.pdf Graphic file (type pdf)
 
 <use pd_lstat_rm.pdf>
-Package pdftex.def Info: pd_lstat_rm.pdf used on input line 236.
+Package pdftex.def Info: pd_lstat_rm.pdf used on input line 235.
 (pdftex.def)             Requested size: 512.1496pt x 170.72333pt.
 
-Overfull \hbox (56.90552pt too wide) in paragraph at lines 236--236
+Overfull \hbox (56.90552pt too wide) in paragraph at lines 235--235
  []$[]$ 
  []
 
-[6 <./pd_lstat.pdf>] <partial_extrap.pdf, id=304, 578.16pt x 289.08pt>
+[6 <./pd_lstat.pdf>] <partial_extrap.pdf, id=307, 578.16pt x 289.08pt>
 File: partial_extrap.pdf Graphic file (type pdf)
 
 <use partial_extrap.pdf>
-Package pdftex.def Info: partial_extrap.pdf used on input line 259.
+Package pdftex.def Info: partial_extrap.pdf used on input line 258.
 (pdftex.def)             Requested size: 398.33858pt x 199.16986pt.
  [7 <./pd_lstat_rm.pdf> <./partial_extrap.pdf>]
-<partial_manual.pdf, id=325, 867.24pt x 289.08pt>
+<partial_manual.pdf, id=328, 867.24pt x 289.08pt>
 File: partial_manual.pdf Graphic file (type pdf)
  <use partial_manual.pdf>
-Package pdftex.def Info: partial_manual.pdf used on input line 287.
+Package pdftex.def Info: partial_manual.pdf used on input line 286.
 (pdftex.def)             Requested size: 409.72124pt x 136.57336pt.
 
-Overfull \hbox (56.90552pt too wide) in paragraph at lines 287--287
+Overfull \hbox (56.90552pt too wide) in paragraph at lines 286--286
  []$[]$ 
  []
 
 
-Overfull \hbox (18.31128pt too wide) in paragraph at lines 291--292
+Overfull \hbox (18.31128pt too wide) in paragraph at lines 290--291
 \T1/ppl/m/n/9 (-20) in-for-ma-tion, are avail-able from [][]$\T1/zi4/m/n/9 http
  : / / statweb . stanford . edu / ~tibs / ElemStatLearn / datasets / LAozone .
  []
 
-[8 <./partial_manual.pdf>] <partial_par.pdf, id=366, 505.89pt x 361.35pt>
+[8 <./partial_manual.pdf>] <partial_par.pdf, id=369, 505.89pt x 361.35pt>
 File: partial_par.pdf Graphic file (type pdf)
 
 <use partial_par.pdf>
-Package pdftex.def Info: partial_par.pdf used on input line 330.
+Package pdftex.def Info: partial_par.pdf used on input line 329.
 (pdftex.def)             Requested size: 318.67207pt x 227.62413pt.
  [9 <./partial_par.pdf>]
-<partial_iris_svm.pdf, id=383, 867.24pt x 289.08pt>
+<partial_iris_svm.pdf, id=386, 867.24pt x 289.08pt>
 File: partial_iris_svm.pdf Graphic file (type pdf)
  <use partial_iris_svm.pdf>
-Package pdftex.def Info: partial_iris_svm.pdf used on input line 380.
+Package pdftex.def Info: partial_iris_svm.pdf used on input line 379.
 (pdftex.def)             Requested size: 398.33858pt x 132.7799pt.
 
 [10 <./partial_iris_svm.pdf>]
-<partial_iris_svm_prob.pdf, id=407, 867.24pt x 289.08pt>
+<partial_iris_svm_prob.pdf, id=411, 867.24pt x 289.08pt>
 File: partial_iris_svm_prob.pdf Graphic file (type pdf)
 
 <use partial_iris_svm_prob.pdf>
-Package pdftex.def Info: partial_iris_svm_prob.pdf used on input line 420.
+Package pdftex.def Info: partial_iris_svm_prob.pdf used on input line 419.
 (pdftex.def)             Requested size: 398.33858pt x 132.7799pt.
  [11 <./partial_iris_svm_prob.pdf>]
-<ice_boston.pdf, id=422, 505.89pt x 361.35pt>
+<ice_boston.pdf, id=425, 505.89pt x 361.35pt>
 File: ice_boston.pdf Graphic file (type pdf)
  <use ice_boston.pdf>
-Package pdftex.def Info: ice_boston.pdf used on input line 442.
+Package pdftex.def Info: ice_boston.pdf used on input line 441.
 (pdftex.def)             Requested size: 318.67207pt x 227.62413pt.
 
-<ice_cice_boston.pdf, id=432, 578.16pt x 289.08pt>
+<ice_cice_boston.pdf, id=435, 578.16pt x 289.08pt>
 File: ice_cice_boston.pdf Graphic file (type pdf)
  <use ice_cice_boston.pdf>
-Package pdftex.def Info: ice_cice_boston.pdf used on input line 473.
+Package pdftex.def Info: ice_cice_boston.pdf used on input line 472.
 (pdftex.def)             Requested size: 398.33858pt x 199.16986pt.
 
-[12 <./ice_boston.pdf>] <boston_xgb.pdf, id=449, 867.24pt x 289.08pt>
+[12 <./ice_boston.pdf>] <boston_xgb.pdf, id=452, 867.24pt x 289.08pt>
 File: boston_xgb.pdf Graphic file (type pdf)
 
 <use boston_xgb.pdf>
-Package pdftex.def Info: boston_xgb.pdf used on input line 510.
+Package pdftex.def Info: boston_xgb.pdf used on input line 509.
 (pdftex.def)             Requested size: 398.33858pt x 132.7799pt.
  [13 <./ice_cice_boston.pdf>] (./RJwrapper.bbl
 (./RJwrapper.brf)
@@ -1554,14 +1561,14 @@ Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 29.
 Package rerunfilecheck Info: File `RJwrapper.out' has not changed.
 (rerunfilecheck)             Checksum: 882759ED1B2A5348A3AA2C78A80D50DE;903.
 Package rerunfilecheck Info: File `RJwrapper.brf' has not changed.
-(rerunfilecheck)             Checksum: 961696D8A25B5B6B81671075B8B616FB;3103.
+(rerunfilecheck)             Checksum: 89D79A5B3EB61637FF8E15FA87936C00;3188.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 29.
  ) 
 Here is how much of TeX's memory you used:
- 22404 strings out of 494953
- 397758 string characters out of 6180977
- 493997 words of memory out of 5000000
- 24852 multiletter control sequences out of 15000+600000
+ 22411 strings out of 494953
+ 397869 string characters out of 6180977
+ 494023 words of memory out of 5000000
+ 24858 multiletter control sequences out of 15000+600000
  76116 words of font info for 300 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  62i,12n,56p,1630b,661s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1596,10 +1603,10 @@ pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/palatino/uplbi8a.pfb></usr/s
 hare/texlive/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texlive
 /texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texlive/texmf-dist/
 fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on RJwrapper.pdf (16 pages, 839224 bytes).
+Output written on RJwrapper.pdf (16 pages, 839461 bytes).
 PDF statistics:
- 649 PDF objects out of 1000 (max. 8388607)
- 589 compressed objects within 6 object streams
- 102 named destinations out of 1000 (max. 500000)
+ 656 PDF objects out of 1000 (max. 8388607)
+ 596 compressed objects within 6 object streams
+ 103 named destinations out of 1000 (max. 500000)
  50340 words of extra memory for PDF output out of 51595 (max. 10000000)
 

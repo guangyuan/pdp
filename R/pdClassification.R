@@ -231,6 +231,36 @@ pdClassification.nnet <- function(object, pred.var, pred.grid, pred.fun,
 
 
 #' @keywords internal
+pdClassification.ranger <- function(object, pred.var, pred.grid, pred.fun,
+                                    which.class, train,
+                                    progress, parallel, paropts, ...) {
+  if (is.null(getCall(object)$probability)) {
+    stop(paste("Cannot obtain predicted probabilities from",
+               deparse(substitute(object))))
+  }
+  plyr::adply(pred.grid, .margins = 1, .fun = function(x) {
+    temp <- train
+    temp[pred.var] <- x
+    out <- if (is.null(pred.fun)) {
+      avgLogit(stats::predict(object, data = temp, ...)$predictions,
+               which.class = which.class)
+    } else {
+      pred.fun(object, newdata = temp)
+    }
+    if (length(out) == 1) {
+      stats::setNames(out, "yhat")
+    } else {
+      if (is.null(names(out))) {
+        stats::setNames(out, paste0("yhat.", 1L:length(out)))
+      } else {
+        stats::setNames(out, paste0("yhat.", names(out)))
+      }
+    }
+  }, .progress = progress, .parallel = parallel, .paropts = paropts)
+}
+
+
+#' @keywords internal
 pdClassification.svm <- function(object, pred.var, pred.grid, pred.fun,
                                  which.class, train,
                                  progress, parallel, paropts, ...) {

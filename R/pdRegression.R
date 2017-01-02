@@ -59,6 +59,30 @@ pdRegression.ksvm <- function(object, pred.var, pred.grid, pred.fun,
 
 
 #' @keywords internal
+pdRegression.ranger <- function(object, pred.var, pred.grid, pred.fun, train,
+                                progress, parallel, paropts, ...) {
+  plyr::adply(pred.grid, .margins = 1, .fun = function(x) {
+    temp <- train
+    temp[pred.var] <- x
+    out <- if (is.null(pred.fun)) {
+      mean(stats::predict(object, data = temp, ...)$predictions, na.rm = TRUE)
+    } else {
+      pred.fun(object, newdata = temp)
+    }
+    if (length(out) == 1) {
+      stats::setNames(out, "yhat")
+    } else {
+      if (is.null(names(out))) {
+        stats::setNames(out, paste0("yhat.", 1L:length(out)))
+      } else {
+        stats::setNames(out, paste0("yhat.", names(out)))
+      }
+    }
+  }, .progress = progress, .parallel = parallel, .paropts = paropts)
+}
+
+
+#' @keywords internal
 pdRegression.xgb.Booster <- function(object, pred.var, pred.grid, pred.fun,
                                      train, progress, parallel, paropts, ...) {
   plyr::adply(pred.grid, .margins = 1, .fun = function(x) {

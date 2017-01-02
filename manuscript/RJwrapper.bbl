@@ -1,4 +1,4 @@
-\begin{thebibliography}{41}
+\begin{thebibliography}{42}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -269,5 +269,11 @@ H.~Wickham and R.~Francois.
 \newblock \emph{dplyr: A Grammar of Data Manipulation}, 2016.
 \newblock URL \url{https://CRAN.R-project.org/package=dplyr}.
 \newblock R package version 0.5.0.
+
+\bibitem[Wright(2016)]{ranger-pkg}
+M.~N. Wright.
+\newblock \emph{ranger: A Fast Implementation of Random Forests}, 2016.
+\newblock URL \url{https://CRAN.R-project.org/package=ranger}.
+\newblock R package version 0.6.0.
 
 \end{thebibliography}

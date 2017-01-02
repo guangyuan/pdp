@@ -343,6 +343,18 @@ superType.randomForest <- function(object) {
 
 
 #' @keywords internal
+superType.ranger <- function(object) {
+  if (object$treetype == "Regression") {
+    "regression"
+  } else if (object$treetype %in% c("Classification", "Probability estimation")) {
+    "classification"
+  } else {
+    "other"
+  }
+}
+
+
+#' @keywords internal
 superType.RandomForest <- function(object) {
   if (object@responses@is_nominal) {
     "classification"

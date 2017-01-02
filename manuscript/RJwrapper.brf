@@ -20,19 +20,19 @@
 \backcite {gridExtra-pkg}{{3}{2.2}{Item.7}}
 \backcite {venables-modern-2002}{{4}{2.2}{Item.7}}
 \backcite {friedman-ppr-1981}{{4}{2.2}{Item.7}}
-\backcite {C50-pkg}{{4}{\caption@xref {??}{ on input line 114}}{table.caption.2}}
-\backcite {rpart-pkg}{{4}{\caption@xref {??}{ on input line 117}}{table.caption.2}}
-\backcite {adabag-pkg}{{4}{\caption@xref {??}{ on input line 118}}{table.caption.2}}
-\backcite {ipred-pkg}{{4}{\caption@xref {??}{ on input line 119}}{table.caption.2}}
+\backcite {C50-pkg}{{4}{\caption@xref {??}{ on input line 116}}{table.caption.2}}
+\backcite {rpart-pkg}{{4}{\caption@xref {??}{ on input line 119}}{table.caption.2}}
 \backcite {adabag-pkg}{{4}{\caption@xref {??}{ on input line 120}}{table.caption.2}}
-\backcite {Cubist-pkg}{{4}{\caption@xref {??}{ on input line 123}}{table.caption.2}}
-\backcite {earth-pkg}{{4}{\caption@xref {??}{ on input line 130}}{table.caption.2}}
-\backcite {e1071-pkg}{{4}{\caption@xref {??}{ on input line 131}}{table.caption.2}}
-\backcite {kernlab-pkg}{{4}{\caption@xref {??}{ on input line 132}}{table.caption.2}}
+\backcite {ipred-pkg}{{4}{\caption@xref {??}{ on input line 121}}{table.caption.2}}
+\backcite {adabag-pkg}{{4}{\caption@xref {??}{ on input line 122}}{table.caption.2}}
+\backcite {Cubist-pkg}{{4}{\caption@xref {??}{ on input line 125}}{table.caption.2}}
+\backcite {earth-pkg}{{4}{\caption@xref {??}{ on input line 132}}{table.caption.2}}
+\backcite {e1071-pkg}{{4}{\caption@xref {??}{ on input line 133}}{table.caption.2}}
+\backcite {kernlab-pkg}{{4}{\caption@xref {??}{ on input line 134}}{table.caption.2}}
 \backcite {caret-pkg}{{4}{2.2}{table.caption.2}}
 \backcite {mlbench-pkg}{{4}{2.2}{table.caption.2}}
-\backcite {harrison-1978-hedonic}{{4}{2.2}{table.caption.2}}
-\backcite {magrittr-pkg}{{5}{2.2.1}{subsection.2.2.1}}
+\backcite {harrison-1978-hedonic}{{5}{2.2}{table.caption.2}}
+\backcite {magrittr-pkg}{{6}{2.2.1}{subsection.2.2.1}}
 \backcite {foreach-pkg}{{6}{2.2.2}{subsection.2.2.2}}
 \backcite {hunter-matplotlib-2007}{{6}{2.2.2}{subsection.2.2.2}}
 \backcite {viridis-pkg}{{6}{2.2.2}{subsection.2.2.2}}

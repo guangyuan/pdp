@@ -31,8 +31,9 @@
 #' @param ... Additional optional arguments to be passed onto \code{dotplot},
 #'   \code{levelplot}, \code{xyplot}, or \code{wireframe}.
 #'
-#' @importFrom lattice dotplot equal.count levelplot panel.levelplot panel.lines
-#' @importFrom lattice panel.loess panel.xyplot panel.rug wireframe xyplot
+#' @importFrom lattice dotplot equal.count levelplot panel.dotplot
+#' @importFrom lattice panel.levelplot panel.lines panel.loess panel.xyplot
+#' @importFrom lattice panel.rug wireframe xyplot
 #'
 #' @rdname plotPartial
 #' @export

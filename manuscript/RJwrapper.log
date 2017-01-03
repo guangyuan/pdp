@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.4.30)  2 JAN 2017 12:35
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.4.30)  2 JAN 2017 20:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1448,13 +1448,13 @@ Overfull \hbox (6.53165pt too wide) in paragraph at lines 110--137
 [][] 
  []
 
-LaTeX Font Info:    Try loading font information for TS1+zi4 on input line 144.
+LaTeX Font Info:    Try loading font information for TS1+zi4 on input line 146.
 
 (/usr/share/texlive/texmf-dist/tex/latex/inconsolata/ts1zi4.fd
 File: ts1zi4.fd 2014/06/22 Fontinst v1.933 font definitions for TS1/zi4.
 )
 LaTeX Font Info:    Font shape `TS1/zi4/m/n' will be
-(Font)              scaled to size 9.18004pt on input line 144.
+(Font)              scaled to size 9.18004pt on input line 146.
 Package microtype Info: Loading generic settings for font family
 (microtype)             `zi4' (encoding: TS1).
 (microtype)             For optimal results, create family-specific settings.
@@ -1512,13 +1512,13 @@ Overfull \hbox (18.31128pt too wide) in paragraph at lines 290--291
 File: partial_par.pdf Graphic file (type pdf)
 
 <use partial_par.pdf>
-Package pdftex.def Info: partial_par.pdf used on input line 329.
+Package pdftex.def Info: partial_par.pdf used on input line 330.
 (pdftex.def)             Requested size: 318.67207pt x 227.62413pt.
  [9 <./partial_par.pdf>]
 <partial_iris_svm.pdf, id=386, 867.24pt x 289.08pt>
 File: partial_iris_svm.pdf Graphic file (type pdf)
  <use partial_iris_svm.pdf>
-Package pdftex.def Info: partial_iris_svm.pdf used on input line 379.
+Package pdftex.def Info: partial_iris_svm.pdf used on input line 380.
 (pdftex.def)             Requested size: 398.33858pt x 132.7799pt.
 
 [10 <./partial_iris_svm.pdf>]
@@ -1526,26 +1526,26 @@ Package pdftex.def Info: partial_iris_svm.pdf used on input line 379.
 File: partial_iris_svm_prob.pdf Graphic file (type pdf)
 
 <use partial_iris_svm_prob.pdf>
-Package pdftex.def Info: partial_iris_svm_prob.pdf used on input line 419.
+Package pdftex.def Info: partial_iris_svm_prob.pdf used on input line 420.
 (pdftex.def)             Requested size: 398.33858pt x 132.7799pt.
  [11 <./partial_iris_svm_prob.pdf>]
 <ice_boston.pdf, id=425, 505.89pt x 361.35pt>
 File: ice_boston.pdf Graphic file (type pdf)
  <use ice_boston.pdf>
-Package pdftex.def Info: ice_boston.pdf used on input line 441.
+Package pdftex.def Info: ice_boston.pdf used on input line 442.
 (pdftex.def)             Requested size: 318.67207pt x 227.62413pt.
 
 <ice_cice_boston.pdf, id=435, 578.16pt x 289.08pt>
 File: ice_cice_boston.pdf Graphic file (type pdf)
  <use ice_cice_boston.pdf>
-Package pdftex.def Info: ice_cice_boston.pdf used on input line 472.
+Package pdftex.def Info: ice_cice_boston.pdf used on input line 473.
 (pdftex.def)             Requested size: 398.33858pt x 199.16986pt.
 
 [12 <./ice_boston.pdf>] <boston_xgb.pdf, id=452, 867.24pt x 289.08pt>
 File: boston_xgb.pdf Graphic file (type pdf)
 
 <use boston_xgb.pdf>
-Package pdftex.def Info: boston_xgb.pdf used on input line 509.
+Package pdftex.def Info: boston_xgb.pdf used on input line 510.
 (pdftex.def)             Requested size: 398.33858pt x 132.7799pt.
  [13 <./ice_cice_boston.pdf>] (./RJwrapper.bbl
 (./RJwrapper.brf)
@@ -1565,13 +1565,13 @@ Package rerunfilecheck Info: File `RJwrapper.brf' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 29.
  ) 
 Here is how much of TeX's memory you used:
- 22411 strings out of 494953
- 397869 string characters out of 6180977
- 494023 words of memory out of 5000000
+ 22414 strings out of 494953
+ 397893 string characters out of 6180977
+ 494030 words of memory out of 5000000
  24858 multiletter control sequences out of 15000+600000
- 76116 words of font info for 300 fonts, out of 8000000 for 9000
+ 76275 words of font info for 302 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 62i,12n,56p,1630b,661s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 62i,12n,56p,1630b,659s stack positions out of 5000i,500n,10000p,200000b,80000s
 pdfTeX warning (dest): name{Hfootnote.6} has been referenced but does not exi
 st, replaced by a fixed one
 
@@ -1603,7 +1603,7 @@ pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/palatino/uplbi8a.pfb></usr/s
 hare/texlive/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texlive
 /texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texlive/texmf-dist/
 fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on RJwrapper.pdf (16 pages, 839461 bytes).
+Output written on RJwrapper.pdf (16 pages, 841369 bytes).
 PDF statistics:
  656 PDF objects out of 1000 (max. 8388607)
  596 compressed objects within 6 object streams

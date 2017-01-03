@@ -7,7 +7,7 @@ output:
   word_document: default
 ---
 
-Thanks to the reviewers and editor for the well thought out comments. I believe that they have greatly imporved, not only the manuscript, but the package it describes as well. I hope that my responses are at least satisfactory. Please find below a copy of the reviewers comments along with my responses.
+Thanks to the reviewers and editor for their time and and comments. I believe that they have greatly improved, not only the manuscript, but the package it describes as well. Please find below a copy of the reviewers comments along with my responses.
 
 
 # -----------Reviewer 1-----------
@@ -25,7 +25,7 @@ plotPartial(pd)
 ```
 
 ### Response 1.1
-This is simply a side effect of using `lattice` to produce the plots. If sourcing a script, then the plot needs to be explicitly printed (e.g., `print(plotPartial(pd))` or `print(partial(fit, pred.var = "x", plot = TRUE))`). Additional text has been added to manuscript (see **Note:** on page 3) and the package documentation explaining this behavior. The fact that this worked when calling `partial` with `plot = TRUE` was a bug (which is now fixed).
+This is simply a side effect of using `lattice` to produce the plots. If sourcing a script, then the plot needs to be explicitly printed (e.g., `print(plotPartial(pd))` or `print(partial(fit, pred.var = "x", plot = TRUE))`). This has been clarified in the package documentation and the manuscript (see **Note:** at the bottom of page 3). The fact that this worked when calling `partial` with `plot = TRUE` was a bug (which is now fixed).
 
 
 ### Comment 1.2

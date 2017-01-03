@@ -185,12 +185,12 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
   if (inherits(object, "gbm") && missing(pred.grid) && is.null(pred.fun)) {
 
     # If not supplied, try to extract training data from object when plot = TRUE
-    if (plot && missing(train)) {
+    if ((plot || chull) && missing(train)) {
       train <- getTrainingData(object)
     }
 
-    # Make sure grid.resolution is not NULL. If it is, use the same default as
-    # continuous.resolution in gbm::plot.gbm.
+    # If grid.resolution is NULL, use the same default as continuous.resolution
+    # in gbm::plot.gbm.
     if (is.null(grid.resolution)) {
       grid.resolution <- 100
     }

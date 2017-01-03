@@ -46,7 +46,7 @@ setwd("manuscript")
 # Load required packages
 library(doParallel)
 library(caret)
-library(dplyr)
+# library(dplyr)  # use dplyr:: instead to avoid conflictions with plyr!
 library(e1071)
 library(earth)
 library(ggplot2)
@@ -57,7 +57,7 @@ library(xgboost)
 
 
 ################################################################################
-# Boston housing example
+# Constructing PDPs in R
 ################################################################################
 
 # Load the (corrected) Boston housing data
@@ -81,6 +81,11 @@ pdf("boston_rf_vimp.pdf", width = 7, height = 5)
 varImpPlot(boston.rf)  # dotchart of variable importance scores
 dev.off()
 
+
+################################################################################
+# Single predictor PDPs
+################################################################################
+
 # Figure 2
 pd.lstat <- partial(boston.rf, pred.var = "lstat")
 pdf("pd_lstat.pdf", width = 8, height = 4)
@@ -90,8 +95,10 @@ pdp2 <- plotPartial(pd.lstat, lwd = 2, smooth = TRUE,
 grid.arrange(pdp1, pdp2, ncol = 2)
 dev.off()
 
-# Fit a MARS model
-boston.mars <- earth(cmedv ~ ., data = boston, degree = 3)
+
+################################################################################
+# Multi-predictor PDPs
+################################################################################
 
 # Figure 3
 rwb <- colorRampPalette(c("red", "white", "blue"))
@@ -103,6 +110,11 @@ p3 <- plotPartial(pd.lstat.rm, levelplot = FALSE, zlab = "cmedv", drape = TRUE,
                   colorkey = FALSE, screen = list(z = -20, x = -60))
 grid.arrange(p1, p2, p3, ncol = 3)
 dev.off()
+
+
+################################################################################
+# Avoiding extrapolation
+################################################################################
 
 # Figure 4
 pdf("partial_extrap.pdf", width = 8, height = 4)
@@ -126,7 +138,7 @@ dev.off()
 
 
 ################################################################################
-# Los Angeles ozone example
+# Addressing computational concerns
 ################################################################################
 
 # Load the LA ozone data
@@ -145,7 +157,7 @@ ozone.mars <- earth(ozone ~ ., data = ozone, degree = 3)
 #         chull = TRUE, parallel = TRUE)  # Figure 6
 # dev.off()
 
-# Figure 6 (Windows)
+# Figure 6
 pdf("partial_par.pdf", width = 7, height = 5)
 cl <- makeCluster(4)  # use 4 cores
 registerDoParallel(cl)
@@ -157,18 +169,9 @@ trellis.unfocus()
 stopCluster(cl)
 dev.off()
 
-cl <- makeCluster(4)  # use 4 cores
-registerDoParallel(cl)
-p <- partial(ozone.mars, pred.var = c("wind", "temp", "dpg"), plot = FALSE,
-             chull = TRUE, parallel = TRUE, paropts = list(.packages = "earth"))  # Figure 6
-stopCluster(cl)
-plotPartial(p)
-trellis.focus("legend", side = "right", clipp.off = TRUE, highlight = FALSE)
-grid.text("ozone", 0.2, 1.05, hjust = 0.5, vjust = 1)
-trellis.unfocus()
 
 ################################################################################
-# Edgar Anderson's iris data
+# Classification problems
 ################################################################################
 
 # # Train an SVM to Edgar Anderson's iris data using 5-fold classification
@@ -201,6 +204,11 @@ ggplot(pd, aes(x = Petal.Width, y = Petal.Length, z = yhat, fill = yhat)) +
   theme_bw() +
   facet_grid(~ Species)
 dev.off()
+
+
+################################################################################
+# User-defined prediction functions
+################################################################################
 
 # Figure 8
 probFun <- function(object, newdata) {
@@ -251,8 +259,8 @@ dev.off()
 
 # Post-process rm.ice to obtain c-ICE curves
 rm.ice <- rm.ice %>%
-  group_by(yhat.id) %>%
-  mutate(yhat.centered = yhat - first(yhat))
+  dplyr::group_by(yhat.id) %>%
+  dplyr::mutate(yhat.centered = yhat - first(yhat))
 
 # ICE curves with PDP
 p1 <- ggplot(rm.ice, aes(rm, yhat)) +

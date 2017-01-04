@@ -104,7 +104,7 @@ The \code{plotPartial} function can be used for displaying more advanced PDPs; i
 \end{enumerate}
 A consequence of the second point is that the \code{par} function cannot be used to control the layout of multiple \pkg{lattice} (and hence \pkg{pdp}) plots. Simple solutions are available in packages \CRANpkg{latticeExtra} \citep{latticeExtra-pkg} and \CRANpkg{gridExtra} \citep{gridExtra-pkg}. For convenience, \pkg{pdp} imports the \code{grid.arrange} function from \pkg{gridExtra} which makes it easy to display multiple \pkg{grid}-based graphical objects on a single plot (these include graphics produced using \pkg{lattice} (hence, \pkg{pdp}) and \pkg{ggplot2}). This is demonstrated in multiple examples throughout this paper.
 
-Currently supported models are described in Table~\ref{tab:models}. In these cases, \code{partial} should be able to automatically determine an appropriate value for the argument \code{type} (i.e., \code{"regression"} or \code{"classification"}). In other situations, the user may need to specify this argument. This allows \code{partial} to be flexible enough to handle many of the model types not listed in Table~\ref{tab:models}; for example, neural networks from the \CRANpkg{nnet} package \citep{venables-modern-2002} and projection pursuit regression \citep{friedman-ppr-1981} using the \code{ppr} function in the \pkg{stats} package.
+Currently supported models are described in Table~\ref{tab:models}. In these cases, \code{partial} should be able to automatically determine an appropriate value for the argument \code{type} (i.e., \code{"regression"} or \code{"classification"}). In other situations, the user may need to specify this argument. This allows \code{partial} to be flexible enough to handle many of the model types not listed in Table~\ref{tab:models}; for example, neural networks from the \CRANpkg{nnet} package \citep{venables-modern-2002}.% and projection pursuit regression \citep{friedman-ppr-1981} using the \code{ppr} function in the \pkg{stats} package.
 
 \begin{table}[!htbp]
   \begin{tabular}{p{4cm}ll}
@@ -121,15 +121,15 @@ Currently supported models are described in Table~\ref{tab:models}. In these cas
                                 & \pkg{gbm}      & \code{"gbm"} \\
                                 & \CRANpkg{xgboost} & \code{"xgb.Booster"} \\
       Cubist                    & \CRANpkg{Cubist} \citep{Cubist-pkg} & \code{"cubist"} \\
+      Generalized linear model  & \pkg{stats}    & \code{"glm"}, \code{"lm"} \\
+      Linear model              & \pkg{stats}    & \code{"lm"} \\
+      Nonlinear least squares   & \pkg{stats}    & \code{"nls"} \\
+      Multivariate adaptive regression splines (MARS) & \CRANpkg{earth} \citep{earth-pkg} & \code{"earth"} \\
+      Projection pursuit regression & \pkg{stats} & \code{"ppr"} \\
       Random forest             & \pkg{randomForest} & \code{"randomForest"} \\
                                 & \pkg{party}        & \code{"RandomForest"} \\
                                 & \pkg{partykit} & \code{"cforest"} \\
                                 & \CRANpkg{ranger} \citep{ranger-pkg} & \code{"ranger"} \\
-
-      Linear model              & \pkg{stats}    & \code{"lm"} \\
-      Generalized linear model  & \pkg{stats}    & \code{"glm"}, \code{"lm"} \\
-      Nonlinear least squares   & \pkg{stats}    & \code{"nls"} \\
-      Multivariate adaptive regression splines (MARS) & \CRANpkg{earth} \citep{earth-pkg} & \code{"earth"} \\
       Support vector machine    & \CRANpkg{e1071} \citep{e1071-pkg} & \code{"svm"} \\
                                 & \CRANpkg{kernlab} \citep{kernlab-pkg} & \code{"ksvm"} \\
       \bottomrule

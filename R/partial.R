@@ -183,6 +183,8 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
   # Construct partial dependence data
   if (inherits(object, "gbm") && missing(pred.grid) && is.null(pred.fun)) {
 
+    # FIXME: which.class gets ignored by gbm::plot.gbm
+
     # If not supplied, try to extract training data from object when plot = TRUE
     if ((plot || chull) && missing(train)) {
       train <- getTrainingData(object)

@@ -11,82 +11,51 @@
 # update.packages()
 
 # Load required packages
+library(adabag)
+library(C50)
+library(earth)
+library(e1071)
+library(gbm)
+library(ipred)
+library(kernlab)
+library(nnet)
+library(party)
 library(pdp)
+library(randomForest)
+library(ranger)
+library(rpart)
+library(xgboost)
 
 # Load data
 data(pima)
+pima <- na.omit(pima)
 
 
 ################################################################################
-# "bagging" objects: adabag package
+# Fit models
 ################################################################################
 
-# Load required package
-library(adabag)
+# adabag::bagging
+set.seed(101)
+pima.bagging <- bagging(diabetes ~ ., data = pima)
 
-# Fit a glm to the Pima indians diabetes data
-set.seed(101)  # for reproducibility
-pima.bagging <- bagging(diabetes ~ ., data = pima, fmfinal = 500)
+# adabag::boosting
+set.seed(101)
+pima.boosting <- boosting(diabetes ~ ., data = pima)
 
-# Construct a PDP for glucose
-partial(pima.bagging, pred.var = "glucose", plot = TRUE, progress = "text",
-        rug = TRUE)
+# C50::C5.0
+set.seed(101)
+pima.C5.0 <- C5.0(diabetes ~ ., data = pima, trials = 100)
 
-# Construct a PDP for glucose (probability scale)
-partial(pima.bagging, pred.var = "glucose", plot = TRUE, progress = "text",
-        pred.fun = function(object, newdata) {
-          mean(predict(object, newdata)$prob[, 1L], na.rm = TRUE)
-        })
+# e1071::svm
+pima.svm <- svm(diabetes ~ ., data = pima, type = "C-classification",
+                probability = TRUE)
 
+# earth
+pima.earth <- earth(diabetes ~ ., data = pima, degree = 2,
+                    glm = list(family = binomial))
 
-################################################################################
-# "bagging" objects: adabag package
-################################################################################
-
-# Load required package
-library(adabag)
-
-# Fit a glm to the Pima indians diabetes data
-set.seed(101)  # for reproducibility
-pima.boosting <- boosting(diabetes ~ ., data = pima, fmfinal = 500)
-
-# Construct a PDP for glucose
-partial(pima.boosting, pred.var = "glucose", plot = TRUE, progress = "text",
-        rug = TRUE)
-
-# Construct a PDP for glucose (probability scale)
-partial(pima.boosting, pred.var = "glucose", plot = TRUE, progress = "text",
-        pred.fun = function(object, newdata) {
-          mean(predict(object, newdata)$prob[, 1L], na.rm = TRUE)
-        })
-
-
-################################################################################
-# "glm" objects: stats package
-################################################################################
-
-# Fit a glm to the Pima indians diabetes data
-pima.glm <- glm(diabetes ~ ., data = pima, family = binomial)
-
-# Construct a PDP for glucose
-partial(pima.glm, pred.var = "glucose", plot = TRUE)
-
-# Construct a PDP for glucose (probability scale)
-partial(pima.glm, pred.var = "glucose", plot = TRUE,
-        pred.fun = function(object, newdata) {
-          mean(predict(object, newdata, type = "response"), na.rm = TRUE)
-        })
-
-
-
-################################################################################
-# "glm" object: gbm package
-################################################################################
-
-# Load required package
-library(gbm)
-
-# Fit a gbm to the Pima indians diabetes data
+# gbm
 set.seed(101)
 pima.gbm <- gbm(unclass(diabetes) - 1 ~ .,
                 data = pima,
@@ -96,96 +65,129 @@ pima.gbm <- gbm(unclass(diabetes) - 1 ~ .,
                 shrinkage = 0.001,
                 verbose = TRUE)
 best.iter <- gbm.perf(pima.gbm, method = "OOB")
-summary(pima.gbm, n.trees = best.iter, las = 1)
 
-# Compare plots for `glucose`
-par(mfrow = c(1, 2))
-plot(partial(pima.gbm, pred.var = "glucose", n.trees = best.iter), type = "l",
-     main = "pdp::partial")
-plot(pima.gbm, i.var = "glucose", n.trees = best.iter,
-     continuous.resolution = 51, main = "gbm::plot.gbm")
-
-# Compare plots for `glucose` and `age`
-p <- plot(pima.gbm, i.var = c("glucose", "mass"), n.trees = best.iter,
-          continuous.resolution = 51)
-grid.arrange(
-  partial(pima.gbm, pred.var = c("glucose", "mass"), plot = TRUE,
-          chull = TRUE, progress = "text", n.trees = best.iter),
-  p,
-  ncol = 2
-)
-
-
-# Try user-specified response scale
-par(mfrow = c(1, 2))
-plot(partial(pima.gbm, pred.var = "glucose",
-             pred.fun = function(object, newdata) {
-               mean(predict(object, newdata, type = "response",
-                            n.trees = best.iter))
-             },
-             grid.resolution = 51, progress = "text"),
-     type = "l", main = "pdp::partial")
-plot(pima.gbm, i.var = "glucose", type = "response", n.trees = best.iter,
-     continuous.resolution = 51)
-title("gbm::plot.gbm")
-
-
-################################################################################
-# "randomForest" objects: randomForest package
-################################################################################
-
-# Load required package
-library(randomForest)
-
-# Fit a random forest to the Pima indians diabetes data
+# ipred::bagging
 set.seed(101)
-pima.randomForest <- randomForest(diabetes ~ .,
-                                  data = pima,
-                                  na.action = na.omit,
-                                  ntree = 500,
-                                  importance = FALSE)
-
-# Construct a PDP for glucose
-partial(pima.randomForest, pred.var = "glucose", plot = TRUE, progress = "text",
-        rug = TRUE)
-
-# Construct a PDP for glucose (probability scale)
-partial(pima.randomForest, pred.var = "glucose", plot = TRUE, progress = "text",
-        rug = TRUE, pred.fun = function(object, newdata) {
-          mean(predict(object, newdata, type = "prob")[, 1L], na.rm = TRUE)
-        })
-
-# Construct ICE curves for triceps
-partial(pima.randomForest, pred.var = "triceps", plot = TRUE,
-        pred.fun = function(object, newdata) {
-          boot::logit(predict(object, newdata, type = "prob")[, 2L])
-        })
+pima.ipred.bagging <- ipred::bagging(diabetes ~ ., data = pima, nbagg = 500)
 
 
-# Pima Indians example from ?ICEbox::ice ---------------------------------------
+# kernlab::svm
+pima.ksvm <- ksvm(diabetes ~ ., data = pima, type = "C-svc", prob.model = TRUE)
 
-data(Pima.te, package = "MASS")  #Pima Indians diabetes classification
-y = Pima.te$type
-X = Pima.te
-X$type = NULL
+# nnet
+pima.nnet <- nnet(diabetes ~ ., data = pima, size = 10, decay = 0.1, maxit = 500)
 
-## build a RF:
-pima_rf_mod = randomForest(x = X, y = y)
+# party::ctree
+pima.ctree <- ctree(diabetes ~ ., data = pima)
 
-## Create an 'ice' object for the predictor "skin":
-# For classification we plot the centered log-odds. If we pass a predict
-# function that returns fitted probabilities, setting logodds = TRUE instructs
-# the function to set each ice curve to the centered log-odds of the fitted
-# probability.
-plot(
-  ice(pima_rf_mod, X = X, predictor = "skin", logodds = TRUE,
-      predictfcn = function(object, newdata) {
-        predict(object, newdata, type = "prob")[, 2L]
-      })
+# party::cforest
+set.seed(101)
+pima.crf <- cforest(diabetes ~ ., data = pima)
+
+# randomForest
+set.seed(101)
+pima.rf <- randomForest(diabetes ~ ., data = pima)
+
+# ranger
+set.seed(101)
+pima.ranger <- ranger(diabetes ~ ., data = pima, probability = TRUE)
+
+# rpart
+pima.rpart <- rpart(diabetes ~ ., data = pima)
+
+# stats::glm
+pima.glm <- glm(diabetes ~ ., data = pima, family = binomial)
+
+# xgboost
+set.seed(101)
+pima.xgb <- xgboost(data = data.matrix(subset(pima, select = -diabetes)),
+                    label = unclass(pima$diabetes) - 1,
+                    objective = "binary:logistic",
+                    nrounds = 100, max_depth = 3, eta = 0.1, gamma = 0,
+                    colsample_bytree = 0.8, min_child_weight = 1,
+                    subsample = 0.7)
+
+
+################################################################################
+# PDPs for a single predictor
+################################################################################
+
+# Store variable name(s) in case we want to change it later
+x <- "glucose"
+
+# adabag::bagging
+pdp.bagging <- partial(pima.bagging, pred.var = x)
+
+# adabag::boosting
+pdp.boosting <- partial(pima.boosting, pred.var = x)
+
+# C50::C5.0
+pdp.C5.0 <- partial(pima.C5.0, pred.var = x)
+
+# e1071::svm
+pdp.svm <- partial(pima.svm, pred.var = x)
+
+# earth
+pdp.earth <- partial(pima.earth, pred.var = x, which.class = 2)
+
+# gbm
+pdp.gbm <- partial(pima.gbm, pred.var = x)
+
+# ipred::bagging
+pdp.ipred.bagging <- partial(pima.ipred.bagging, pred.var = x)
+
+# kernlab::ksvm
+pdp.ksvm <- partial(pima.ksvm, pred.var = x, train = pima)
+
+# nnet
+pdp.nnet <- partial(pima.nnet, pred.var = x, type = "classification",
+                    which.class = 2)
+
+# party::ctree
+pdp.ctree <- partial(pima.ctree, pred.var = x)
+
+# party::cforest
+pdp.crf <- partial(pima.crf, pred.var = x, progress = "text")
+
+# randomForest
+pdp.rf <- partial(pima.rf, pred.var = x)
+
+# ranger
+pdp.ranger <- partial(pima.ranger, pred.var = x)
+
+# rpart
+pdp.rpart <- partial(pima.rpart, pred.var = x)
+
+# stats::glm
+pdp.glm <- partial(pima.glm, pred.var = x, which.class = 2)
+
+# xgboost
+pdp.xgb <- partial(pima.xgb, pred.var = x, which.class = 2,
+                   train = subset(pima, select = -diabetes))
+
+# Display PDPs
+grid.arrange(
+  plotPartial(pdp.bagging, main = "adabag::bagging"),
+  plotPartial(pdp.boosting, main = "adabag::boosting"),
+  plotPartial(pdp.C5.0, main = "C50::C5.0"),
+  plotPartial(pdp.svm, main = "e1071::svm"),
+  plotPartial(pdp.earth, main = "earth"),
+  plotPartial(pdp.gbm, main = "gbm"),
+  plotPartial(pdp.ipred.bagging, main = "ipred::bagging"),
+  plotPartial(pdp.ksvm, main = "kernlab::ksvm"),
+  plotPartial(pdp.nnet, main = "nnet"),
+  plotPartial(pdp.ctree, main = "party::ctree"),
+  plotPartial(pdp.crf, main = "party::cforest"),
+  plotPartial(pdp.rf, main = "randomForest"),
+  plotPartial(pdp.ranger, main = "ranger"),
+  plotPartial(pdp.rpart, main = "rpart"),
+  plotPartial(pdp.glm, main = "stats::glm"),
+  plotPartial(pdp.xgb, main = "xgboost"),
+  ncol = 4
 )
 
-# Do the same using partial
-partial(pima_rf_mod, pred.var = "skin", plot = TRUE, train = X,
-        pred.fun = function(object, newdata) {
-          boot::logit(predict(object, newdata, type = "prob")[, 2L])
-})
+# PDP on the probability scale using pred.fun argument with ranger model
+partial(pima.ranger, pred.var = c("glucose", "age"), progress = "text",
+        plot = TRUE, chull = TRUE, pred.fun = function(object, newdata) {
+          mean(predict(object, data = newdata)$predictions[, 1])
+        })

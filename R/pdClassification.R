@@ -47,6 +47,14 @@ pdPredictClassification.default <- function(object, newdata, which.class, ...) {
 
 
 #' @keywords internal
+pdPredictClassification.BinaryTree <- function(object, newdata, which.class,
+                                               ...) {
+  pr <- stats::predict(object, newdata = newdata, type = "prob", ...)
+  avgLogit(do.call(rbind, pr), which.class = which.class)
+}
+
+
+#' @keywords internal
 pdPredictClassification.bagging <- function(object, newdata, which.class, ...) {
   avgLogit(stats::predict(object, newdata = newdata, ...)$prob,
            which.class = which.class)
@@ -58,6 +66,13 @@ pdPredictClassification.boosting <- function(object, newdata, which.class,
                                              ...) {
   avgLogit(stats::predict(object, newdata = newdata, ...)$prob,
            which.class = which.class)
+}
+
+
+#' @keywords internal
+pdPredictClassification.earth <- function(object, newdata, which.class, ...) {
+  pr <- stats::predict(object, newdata = newdata, type = "response", ...)
+  avgLogit(cbind(pr, 1 - pr), which.class = which.class)
 }
 
 
@@ -94,12 +109,32 @@ pdPredictClassification.nnet <- function(object, newdata, which.class, ...) {
   } else {
     stats::predict(object, newdata = newdata, type = "raw", ...)
   }
-  avgLogit(pr, which.class = which.class)
+  # It seems that when the response has more than two levels, predict.nnet
+  # returns a matrix whose column names are the same as the factor levels. When
+  # the response is binary, a single-columned matrix with no column name is
+  # returned.
+  if (ncol(pr) == 1) {
+    avgLogit(cbind(pr, 1 - pr), which.class = which.class)
+  } else {
+    avgLogit(pr, which.class = which.class)
+  }
+}
+
+
+#' @keywords internal
+pdPredictClassification.RandomForest <- function(object, newdata, which.class,
+                                                 ...) {
+  pr <- stats::predict(object, newdata = newdata, type = "prob", ...)
+  avgLogit(do.call(rbind, pr), which.class = which.class)
 }
 
 
 #' @keywords internal
 pdPredictClassification.ranger <- function(object, newdata, which.class, ...) {
+  if (object$treetype != "Probability estimation") {
+    stop(paste("Cannot obtain predicted probabilities from",
+               deparse(substitute(object))))
+  }
   avgLogit(stats::predict(object, data = newdata, ...)$predictions,
            which.class = which.class)
 }

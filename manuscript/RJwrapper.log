@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.4.30)  4 JAN 2017 13:06
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.4.30)  4 JAN 2017 17:58
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1459,7 +1459,7 @@ Package microtype Info: Loading generic settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
  [4]
-<boston_rf_vimp.pdf, id=257, 505.89pt x 361.35pt>
+<boston_rf_vimp.pdf, id=254, 505.89pt x 361.35pt>
 File: boston_rf_vimp.pdf Graphic file (type pdf)
  <use boston_rf_vimp.pdf>
 Package pdftex.def Info: boston_rf_vimp.pdf used on input line 165.
@@ -1467,13 +1467,13 @@ Package pdftex.def Info: boston_rf_vimp.pdf used on input line 165.
 LaTeX Font Info:    Font shape `T1/ppl/bx/n' in size <10> not available
 (Font)              Font shape `T1/ppl/b/n' tried instead on input line 174.
 
-[5 <./boston_rf_vimp.pdf>] <pd_lstat.pdf, id=275, 578.16pt x 289.08pt>
+[5 <./boston_rf_vimp.pdf>] <pd_lstat.pdf, id=272, 578.16pt x 289.08pt>
 File: pd_lstat.pdf Graphic file (type pdf)
 
 <use pd_lstat.pdf>
 Package pdftex.def Info: pd_lstat.pdf used on input line 197.
 (pdftex.def)             Requested size: 398.33858pt x 199.16986pt.
- <pd_lstat_rm.pdf, id=287, 867.24pt x 289.08pt>
+ <pd_lstat_rm.pdf, id=284, 867.24pt x 289.08pt>
 File: pd_lstat_rm.pdf Graphic file (type pdf)
 
 <use pd_lstat_rm.pdf>
@@ -1484,14 +1484,14 @@ Overfull \hbox (56.90552pt too wide) in paragraph at lines 235--235
  []$[]$ 
  []
 
-[6 <./pd_lstat.pdf>] <partial_extrap.pdf, id=307, 578.16pt x 289.08pt>
+[6 <./pd_lstat.pdf>] <partial_extrap.pdf, id=304, 578.16pt x 289.08pt>
 File: partial_extrap.pdf Graphic file (type pdf)
 
 <use partial_extrap.pdf>
 Package pdftex.def Info: partial_extrap.pdf used on input line 258.
 (pdftex.def)             Requested size: 398.33858pt x 199.16986pt.
  [7 <./pd_lstat_rm.pdf> <./partial_extrap.pdf>]
-<partial_manual.pdf, id=328, 867.24pt x 289.08pt>
+<partial_manual.pdf, id=325, 867.24pt x 289.08pt>
 File: partial_manual.pdf Graphic file (type pdf)
  <use partial_manual.pdf>
 Package pdftex.def Info: partial_manual.pdf used on input line 286.
@@ -1507,40 +1507,40 @@ Overfull \hbox (18.31128pt too wide) in paragraph at lines 290--291
  : / / statweb . stanford . edu / ~tibs / ElemStatLearn / datasets / LAozone .
  []
 
-[8 <./partial_manual.pdf>] <partial_par.pdf, id=369, 505.89pt x 361.35pt>
+[8 <./partial_manual.pdf>] <partial_par.pdf, id=366, 505.89pt x 361.35pt>
 File: partial_par.pdf Graphic file (type pdf)
 
 <use partial_par.pdf>
 Package pdftex.def Info: partial_par.pdf used on input line 330.
 (pdftex.def)             Requested size: 318.67207pt x 227.62413pt.
  [9 <./partial_par.pdf>]
-<partial_iris_svm.pdf, id=386, 867.24pt x 289.08pt>
+<partial_iris_svm.pdf, id=383, 867.24pt x 289.08pt>
 File: partial_iris_svm.pdf Graphic file (type pdf)
  <use partial_iris_svm.pdf>
 Package pdftex.def Info: partial_iris_svm.pdf used on input line 380.
 (pdftex.def)             Requested size: 398.33858pt x 132.7799pt.
 
 [10 <./partial_iris_svm.pdf>]
-<partial_iris_svm_prob.pdf, id=411, 867.24pt x 289.08pt>
+<partial_iris_svm_prob.pdf, id=407, 867.24pt x 289.08pt>
 File: partial_iris_svm_prob.pdf Graphic file (type pdf)
 
 <use partial_iris_svm_prob.pdf>
 Package pdftex.def Info: partial_iris_svm_prob.pdf used on input line 420.
 (pdftex.def)             Requested size: 398.33858pt x 132.7799pt.
  [11 <./partial_iris_svm_prob.pdf>]
-<ice_boston.pdf, id=425, 505.89pt x 361.35pt>
+<ice_boston.pdf, id=422, 505.89pt x 361.35pt>
 File: ice_boston.pdf Graphic file (type pdf)
  <use ice_boston.pdf>
 Package pdftex.def Info: ice_boston.pdf used on input line 442.
 (pdftex.def)             Requested size: 318.67207pt x 227.62413pt.
 
-<ice_cice_boston.pdf, id=435, 578.16pt x 289.08pt>
+<ice_cice_boston.pdf, id=432, 578.16pt x 289.08pt>
 File: ice_cice_boston.pdf Graphic file (type pdf)
  <use ice_cice_boston.pdf>
 Package pdftex.def Info: ice_cice_boston.pdf used on input line 473.
 (pdftex.def)             Requested size: 398.33858pt x 199.16986pt.
 
-[12 <./ice_boston.pdf>] <boston_xgb.pdf, id=452, 867.24pt x 289.08pt>
+[12 <./ice_boston.pdf>] <boston_xgb.pdf, id=449, 867.24pt x 289.08pt>
 File: boston_xgb.pdf Graphic file (type pdf)
 
 <use boston_xgb.pdf>
@@ -1560,14 +1560,14 @@ Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 29.
 Package rerunfilecheck Info: File `RJwrapper.out' has not changed.
 (rerunfilecheck)             Checksum: 882759ED1B2A5348A3AA2C78A80D50DE;903.
 Package rerunfilecheck Info: File `RJwrapper.brf' has not changed.
-(rerunfilecheck)             Checksum: 89D79A5B3EB61637FF8E15FA87936C00;3188.
+(rerunfilecheck)             Checksum: 48188F64EC56FEBEAFBB740744394E31;3140.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 29.
  ) 
 Here is how much of TeX's memory you used:
- 22414 strings out of 494953
- 397896 string characters out of 6180977
- 494030 words of memory out of 5000000
- 24858 multiletter control sequences out of 15000+600000
+ 22407 strings out of 494953
+ 397736 string characters out of 6180977
+ 493989 words of memory out of 5000000
+ 24852 multiletter control sequences out of 15000+600000
  76346 words of font info for 302 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  62i,12n,56p,1630b,659s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1602,10 +1602,10 @@ pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/palatino/uplbi8a.pfb></usr/s
 hare/texlive/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texlive
 /texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texlive/texmf-dist/
 fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on RJwrapper.pdf (16 pages, 841465 bytes).
+Output written on RJwrapper.pdf (16 pages, 841128 bytes).
 PDF statistics:
- 656 PDF objects out of 1000 (max. 8388607)
- 596 compressed objects within 6 object streams
- 103 named destinations out of 1000 (max. 500000)
+ 651 PDF objects out of 1000 (max. 8388607)
+ 591 compressed objects within 6 object streams
+ 102 named destinations out of 1000 (max. 500000)
  50340 words of extra memory for PDF output out of 51595 (max. 10000000)
 

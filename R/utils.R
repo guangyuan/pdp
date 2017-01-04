@@ -248,6 +248,18 @@ superType.boosting <- function(object) {
 
 
 #' @keywords internal
+superType.classbagg <- function(object) {
+  "classification"
+}
+
+
+#' @keywords internal
+superType.regbagg <- function(object) {
+  "regression"
+}
+
+
+#' @keywords internal
 superType.cubist <- function(object) {
   "regression"
 }
@@ -282,6 +294,15 @@ superType.lm <- function(object) {
 
 #' @keywords internal
 superType.nls <- function(object) {
+  "regression"
+}
+
+
+#' @keywords internal
+superType.ppr <- function(object) {
+  if (object$q > 1) {
+    stop("`partial` does not currently support multivariate response models.")
+  }
   "regression"
 }
 
@@ -346,7 +367,7 @@ superType.randomForest <- function(object) {
 superType.ranger <- function(object) {
   if (object$treetype == "Regression") {
     "regression"
-  } else if (object$treetype %in% c("Classification", "Probability estimation")) {
+  } else if (object$treetype == "Probability estimation") {
     "classification"
   } else {
     "other"
@@ -390,8 +411,8 @@ superType.xgb.Booster <- function(object) {
     "classification"
   } else if (object$params$objective %in%
              c("reg:logistic", "binary:logitraw", "multi:softmax")) {
-    stop(paste0("For classification, switch to an objective function",
-                "that returns the predicted probabilities."))
+    stop(paste("For classification, switch to an objective function",
+               "that returns the predicted probabilities."))
   } else {
     "other"
   }

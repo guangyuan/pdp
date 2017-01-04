@@ -1,4 +1,4 @@
-\begin{thebibliography}{42}
+\begin{thebibliography}{41}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -93,12 +93,6 @@ J.~H. Friedman and B.~E. Popescu.
 \newblock Predictive learning via rule ensembles.
 \newblock \emph{Annals of Applied Statistics}, 2\penalty0 (3):\penalty0
   916--954, 2008.
-
-\bibitem[Friedman and Stuetzle(1981)]{friedman-ppr-1981}
-J.~H. Friedman and W.~Stuetzle.
-\newblock Projection pursuit regression.
-\newblock \emph{Journal of the American Statistical Association}, 76\penalty0
-  (376):\penalty0 817--823, 1981.
 
 \bibitem[Garnier(2016)]{viridis-pkg}
 S.~Garnier.

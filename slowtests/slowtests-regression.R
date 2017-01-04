@@ -15,6 +15,7 @@ library(Cubist)
 library(earth)
 library(e1071)
 library(gbm)
+library(ipred)
 library(kernlab)
 library(nnet)
 library(party)
@@ -71,6 +72,10 @@ boston.gbm <- gbm(cmedv ~ .,
                   shrinkage = 0.001,
                   verbose = TRUE)
 best.iter <- gbm.perf(boston.gbm, method = "OOB")
+
+# ipred::bagging
+set.seed(101)
+boston.ipred.bagging <- ipred::bagging(cmedv ~ ., data = boston, nbagg = 500)
 
 # kernlab::svm
 boston.ksvm <- ksvm(cmedv ~ ., data = boston, type = "eps-svr")
@@ -132,6 +137,9 @@ pdp.earth <- partial(boston.earth, pred.var = x)
 pdp.gbm <- partial(boston.gbm, pred.var = x)
 
 # kernlab::ksvm
+pdp.ipred.bagging <- partial(boston.ipred.bagging, pred.var = x)
+
+# kernlab::ksvm
 pdp.ksvm <- partial(boston.ksvm, pred.var = x, train = boston)
 
 # nnet
@@ -169,6 +177,7 @@ grid.arrange(
   plotPartial(pdp.crf, main = "party::cforest"),
   plotPartial(pdp.earth, main = "earth"),
   plotPartial(pdp.gbm, main = "gbm"),
+  plotPartial(pdp.ipred.bagging, main = "ipred::bagging"),
   plotPartial(pdp.rf, main = "randomForest"),
   plotPartial(pdp.ranger, main = "ranger"),
   plotPartial(pdp.rpart, main = "rpart"),

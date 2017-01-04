@@ -1,10 +1,10 @@
 ---
 title: "Response to Comments"
 output:
-  html_document: default
+  word_document: default
   html_notebook: default
   pdf_document: default
-  word_document: default
+  html_document: default
 ---
 
 Thanks to the reviewers and editor for their time and and comments. I believe that they have greatly improved, not only the manuscript, but the package it describes as well. Please find below a copy of the reviewers comments along with my responses.

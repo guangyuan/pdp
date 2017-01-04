@@ -74,9 +74,8 @@
 #' avoided when the training data are passed to the \code{train} argument in the
 #' call to \code{partial}.
 #'
-#' It is possible to retrieve the most recent PDP constructed by \code{partial}
-#' after it is deleted (as long as no other \code{"trellis"} objects have
-#' been created since); simply use \code{trellis.last.object()}.
+#' It is possible to retrieve the last printed \code{"trellis"} object, such as
+#' those produced by \code{plotPartial}, using \code{trellis.last.object()}.
 #'
 #' It is possible for \code{partial} to run much faster if \code{object}
 #' inherits from class \code{"gbm"}. In particular, if \code{object} inherits

@@ -18,7 +18,7 @@ Complex nonparametric models---like neural networks, random forests, and support
 \section{Introduction}
 \label{sec:intro}
 
-\citet{harrison-1978-hedonic} were among the first to analyze the well-known Boston housing data. One of their goals was to find a housing value equation using data on median housing values from $n = 506$ census tracts in the suburbs of Boston from the 1970 census; see \citet[Table IV]{harrison-1978-hedonic} for a description of each variable. The data violate many classical assumptions like linearity, normality, and constant variance. Nonetheless, \citeauthor{harrison-1978-hedonic}---using a combination of transformations, significance testing, and grid searches---were able to find a reasonable fitting model ($R^2 = 0.81$). Part of the payoff for there time and efforts was an interpretable prediction equation which is reproduced in Equation~\eqref{eqn:boston}.
+\citet{harrison-1978-hedonic} were among the first to analyze the well-known Boston housing data. One of their goals was to find a housing value equation using data on median home values from $n = 506$ census tracts in the suburbs of Boston from the 1970 census; see \citet[Table IV]{harrison-1978-hedonic} for a description of each variable. The data violate many classical assumptions like linearity, normality, and constant variance. Nonetheless, \citeauthor{harrison-1978-hedonic}---using a combination of transformations, significance testing, and grid searches---were able to find a reasonable fitting model ($R^2 = 0.81$). Part of the payoff for there time and efforts was an interpretable prediction equation which is reproduced in Equation~\eqref{eqn:boston}.
 \begin{equation}
 \label{eqn:boston}
 \begin{aligned}
@@ -29,7 +29,7 @@ Complex nonparametric models---like neural networks, random forests, and support
 \end{aligned}
 \end{equation}
 
-Nowadays, many supervised learning algorithms can fit the data automatically in seconds---typically with higher accuracy. (We will revisit the Boston housing data in Section~\ref{sec:boston}.) The downfall, however, is some loss of interpretation; for example, these algorithms typically do not produce simple prediction formulas like in Equation~\eqref{eqn:boston}. Fortunately, these models can still provide insight into the data, but it is not in the form of simple equations. For example, many modern methods, like boosting and random forests, can assign importance scores to all of the predictors in the training data.
+Nowadays, many supervised learning algorithms can fit the data automatically in seconds---typically with higher accuracy. (We will revisit the Boston housing data in Section~\ref{sec:boston}.) The downfall, however, is some loss of interpretation; for example, these algorithms typically do not produce simple prediction formulas like Equation~\eqref{eqn:boston}. These models can still provide insight into the data, but it is not in the form of simple equations. For example, quantifying predictor importance has become a crucial task in the analysis of "big data", and many supervised learning algorithms, like tree-based methods, can naturally assign variable importance scores to all of the predictors in the training data.
 
 While determining predictor importance is a crucial task in any supervised learning problem, ranking variables is only part of the story and once a subset of "important" features is identified it is often necessary to assess the relationship between them (or subset thereof) and the response. This can be done in many ways, but in machine learning it is often accomplished by constructing \dfn{partial dependence plots} (PDPs); see \citet{friedman-2001-greedy} for details. PDPs help visualize the relationship between a subset of the features (typically 1-3) and the response while accounting for the average effect of the other predictors in the model. They are particularly effective with black box models like random forests and support vector machines.
 
@@ -78,7 +78,7 @@ The \CRANpkg{plotmo} package \citep{plotmo-pkg} is one alternative to \pkg{pdp}.
 
 PDPs can be misleading in the presence of substantial interactions \citep{goldstein-peeking-2015}. To overcome this issue \citeauthor*{goldstein-peeking-2015} developed the concept of \dfn{individual conditional expectation} (ICE) plots---available in the \CRANpkg{ICEbox} package. ICE plots display the estimated relationship between the response and a predictor of interest for each observation. Consequently, the PDP for a predictor of interest can be obtained by averaging the corresponding ICE curves across all observations. In Section~\ref{sec:prediction}, it is shown how to obtain ICE curves using the \pkg{pdp} package (which is slightly faster than \pkg{ICEbox}). \pkg{ICEbox} only allows for one variable at a time (i.e., no multivariate displays), though color can be used effectively to display information about an additional predictor. The ability to construct centered ICE (c-ICE) plots and derivative ICE (d-ICE) plots is also available in \pkg{ICEbox}; c-ICE plots help visualize heterogeneity in the modeled relationship between observations, and d-ICE plots help to explore interaction effects.
 
-Many other techniques exist for visualizing relationships between the predictors and the response based on a fitted model. For example, the \CRANpkg{car} package \citep{fox-car-2011} contains many functions for constructing \dfn{partial-residual} and \dfn{marginal-model} plots. \dfn{Effect displays}, available in the \CRANpkg{effects} package \citep{fox-effects-2003}, provides tabular and graphical displays for the terms in parametric models while holding all other predictors at some constant value---similar in spirit to \pkg{plotmo}'s marginal model plots. However, these methods were designed for simpler parametric models (e.g., linear and generalized linear models), whereas \pkg{plotmo}, \pkg{ICEbox}, and \pkg{pdp} are more useful for black box models (although, they can be used for simple parametric models as well).
+Many other techniques exist for visualizing relationships between the predictors and the response based on a fitted model. For example, the \CRANpkg{car} package \citep{fox-car-2011} contains many functions for constructing \dfn{partial-residual} and \dfn{marginal-model} plots. \dfn{Effect displays}, available in the \CRANpkg{effects} package \citep{fox-effects-2003}, provide tabular and graphical displays for the terms in parametric models while holding all other predictors at some constant value---similar in spirit to \pkg{plotmo}'s marginal model plots. However, these methods were designed for simpler parametric models (e.g., linear and generalized linear models), whereas \pkg{plotmo}, \pkg{ICEbox}, and \pkg{pdp} are more useful for black box models (although, they can be used for simple parametric models as well).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -222,7 +222,7 @@ pdp2 <- plotPartial(pd, contour = TRUE, col.regions = rwb)
 pdp3 <- plotPartial(pd, levelplot = FALSE, zlab = "cmedv", drape = TRUE,
                     colorkey = TRUE, screen = list(z = -20, x = -60))
 
-# Display plots side by side (Figure 3)
+# Figure 3
 grid.arrange(pdp1, pdp2, pdp3, ncol = 3)
 \end{example}
 \strong{Note:} the default color map for level plots is the color blind-friendly matplotlib \citep{hunter-matplotlib-2007} 'viridis' color map provided by the \CRANpkg{viridis} package \citep{viridis-pkg}.
@@ -313,7 +313,7 @@ library(doParallel)  # load the parallel backend
 cl <- makeCluster(4)  # use 4 workers
 registerDoParallel(cl)  # register the parallel backend
 \end{example}
-Now, to run \code{partial} in parallel, all we have to do is invoke the \code{parallel = TRUE} and \code{paropts} options and the rest is taken care of by the internal call to \pkg{plyr} and the parallel backend we loaded\footnote{Notice we have to pass the names of external packages that the tasks depend on via the \code{paropts} argument; in this case, \code{"earth"}. See \code{?plyr::adply} for details.}. This is illustrated in the code chunk below which obtains the partial dependence of \code{ozone} on \code{wind}, \code{temp}, and \code{dpg} in parallel. The last three lines of code simply add a label to the colorkey. The result is displayed in Figure~\ref{fig:partial_par}. \strong{Note:} it is considered good practice to shut down the workers by calling \code{stopCluster} when finished.
+Now, to run \code{partial} in parallel, all we have to do is invoke the \code{parallel = TRUE} and \code{paropts} options and the rest is taken care of by the internal call to \pkg{plyr} and the parallel backend we loaded\footnote{Notice we have to pass the names of external packages that the tasks depend on via the \code{paropts} argument; in this case, \code{"earth"}. See \code{?plyr::adply} for details.}. This is illustrated in the code chunk below which obtains the partial dependence of \code{ozone} on \code{wind}, \code{temp}, and \code{dpg} in parallel. The last three lines of code add a label to the colorkey. The result is displayed in Figure~\ref{fig:partial_par}. \strong{Note:} it is considered good practice to shut down the workers by calling \code{stopCluster} when finished.
 \begin{example}
 partial(ozone.mars, pred.var = c("wind", "temp", "dpg"), plot = TRUE,
         chull = TRUE, parallel = TRUE, paropts = list(.packages = "earth"))  # Figure 6
@@ -555,7 +555,7 @@ TBD.
 \bibliography{greenwell}
 
 \address{Brandon M. Greenwell\\
-  Infoscitex Corporation\\
+  Infoscitex, a DCS Corporation\\
   4027 Colonel Glenn Highway\\
   Suite 210\\
   Dayton, OH 45431-1672\\

@@ -114,7 +114,7 @@ trainCHull <- function(pred.var, pred.grid, train) {
 # Error message to display when training data cannot be extracted form object
 mssg <- paste0("The training data could not be extracted from ",
                deparse(substitute(object)), ". Please supply the raw ",
-               "training data using the `train` argument in the call to ,",
+               "training data using the `train` argument in the call to ",
                "`partial`.")
 
 

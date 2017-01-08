@@ -103,6 +103,13 @@ pdPredictClassification.ksvm <- function(object, newdata, which.class, ...) {
 
 
 #' @keywords internal
+pdPredictClassification.lda <- function(object, newdata, which.class, ...) {
+  pr <- stats::predict(object, newdata = newdata, ...)$posterior
+  avgLogit(cbind(pr, 1 - pr), which.class = which.class)
+}
+
+
+#' @keywords internal
 pdPredictClassification.nnet <- function(object, newdata, which.class, ...) {
   pr <- if (inherits(object, "multinom")) {
     stats::predict(object, newdata = newdata, type = "probs", ...)
@@ -118,6 +125,13 @@ pdPredictClassification.nnet <- function(object, newdata, which.class, ...) {
   } else {
     avgLogit(pr, which.class = which.class)
   }
+}
+
+
+#' @keywords internal
+pdPredictClassification.qda <- function(object, newdata, which.class, ...) {
+  pr <- stats::predict(object, newdata = newdata, ...)$posterior
+  avgLogit(cbind(pr, 1 - pr), which.class = which.class)
 }
 
 

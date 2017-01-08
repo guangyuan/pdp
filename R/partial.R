@@ -4,12 +4,12 @@
 #' model fitting objects.
 #'
 #' @param object A fitted model object of appropriate class (e.g.,
-#'   \code{"gbm"}, \code{"lm"}, \code{"randomForest"}, etc.).
+#'   \code{"gbm"}, \code{"lm"}, \code{"randomForest"}, \code{"train"}, etc.).
 #' @param pred.var Character string giving the names of the predictor
 #'   variables of interest. For reasons of computation/interpretation, this
 #'   should include no more than three variables.
-#' @param pred.grid Data frame containing the joint values of the variables
-#'   listed in \code{pred.var}.
+#' @param pred.grid Data frame containing the joint values of interest for the
+#'   variables listed in \code{pred.var}.
 #' @param pred.fun Optional prediction function that requires two arguments:
 #'   \code{object} and \code{newdata}. If specified, then the function must
 #'   return a single prediction or a vector of predictions (i.e., not a matrix
@@ -21,8 +21,8 @@
 #'   of the continuous independent variables listed in \code{pred.var}.
 #' @param type Character string specifying the type of supervised learning.
 #'   Current options are \code{"auto"}, \code{"regression"} or
-#'   \code{"classification"}. If \code{type = "auto"} then \code{partial} try
-#'   to extract the necessary information from \code{object}.
+#'   \code{"classification"}. If \code{type = "auto"} then \code{partial} will
+#'   try to extract the necessary information from \code{object}.
 #' @param which.class Integer specifying which column of the matrix of predicted
 #'   probabilities to use as the "focus" class. Default is to use the first
 #'   class. Only used for classification problems (i.e., when
@@ -85,7 +85,7 @@
 #' described in Friedman (2001).
 #'
 #' If the prediction function given to \code{pred.fun} returns a prediction for
-#' each observation in \code{newdata} then the result will be a PDP for each
+#' each observation in \code{newdata}, then the result will be a PDP for each
 #' observation. These are called individual conditional expectation (ICE)
 #' curves; see Goldstein et al. (2015) and \code{\link[ICEbox]{ice}} for
 #' details.
@@ -123,7 +123,7 @@
 #'
 #' # The partial function allows for multiple predictors
 #' partial(boston.rf, pred.var = c("lstat", "rm"), grid.resolution = 40,
-#'         plot = TRUE, chull = TRUE, .progress = "text")
+#'         plot = TRUE, chull = TRUE, progress = "text")
 #'
 #' # The plotPartial function offers more flexible plotting
 #' pd <- partial(boston.rf, pred.var = c("lstat", "rm"), grid.resolution = 40)
@@ -140,9 +140,17 @@
 #' set.seed(102)  # for reproducibility
 #' pima.rf <- randomForest(diabetes ~ ., data = pima, na.action = na.omit)
 #'
-#' # Partial dependence of glucose on diabetes test result (neg/pos)
+#' # Partial dependence of diabetes test result (neg/pos) on glucose
 #' partial(pima.rf, pred.var = c("glucose", "age"), plot = TRUE, chull = TRUE,
-#'         .progress = "text")
+#'         progress = "text")
+#'
+#' # Partial dependence of positive diabetes test result on glucose, plotted on
+#' # the probability scale, rather than the centered logit
+#' pfun <- function(object, newdata) {
+#'   mean(predict(object, newdata, type = "prob")[, "pos"], ne.rm = TRUE)
+#' }
+#' partial(pima.rf, pred.var = "glucose", pred.fun = pfun,
+#'         plot = TRUE, chull = TRUE, progress = "text")
 #'
 #' #
 #' # Interface with caret (requires caret package to run)

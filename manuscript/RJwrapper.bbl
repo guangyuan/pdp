@@ -53,12 +53,6 @@ L.~Breiman and J.~H. Friedman.
 \newblock \emph{Journal of the American Statistical Association}, 80\penalty0
   (391):\penalty0 580--598, 1985.
 
-\bibitem[Dimitriadou(2010)]{mlbench-pkg}
-F.~L. .~E. Dimitriadou.
-\newblock \emph{mlbench: Machine Learning Benchmark Problems}, 2010.
-\newblock URL \url{https://CRAN.R-project.org/package=mlbench}.
-\newblock R package version 2.1-1.
-
 \bibitem[Fitzmaurice et~al.(2011)Fitzmaurice, Laird, and
   Ware]{fitzmaurice-2011-applied}
 G.~Fitzmaurice, N.~Laird, and J.~Ware.
@@ -167,6 +161,12 @@ M.~Kuhn, S.~Weston, N.~Coulter, and M.~C.~C. code for C5.0~by R.~Quinlan.
 \newblock \emph{C50: C5.0 Decision Trees and Rule-Based Models}, 2015.
 \newblock URL \url{https://CRAN.R-project.org/package=C50}.
 \newblock R package version 0.1.0-24.
+
+\bibitem[Leisch et~al.(2016)Leisch, Hornik, and Ripley.]{mda-pkg}
+F.~Leisch, K.~Hornik, and B.~D. Ripley.
+\newblock \emph{mda: Mixture and Flexible Discriminant Analysis}, 2016.
+\newblock URL \url{https://CRAN.R-project.org/package=mda}.
+\newblock R package version 0.4-9.
 
 \bibitem[Liaw and Wiener(2002)]{randomForest-pkg}
 A.~Liaw and M.~Wiener.

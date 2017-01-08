@@ -44,6 +44,18 @@ getTrainingData.BinaryTree <- function(object) {
 
 
 #' @keywords internal
+getTrainingData.cforest <- function(object) {
+  stop(mssg)
+}
+
+
+#' @keywords internal
+getTrainingData.ctree <- function(object) {
+  stop(mssg)
+}
+
+
+#' @keywords internal
 getTrainingData.RandomForest <- function(object) {
   object@data@get("input")
 }

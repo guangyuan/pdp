@@ -1,8 +1,10 @@
 # NEWS for pdp package
 
-### Changes for version 0.3.1
+### Changes for version 0.4.0
 * `partial` is now much faster with `"gbm"` object due to a call to `gbm::plot.gbm` whenever `pred.grid` is not explicitly given by the user. (`gbm::plot.gbm` exploits a computational shortcut that does not involve any passes over the training data.)
 * New (experimental) function `topPredictors` for extracting the names of the most "important" predictors. This should make it one step easier (in most cases) to construct PDPs for the most "important"" features in a fitted model.
+* A new argument, `pred.fun`, allows the user to spply their own prediction function. Hence, it is poosible to obtain PDPs based on the median, rather than the mean. It is also possible to obtain PDPs for classification problems on the probability scale. See `?partial` for examples.
+* Minor bug fixes and documentation tweaks.
 
 ### Changes for version 0.3.0
 * The `...` argument in the call to `partial` now refers to additional arguments to be passed onto `stats::predict` rather than `plyr::aaply`. For example, using `partial` with `"gbm"` objects will require specification of `n.trees` which can now simply be passed to `partial` via the `...` argument.

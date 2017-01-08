@@ -55,6 +55,14 @@ pdPredictRegression.ksvm <- function(object, newdata, ...) {
 
 
 #' @keywords internal
+pdPredictRegression.mars <- function(object, newdata, ...) {
+  mean(stats::predict(object,
+                      newdata = data.matrix(newdata), ...)[, 1L, drop = TRUE],
+       na.rm = TRUE)
+}
+
+
+#' @keywords internal
 pdPredictRegression.ranger <- function(object, newdata, ...) {
   mean(stats::predict(object, data = newdata, ...)$predictions, na.rm = TRUE)
 }

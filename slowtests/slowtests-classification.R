@@ -20,6 +20,7 @@ library(ipred)
 library(kernlab)
 library(nnet)
 library(party)
+# library(partykit)
 library(pdp)
 library(randomForest)
 library(ranger)
@@ -83,6 +84,13 @@ pima.ctree <- ctree(diabetes ~ ., data = pima)
 # party::cforest
 set.seed(101)
 pima.crf <- cforest(diabetes ~ ., data = pima)
+
+# partykit::ctree
+pima.partykit.ctree <- partykit::ctree(diabetes ~ ., data = pima)
+
+# partykit::cforest
+set.seed(101)
+pima.partykit.crf <- partykit::cforest(diabetes ~ ., data = pima)
 
 # randomForest
 set.seed(101)
@@ -149,6 +157,13 @@ pdp.ctree <- partial(pima.ctree, pred.var = x)
 # party::cforest
 pdp.crf <- partial(pima.crf, pred.var = x, progress = "text")
 
+# partykit::cforest
+pdp.partykit.ctree <- partial(pima.partykit.ctree, pred.var = x, train = pima)
+
+# partykit::cforest
+pdp.partykit.crf <- partial(pima.partykit.crf, pred.var = x, grid.res = 10,
+                            train = pima, progress = "text")
+
 # randomForest
 pdp.rf <- partial(pima.rf, pred.var = x)
 
@@ -178,6 +193,8 @@ grid.arrange(
   plotPartial(pdp.nnet, main = "nnet"),
   plotPartial(pdp.ctree, main = "party::ctree"),
   plotPartial(pdp.crf, main = "party::cforest"),
+  plotPartial(pdp.partykit.ctree, main = "partykit::ctree"),
+  plotPartial(pdp.partykit.crf, main = "partykit::cforest"),
   plotPartial(pdp.rf, main = "randomForest"),
   plotPartial(pdp.ranger, main = "ranger"),
   plotPartial(pdp.rpart, main = "rpart"),

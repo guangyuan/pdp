@@ -41,6 +41,19 @@ superType.C5.0 <- function(object) {
 }
 
 
+superType.cforest <- function(object) {
+  if (attr(object$terms, "response") == 1 &&
+      attr(object$terms, "dataClasses")[1L] == "numeric") {
+    "regression"
+  } else if (attr(object$terms, "response") == 1 &&
+             attr(object$terms, "dataClasses")[1L] == "factor") {
+    "classification"
+  } else {
+    "other"
+  }
+}
+
+
 #' @keywords internal
 superType.classbagg <- function(object) {
   "classification"
@@ -106,8 +119,23 @@ superType.ksvm <- function(object) {
 
 
 #' @keywords internal
+superType.lda<- function(object) {
+  "classification"
+}
+
+
+#' @keywords internal
 superType.lm <- function(object) {
   # FIXME: What about multivariate response models?
+  "regression"
+}
+
+
+#' @keywords internal
+superType.mars <- function(object) {
+  if (ncol(object$fitted.values) > 1) {
+    stop("`partial` does not currently support multivariate response models.")
+  }
   "regression"
 }
 
@@ -125,12 +153,32 @@ superType.nls <- function(object) {
 }
 
 
+superType.party <- function(object) {
+  if (attr(object$terms, "response") == 1 &&
+      attr(object$terms, "dataClasses")[1L] == "numeric") {
+    "regression"
+  } else if (attr(object$terms, "response") == 1 &&
+             attr(object$terms, "dataClasses")[1L] == "factor") {
+    "classification"
+  } else {
+    "other"
+  }
+}
+
+
+
 #' @keywords internal
 superType.ppr <- function(object) {
   if (object$q > 1) {
     stop("`partial` does not currently support multivariate response models.")
   }
   "regression"
+}
+
+
+#' @keywords internal
+superType.qda<- function(object) {
+  "classification"
 }
 
 

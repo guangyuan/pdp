@@ -163,9 +163,9 @@ cl <- makeCluster(4)  # use 4 cores
 registerDoParallel(cl)
 partial(ozone.mars, pred.var = c("wind", "temp", "dpg"), plot = TRUE,
         chull = TRUE, parallel = TRUE, paropts = list(.packages = "earth"))  # Figure 6
-trellis.focus("legend", side = "right", clipp.off = TRUE, highlight = FALSE)
-grid.text("ozone", 0.2, 1.05, hjust = 0.5, vjust = 1)
-trellis.unfocus()
+lattice::trellis.focus("legend", side = "right", clipp.off = TRUE, highlight = FALSE)
+grid::grid.text("ozone", 0.2, 1.05, hjust = 0.5, vjust = 1)
+lattice::trellis.unfocus()
 stopCluster(cl)
 dev.off()
 

@@ -1,51 +1,34 @@
 # R code for the manuscript
 #
-#   partial: partial: An R Package for Creating Partial Dependence Plots
+#   partial: An R Package for Creating Partial Dependence Plots
 #
 #        Author: Brandon M. Greenwell
-# Last Modified: September 19, 2016
+# Last Modified: January 8, 2017
 
 
 ################################################################################
 # Setup
 ################################################################################
 
-# Set working directory
-setwd("manuscript")
-
-# For now, please install the development version of pdp from GitHub. The next
-# release will be on CRAN soon. I am waiting out the grace period from my last
-# submission---the only change in this version is the name of an argument in
-# the two exported functions.
-# install.packages("devtools")
-# devtools::install_github("bgreenwell/pdp")
-
+# Set working directory (ignore for review)
+# setwd("manuscript")
 
 # List of packages required to run all the examples in this script
 # pkgs <- c("caret",
 #           "doParallel",
+#           "dplyr",
 #           "e1071",
 #           "earth",
 #           "ggplot2",
-#           "mlbench",
 #           "party",
 #           "pdp",
-#           "randomForest")
+#           "randomForest",
+#           "xgboost")
 # install.packages(pkgs)
 
-# Install latest version of xgboost
-# install.packages("drat", repos = "https://cran.rstudio.com")
-# drat:::addRepo("dmlc")
-# install.packages("data.table")  # required when installing xgboost from source!
-# install.packages("xgboost", repos = "http://dmlc.ml/drat/", type = "source")
-
-# Install the development version of pdp
-# install.packages("devtools")
-# devtools::install_github("bgreenwell/pdp")
-
 # Load required packages
-library(doParallel)
 library(caret)
+library(doParallel)
 # library(dplyr)  # use dplyr:: instead to avoid conflictions with plyr!
 library(e1071)
 library(earth)

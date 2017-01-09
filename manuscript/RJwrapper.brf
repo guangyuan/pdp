@@ -37,14 +37,14 @@
 \backcite {foreach-pkg}{{6}{2.2.2}{subsection.2.2.2}}
 \backcite {hunter-matplotlib-2007}{{6}{2.2.2}{subsection.2.2.2}}
 \backcite {viridis-pkg}{{6}{2.2.2}{subsection.2.2.2}}
-\backcite {friedman-2001-greedy}{{7}{4}{subsection.2.2.4}}
 \backcite {plyr-pkg}{{8}{2.2.4}{figure.caption.7}}
 \backcite {doMC-pkg}{{8}{2.2.4}{figure.caption.7}}
 \backcite {doParallel-pkg}{{8}{2.2.4}{figure.caption.7}}
 \backcite {breiman-1985-estimating}{{8}{2.2.4}{figure.caption.7}}
 \backcite {friedman-1991-mars}{{8}{2.2.4}{figure.caption.7}}
 \backcite {breiman-1985-estimating}{{8}{2.2.4}{figure.caption.7}}
-\backcite {hastie-elements-2009}{{9}{2.2.5}{subsection.2.2.5}}
+\backcite {friedman-2001-greedy}{{8}{4}{subsection.2.2.4}}
+\backcite {hastie-elements-2009}{{10}{2.2.5}{subsection.2.2.5}}
 \backcite {goldstein-peeking-2015}{{10}{2.2.6}{subsection.2.2.6}}
 \backcite {goldstein-peeking-2015}{{10}{2.2.6}{subsection.2.2.6}}
 \backcite {goldstein-peeking-2015}{{12}{2.2.6}{figure.caption.11}}

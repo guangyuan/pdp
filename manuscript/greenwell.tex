@@ -205,7 +205,7 @@ boston.rf %>%  # the %>% operator is read as "and then"
 \subsection{Multi-predictor PDPs}
 \label{sec:multi}
 
-The benefit of using \code{partial} is threefold: (1) it is a generic function that can be used for various types of fitted models (not just random forests), (2) it will allow for any number of predictors to be used (e.g., multivariate displays), and (3) it can utilize any of the parallel backends supported by the \CRANpkg{foreach} package \citep{foreach-pkg}; we discuss parallel execution in a later section. For example, the following code chunk uses the random forest model to assess the joint effect of \code{lstat} and \code{rm} on \code{cmedv}. The \code{grid.arrange} function is used to display three PDPs, which make use of various \code{plotPartial} options\footnote{See Section~\ref{sec:computational} for an example of how to add a label to the colorkey in these types of graphs.}, on the same graph. The results are displayed in Figure~\ref{fig:pd_lstat_rm}.
+The benefit of using \code{partial} is threefold: (1) it is a flexible, generic function that can be used to obtain different kinds of PDPs for various types of fitted models (not just random forests), (2) it will allow for any number of predictors to be used (e.g., multivariate displays), and (3) it can utilize any of the parallel backends supported by the \CRANpkg{foreach} package \citep{foreach-pkg}; we discuss parallel execution in a later section. For example, the following code chunk uses the random forest model to assess the joint effect of \code{lstat} and \code{rm} on \code{cmedv}. The \code{grid.arrange} function is used to display three PDPs, which make use of various \code{plotPartial} options\footnote{See Section~\ref{sec:computational} for an example of how to add a label to the colorkey in these types of graphs.}, on the same graph. The results are displayed in Figure~\ref{fig:pd_lstat_rm}.
 \begin{example}
 # Compute partial dependence data for lstat and rm
 pd <- partial(boston.rf, pred.var = c("lstat", "rm"))
@@ -340,7 +340,7 @@ It is important to note that when using more than two predictor variables, \code
 \subsection{Classification problems}
 \label{sec:classification}
 
-For classification problems, partial dependence functions are on a scale similar to the logit; see, for example, \citet[pp. 369---370]{hastie-elements-2009}. Suppose the response is categorical with $K$ levels, then for each class we compute
+Traditionally, for classification problems, partial dependence functions are on a scale similar to the logit; see, for example, \citet[pp. 369---370]{hastie-elements-2009}. Suppose the response is categorical with $K$ levels, then for each class we compute
 \begin{equation}
 \label{eqn:avg-logit}
 f_k(x) = \log\left[p_k(x)\right] - \frac{1}{K}\sum_{k = 1}^K\log\left[p_k(x)\right], \quad k = 1, 2, \dots, K,

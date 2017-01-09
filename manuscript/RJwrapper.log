@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.4.30)  8 JAN 2017 12:09
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.4.30)  8 JAN 2017 13:58
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1485,7 +1485,7 @@ File: partial_extrap.pdf Graphic file (type pdf)
 Package pdftex.def Info: partial_extrap.pdf used on input line 257.
 (pdftex.def)             Requested size: 398.33858pt x 199.16986pt.
  [7 <./pd_lstat_rm.pdf> <./partial_extrap.pdf>]
-<partial_manual.pdf, id=332, 867.24pt x 289.08pt>
+<partial_manual.pdf, id=331, 867.24pt x 289.08pt>
 File: partial_manual.pdf Graphic file (type pdf)
  <use partial_manual.pdf>
 Package pdftex.def Info: partial_manual.pdf used on input line 285.
@@ -1508,7 +1508,7 @@ File: partial_par.pdf Graphic file (type pdf)
 Package pdftex.def Info: partial_par.pdf used on input line 329.
 (pdftex.def)             Requested size: 318.67207pt x 227.62413pt.
  [9 <./partial_par.pdf>]
-<partial_iris_svm.pdf, id=390, 867.24pt x 289.08pt>
+<partial_iris_svm.pdf, id=389, 867.24pt x 289.08pt>
 File: partial_iris_svm.pdf Graphic file (type pdf)
  <use partial_iris_svm.pdf>
 Package pdftex.def Info: partial_iris_svm.pdf used on input line 379.
@@ -1521,13 +1521,13 @@ File: partial_iris_svm_prob.pdf Graphic file (type pdf)
 <use partial_iris_svm_prob.pdf>
 Package pdftex.def Info: partial_iris_svm_prob.pdf used on input line 419.
 (pdftex.def)             Requested size: 398.33858pt x 132.7799pt.
- <ice_boston.pdf, id=417, 505.89pt x 361.35pt>
+ [11 <./partial_iris_svm_prob.pdf>]
+<ice_boston.pdf, id=428, 505.89pt x 361.35pt>
 File: ice_boston.pdf Graphic file (type pdf)
-
-<use ice_boston.pdf>
+ <use ice_boston.pdf>
 Package pdftex.def Info: ice_boston.pdf used on input line 441.
 (pdftex.def)             Requested size: 318.67207pt x 227.62413pt.
- [11 <./partial_iris_svm_prob.pdf>]
+
 <ice_cice_boston.pdf, id=438, 578.16pt x 289.08pt>
 File: ice_cice_boston.pdf Graphic file (type pdf)
  <use ice_cice_boston.pdf>
@@ -1554,17 +1554,17 @@ Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 29.
 Package rerunfilecheck Info: File `RJwrapper.out' has not changed.
 (rerunfilecheck)             Checksum: 882759ED1B2A5348A3AA2C78A80D50DE;903.
 Package rerunfilecheck Info: File `RJwrapper.brf' has not changed.
-(rerunfilecheck)             Checksum: 55A75A8FA6FA0A03C6FEA6252B445ED7;3265.
+(rerunfilecheck)             Checksum: 2E5617B6872FE6A61F0E42325F1AF3C8;3266.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 29.
  ) 
 Here is how much of TeX's memory you used:
  22410 strings out of 494953
  397732 string characters out of 6180977
- 494017 words of memory out of 5000000
+ 494018 words of memory out of 5000000
  24852 multiletter control sequences out of 15000+600000
  76505 words of font info for 304 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 62i,12n,56p,1630b,667s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 62i,12n,56p,1630b,659s stack positions out of 5000i,500n,10000p,200000b,80000s
 pdfTeX warning (dest): name{Hfootnote.6} has been referenced but does not exi
 st, replaced by a fixed one
 
@@ -1596,7 +1596,7 @@ pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/palatino/uplbi8a.pfb></usr/s
 hare/texlive/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texlive
 /texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texlive/texmf-dist/
 fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on RJwrapper.pdf (16 pages, 840753 bytes).
+Output written on RJwrapper.pdf (16 pages, 840835 bytes).
 PDF statistics:
  656 PDF objects out of 1000 (max. 8388607)
  596 compressed objects within 6 object streams

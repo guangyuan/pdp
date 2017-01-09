@@ -106,6 +106,11 @@ Therefore, it is important to not change the training data used to construct
 avoided when the training data are passed to the \code{train} argument in the
 call to \code{partial}.
 
+It is recommended to call \code{partial} with \code{plot = FALSE} and store
+the results; this allows for more flexible plotting, and the user will not
+have to waste time calling \code{partial} again if the default plot is not
+sufficient.
+
 It is possible to retrieve the last printed \code{"trellis"} object, such as
 those produced by \code{plotPartial}, using \code{trellis.last.object()}.
 

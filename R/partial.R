@@ -24,7 +24,8 @@
 #'   specified when \code{grid.resolution = NULL}.
 #' @param probs Numeric vector of probabilities with values in [0,1]. (Values up 
 #'   to 2e-14 outside that range are accepted and moved to the nearby endpoint.)
-#'   Default is \code{1:9/10} which gives the deciles.
+#'   Default is \code{1:9/10} which corresponds to the deciles of the predictor
+#'   variables.
 #' @param type Character string specifying the type of supervised learning.
 #'   Current options are \code{"auto"}, \code{"regression"} or
 #'   \code{"classification"}. If \code{type = "auto"} then \code{partial} will

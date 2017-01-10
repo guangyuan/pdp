@@ -6,7 +6,8 @@
 # predGrid.RandomForest <- NULL
 
 #' @keywords internal
-predGrid <- function(object, pred.var, train, grid.resolution = NULL) {
+predGrid <- function(object, pred.var, train, grid.resolution = NULL,
+                     quantiles = FALSE, probs = 1:9/10) {
   UseMethod("predGrid")
 }
 

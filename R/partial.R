@@ -19,6 +19,12 @@
 #'   \code{pred.grid} is not supplied). If left \code{NULL}, it will default to
 #'   the minimum between \code{51} and the number of unique data points for each
 #'   of the continuous independent variables listed in \code{pred.var}.
+#' @param quantiles Logical indicating whether or not to use the sample 
+#'   quantiles of the numeric predictors listed in \code{pred.var}. Can only be
+#'   specified when \code{grid.resolution = NULL}.
+#' @param probs Numeric vector of probabilities with values in [0,1]. (Values up 
+#'   to 2e-14 outside that range are accepted and moved to the nearby endpoint.)
+#'   Default is \code{1:9/10} which gives the deciles.
 #' @param type Character string specifying the type of supervised learning.
 #'   Current options are \code{"auto"}, \code{"regression"} or
 #'   \code{"classification"}. If \code{type = "auto"} then \code{partial} will
@@ -186,7 +192,8 @@ partial <- function(object, ...) {
 #' @rdname partial
 #' @export
 partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
-                            grid.resolution = NULL,
+                            grid.resolution = NULL, 
+                            quantiles = FALSE, probs = 1:9/10,
                             type = c("auto", "regression", "classification"),
                             which.class = 1L, plot = FALSE,
                             smooth = FALSE, rug = FALSE, chull = FALSE, train,
@@ -194,7 +201,8 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
                             parallel = FALSE, paropts = NULL, ...) {
 
   # Construct partial dependence data
-  if (inherits(object, "gbm") && missing(pred.grid) && is.null(pred.fun)) {
+  if (inherits(object, "gbm") && missing(pred.grid) && is.null(pred.fun) &&
+      !quantiles) {
 
     # FIXME: which.class gets ignored by gbm::plot.gbm
 
@@ -265,7 +273,8 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
     # Predictor values of interest
     if (missing(pred.grid)) {
       pred.grid <- predGrid(object, pred.var = pred.var, train = train,
-                            grid.resolution = grid.resolution)
+                            grid.resolution = grid.resolution, 
+                            quantiles = quantiles, probs = probs)
     }
 
     # Make sure each column has the correct class, factor levels, etc.

@@ -39,6 +39,7 @@ In this example, we fit a random forest to the Boston housing data. (See `?bosto
 
 ```r
 # Load required packages
+library(ggmap)  # for plotting maps with ggplot2
 library(pdp)  # for constructing PDPs
 library(randomForest)  # for random forest algorithm
 
@@ -49,7 +50,7 @@ data (boston)  # included with the pdp package
 set.seed(101)  # for reproducibility
 boston.rf <- randomForest(cmedv ~ ., data = boston)
 
-# Partial dependence of lstat and rm on cmedv
+# Partial dependence of cmedv on lstat and rm
 grid.arrange(
   partial(boston.rf, pred.var = "lstat", plot = TRUE, rug = TRUE),
   partial(boston.rf, pred.var = "rm", plot = TRUE, rug = TRUE),
@@ -59,6 +60,24 @@ grid.arrange(
 ```
 
 ![](README_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+
+```r
+# Look at partial dependence of median home value on location
+pd.loc <- partial(boston.rf, pred.var = c("lon", "lat"), chull = TRUE)
+
+# Overlay predictions on a map of Boston
+ll <- c(range(boston$lon), range(boston$lat))
+map <- get_map(location = ll[c(1, 3, 2, 4)], zoom = 11, maptype = "toner-lite")
+ggmap(map) +
+  geom_point(aes(x = lon, y = lat), data = boston, alpha = 0.2) +
+  geom_tile(aes(x = lon, y = lat, fill = yhat),
+            data = pd.loc, alpha = 0.3) +
+  scale_fill_distiller(palette = "Spectral", name = "Median\nvalue") +
+  coord_fixed(ratio = 1) +
+  labs(x = "Longitude", y = "Latitude")
+```
+
+![](README_files/figure-html/unnamed-chunk-3-2.png)<!-- -->
 
 
 #### Classification example 
@@ -88,7 +107,7 @@ grid.arrange(
 
 #### Interface with `caret`
 
-Finally, we demonstrate the construction of PDPs from models fit using the `caret` package; `caret` is an extremetly useful package for classification and regression training that, essentially, has one function (`train`) for fitting all kinds of predictive models in R (e.g., `glmnet`, `svm`, `xgboost`, etc.). 
+Finally, we demonstrate the construction of PDPs from models fit using the `caret` package; `caret` is an extremetly useful package for training all sorts of predictive models in R (e.g., `glmnet`, `svm`, `xgboost`, etc.). 
 
 For illustration we use `caret`'s `train` function to tune an [XGBoost](https://github.com/dmlc/xgboost) model to the Pima Indians diabetes data using 5-fold cross-validation. We then use the final model to construct PDPs for `glucose` and `age`. Note, when training a model using `caret`'s `train` function, you can view tuning progress by setting `verboseIter = TRUE` in the call to `trainControl`.
 
@@ -96,32 +115,23 @@ For illustration we use `caret`'s `train` function to tune an [XGBoost](https://
 # Load required packages
 library(caret)  # for model training/tuning
 
-# Set up for 5-fold cross-validation
-ctrl <- trainControl(method = "cv", number = 5)
-
-# Grid of tuning parameter values
-xgb.grid <- expand.grid(
-  nrounds = c(1000, 2000),
-  max_depth = 2:4,
-  eta = c(0.001, 0.01, 0.1),
-  gamma = 0, 
-  colsample_bytree = 1,
-  min_child_weight = 1,
-  subsample = c(0.5, 0.75, 1)
-)
-
-# Tune am XGBoost model to the Pima Indians diabetes data. This may take a few 
+# Tune an XGBoost model to the Pima Indians diabetes data. This may take a few 
 # minutes!
 set.seed(103)  # for reproducibility
-pima.xgb <- train(diabetes ~ ., data = pima, method = "xgbTree",
-                  prob.model = TRUE, na.action = na.omit, trControl = ctrl,
-                  tuneGrid = xgb.grid)
+pima.xgb <- train(diabetes ~ ., data = pima, 
+                  method = "xgbTree",
+                  na.action = na.omit,
+                  trControl = trainControl(method = "cv", number = 5),
+                  tuneLength = 5)
 
 # Partial dependence of glucose and age on diabetes test result (neg/pos)
 grid.arrange(
-  partial(pima.xgb, pred.var = "glucose", plot = TRUE, rug = TRUE),
-  partial(pima.xgb, pred.var = "age", plot = TRUE, rug = TRUE),
-  partial(pima.xgb, pred.var = "mass", plot = TRUE, rug = TRUE),
+  partial(pima.xgb, pred.var = "glucose", plot = TRUE, 
+          rug = TRUE, smooth = TRUE),
+  partial(pima.xgb, pred.var = "age", plot = TRUE, 
+          rug = TRUE, smooth = TRUE),
+  partial(pima.xgb, pred.var = "mass", plot = TRUE, 
+          rug = TRUE, smooth = TRUE),
   ncol = 3 
 )
 ```

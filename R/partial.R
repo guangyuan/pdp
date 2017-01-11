@@ -26,6 +26,10 @@
 #'   to 2e-14 outside that range are accepted and moved to the nearby endpoint.)
 #'   Default is \code{1:9/10} which corresponds to the deciles of the predictor
 #'   variables.
+#' @param trim.outliers Logical indicating whether or not to trim off outliers 
+#'   from the numeric predictors (using the simple boxplot method) before 
+#'   creating the grid of joint values for which the partial dependence is 
+#'   computed. Default is \code{FALSE}.
 #' @param type Character string specifying the type of supervised learning.
 #'   Current options are \code{"auto"}, \code{"regression"} or
 #'   \code{"classification"}. If \code{type = "auto"} then \code{partial} will
@@ -194,7 +198,8 @@ partial <- function(object, ...) {
 #' @export
 partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
                             grid.resolution = NULL, 
-                            quantiles = FALSE, probs = 1:9/10,
+                            quantiles = FALSE, probs = 1:9/10, 
+                            trim.outliers = FALSE,
                             type = c("auto", "regression", "classification"),
                             which.class = 1L, plot = FALSE,
                             smooth = FALSE, rug = FALSE, chull = FALSE, train,
@@ -275,7 +280,8 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
     if (missing(pred.grid)) {
       pred.grid <- predGrid(object, pred.var = pred.var, train = train,
                             grid.resolution = grid.resolution, 
-                            quantiles = quantiles, probs = probs)
+                            quantiles = quantiles, probs = probs,
+                            trim.outliers = trim.outliers)
     }
 
     # Make sure each column has the correct class, factor levels, etc.

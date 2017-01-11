@@ -48,6 +48,15 @@ pdPredictRegression.default <- function(object, newdata, ...) {
 
 
 #' @keywords internal
+pdPredictRegression.default <- function(object, newdata, ...) {
+  invisible(capture.output(
+    pred <- stats::predict(object, newdata = newdata, ...)
+  ))
+  mean(pred, na.rm = TRUE)
+}
+
+
+#' @keywords internal
 pdPredictRegression.ksvm <- function(object, newdata, ...) {
   mean(kernlab::predict(object, newdata = newdata, ...)[, 1L, drop = TRUE],
        na.rm = TRUE)

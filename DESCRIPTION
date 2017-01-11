@@ -39,6 +39,7 @@ Imports:
     mgcv,
     plyr,
     stats,
-    viridis
+    viridis,
+    utils
 LazyData: TRUE
 RoxygenNote: 5.0.1

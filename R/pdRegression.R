@@ -48,8 +48,8 @@ pdPredictRegression.default <- function(object, newdata, ...) {
 
 
 #' @keywords internal
-pdPredictRegression.default <- function(object, newdata, ...) {
-  invisible(capture.output(
+pdPredictRegression.gbm <- function(object, newdata, ...) {
+  invisible(utils::capture.output(
     pred <- stats::predict(object, newdata = newdata, ...)
   ))
   mean(pred, na.rm = TRUE)

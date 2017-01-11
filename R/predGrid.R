@@ -7,7 +7,7 @@
 
 #' @keywords internal
 trimOutliers <- function(x) {
-  out <- boxplot.stats(x, do.out = TRUE)$out
+  out <- grDevices::boxplot.stats(x, do.out = TRUE)$out
   x[!(x %in% out)]  # faster than setdiff in benchmark test
 }
 
@@ -35,7 +35,7 @@ predGrid.default <- function(object, pred.var, train, grid.resolution = NULL,
         stop("Can only specify one of quantiles or trim.outliers, not both.")
       }
       if (quantiles) {
-        quantile(train[[x]], probs = probs, na.rm = TRUE, names = FALSE)
+        stats::quantile(train[[x]], probs = probs, na.rm = TRUE, names = FALSE)
       } else {
         if (is.null(grid.resolution)) {
           grid.resolution <- min(length(unique(train[[x]])), 51)

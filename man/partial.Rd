@@ -8,7 +8,8 @@
 partial(object, ...)
 
 \method{partial}{default}(object, pred.var, pred.grid, pred.fun = NULL,
-  grid.resolution = NULL, type = c("auto", "regression", "classification"),
+  grid.resolution = NULL, quantiles = FALSE, probs = 1:9/10,
+  trim.outliers = FALSE, type = c("auto", "regression", "classification"),
   which.class = 1L, plot = FALSE, smooth = FALSE, rug = FALSE,
   chull = FALSE, train, check.class = TRUE, progress = "none",
   parallel = FALSE, paropts = NULL, ...)
@@ -37,6 +38,20 @@ use (only used for the continuous variables listed in \code{pred.var} when
 \code{pred.grid} is not supplied). If left \code{NULL}, it will default to
 the minimum between \code{51} and the number of unique data points for each
 of the continuous independent variables listed in \code{pred.var}.}
+
+\item{quantiles}{Logical indicating whether or not to use the sample 
+quantiles of the numeric predictors listed in \code{pred.var}. Can only be
+specified when \code{grid.resolution = NULL}.}
+
+\item{probs}{Numeric vector of probabilities with values in [0,1]. (Values up 
+to 2e-14 outside that range are accepted and moved to the nearby endpoint.)
+Default is \code{1:9/10} which corresponds to the deciles of the predictor
+variables.}
+
+\item{trim.outliers}{Logical indicating whether or not to trim off outliers 
+from the numeric predictors (using the simple boxplot method) before 
+creating the grid of joint values for which the partial dependence is 
+computed. Default is \code{FALSE}.}
 
 \item{type}{Character string specifying the type of supervised learning.
 Current options are \code{"auto"}, \code{"regression"} or

@@ -78,7 +78,9 @@ pdPredictClassification.earth <- function(object, newdata, which.class, ...) {
 
 #' @keywords internal
 pdPredictClassification.gbm <- function(object, newdata, which.class, ...) {
-  pr <- stats::predict(object, newdata = newdata, type = "response", ...)
+  invisible(capture.output(
+    pr <- stats::predict(object, newdata = newdata, type = "response", ...)
+  ))
   avgLogit(cbind(pr, 1 - pr), which.class = which.class)
 }
 

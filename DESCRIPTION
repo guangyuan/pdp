@@ -32,14 +32,17 @@ Suggests:
     testthat,
     xgboost (>= 0.6-0)
 Imports:
+    boot,
     grDevices,
     gridExtra,
     lattice,
     magrittr,
     mgcv,
     plyr,
+    Rcpp (>= 0.11.5),
     stats,
     viridis,
     utils
 LazyData: TRUE
 RoxygenNote: 5.0.1
+LinkingTo: Rcpp

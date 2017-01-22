@@ -19,16 +19,16 @@
 #'   \code{pred.grid} is not supplied). If left \code{NULL}, it will default to
 #'   the minimum between \code{51} and the number of unique data points for each
 #'   of the continuous independent variables listed in \code{pred.var}.
-#' @param quantiles Logical indicating whether or not to use the sample 
+#' @param quantiles Logical indicating whether or not to use the sample
 #'   quantiles of the numeric predictors listed in \code{pred.var}. Can only be
 #'   specified when \code{grid.resolution = NULL}.
-#' @param probs Numeric vector of probabilities with values in [0,1]. (Values up 
+#' @param probs Numeric vector of probabilities with values in [0,1]. (Values up
 #'   to 2e-14 outside that range are accepted and moved to the nearby endpoint.)
 #'   Default is \code{1:9/10} which corresponds to the deciles of the predictor
 #'   variables.
-#' @param trim.outliers Logical indicating whether or not to trim off outliers 
-#'   from the numeric predictors (using the simple boxplot method) before 
-#'   creating the grid of joint values for which the partial dependence is 
+#' @param trim.outliers Logical indicating whether or not to trim off outliers
+#'   from the numeric predictors (using the simple boxplot method) before
+#'   creating the grid of joint values for which the partial dependence is
 #'   computed. Default is \code{FALSE}.
 #' @param type Character string specifying the type of supervised learning.
 #'   Current options are \code{"auto"}, \code{"regression"} or
@@ -197,8 +197,8 @@ partial <- function(object, ...) {
 #' @rdname partial
 #' @export
 partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
-                            grid.resolution = NULL, 
-                            quantiles = FALSE, probs = 1:9/10, 
+                            grid.resolution = NULL,
+                            quantiles = FALSE, probs = 1:9/10,
                             trim.outliers = FALSE,
                             type = c("auto", "regression", "classification"),
                             which.class = 1L, plot = FALSE,
@@ -206,131 +206,94 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
                             check.class = TRUE, progress = "none",
                             parallel = FALSE, paropts = NULL, ...) {
 
-  # Construct partial dependence data
-  if (inherits(object, "gbm") && missing(pred.grid) && is.null(pred.fun) &&
-      !quantiles && !trim.outliers) {
-
-    # FIXME: which.class gets ignored by gbm::plot.gbm
-
-    # If not supplied, try to extract training data from object when plot = TRUE
-    if ((plot || chull) && missing(train)) {
-      train <- getTrainingData(object)
+  # Match pred.var function if not NULL
+  if (!is.null(pred.fun)) {
+    pred.fun <- match.fun(pred.fun)
+    if (!identical(names(formals(pred.fun)), c("object", "newdata"))) {
+      stop(paste0("pred.fun requires a function with only two arguments: ",
+                  "object, and newdata."))
     }
+  }
 
-    # If grid.resolution is NULL, use the same default as continuous.resolution
-    # in gbm::plot.gbm.
-    if (is.null(grid.resolution)) {
-      grid.resolution <- 100
-    }
+  # If not supplied, try to extract training data from object
+  if (missing(train)) {
+    train <- getTrainingData(object)
+  }
 
-    # Call gbm::plot.gbm directly; this is MUCH FASTER!
-    pd.df <- gbm::plot.gbm(object, i.var = pred.var,
-                           continuous.resolution = grid.resolution,
-                           return.grid = TRUE, ...)
+  # Allow column position specification
+  if (is.numeric(pred.var)) {
+    pred.var <- names(train)[pred.var]
+  }
 
-    # Restrict to convex hull of first two predictors, if requested
-    if (chull) {
-      pd.df <- if (length(pred.var) >= 2 && is.numeric(pd.df[[1L]]) &&
-          is.numeric(pd.df[[2L]])) {
-        X <- stats::na.omit(data.matrix(train[pred.var[1L:2L]]))
-        Y <- stats::na.omit(data.matrix(pd.df[, -ncol(pd.df),
-                                              drop = FALSE][1L:2L]))
-        hpts <- grDevices::chull(X)
-        hpts <- c(hpts, hpts[1L])
-        keep <- mgcv::in.out(X[hpts, ], Y)
-        pd.df[keep, ]
-      } else {
-        pd.df
-      }
-    }
+  # Throw error message if predictor names not found in training data
+  if (!all(pred.var %in% names(train))) {
+    stop(paste(paste(pred.var[!(pred.var %in% names(train))], collapse = ", "),
+               "not found in the training data."))
+  }
 
+  # Throw an error message of one of the predictors is labelled "y"
+  if ("y" %in% pred.var) {
+    stop("\"y\" cannot be a predictor name.")
+  }
+
+  # Predictor values of interest
+  if (missing(pred.grid)) {
+    pred.grid <- predGrid(object, pred.var = pred.var, train = train,
+                          grid.resolution = grid.resolution,
+                          quantiles = quantiles, probs = probs,
+                          trim.outliers = trim.outliers)
+  }
+
+  # Make sure each column has the correct class, factor levels, etc.
+  if (check.class) {
+    pred.grid <- copyClasses(pred.grid, train)
+  }
+
+  # Restrict grid to covext hull of first two columns
+  if (chull) {
+    pred.grid <- trainCHull(pred.var, pred.grid = pred.grid, train = train)
+  }
+
+  # Determine the type of supervised learning used
+  type <- match.arg(type)
+  if (type == "auto") {
+    type <- superType(object)
+  }
+
+  # Calculate partial dependence values
+  if (inherits(object, "gbm") && is.null(pred.fun) &&
+      progress == "none" && !parallel) {
+    pd.df <- pdGBM(object, pred.var = pred.var, pred.grid = pred.grid,
+                   which.class = which.class, ...)
   } else {
-
-    # Match pred.var function if not NULL
-    if (!is.null(pred.fun)) {
-      pred.fun <- match.fun(pred.fun)
-      if (!identical(names(formals(pred.fun)), c("object", "newdata"))) {
-        stop(paste0("pred.fun requires a function with only two arguments: ",
-                    "object, and newdata."))
-      }
-    }
-
-    # If not supplied, try to extract training data from object
-    if (missing(train)) {
-      train <- getTrainingData(object)
-    }
-
-    # Allow column position specification
-    if (is.numeric(pred.var)) {
-      pred.var <- names(train)[pred.var]
-    }
-
-    # Throw error message if predictor names not found in training data
-    if (!all(pred.var %in% names(train))) {
-      stop(paste(paste(pred.var[!(pred.var %in% names(train))], collapse = ", "),
-                 "not found in the training data."))
-    }
-
-    # Throw an error message of one of the predictors is labelled "y"
-    if ("y" %in% pred.var) {
-      stop("\"y\" cannot be a predictor name.")
-    }
-
-    # Predictor values of interest
-    if (missing(pred.grid)) {
-      pred.grid <- predGrid(object, pred.var = pred.var, train = train,
-                            grid.resolution = grid.resolution, 
-                            quantiles = quantiles, probs = probs,
-                            trim.outliers = trim.outliers)
-    }
-
-    # Make sure each column has the correct class, factor levels, etc.
-    if (check.class) {
-      pred.grid <- copyClasses(pred.grid, train)
-    }
-
-    # Restrict grid to covext hull of first two columns
-    if (chull) {
-      pred.grid <- trainCHull(pred.var, pred.grid = pred.grid, train = train)
-    }
-
-    # Determine the type of supervised learning used
-    type <- match.arg(type)
-    if (type == "auto") {
-      type <- superType(object)
-    }
-
-    # Calculate partial dependence values
-    if (type == "regression") {
-      pd.df <- pdRegression(object, pred.var = pred.var, pred.grid = pred.grid,
-                            pred.fun = pred.fun, train = train,
-                            progress = progress, parallel = parallel,
-                            paropts = paropts, ...)
+    pd.df <- if (type == "regression") {
+      pdRegression(object, pred.var = pred.var, pred.grid = pred.grid,
+                   pred.fun = pred.fun, train = train, progress = progress,
+                   parallel = parallel, paropts = paropts, ...)
     } else if (type == "classification") {
-      pd.df <- pdClassification(object, pred.var = pred.var,
-                                pred.grid = pred.grid, pred.fun = pred.fun,
-                                which.class = which.class, train = train,
-                                progress = progress, parallel = parallel,
-                                paropts = paropts, ...)
+      pdClassification(object, pred.var = pred.var, pred.grid = pred.grid,
+                       pred.fun = pred.fun, which.class = which.class,
+                       train = train, progress = progress, parallel = parallel,
+                       paropts = paropts, ...)
     } else {
       stop(paste("Partial dependence values are currently only available",
                  "for classification and regression problems."))
     }
-
+    # Construct an appropriate data frame
+    if (any(grepl("^yhat\\.", names(pd.df)))) {  # assume ICE curves
+      # Convert from wide to long format
+      pd.df <- stats::reshape(pd.df, varying = (length(pred.var) + 1):ncol(pd.df),
+                              direction = "long")
+      pd.df$id <- NULL  # remove id column
+      pd.df <- pd.df[, c(pred.var, "yhat", "time")]  # rearrange columns
+      names(pd.df)[ncol(pd.df)] <- "yhat.id"  # rename "time" column
+    } else {
+      names(pd.df) <- c(pred.var, "yhat")
+    }
+    rownames(pd.df) <- NULL  # remove row names
   }
 
-  # Construct an appropriate data frame
-  if (any(grepl("^yhat\\.", names(pd.df)))) {  # assume ICE curves
-    # Convert from wide to long format
-    pd.df <- stats::reshape(pd.df, varying = (length(pred.var) + 1):ncol(pd.df),
-                            direction = "long")
-    pd.df$id <- NULL  # remove id column
-    pd.df <- pd.df[, c(pred.var, "yhat", "time")]  # rearrange columns
-    names(pd.df)[ncol(pd.df)] <- "yhat.id"  # rename "time" column
-  } else {
-    names(pd.df) <- c(pred.var, "yhat")
-  }
-  rownames(pd.df) <- NULL  # remove row names
+  # Assign classes
   class(pd.df) <- c("data.frame", "partial")
 
   # Plot partial dependence function (if requested)

@@ -35,20 +35,21 @@ level plot. Only used when \code{levelplot = TRUE}. Default is
 \code{FALSE}.}
 
 \item{number}{Integer specifying the number of conditional intervals to use
-for the continuous panel variables. See \code{?graphics::co.intervals} and
-\code{?lattice::equal.count} for further details.}
+for the continuous panel variables. See
+\code{\link[graphics]{co.intervals}} and \code{\link[lattice]{equal.count}}
+for further details.}
 
 \item{overlap}{The fraction of overlap of the conditioning variables. See
-\code{?graphics::co.intervals} and \code{?lattice::equal.count} for further
-details.}
+\code{\link[graphics]{co.intervals}} and \code{\link[lattice]{equal.count}}
+for further details.}
 
 \item{train}{Data frame containing the original training data. Only
 required if \code{rug = TRUE} or \code{chull = TRUE}.}
 
 \item{col.regions}{Color vector to be used if \code{levelplot} is
 \code{TRUE}. Defaults to the wonderful Matplotlib 'viridis' color map
-provided by the \code{viridis} package. See \code{?viridis::viridis} for
-details.}
+provided by the \code{viridis} package. See \code{\link[viridis]{viridis}}
+for details.}
 }
 \description{
 Plots partial dependence functions (i.e., marginal effects) using

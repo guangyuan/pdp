@@ -38,6 +38,11 @@
 #'   probabilities to use as the "focus" class. Default is to use the first
 #'   class. Only used for classification problems (i.e., when
 #'   \code{type = "classification"}).
+#' @param recursive Logical indicating whether or not to use the weighted tree
+#'   traversal method described in Friedman (2001). This only applies to objects
+#'   that inherit from class \code{"gbm"}. Default is \code{TRUE} which is much
+#'   faster than the exact brute force approach used for all other models.
+#'   (Based on the C++ code behind \code{\link[gbm]{plot.gbm}}.)
 #' @param plot Logical indicating whether to return a data frame containing the
 #'   partial dependence values (\code{FALSE}) or plot the partial dependence
 #'   function directly (\code{TRUE}). Default is \code{FALSE}. See
@@ -57,14 +62,15 @@
 #'   in \code{pred.grid} has the correct class, levels, etc. Default is
 #'   \code{TRUE}.
 #' @param progress Character string giving the name of the progress bar to use.
-#'   See \code{plyr::create_progress_bar} for details. Default is \code{"none"}.
+#'   See \code{\link[plyr]{create_progress_bar}} for details. Default is
+#'   \code{"none"}.
 #' @param parallel Logical indicating whether or not to run \code{partial} in
 #'   parallel using a backend provided by the \code{foreach} package. Default is
 #'   \code{FALSE}. Default is \code{NULL}.
 #' @param paropts List containing additional options passed onto
-#'   \code{foreach::foreach} when \code{parallel = TRUE}.
+#'   \code{\link[foreach]{foreach}} when \code{parallel = TRUE}.
 #' @param ... Additional optional arguments to be passed onto
-#'   \code{stats::predict}.
+#'   \code{\link[stats]{predict}}.
 #'
 #' @return If \code{plot = FALSE} (the default) \code{partial} returns a data
 #' frame with the additional class \code{"partial"} that is specially recognized
@@ -92,13 +98,6 @@
 #'
 #' It is possible to retrieve the last printed \code{"trellis"} object, such as
 #' those produced by \code{plotPartial}, using \code{trellis.last.object()}.
-#'
-#' It is possible for \code{partial} to run much faster if \code{object}
-#' inherits from class \code{"gbm"}. In particular, if \code{object} inherits
-#' from class \code{"gbm"} and \code{pred.grid} is not specified, then
-#' \code{partial} makes an internal call to \code{gbm::plot.gbm} in order to
-#' exploit \code{gbm}'s implementation of the weighted tree traversal method
-#' described in Friedman (2001).
 #'
 #' If the prediction function given to \code{pred.fun} returns a prediction for
 #' each observation in \code{newdata}, then the result will be a PDP for each
@@ -201,7 +200,7 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
                             quantiles = FALSE, probs = 1:9/10,
                             trim.outliers = FALSE,
                             type = c("auto", "regression", "classification"),
-                            which.class = 1L, plot = FALSE,
+                            which.class = 1L, recursive = TRUE, plot = FALSE,
                             smooth = FALSE, rug = FALSE, chull = FALSE, train,
                             check.class = TRUE, progress = "none",
                             parallel = FALSE, paropts = NULL, ...) {
@@ -261,8 +260,17 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
   }
 
   # Calculate partial dependence values
-  if (inherits(object, "gbm") && is.null(pred.fun) &&
-      progress == "none" && !parallel) {
+  if (inherits(object, "gbm") && recursive) {
+    # Catch potential errors
+    if (!is.null(pred.fun)) {
+      stop("Option pred.fun cannot currently be used when recursive = TRUE")
+    }
+    if (progress != "none") {
+      message("Progress bars are not availble when recursive = TRUE")
+    }
+    if (parallel) {
+      stop("Option parallel cannot currently be used when recursive = TRUE")
+    }
     pd.df <- pdGBM(object, pred.var = pred.var, pred.grid = pred.grid,
                    which.class = which.class, ...)
   } else {

@@ -17,17 +17,18 @@
 #'   level plot. Only used when \code{levelplot = TRUE}. Default is
 #'   \code{FALSE}.
 #' @param number Integer specifying the number of conditional intervals to use
-#'   for the continuous panel variables. See \code{?graphics::co.intervals} and
-#'   \code{?lattice::equal.count} for further details.
+#'   for the continuous panel variables. See
+#'   \code{\link[graphics]{co.intervals}} and \code{\link[lattice]{equal.count}}
+#'   for further details.
 #' @param overlap The fraction of overlap of the conditioning variables. See
-#'   \code{?graphics::co.intervals} and \code{?lattice::equal.count} for further
-#'   details.
+#'   \code{\link[graphics]{co.intervals}} and \code{\link[lattice]{equal.count}}
+#'   for further details.
 #' @param train Data frame containing the original training data. Only
 #'   required if \code{rug = TRUE} or \code{chull = TRUE}.
 #' @param col.regions Color vector to be used if \code{levelplot} is
 #'   \code{TRUE}. Defaults to the wonderful Matplotlib 'viridis' color map
-#'   provided by the \code{viridis} package. See \code{?viridis::viridis} for
-#'   details.
+#'   provided by the \code{viridis} package. See \code{\link[viridis]{viridis}}
+#'   for details.
 #' @param ... Additional optional arguments to be passed onto \code{dotplot},
 #'   \code{levelplot}, \code{xyplot}, or \code{wireframe}.
 #'

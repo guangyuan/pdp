@@ -1,6 +1,5 @@
 // GBM by Greg Ridgeway  Copyright (C) 2003
 
-// #include "gbm.h"
 #include "buildinfo.h"
 
 extern "C" {

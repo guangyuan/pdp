@@ -58,6 +58,9 @@
 #'   data. This may be required depending on the class of \code{object}. For
 #'   objects that do not store a copy of the original training data, this
 #'   argument is required.
+#' @param cats Character string indicating which columns of \code{train} should
+#'   be treated as categorical variables. Only used when \code{train} inherits
+#'   from class \code{"matrix"} or \code{"dgCMatrix"}.
 #' @param check.class Logical indicating whether or not to make sure each column
 #'   in \code{pred.grid} has the correct class, levels, etc. Default is
 #'   \code{TRUE}.
@@ -211,10 +214,11 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
                             type = c("auto", "regression", "classification"),
                             which.class = 1L, recursive = TRUE, plot = FALSE,
                             smooth = FALSE, rug = FALSE, chull = FALSE, train,
-                            check.class = TRUE, progress = "none",
+                            cats = NULL, check.class = TRUE, progress = "none",
                             parallel = FALSE, paropts = NULL, ...) {
 
-  if (!is.null(pred.fun)) {  # match prediction function
+  # Match prediction function if given
+  if (!is.null(pred.fun)) {
     pred.fun <- match.fun(pred.fun)
     if (!identical(names(formals(pred.fun)), c("object", "newdata"))) {
       stop(paste0("pred.fun requires a function with only two arguments: ",
@@ -222,35 +226,56 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
     }
   }
 
-  if (missing(train)) {  # try to extract training data (hard problem)
+  # Try to extract training data (hard problem) if not provided
+  if (missing(train)) {
     train <- getTrainingData(object)
   }
 
-  if (is.numeric(pred.var)) {  # allow column positions specification
-    pred.var <- names(train)[pred.var]
+  # Convert the training data to a matrix for XGBoost models
+  if (inherits(object, "xgb.Booster") && inherits(train, "data.frame")) {
+    train <- data.matrix(train)
   }
 
-  if (!all(pred.var %in% names(train))) {  # throw an informative error
-    stop(paste(paste(pred.var[!(pred.var %in% names(train))], collapse = ", "),
-               "not found in the training data."))
+  # Convert to column names if column positions are given instead
+  if (is.numeric(pred.var)) {
+    pred.var <- colnames(train)[pred.var]
   }
 
-  if ("yhat" %in% pred.var) {  # throw an informative error
+  # Throw an informative error if any of the variables listed in pred.var do not
+  # match one of the column names in train
+  if (!all(pred.var %in% colnames(train))) {
+    stop(paste(paste(pred.var[!(pred.var %in% colnames(train))],
+                     collapse = ", "), "not found in the training data."))
+  }
+
+  # Throw informative error of one of the predictor variables is call "yhat"
+  if ("yhat" %in% pred.var) {
     stop("\"yhat\" cannot be a predictor name.")
   }
 
-  if (missing(pred.grid)) {  # generate grid of predictor values
-    pred.grid <- predGrid(object, pred.var = pred.var, train = train,
+  # Generate grid of predictor values
+  if (missing(pred.grid)) {
+    pred.grid <- predGrid(train = train, pred.var = pred.var,
                           grid.resolution = grid.resolution,
                           quantiles = quantiles, probs = probs,
                           trim.outliers = trim.outliers)
   }
 
-  if (check.class) {  # make sure each column has the correct class, levels, etc.
+  # Make sure each column has the correct class, levels, etc.
+  if (inherits(train, "data.frame") && check.class) {
     pred.grid <- copyClasses(pred.grid, train)
   }
 
-  if (chull) {  # restrict grid to covext hull of first two columns
+  # Convert pred.grid to the same class as train if train is not a data frame
+  if (inherits(train, "matrix")) {
+    pred.grid <- data.matrix(pred.grid)
+  }
+  if (inherits(train, "dgCMatrix")) {
+    pred.grid <- as(data.matrix(pred.grid), "dgCMatrix")
+  }
+
+  # Restrict grid to covext hull of first two columns
+  if (chull) {
     pred.grid <- trainCHull(pred.var, pred.grid = pred.grid, train = train)
   }
 
@@ -317,6 +342,15 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
       stop(paste("Partial dependence values are currently only available",
                  "for classification and regression problems."))
 
+    }
+
+    #
+    if (!(all(pred.var %in% colnames(pd.df)))) {
+      pd.df <- if (inherits(pred.grid, "dgCMatrix")) {
+        cbind(as.matrix(pred.grid), pd.df)
+      } else {
+        cbind(pred.grid, pd.df)
+      }
     }
 
     # Construct a "tidy" data frame from the results

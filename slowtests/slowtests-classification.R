@@ -139,7 +139,7 @@ pdp.svm <- partial(pima.svm, pred.var = x)
 pdp.earth <- partial(pima.earth, pred.var = x, which.class = 2)
 
 # gbm
-pdp.gbm <- partial(pima.gbm, pred.var = x)
+pdp.gbm <- partial(pima.gbm, pred.var = x, which.class = 2, n.trees = best.iter)
 
 # ipred::bagging
 pdp.ipred.bagging <- partial(pima.ipred.bagging, pred.var = x)

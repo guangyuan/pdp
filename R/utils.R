@@ -97,10 +97,13 @@ avgLogit <- function(x, which.class = 1L) {
 
 #' @keywords internal
 trainCHull <- function(pred.var, pred.grid, train) {
-  if (length(pred.var) >= 2 && is.numeric(pred.grid[[1L]]) &&
-      is.numeric(pred.grid[[2L]])) {
-    X <- stats::na.omit(data.matrix(train[pred.var[1L:2L]]))
-    Y <- stats::na.omit(data.matrix(pred.grid[1L:2L]))
+  if (length(pred.var) >= 2 && is.numeric(pred.grid[, 1L]) &&
+      is.numeric(pred.grid[, 2L])) {  # if the first two columns are numeric
+    if (is.data.frame(train)) {
+      train <- data.matrix(train)  # mgcv::in.out requires a matrix
+    }
+    X <- stats::na.omit(train[, pred.var[1L:2L]])
+    Y <- stats::na.omit(data.matrix(pred.grid[, 1L:2L]))
     hpts <- grDevices::chull(X)
     hpts <- c(hpts, hpts[1L])
     keep <- mgcv::in.out(X[hpts, ], Y)
@@ -109,3 +112,19 @@ trainCHull <- function(pred.var, pred.grid, train) {
     pred.grid
   }
 }
+
+
+#' #' @keywords internal
+#' trainCHull <- function(pred.var, pred.grid, train) {
+#'   if (length(pred.var) >= 2 && is.numeric(pred.grid[[1L]]) &&
+#'       is.numeric(pred.grid[[2L]])) {
+#'     X <- stats::na.omit(data.matrix(train[pred.var[1L:2L]]))
+#'     Y <- stats::na.omit(data.matrix(pred.grid[1L:2L]))
+#'     hpts <- grDevices::chull(X)
+#'     hpts <- c(hpts, hpts[1L])
+#'     keep <- mgcv::in.out(X[hpts, ], Y)
+#'     pred.grid[keep, ]
+#'   } else {
+#'     pred.grid
+#'   }
+#' }

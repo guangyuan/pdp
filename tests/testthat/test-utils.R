@@ -73,26 +73,35 @@ test_that("trainCHull works correctly", {
 
 })
 
+
+test_that("trimOutliers works correctly", {
+  expect_equal(pdp:::trimOutliers(c(1:10, 1000)), 1:10)
+})
+
+
 test_that("predGrid works correctly", {
 
-  # Regression
-  df.reg.lm <- lm(y ~ ., data = df.reg)
+  # Create some toy data
+  d1 <- data.frame(x1 = c(1, 5, 3), x2 = c(1, 1, 7))
+  d2 <- data.frame(x1 = c(1, 5, 3), x2 = as.factor(c(1, 1, 7)))
+  d3 <- data.matrix(d1)
+  d4 <- data.frame(x1 = c(1, 3, 5, 1, 3, 5), x2 = c(1, 1, 1, 7, 7, 7))
+  d5 <- data.frame(x1 = c(1, 3, 5, 1, 3, 5), x2 = as.factor(c(1, 1, 1, 7, 7, 7)))
 
-  # Grid values
-  grid1 <- predGrid(df.reg.lm,
-                    pred.var = "rm",
-                    train = df.reg,
-                    grid.resolution = NULL)
-  grid2 <- predGrid(df.reg.lm,
-                    pred.var = "rm",
-                    train = df.reg,
-                    grid.resolution = 2)
-
+  # Create grids
+  d1.grid <- predGrid(d1, pred.var = c("x1", "x2"), gr = 3, cats = "x2")
+  d2.grid <- predGrid(d2, pred.var = c("x1", "x2"), gr = 3)
+  d3.grid <- predGrid(d3, pred.var = c("x1", "x2"), gr = 3, cats = "x2")
+  d1.grid2 <- predGrid(d1, pred.var = c("x1", "x2"), cats = "x2",
+                       q = TRUE, p = 0.5)
   # Expectations
-  expect_is(grid1, "data.frame")
-  expect_is(grid2, "data.frame")
-  expect_equal(dim(grid1), c(50, 1))
-  expect_equal(dim(grid2), c(2, 1))
+  expect_identical(d1.grid, d4)
+  expect_identical(d3.grid, d4)
+  expect_identical(d2.grid, d5)
+  expect_identical(d1.grid, d3.grid)
+  expect_identical(predGrid(d1, pred.var = c("x1", "x2"), gr = 3),
+                   predGrid(d3, pred.var = c("x1", "x2"), gr = 3))
+  expect_identical(d1.grid2, data.frame(x1 = c(3, 3), x2 = c(1, 7)))
 
 })
 

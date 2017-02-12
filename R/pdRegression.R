@@ -1,22 +1,14 @@
 #' @keywords internal
 pdRegression <- function(object, pred.var, pred.grid, pred.fun,
                          train, progress, parallel, paropts, ...) {
-
-  # Use plyr::adply, rather than a for loop
   plyr::adply(pred.grid, .margins = 1, .progress = progress,
               .parallel = parallel, .paropts = paropts,
               .fun = function(x) {
-
-                # Copy training data and replace pred.var with constant
                 temp <- train
-                temp[pred.var] <- x
-
-                # Get prediction(s)
-                stats::setNames(pdPredictRegression(object, newdata = temp, ...), "yhat")
-
-              })
-
-
+                temp[, pred.var] <- x
+                stats::setNames(
+                  pdPredictRegression(object, newdata = temp, ...), "yhat")
+              }, .id = NULL)
 }
 
 
@@ -68,6 +60,6 @@ pdPredictRegression.ranger <- function(object, newdata, ...) {
 
 #' @keywords internal
 pdPredictRegression.xgb.Booster <- function(object, newdata, ...) {
-  mean(stats::predict(object, newdata = data.matrix(newdata), ...),
+  mean(stats::predict(object, newdata = newdata, ...),
        na.rm = TRUE)
 }

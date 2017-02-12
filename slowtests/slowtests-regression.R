@@ -135,7 +135,7 @@ pdp.svm <- partial(boston.svm, pred.var = x)
 pdp.earth <- partial(boston.earth, pred.var = x)
 
 # gbm
-pdp.gbm <- partial(boston.gbm, pred.var = x)
+pdp.gbm <- partial(boston.gbm, pred.var = x, n.trees = best.iter)
 
 # kernlab::ksvm
 pdp.ipred.bagging <- partial(boston.ipred.bagging, pred.var = x)
@@ -216,7 +216,7 @@ pdp2.earth <- partial(boston.earth, pred.var = x2, grid.resolution = res,
 
 # gbm
 pdp2.gbm <- partial(boston.gbm, pred.var = x2,
-                    chull = TRUE, progress = "text")
+                    chull = TRUE, progress = "text", n.trees = best.iter)
 
 # kernlab::ksvm
 pdp2.ksvm <- partial(boston.ksvm, pred.var = x2, grid.resolution = res,
@@ -305,10 +305,10 @@ grid.arrange(
 grid.arrange(
   partial(boston.gbm, pred.var = "lstat", pred.fun = function(object, newdata) {
     predict(object, newdata, n.trees = best.iter)
-  }, plot = TRUE, rug = TRUE),
+  }, plot = TRUE, rug = TRUE, recursive = FALSE),
   partial(boston.gbm, pred.var = "lstat", pred.fun = function(object, newdata) {
     median(predict(object, newdata, n.trees = best.iter))
-  }, plot = TRUE, rug = TRUE),
+  }, plot = TRUE, rug = TRUE, recursive = FALSE),
   ncol = 2
 )
 

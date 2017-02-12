@@ -11,7 +11,7 @@ partial(object, ...)
   grid.resolution = NULL, quantiles = FALSE, probs = 1:9/10,
   trim.outliers = FALSE, type = c("auto", "regression", "classification"),
   which.class = 1L, recursive = TRUE, plot = FALSE, smooth = FALSE,
-  rug = FALSE, chull = FALSE, train, check.class = TRUE,
+  rug = FALSE, chull = FALSE, train, cats = NULL, check.class = TRUE,
   progress = "none", parallel = FALSE, paropts = NULL, ...)
 }
 \arguments{
@@ -88,6 +88,10 @@ training values; this affects \code{pred.grid}. Default is \code{FALSE}.}
 data. This may be required depending on the class of \code{object}. For
 objects that do not store a copy of the original training data, this
 argument is required.}
+
+\item{cats}{Character string indicating which columns of \code{train} should
+be treated as categorical variables. Only used when \code{train} inherits
+from class \code{"matrix"} or \code{"dgCMatrix"}.}
 
 \item{check.class}{Logical indicating whether or not to make sure each column
 in \code{pred.grid} has the correct class, levels, etc. Default is
@@ -168,9 +172,38 @@ partial(boston.rf, pred.var = c("lstat", "rm"), grid.resolution = 40,
 
 # The plotPartial function offers more flexible plotting
 pd <- partial(boston.rf, pred.var = c("lstat", "rm"), grid.resolution = 40)
-plotPartial(pd)  # the default
 plotPartial(pd, levelplot = FALSE, zlab = "cmedv", drape = TRUE,
             colorkey = FALSE, screen = list(z = -20, x = -60))
+
+#
+# Individual conditional expectation (ICE) curves
+#
+
+# Use partial to obtain ICE curves
+pred.ice <- function(object, newdata) predict(object, newdata)
+rm.ice <- partial(boston.rf, pred.var = "rm", pred.fun = pred.ice)
+plotPartial(rm.ice, rug = TRUE, train = boston, alpha = 0.3)
+
+#
+# Centered ICE curves (c-ICE curves) (requires dplyr and ggplot2 to run)
+#
+
+# Post-process rm.ice to obtain c-ICE curves
+library(dplyr)  # for group_by and mutate functions
+rm.ice <- rm.ice \%>\%
+  group_by(yhat.id) \%>\%  # perform next operation within each yhat.id
+  mutate(yhat.centered = yhat - first(yhat))  # so each curve starts at yhat = 0
+
+# ICE curves with their average
+library(ggplot2)
+p1 <- ggplot(rm.ice, aes(rm, yhat)) +
+  geom_line(aes(group = yhat.id), alpha = 0.2) +
+  stat_summary(fun.y = mean, geom = "line", col = "red", size = 1)
+# c-ICE curves with their average
+p2 <- ggplot(rm.ice, aes(rm, yhat.centered)) +
+  geom_line(aes(group = yhat.id), alpha = 0.2) +
+  stat_summary(fun.y = mean, geom = "line", col = "red", size = 1)
+grid.arrange(p1, p2, ncol = 2)
 
 #
 # Classification example (requires randomForest package to run)
@@ -193,35 +226,6 @@ pfun <- function(object, newdata) {
 partial(pima.rf, pred.var = "glucose", pred.fun = pfun,
         plot = TRUE, chull = TRUE, progress = "text")
 
-#
-# Individual conditional expectation (ICE) curves
-#
-
-# Use partial to obtain ICE curves
-pred.ice <- function(object, newdata) predict(object, newdata)
-age.ice <- partial(boston.rf, pred.var = "age", pred.fun = pred.ice)
-plotPartial(age.ice, rug = TRUE, train = boston, alpha = 0.3)
-
-#
-# Centered ICE curves (c-ICE curves) (requires dplyr and ggplot2 to run)
-#
-
-# Post-process rm.ice to obtain c-ICE curves
-library(dplyr)  # for group_by and mutate functions
-rm.ice <- rm.ice \%>\%
-  group_by(yhat.id) \%>\%  # perform next operation within each yhat.id
-  mutate(yhat.centered = yhat - first(yhat))  # so each curve starts at yhat = 0
-
-# ICE curves with their average
-library(ggplot2)
-p1 <- ggplot(rm.ice, aes(rm, yhat)) +
-  geom_line(aes(group = yhat.id), alpha = 0.2) +
-  stat_summary(fun.y = mean, geom = "line", col = "red", size = 1)
-# c-ICE curves with their average
-p2 <- ggplot(rm.ice, aes(rm, yhat.centered)) +
-  geom_line(aes(group = yhat.id), alpha = 0.2) +
-  stat_summary(fun.y = mean, geom = "line", col = "red", size = 1)
-grid.arrange(p1, p2, ncol = 2)
 }
 }
 \references{

@@ -40,12 +40,18 @@ boston.gbm <- gbm(cmedv ~ .,
                   verbose = TRUE)
 best.iter <- gbm.perf(boston.gbm, method = "cv")
 
-# Compare plots for `lstat`
+# Compare plots for `lstat` using recursive method (default for GBM objects)
 par(mfrow = c(1, 2))
 plot(partial(boston.gbm, pred.var = "lstat", n.trees = best.iter,
              grid.resolution = 51), type = "l", main = "pdp::partial")
 plot(boston.gbm, i.var = "lstat", n.trees = best.iter,
      continuous.resolution = 51, main = "gbm::plot.gbm")
+
+# Use brute force method
+partial(boston.gbm, pred.var = "lstat", n.trees = best.iter,
+        grid.resolution = 51, recursive = FALSE, plot = TRUE, progress = "text")
+partial(boston.gbm, pred.var = "lstat", n.trees = 1,
+        grid.resolution = 51, recursive = FALSE, plot = TRUE, progress = "text")
 
 
 # Classification ---------------------------------------------------------------
@@ -82,7 +88,7 @@ grid.arrange(
 
 # Try user-specified response scale
 par(mfrow = c(1, 2))
-plot(partial(pima.gbm, pred.var = "glucose",
+plot(partial(pima.gbm, pred.var = "glucose", recursive = FALSE,
              pred.fun = function(object, newdata) {
                mean(predict(object, newdata, type = "response", n.trees = best.iter))
              },

@@ -4,31 +4,18 @@ pdClassification <- function(object, pred.var, pred.grid, pred.fun, which.class,
 
   # Use plyr::adply, rather than a for loop
   plyr::adply(pred.grid, .margins = 1, .progress = progress,
-              .parallel = parallel, .paropts = paropts, .fun = function(x) {
+              .parallel = parallel, .paropts = paropts,
+              .fun = function(x) {
 
-    # Copy training data and replace pred.var with constant
-    temp <- train
-    temp[pred.var] <- x
+                # Copy training data and replace pred.var with constant
+                temp <- train
+                temp[pred.var] <- x
 
-    # Get prediction(s)
-    if (is.null(pred.fun)) {
-      stats::setNames(pdPredictClassification(object, newdata = temp,
-                                              which.class = which.class, ...),
-                      "yhat")
-    } else {
-      out <- pred.fun(object, newdata = temp)
-      if (length(out) == 1) {
-        stats::setNames(out, "yhat")
-      } else {
-        if (is.null(names(out))) {
-          stats::setNames(out, paste0("yhat.", 1L:length(out)))
-        } else {
-          stats::setNames(out, paste0("yhat.", names(out)))
-        }
-      }
-    }
-
-  })
+                # Get prediction(s)
+                stats::setNames(pdPredictClassification(object, newdata = temp,
+                                                        which.class = which.class, ...),
+                                "yhat")
+              })
 
 }
 

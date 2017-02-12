@@ -142,9 +142,38 @@
 #'
 #' # The plotPartial function offers more flexible plotting
 #' pd <- partial(boston.rf, pred.var = c("lstat", "rm"), grid.resolution = 40)
-#' plotPartial(pd)  # the default
 #' plotPartial(pd, levelplot = FALSE, zlab = "cmedv", drape = TRUE,
 #'             colorkey = FALSE, screen = list(z = -20, x = -60))
+#'
+#' #
+#' # Individual conditional expectation (ICE) curves
+#' #
+#'
+#' # Use partial to obtain ICE curves
+#' pred.ice <- function(object, newdata) predict(object, newdata)
+#' rm.ice <- partial(boston.rf, pred.var = "rm", pred.fun = pred.ice)
+#' plotPartial(rm.ice, rug = TRUE, train = boston, alpha = 0.3)
+#'
+#' #
+#' # Centered ICE curves (c-ICE curves) (requires dplyr and ggplot2 to run)
+#' #
+#'
+#' # Post-process rm.ice to obtain c-ICE curves
+#' library(dplyr)  # for group_by and mutate functions
+#' rm.ice <- rm.ice %>%
+#'   group_by(yhat.id) %>%  # perform next operation within each yhat.id
+#'   mutate(yhat.centered = yhat - first(yhat))  # so each curve starts at yhat = 0
+#'
+#' # ICE curves with their average
+#' library(ggplot2)
+#' p1 <- ggplot(rm.ice, aes(rm, yhat)) +
+#'   geom_line(aes(group = yhat.id), alpha = 0.2) +
+#'   stat_summary(fun.y = mean, geom = "line", col = "red", size = 1)
+#' # c-ICE curves with their average
+#' p2 <- ggplot(rm.ice, aes(rm, yhat.centered)) +
+#'   geom_line(aes(group = yhat.id), alpha = 0.2) +
+#'   stat_summary(fun.y = mean, geom = "line", col = "red", size = 1)
+#' grid.arrange(p1, p2, ncol = 2)
 #'
 #' #
 #' # Classification example (requires randomForest package to run)
@@ -167,26 +196,6 @@
 #' partial(pima.rf, pred.var = "glucose", pred.fun = pfun,
 #'         plot = TRUE, chull = TRUE, progress = "text")
 #'
-#' #
-#' # Interface with caret (requires caret package to run)
-#' #
-#'
-#' # Load required packages
-#' library(caret)  # for model training/tuning
-#'
-#' # Set up for 5-fold cross-validation
-#' ctrl <- trainControl(method = "cv", number = 5, verboseIter = TRUE)
-#'
-#' # Tune a support vector machine (SVM) using a radial basis function kerel to
-#' # the Pima Indians diabetes data
-#' set.seed(103)  # for reproducibility
-#' pima.svm <- train(diabetes ~ ., data = pima, method = "svmRadial",
-#'                   prob.model = TRUE, na.action = na.omit, trControl = ctrl,
-#'                   tuneLength = 10)
-#'
-#' # Partial dependence of glucose on diabetes test result (neg/pos)
-#' partial(pima.svm, pred.var = "glucose", plot = TRUE, rug = TRUE)
-#'
 #' }
 partial <- function(object, ...) {
   UseMethod("partial")
@@ -205,8 +214,7 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
                             check.class = TRUE, progress = "none",
                             parallel = FALSE, paropts = NULL, ...) {
 
-  # Match pred.var function if not NULL
-  if (!is.null(pred.fun)) {
+  if (!is.null(pred.fun)) {  # match prediction function
     pred.fun <- match.fun(pred.fun)
     if (!identical(names(formals(pred.fun)), c("object", "newdata"))) {
       stop(paste0("pred.fun requires a function with only two arguments: ",
@@ -214,107 +222,128 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
     }
   }
 
-  # If not supplied, try to extract training data from object
-  if (missing(train)) {
+  if (missing(train)) {  # try to extract training data (hard problem)
     train <- getTrainingData(object)
   }
 
-  # Allow column position specification
-  if (is.numeric(pred.var)) {
+  if (is.numeric(pred.var)) {  # allow column positions specification
     pred.var <- names(train)[pred.var]
   }
 
-  # Throw error message if predictor names not found in training data
-  if (!all(pred.var %in% names(train))) {
+  if (!all(pred.var %in% names(train))) {  # throw an informative error
     stop(paste(paste(pred.var[!(pred.var %in% names(train))], collapse = ", "),
                "not found in the training data."))
   }
 
-  # Throw an error message of one of the predictors is labelled "y"
-  if ("y" %in% pred.var) {
-    stop("\"y\" cannot be a predictor name.")
+  if ("yhat" %in% pred.var) {  # throw an informative error
+    stop("\"yhat\" cannot be a predictor name.")
   }
 
-  # Predictor values of interest
-  if (missing(pred.grid)) {
+  if (missing(pred.grid)) {  # generate grid of predictor values
     pred.grid <- predGrid(object, pred.var = pred.var, train = train,
                           grid.resolution = grid.resolution,
                           quantiles = quantiles, probs = probs,
                           trim.outliers = trim.outliers)
   }
 
-  # Make sure each column has the correct class, factor levels, etc.
-  if (check.class) {
+  if (check.class) {  # make sure each column has the correct class, levels, etc.
     pred.grid <- copyClasses(pred.grid, train)
   }
 
-  # Restrict grid to covext hull of first two columns
-  if (chull) {
+  if (chull) {  # restrict grid to covext hull of first two columns
     pred.grid <- trainCHull(pred.var, pred.grid = pred.grid, train = train)
   }
 
   # Determine the type of supervised learning used
   type <- match.arg(type)
-  if (type == "auto") {
-    type <- superType(object)
+  if (type == "auto" && is.null(pred.fun)) {
+    type <- superType(object)  # determine if regression or classification
   }
 
   # Calculate partial dependence values
-  if (inherits(object, "gbm") && recursive) {
-    # Catch potential errors
+  if (inherits(object, "gbm") && recursive) {  # use weighted tree traversal
+
+    # Stop and notify user that pred.fun cannot be used when recursive = TRUE
+    # with "gbm" objects
     if (!is.null(pred.fun)) {
-      stop("Option pred.fun cannot currently be used when recursive = TRUE")
+      stop("Option pred.fun cannot currently be used when recursive = TRUE.")
     }
+
+    # Notify user that progress bars are not avaiable for "gbm" objects when
+    # recursive = TRUE
     if (progress != "none") {
-      message("Progress bars are not availble when recursive = TRUE")
+      message("Progress bars are not availble when recursive = TRUE.")
     }
+
+    # Stop and notify user that parallel functionality is currently not
+    # available for "gbm" objects when recursive = TRUE
     if (parallel) {
-      stop("Option parallel cannot currently be used when recursive = TRUE")
+      stop("Option parallel cannot currently be used when recursive = TRUE.")
     }
+
+    # Use Friedman's weighted tree traversal approach to partial dependence
     pd.df <- pdGBM(object, pred.var = pred.var, pred.grid = pred.grid,
                    which.class = which.class, ...)
+
   } else {
-    pd.df <- if (type == "regression") {
+
+    # Use brute force approach to partial dependence
+    pd.df <- if (!is.null(pred.fun)) {
+
+      # User-supplied prediction function
+      pdManual(object, pred.var = pred.var, pred.grid = pred.grid,
+               pred.fun = pred.fun, train = train, progress = progress,
+               parallel = parallel, paropts = paropts, ...)
+
+    } else if (type == "regression") {
+
+      # Traditional partial dependence based on averaged predictions
       pdRegression(object, pred.var = pred.var, pred.grid = pred.grid,
                    pred.fun = pred.fun, train = train, progress = progress,
                    parallel = parallel, paropts = paropts, ...)
+
     } else if (type == "classification") {
+
+      # Traditional partial dependence based on averaged ceneted logits
       pdClassification(object, pred.var = pred.var, pred.grid = pred.grid,
                        pred.fun = pred.fun, which.class = which.class,
                        train = train, progress = progress, parallel = parallel,
                        paropts = paropts, ...)
+
     } else {
+
+      # Stop and notify user that partil dependence values are only available
+      # for classification and regression problems
       stop(paste("Partial dependence values are currently only available",
                  "for classification and regression problems."))
+
     }
-    # Construct an appropriate data frame
-    if (any(grepl("^yhat\\.", names(pd.df)))) {  # assume ICE curves
-      # Convert from wide to long format
-      pd.df <- stats::reshape(pd.df, varying = (length(pred.var) + 1):ncol(pd.df),
-                              direction = "long")
+
+    # Construct a "tidy" data frame from the results
+    if (any(grepl("^yhat\\.", names(pd.df)))) {  # multiple curves
+      pd.df <- stats::reshape(pd.df,
+                              varying = (length(pred.var) + 1):ncol(pd.df),
+                              direction = "long")  # wide to long format
       pd.df$id <- NULL  # remove id column
       pd.df <- pd.df[, c(pred.var, "yhat", "time")]  # rearrange columns
       names(pd.df)[ncol(pd.df)] <- "yhat.id"  # rename "time" column
-    } else {
-      names(pd.df) <- c(pred.var, "yhat")
+    } else {  # single curve
+      names(pd.df) <- c(pred.var, "yhat")  # rename columns
     }
     rownames(pd.df) <- NULL  # remove row names
   }
 
-  # Assign classes
-  class(pd.df) <- c("data.frame", "partial")
+  class(pd.df) <- c("data.frame", "partial")    # assign classes
 
   # Plot partial dependence function (if requested)
-  if (plot) {
+  if (plot) {  # return a graph (i.e., a "trellis" object)
     res <- plotPartial(pd.df, smooth = smooth, rug = rug, train = train,
-                       col.regions = viridis::viridis)
-    attr(res, "partial.data") <- pd.df
-  } else {
-    # Return partial dependence values
+                       col.regions = viridis::viridis)  # returns a "trellis" object
+    attr(res, "partial.data") <- pd.df  # attach partial data as an attribute
+  } else {  # return a data frame (i.e., a "data.frame" and "partial" object)
     res <- pd.df
   }
 
-  # Return results
-  res
+  res  # return results
 
 }

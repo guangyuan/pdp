@@ -194,25 +194,34 @@ partial(pima.rf, pred.var = "glucose", pred.fun = pfun,
         plot = TRUE, chull = TRUE, progress = "text")
 
 #
-# Interface with caret (requires caret package to run)
+# Individual conditional expectation (ICE) curves
 #
 
-# Load required packages
-library(caret)  # for model training/tuning
+# Use partial to obtain ICE curves
+pred.ice <- function(object, newdata) predict(object, newdata)
+age.ice <- partial(boston.rf, pred.var = "age", pred.fun = pred.ice)
+plotPartial(age.ice, rug = TRUE, train = boston, alpha = 0.3)
 
-# Set up for 5-fold cross-validation
-ctrl <- trainControl(method = "cv", number = 5, verboseIter = TRUE)
+#
+# Centered ICE curves (c-ICE curves) (requires dplyr and ggplot2 to run)
+#
 
-# Tune a support vector machine (SVM) using a radial basis function kerel to
-# the Pima Indians diabetes data
-set.seed(103)  # for reproducibility
-pima.svm <- train(diabetes ~ ., data = pima, method = "svmRadial",
-                  prob.model = TRUE, na.action = na.omit, trControl = ctrl,
-                  tuneLength = 10)
+# Post-process rm.ice to obtain c-ICE curves
+library(dplyr)  # for group_by and mutate functions
+rm.ice <- rm.ice \%>\%
+  group_by(yhat.id) \%>\%  # perform next operation within each yhat.id
+  mutate(yhat.centered = yhat - first(yhat))  # so each curve starts at yhat = 0
 
-# Partial dependence of glucose on diabetes test result (neg/pos)
-partial(pima.svm, pred.var = "glucose", plot = TRUE, rug = TRUE)
-
+# ICE curves with their average
+library(ggplot2)
+p1 <- ggplot(rm.ice, aes(rm, yhat)) +
+  geom_line(aes(group = yhat.id), alpha = 0.2) +
+  stat_summary(fun.y = mean, geom = "line", col = "red", size = 1)
+# c-ICE curves with their average
+p2 <- ggplot(rm.ice, aes(rm, yhat.centered)) +
+  geom_line(aes(group = yhat.id), alpha = 0.2) +
+  stat_summary(fun.y = mean, geom = "line", col = "red", size = 1)
+grid.arrange(p1, p2, ncol = 2)
 }
 }
 \references{

@@ -1,17 +1,11 @@
 #' @keywords internal
 pdManual <- function(object, pred.var, pred.grid, pred.fun, train, progress,
                      parallel, paropts, ...) {
-
-  # Use plyr::adply, rather than a for loop
   plyr::adply(pred.grid, .margins = 1, .progress = progress,
               .parallel = parallel, .paropts = paropts,
               .fun = function(x) {
-
-                # Copy training data and replace pred.var with constant
                 temp <- train
-                temp[pred.var] <- x
-
-                # Get prediction(s)
+                temp[, pred.var] <- x
                 out <- pred.fun(object, newdata = temp)
                 if (length(out) == 1) {
                   stats::setNames(out, "yhat")
@@ -23,6 +17,5 @@ pdManual <- function(object, pred.var, pred.grid, pred.fun, train, progress,
                   }
                 }
 
-              })
-
+              }, .id = NULL)
 }

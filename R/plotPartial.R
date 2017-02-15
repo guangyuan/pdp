@@ -142,7 +142,7 @@ pdpMulti <- function(x, rug = FALSE, train = NULL, ...) {
                 if (is.null(train)) {
                   stop("The training data must be supplied for rug display.")
                 } else {
-                  panel.rug(stats::quantile(train[[names(x)[1L]]],
+                  panel.rug(stats::quantile(train[, names(x)[1L]],
                                             probs = 0:10/10, na.rm = TRUE))
                 }
               }
@@ -156,7 +156,7 @@ pdpMulti <- function(x, rug = FALSE, train = NULL, ...) {
                if (is.null(train)) {
                  stop("The training data must be supplied for rug display.")
                } else {
-                 panel.rug(stats::quantile(train[[names(x)[1L]]],
+                 panel.rug(stats::quantile(train[, names(x)[1L]],
                                            probs = 0:10/10, na.rm = TRUE))
                }
              }
@@ -177,7 +177,7 @@ pdpNumeric <- function(x, smooth, rug, train = NULL, ...) {
              if (is.null(train)) {
                stop("The training data must be supplied for rug display.")
              } else {
-               panel.rug(stats::quantile(train[[names(x)[1L]]],
+               panel.rug(stats::quantile(train[, names(x)[1L]],
                                          probs = 0:10/10, na.rm = TRUE))
              }
            }
@@ -220,7 +220,7 @@ pdpNumericFactor <- function(x, smooth, rug, train, ...) {
              if (is.null(train)) {
                stop("The training data must be supplied for rug display.")
              } else {
-               panel.rug(stats::quantile(train[[names(x)[1L]]],
+               panel.rug(stats::quantile(train[, names(x)[1L]],
                                          probs = 0:10/10, na.rm = TRUE))
              }
            }
@@ -252,9 +252,9 @@ pdpNumericNumeric <- function(x, levelplot, rug, chull, train, contour,
                 }
                 # Add a rug display
                 if (rug) {
-                  panel.rug(stats::quantile(train[[names(x)[1L]]],
+                  panel.rug(stats::quantile(train[, names(x)[1L]],
                                             probs = 0:10/10, na.rm = TRUE),
-                            stats::quantile(train[[names(x)[2L]]],
+                            stats::quantile(train[, names(x)[2L]],
                                             probs = 0:10/10, na.rm = TRUE),
                             col = "black")
                 }
@@ -315,7 +315,7 @@ pdpNumericFactorShingle <- function(x, nx, smooth, rug, train, ...) {
              if (is.null(train)) {
                stop("The training data must be supplied for rug display.")
              } else {
-               panel.rug(stats::quantile(train[[names(x)[1L]]],
+               panel.rug(stats::quantile(train[, names(x)[1L]],
                                          probs = 0:10/10, na.rm = TRUE))
              }
            }

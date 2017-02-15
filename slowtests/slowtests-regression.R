@@ -113,9 +113,7 @@ boston.glm <- glm(cmedv ~ ., data = boston, family = gaussian)
 set.seed(101)
 boston.xgb <- xgboost(data = data.matrix(subset(boston, select = -cmedv)),
                       label = boston$cmedv, objective = "reg:linear",
-                      nrounds = 100, max_depth = 5, eta = 0.3, gamma = 0,
-                      colsample_bytree = 0.8, min_child_weight = 1,
-                      subsample = 0.9444444)
+                      nrounds = 100, max_depth = 3, eta = 0.01)
 
 
 ################################################################################
@@ -203,15 +201,15 @@ x2 <- c("lstat", "rm")
 res <- 10
 
 # Cubist::cubist
-pdp2.cubist <- partial(boston.cubist, pred.var = x2, grid.resolution = res,
+pdp2.cubist <- partial(boston.cubist, pred.var = x2, gr = res,
                        chull = TRUE, train = boston, progress = "text")
 
 # e1071::svm
-pdp2.svm <- partial(boston.svm, pred.var = x2, grid.resolution = res,
+pdp2.svm <- partial(boston.svm, pred.var = x2, gr = res,
                     chull = TRUE, progress = "text")
 
 # earth
-pdp2.earth <- partial(boston.earth, pred.var = x2, grid.resolution = res,
+pdp2.earth <- partial(boston.earth, pred.var = x2, gr = res,
                       chull = TRUE, progress = "text")
 
 # gbm
@@ -219,43 +217,43 @@ pdp2.gbm <- partial(boston.gbm, pred.var = x2,
                     chull = TRUE, progress = "text", n.trees = best.iter)
 
 # kernlab::ksvm
-pdp2.ksvm <- partial(boston.ksvm, pred.var = x2, grid.resolution = res,
+pdp2.ksvm <- partial(boston.ksvm, pred.var = x2, gr = res,
                      chull = TRUE, train = boston, progress = "text")
 
 # nnet
-pdp2.nnet <- partial(boston.nnet, pred.var = x2, grid.resolution = res,
+pdp2.nnet <- partial(boston.nnet, pred.var = x2, gr = res,
                      chull = TRUE, progress = "text")
 
 # party::ctree
-pdp2.ctree <- partial(boston.ctree, pred.var = x2, grid.resolution = res,
+pdp2.ctree <- partial(boston.ctree, pred.var = x2, gr = res,
                       chull = TRUE, progress = "text")
 
 # party::cforest
-pdp2.crf <- partial(boston.crf, pred.var = x2, grid.resolution = res,
+pdp2.crf <- partial(boston.crf, pred.var = x2, gr = res,
                     chull = TRUE, progress = "text")
 
 # randomForest
-pdp2.rf <- partial(boston.rf, pred.var = x2, grid.resolution = res,
+pdp2.rf <- partial(boston.rf, pred.var = x2, gr = res,
                    chull = TRUE, progress = "text")
 
 # ranger
-pdp2.ranger <- partial(boston.ranger, pred.var = x2, grid.resolution = res,
+pdp2.ranger <- partial(boston.ranger, pred.var = x2, gr = res,
                        chull = TRUE, progress = "text")
 
 # rpart
-pdp2.rpart <- partial(boston.rpart, pred.var = x2, grid.resolution = res,
+pdp2.rpart <- partial(boston.rpart, pred.var = x2, gr = res,
                       chull = TRUE, progress = "text")
 
 # stats::lm
-pdp2.lm <- partial(boston.lm, pred.var = x2, grid.resolution = res,
+pdp2.lm <- partial(boston.lm, pred.var = x2, gr = res,
                    chull = TRUE, progress = "text")
 
 # stats::glm
-pdp2.glm <- partial(boston.glm, pred.var = x2, grid.resolution = res,
+pdp2.glm <- partial(boston.glm, pred.var = x2, gr = res,
                     chull = TRUE, progress = "text")
 
 # xgboost
-pdp2.xgb <- partial(boston.xgb, pred.var = x2, grid.resolution = res,
+pdp2.xgb <- partial(boston.xgb, pred.var = x2, gr = 51,
                     chull = TRUE, train = subset(boston, select = -cmedv),
                     progress = "text")
 
@@ -357,29 +355,13 @@ grid.arrange(
   ncol = 2
 )
 
+# xgboost
+z <- partial(boston.xgb, pred.var = "age", pred.fun = function(object, newdata) {
+  predict(object, data.matrix(newdata))
+}, train = subset(boston, select = -cmedv))
+plotPartial(z)
 
-################################################################################
-# Additional tests for gbm
-################################################################################
+partial(boston.xgb, pred.var = "age", pred.fun = function(object, newdata) {
+  predict(object, data.matrix(newdata))
+}, train = subset(boston, select = -cmedv), plot = TRUE, rug = TRUE)
 
-# Compare to gbm::plot.gbm
-par(mfrow = c(1, 3))
-plot(partial(boston.gbm, pred.var = "lstat", n.trees = best.iter), type = "l",
-     main = "pdp::partial")
-plot(partial(boston.gbm, pred.var = "lstat",
-             pred.fun = function(object, newdata) {
-               mean(predict(object, newdata, n.trees = best.iter))
-             }), type = "l", main = "pdp::partial (pred.fun)")
-plot(boston.gbm, i.var = "lstat", n.trees = best.iter,
-     continuous.resolution = 51, main = "gbm::plot.gbm")
-
-
-################################################################################
-# Additional tests for randomForest
-################################################################################
-
-# Compare to randomForest::partialPlot
-par(mfrow = c(1, 2))
-plot(partial(boston.rf, pred.var = "lstat"), type = "l", main = "pdp::partial")
-partialPlot(boston.rf, pred.data = boston, x.var = "lstat",
-            main = "randomForest::partialPlot")

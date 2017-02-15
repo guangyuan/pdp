@@ -260,6 +260,7 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
                           quantiles = quantiles, probs = probs,
                           trim.outliers = trim.outliers)
   }
+  # FIXME: Throw error if colnames(pred.grid) does not match pred.var
 
   # Make sure each column has the correct class, levels, etc.
   if (inherits(train, "data.frame") && check.class) {
@@ -271,7 +272,7 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
     pred.grid <- data.matrix(pred.grid)
   }
   if (inherits(train, "dgCMatrix")) {
-    pred.grid <- as(data.matrix(pred.grid), "dgCMatrix")
+    pred.grid <- methods::as(data.matrix(pred.grid), "dgCMatrix")
   }
 
   # Restrict grid to covext hull of first two columns

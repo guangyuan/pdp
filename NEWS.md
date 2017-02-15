@@ -3,6 +3,7 @@
 ### Changes for version 0.4.1
 * Added support for `MASS::lda`, `MASS::qda`, and `mda::mars`.
 * New arguments `quantiles`, `probs`, and `trim.outliers` in `partial`. These arguments make it easier to construct PDPs over the relevant range of a numeric predictor without having to specify `pred.grid`, especially when outliers are present in the predictors (which can distort the plotted relationship).
+* The `train` argument can now accept matrices; in particular, object of class `"matrix"` or `"dgCMatrix"`. This is useful, for example, when working with XGBoost models (i.e., objects of class `"xgb.Booster"`).
 
 ### Changes for version 0.4.0
 * `partial` is now much faster with `"gbm"` object due to a call to `gbm::plot.gbm` whenever `pred.grid` is not explicitly given by the user. (`gbm::plot.gbm` exploits a computational shortcut that does not involve any passes over the training data.)

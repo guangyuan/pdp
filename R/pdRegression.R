@@ -6,20 +6,20 @@ pdRegression <- function(object, pred.var, pred.grid, pred.fun,
               .fun = function(x) {
                 temp <- train
                 temp[, pred.var] <- x
-                stats::setNames(
-                  pdPredictRegression(object, newdata = temp, ...), "yhat")
+                stats::setNames(getPDRegPred(object, newdata = temp, ...),
+                                "yhat")
               }, .id = NULL)
 }
 
 
 #' @keywords internal
-pdPredictRegression <- function(object, newdata, ...) {
-  UseMethod("pdPredictRegression")
+getPDRegPred <- function(object, newdata, ...) {
+  UseMethod("getPDRegPred")
 }
 
 
 #' @keywords internal
-pdPredictRegression.default <- function(object, newdata, ...) {
+getPDRegPred.default <- function(object, newdata, ...) {
   pred <- stats::predict(object, newdata = newdata, ...)
   if (is.matrix(pred) || is.data.frame(pred)) {
     pred <- pred[, 1L, drop = TRUE]
@@ -29,7 +29,7 @@ pdPredictRegression.default <- function(object, newdata, ...) {
 
 
 #' @keywords internal
-pdPredictRegression.gbm <- function(object, newdata, ...) {
+getPDRegPred.gbm <- function(object, newdata, ...) {
   invisible(utils::capture.output(
     pred <- stats::predict(object, newdata = newdata, ...)
   ))
@@ -38,14 +38,14 @@ pdPredictRegression.gbm <- function(object, newdata, ...) {
 
 
 #' @keywords internal
-pdPredictRegression.ksvm <- function(object, newdata, ...) {
+getPDRegPred.ksvm <- function(object, newdata, ...) {
   mean(kernlab::predict(object, newdata = newdata, ...)[, 1L, drop = TRUE],
        na.rm = TRUE)
 }
 
 
 #' @keywords internal
-pdPredictRegression.mars <- function(object, newdata, ...) {
+getPDRegPred.mars <- function(object, newdata, ...) {
   mean(stats::predict(object,
                       newdata = data.matrix(newdata), ...)[, 1L, drop = TRUE],
        na.rm = TRUE)
@@ -53,13 +53,13 @@ pdPredictRegression.mars <- function(object, newdata, ...) {
 
 
 #' @keywords internal
-pdPredictRegression.ranger <- function(object, newdata, ...) {
+getPDRegPred.ranger <- function(object, newdata, ...) {
   mean(stats::predict(object, data = newdata, ...)$predictions, na.rm = TRUE)
 }
 
 
 #' @keywords internal
-pdPredictRegression.xgb.Booster <- function(object, newdata, ...) {
+getPDRegPred.xgb.Booster <- function(object, newdata, ...) {
   mean(stats::predict(object, newdata = newdata, ...),
        na.rm = TRUE)
 }

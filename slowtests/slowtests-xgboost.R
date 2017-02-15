@@ -47,3 +47,10 @@ grid.arrange(
   partial(bst.xgb.DMatrix, pred.var = "glucose", plot = TRUE, train = X.dgCMatrix),
   ncol = 3
 )
+
+# Plot probability instead
+pfun <- function(object, newdata) {
+  stats::predict(object, newdata = newdata)
+}
+partial(bst.matrix, pred.var = "glucose", pred.fun = pfun, plot = TRUE,
+        train = X, progress = "text")

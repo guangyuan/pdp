@@ -4,11 +4,13 @@
 * Added support for `MASS::lda`, `MASS::qda`, and `mda::mars`.
 * New arguments `quantiles`, `probs`, and `trim.outliers` in `partial`. These arguments make it easier to construct PDPs over the relevant range of a numeric predictor without having to specify `pred.grid`, especially when outliers are present in the predictors (which can distort the plotted relationship).
 * The `train` argument can now accept matrices; in particular, object of class `"matrix"` or `"dgCMatrix"`. This is useful, for example, when working with XGBoost models (i.e., objects of class `"xgb.Booster"`).
+* New logical argument `prob` indicating whether or not partial dependence values for classification problems should be returned on the original probability scale, rather than the centered logit; details for the centered logit can be found on page 370 of the second edition of [*The Elements of Statistical Learning*](https://statweb.stanford.edu/~tibs/ElemStatLearn/).
+* Fixed some typos in `NEWS.md`.
 
 ### Changes for version 0.4.0
 * `partial` is now much faster with `"gbm"` object due to a call to `gbm::plot.gbm` whenever `pred.grid` is not explicitly given by the user. (`gbm::plot.gbm` exploits a computational shortcut that does not involve any passes over the training data.)
 * New (experimental) function `topPredictors` for extracting the names of the most "important" predictors. This should make it one step easier (in most cases) to construct PDPs for the most "important"" features in a fitted model.
-* A new argument, `pred.fun`, allows the user to spply their own prediction function. Hence, it is poosible to obtain PDPs based on the median, rather than the mean. It is also possible to obtain PDPs for classification problems on the probability scale. See `?partial` for examples.
+* A new argument, `pred.fun`, allows the user to supply their own prediction function. Hence, it is possible to obtain PDPs based on the median, rather than the mean. It is also possible to obtain PDPs for classification problems on the probability scale. See `?partial` for examples.
 * Minor bug fixes and documentation tweaks.
 
 ### Changes for version 0.3.0
@@ -21,7 +23,7 @@
 ### Changes for version 0.2.0
 * `randomForest` is no longer imported.
 * Added support for the `caret` package (i.e., objects of class `"train"`).
-* Added example datasets: `boston` (corrected Boston housing data) and `pima` (corrected Pima Indians diabetes data).
+* Added example data sets: `boston` (corrected Boston housing data) and `pima` (corrected Pima Indians diabetes data).
 * Fixed error that sometimes occurred when `chull = TRUE` causing the convex hull to not be computed.
 * Refactored `plotPartial` to be more modular.
 * Added `gbm` support for most non-`"binomial"` families`.

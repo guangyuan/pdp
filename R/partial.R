@@ -38,6 +38,11 @@
 #'   probabilities to use as the "focus" class. Default is to use the first
 #'   class. Only used for classification problems (i.e., when
 #'   \code{type = "classification"}).
+#' @param prob Logical indicating whether or not partial dependence for
+#'   classification problems should be returned on the probability scale, rather
+#'   than the centered logit. If \code{FALSE}, the partial dependence in on a
+#'   scale similar to the logit. See [ADD REF] for details. Default is
+#'   \code{FALSE}.
 #' @param recursive Logical indicating whether or not to use the weighted tree
 #'   traversal method described in Friedman (2001). This only applies to objects
 #'   that inherit from class \code{"gbm"}. Default is \code{TRUE} which is much
@@ -212,9 +217,10 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
                             quantiles = FALSE, probs = 1:9/10,
                             trim.outliers = FALSE,
                             type = c("auto", "regression", "classification"),
-                            which.class = 1L, recursive = TRUE, plot = FALSE,
-                            smooth = FALSE, rug = FALSE, chull = FALSE, train,
-                            cats = NULL, check.class = TRUE, progress = "none",
+                            which.class = 1L, prob = FALSE, recursive = TRUE,
+                            plot = FALSE, smooth = FALSE, rug = FALSE,
+                            chull = FALSE, train, cats = NULL,
+                            check.class = TRUE, progress = "none",
                             parallel = FALSE, paropts = NULL, ...) {
 
   # Match prediction function if given
@@ -309,7 +315,7 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
 
     # Use Friedman's weighted tree traversal approach to partial dependence
     pd.df <- pdGBM(object, pred.var = pred.var, pred.grid = pred.grid,
-                   which.class = which.class, ...)
+                   which.class = which.class, prob = prob, ...)
 
   } else {
 
@@ -333,8 +339,8 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
       # Traditional partial dependence based on averaged ceneted logits
       pdClassification(object, pred.var = pred.var, pred.grid = pred.grid,
                        pred.fun = pred.fun, which.class = which.class,
-                       train = train, progress = progress, parallel = parallel,
-                       paropts = paropts, ...)
+                       prob = prob, train = train, progress = progress,
+                       parallel = parallel, paropts = paropts, ...)
 
     } else {
 
@@ -345,7 +351,8 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
 
     }
 
-    #
+    # When train inherits from class "matrix" or "dgCMatrix", pd.df will only
+    # contain yhat (and possibly yhat.id); hence, pred.grid must be prepended.
     if (!(all(pred.var %in% colnames(pd.df)))) {
       pd.df <- if (inherits(pred.grid, "dgCMatrix")) {
         cbind(as.matrix(pred.grid), pd.df)

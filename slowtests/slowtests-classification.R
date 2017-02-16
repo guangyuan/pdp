@@ -117,7 +117,7 @@ pima.xgb <- xgboost(data = data.matrix(subset(pima, select = -diabetes)),
 
 
 ################################################################################
-# PDPs for a single predictor
+# PDPs for a single predictor (centered logit scale)
 ################################################################################
 
 # Store variable name(s) in case we want to change it later
@@ -202,6 +202,97 @@ grid.arrange(
   plotPartial(pdp.xgb, main = "xgboost"),
   ncol = 4
 )
+
+
+################################################################################
+# PDPs for a single predictor (probability scale)
+################################################################################
+
+# Store variable name(s) in case we want to change it later
+x <- "glucose"
+
+# adabag::bagging
+pdp.bagging <- partial(pima.bagging, pred.var = x, prob = TRUE)
+
+# adabag::boosting
+pdp.boosting <- partial(pima.boosting, pred.var = x, prob = TRUE)
+
+# C50::C5.0
+pdp.C5.0 <- partial(pima.C5.0, pred.var = x, prob = TRUE)
+
+# e1071::svm
+pdp.svm <- partial(pima.svm, pred.var = x, prob = TRUE)
+
+# earth
+pdp.earth <- partial(pima.earth, pred.var = x, which.class = 2, prob = TRUE)
+
+# gbm
+pdp.gbm <- partial(pima.gbm, pred.var = x, which.class = 2, prob = TRUE,
+                   n.trees = best.iter)
+
+# ipred::bagging
+pdp.ipred.bagging <- partial(pima.ipred.bagging, pred.var = x, prob = TRUE)
+
+# kernlab::ksvm
+pdp.ksvm <- partial(pima.ksvm, pred.var = x, prob = TRUE, train = pima)
+
+# nnet
+pdp.nnet <- partial(pima.nnet, pred.var = x, type = "classification",
+                    which.class = 2, prob = TRUE)
+
+# party::ctree
+pdp.ctree <- partial(pima.ctree, pred.var = x, prob = TRUE)
+
+# party::cforest
+pdp.crf <- partial(pima.crf, pred.var = x, prob = TRUE, progress = "text")
+
+# partykit::cforest
+pdp.partykit.ctree <- partial(pima.partykit.ctree, pred.var = x, prob = TRUE,
+                              train = pima)
+
+# partykit::cforest
+pdp.partykit.crf <- partial(pima.partykit.crf, pred.var = x, grid.res = 10,
+                            prob = TRUE, train = pima, progress = "text")
+
+# randomForest
+pdp.rf <- partial(pima.rf, pred.var = x, prob = TRUE)
+
+# ranger
+pdp.ranger <- partial(pima.ranger, pred.var = x, prob = TRUE)
+
+# rpart
+pdp.rpart <- partial(pima.rpart, pred.var = x, prob = TRUE)
+
+# stats::glm
+pdp.glm <- partial(pima.glm, pred.var = x, which.class = 2, prob = TRUE)
+
+# xgboost
+pdp.xgb <- partial(pima.xgb, pred.var = x, which.class = 2, prob = TRUE,
+                   train = subset(pima, select = -diabetes))
+
+# Display PDPs
+grid.arrange(
+  plotPartial(pdp.bagging, main = "adabag::bagging"),
+  plotPartial(pdp.boosting, main = "adabag::boosting"),
+  plotPartial(pdp.C5.0, main = "C50::C5.0"),
+  plotPartial(pdp.svm, main = "e1071::svm"),
+  plotPartial(pdp.earth, main = "earth"),
+  plotPartial(pdp.gbm, main = "gbm"),
+  plotPartial(pdp.ipred.bagging, main = "ipred::bagging"),
+  plotPartial(pdp.ksvm, main = "kernlab::ksvm"),
+  plotPartial(pdp.nnet, main = "nnet"),
+  plotPartial(pdp.ctree, main = "party::ctree"),
+  plotPartial(pdp.crf, main = "party::cforest"),
+  plotPartial(pdp.partykit.ctree, main = "partykit::ctree"),
+  plotPartial(pdp.partykit.crf, main = "partykit::cforest"),
+  plotPartial(pdp.rf, main = "randomForest"),
+  plotPartial(pdp.ranger, main = "ranger"),
+  plotPartial(pdp.rpart, main = "rpart"),
+  plotPartial(pdp.glm, main = "stats::glm"),
+  plotPartial(pdp.xgb, main = "xgboost"),
+  ncol = 4
+)
+
 
 # PDP on the probability scale using pred.fun argument with ranger model
 partial(pima.ranger, pred.var = c("glucose", "age"), progress = "text",

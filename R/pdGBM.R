@@ -1,7 +1,7 @@
 #' @keywords internal
 #' @useDynLib pdp
 #' @importFrom Rcpp sourceCpp
-pdGBM <- function(object, pred.var, pred.grid, which.class, ...) {
+pdGBM <- function(object, pred.var, pred.grid, which.class, prob, ...) {
 
   # Extract number of trees
   dots <- list(...)
@@ -38,15 +38,23 @@ pdGBM <- function(object, pred.var, pred.grid, which.class, ...) {
 
   # Transform/rescale predicted values
   if (object$distribution$name == "multinomial") {
-    pd.df$yhat <- avgLogit(matrix(y, ncol = object$num.classes),
-                           which.class = which.class)
+    if (prob) {
+      pd.df$yhat <- mean(matrix(y, ncol = object$num.classes)[, which.class],
+                         na.rm = TRUE)
+    } else {
+      pd.df$yhat <- avgLogit(matrix(y, ncol = object$num.classes),
+                             which.class = which.class)
+    }
   } else if (object$distribution$name %in% c("bernoulli", "pairwise")) {
     pr <- boot::inv.logit(y)
     pr <- cbind(pr, 1 - pr)
-    # pd.df$yhat <- boot::logit(cbind(pr, 1 - pr)[, which.class])
-    eps <- .Machine$double.eps
-    pd.df$yhat <- log(ifelse(pr[, which.class] > 0, pr[, which.class], eps)) -
-      rowMeans(log(ifelse(pr > 0, pr, eps)))
+    if (prob) {
+      pd.df$yhat <- pr[, which.class]
+    } else {
+      eps <- .Machine$double.eps
+      pd.df$yhat <- log(ifelse(pr[, which.class] > 0, pr[, which.class], eps)) -
+        rowMeans(log(ifelse(pr > 0, pr, eps)))
+    } # pd.df$yhat <- boot::logit(cbind(pr, 1 - pr)[, which.class])
   } else {
     pd.df$yhat <- y
   }

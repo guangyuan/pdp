@@ -4,7 +4,7 @@
 * Added support for `MASS::lda`, `MASS::qda`, and `mda::mars`.
 * New arguments `quantiles`, `probs`, and `trim.outliers` in `partial`. These arguments make it easier to construct PDPs over the relevant range of a numeric predictor without having to specify `pred.grid`, especially when outliers are present in the predictors (which can distort the plotted relationship).
 * The `train` argument can now accept matrices; in particular, object of class `"matrix"` or `"dgCMatrix"`. This is useful, for example, when working with XGBoost models (i.e., objects of class `"xgb.Booster"`).
-* New logical argument `prob` indicating whether or not partial dependence values for classification problems should be returned on the original probability scale, rather than the centered logit; details for the centered logit can be found on page 370 of the second edition of [*The Elements of Statistical Learning*](https://statweb.stanford.edu/~tibs/ElemStatLearn/).
+* New logical argument `prob` indicating whether or not partial dependence values for classification problems should be returned on the original probability scale, rather than the centered logit; details for the centered logit can be found on page 370 in the second edition of [*The Elements of Statistical Learning*](https://statweb.stanford.edu/~tibs/ElemStatLearn/).
 * Fixed some typos in `NEWS.md`.
 
 ### Changes for version 0.4.0

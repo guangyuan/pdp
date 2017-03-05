@@ -4,7 +4,8 @@
 \alias{autoplot.partial}
 \title{Plotting Partial Dependence Functions}
 \usage{
-autoplot.partial(object, center = TRUE, rug = FALSE, smooth = FALSE,
+\method{autoplot}{partial}(object, center = TRUE, plot.pdp = TRUE,
+  pdp.color = "red", pdp.size = 1, rug = FALSE, smooth = FALSE,
   smooth.method = "auto", smooth.formula = y ~ x, smooth.span = 0.75,
   smooth.method.args = list(), contour = FALSE, contour.color = "white",
   palette = "Spectral", train = NULL, xlab = NULL, ylab = NULL,
@@ -17,6 +18,15 @@ autoplot.partial(object, center = TRUE, rug = FALSE, smooth = FALSE,
 curves (c-ICE curves). Only useful when \code{object} represents a set of
 ICE curves; see \code{\link[pdp]{partial}} for details. Default is
 \code{TRUE}.}
+
+\item{plot.pdp}{Logical indicating whether or not to plot the partial
+dependence function on top of the ICE curves. Default is \code{TRUE}.}
+
+\item{pdp.color}{Character string specifying the color to use for the partial
+dependence function when \code{plot.pdp = TRUE}. Default is \code{"red"}.}
+
+\item{pdp.size}{The line width, a positive number, to use for the partial
+dependence function when \code{plot.pdp = TRUE}. Default is \code{1}.}
 
 \item{smooth}{Logical indicating whether or not to overlay a LOESS smooth.
 Default is \code{FALSE}.}
@@ -58,6 +68,9 @@ required if \code{rug = TRUE} or \code{chull = TRUE}.}
 Default is \code{"yhat"}.}
 
 \item{...}{Additional optional arguments to be passed onto \code{geom_line}.}
+}
+\value{
+A \code{"ggplot"} object.
 }
 \description{
 Plots partial dependence functions (i.e., marginal effects) using

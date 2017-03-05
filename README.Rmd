@@ -76,7 +76,7 @@ ggmap(map) +
 ```
 
 
-#### Classification example 
+#### Using `autoplot` to produce `ggplot2` graphics 
 
 In this example, we fit a support vector machine with a radial basis function kernel to the Pima Indians diabetes data. (See `?pima` for a brief explanation of the data.)
 ```{r, message=FALSE, warning=FALSE, fig.width=12, fig.height=4}
@@ -89,10 +89,16 @@ pima.svm <- ksvm(diabetes ~ ., data = pima, type = "C-svc", kernel = "rbfdot",
                  C = 0.5, prob.model = TRUE)
 
 # Partial dependence of glucose and age on diabetes test result (neg/pos).
+pd.glucose <- partial(pima.svm, pred.var = "glucose", prob = TRUE, train = pima)
+pd.age <- partial(pima.svm, pred.var = "age", prob = TRUE, train = pima)
+pd.glucose.age <- partial(pima.svm, pred.var = c("glucose", "age"), prob = TRUE, 
+                          train = pima)
+
+# Dislay all three plots together
 grid.arrange(
-  partial(pima.svm, pred.var = "glucose", plot = TRUE, train = pima),
-  partial(pima.svm, pred.var = "age", plot = TRUE, train = pima),
-  partial(pima.svm, pred.var = c("glucose", "age"), plot = TRUE, train = pima),
+  autoplot(pd.glucose),
+  autoplot(pd.age),
+  autoplot(pd.glucose.age, contour = TRUE),
   ncol = 3
 )
 ```
@@ -110,8 +116,7 @@ library(caret)  # for model training/tuning
 # Tune an XGBoost model to the Pima Indians diabetes data. This may take a few 
 # minutes!
 set.seed(103)  # for reproducibility
-pima.xgb <- train(diabetes ~ ., data = pima, 
-                  method = "xgbTree",
+pima.xgb <- train(diabetes ~ ., data = pima, method = "xgbTree",
                   na.action = na.omit,
                   trControl = trainControl(method = "cv", number = 5),
                   tuneLength = 5)

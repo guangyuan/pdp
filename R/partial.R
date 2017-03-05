@@ -154,7 +154,7 @@
 #'             colorkey = FALSE, screen = list(z = -20, x = -60))
 #'
 #' # The autplot function can be used to produce graphics based on ggplot2
-#' autoplot(pd, contour = TRUE, contour.color = "white",
+#' autoplot(pd, contour = TRUE, contour = TRUE,
 #'          legend.title = "Partial\ndependence")
 #'
 #' #

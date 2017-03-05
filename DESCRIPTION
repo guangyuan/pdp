@@ -33,6 +33,8 @@ Suggests:
     xgboost (>= 0.6-0)
 Imports:
     boot,
+    dplyr,
+    ggplot2,
     grDevices,
     gridExtra,
     lattice,

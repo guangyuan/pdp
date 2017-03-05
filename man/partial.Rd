@@ -182,6 +182,10 @@ pd <- partial(boston.rf, pred.var = c("lstat", "rm"), grid.resolution = 40)
 plotPartial(pd, levelplot = FALSE, zlab = "cmedv", drape = TRUE,
             colorkey = FALSE, screen = list(z = -20, x = -60))
 
+# The autplot function can be used to produce graphics based on ggplot2
+autoplot(pd, contour = TRUE, contour.color = "white",
+         legend.title = "Partial\\ndependence")
+
 #
 # Individual conditional expectation (ICE) curves
 #
@@ -189,7 +193,8 @@ plotPartial(pd, levelplot = FALSE, zlab = "cmedv", drape = TRUE,
 # Use partial to obtain ICE curves
 pred.ice <- function(object, newdata) predict(object, newdata)
 rm.ice <- partial(boston.rf, pred.var = "rm", pred.fun = pred.ice)
-plotPartial(rm.ice, rug = TRUE, train = boston, alpha = 0.3)
+plotPartial(rm.ice, rug = TRUE, train = boston, alpha = 0.2)
+autoplot(rm.ice, center = FALSE, alpha = 0.2, rug = TRUE, train = boston)
 
 #
 # Centered ICE curves (c-ICE curves) (requires dplyr and ggplot2 to run)
@@ -211,6 +216,9 @@ p2 <- ggplot(rm.ice, aes(rm, yhat.centered)) +
   geom_line(aes(group = yhat.id), alpha = 0.2) +
   stat_summary(fun.y = mean, geom = "line", col = "red", size = 1)
 grid.arrange(p1, p2, ncol = 2)
+
+# Or just use autoplot (the default is to center the curves first)
+autoplot(rm.ice, alpha = 0.2, rug = TRUE, train = boston)
 
 #
 # Classification example (requires randomForest package to run)

@@ -79,7 +79,7 @@ plotPartial.partial <- function(x, smooth = FALSE, rug = FALSE, chull = FALSE,
     # Multiple PDPs for a single predictor
     p <- pdpMulti(x, rug = rug, train = train, ...)
 
-  } else if (nx == 1) {
+  } else if (nx == 1L) {
 
     # PDP for a single predictor
     p <- if (is.factor(x[[1L]])) {

@@ -1,11 +1,12 @@
 # NEWS for pdp package
 
-### Changes for version 0.4.1
+### Changes for version 0.5.0
 * Added support for `MASS::lda`, `MASS::qda`, and `mda::mars`.
 * New arguments `quantiles`, `probs`, and `trim.outliers` in `partial`. These arguments make it easier to construct PDPs over the relevant range of a numeric predictor without having to specify `pred.grid`, especially when outliers are present in the predictors (which can distort the plotted relationship).
 * The `train` argument can now accept matrices; in particular, object of class `"matrix"` or `"dgCMatrix"`. This is useful, for example, when working with XGBoost models (i.e., objects of class `"xgb.Booster"`).
 * New logical argument `prob` indicating whether or not partial dependence values for classification problems should be returned on the original probability scale, rather than the centered logit; details for the centered logit can be found on page 370 in the second edition of [*The Elements of Statistical Learning*](https://statweb.stanford.edu/~tibs/ElemStatLearn/).
 * Fixed some typos in `NEWS.md`.
+* New function `autoplot` for automatically creating `ggplot2` graphics from `"partial"` objects.
 
 ### Changes for version 0.4.0
 * `partial` is now much faster with `"gbm"` object due to a call to `gbm::plot.gbm` whenever `pred.grid` is not explicitly given by the user. (`gbm::plot.gbm` exploits a computational shortcut that does not involve any passes over the training data.)

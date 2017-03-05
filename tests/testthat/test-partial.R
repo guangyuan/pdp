@@ -12,37 +12,110 @@ df.class$y <- df.class$diabetes
 df.reg$cmedv <- NULL
 df.class$diabetes <- NULL
 
-test_that("partial works correctly", {
+# Fit regression (lm) and classification (glm) models
+df.reg.lm <- lm(y ~ ., data = df.reg)
+df.class.glm <- glm(y ~ ., data = df.class, family = binomial)
+
+test_that("partial works correctly for regression", {
+
+  # Specifying resolution of automatic grid
+  pd1 <- partial(df.reg.lm, pred.var = "rm", grid.resolution = 5,
+                 train = df.reg)
+
+  # Specifying a grid manually
+  pd2 <- partial(df.reg.lm, pred.var = "rm", pred.grid = data.frame(rm = 1),
+                 check.class = FALSE, train = df.reg)
+
+  # Return a trellis object
+  pd3 <- partial(df.reg.lm, pred.var = "rm", grid.resolution = 5, plot = TRUE,
+                 train = df.reg)
+
+  # Using specific quantiles
+  pd4 <- partial(df.reg.lm, pred.var = "rm", quantiles = TRUE, probs = 1:9/10,
+                 train = df.reg)
+
+  # Trim outliers first
+  pd5 <- partial(df.reg.lm, pred.var = "rm",
+                 pred.grid = df.reg[,"rm", drop = FALSE], trim.outliers = TRUE,
+                 check.class = FALSE, train = df.reg)
+
+  # Expectations
+  expect_is(pd1, "data.frame")
+  expect_is(pd2, "data.frame")
+  expect_is(pd3, "trellis")
+  expect_is(pd4, "data.frame")
+  expect_identical(pd4$rm, as.numeric(quantile(df.reg$rm, probs = 1:9/10)))
+  expect_identical(pd5$rm, pdp:::trimOutliers(df.reg$rm))
+
+  # Trellis object should still contain partial dependence data
+  expect_is(attr(pd3, "partial.data"), "data.frame")
+  expect_identical(pd1, attr(pd3, "partial.data"))
+
+  # Warnings
+  expect_warning(partial(df.reg.lm, pred.var = "rm",
+                         pred.grid = df.reg[,"rm", drop = FALSE],
+                         trim.outliers = TRUE, check.class = FALSE,
+                         train = df.reg))
+  expect_warning(partial(df.reg.lm, pred.var = "rm",
+                         pred.grid = df.reg[,"rm", drop = FALSE],
+                         quantiles = TRUE, check.class = FALSE,
+                         train = df.reg))
+
+})
+
+
+test_that("partial works correctly for classification", {
+
+  # Specifying resolution of automatic grid
+  pd1 <- partial(df.class.glm, pred.var = "glucose", grid.resolution = 5,
+                 train = df.class)
+
+  # Specifying a grid manually
+  pd2 <- partial(df.class.glm, pred.var = "glucose",
+                 pred.grid = data.frame(glucose = 100), train = df.class,
+                 check.class = FALSE)
+
+  # Return a trellis object
+  pd3 <- partial(df.class.glm, pred.var = "glucose", grid.resolution = 5,
+                 plot = TRUE, train = df.class)
+
+  # Request probabilities instead
+  pd4 <- partial(df.class.glm, pred.var = "glucose", grid.resolution = 5,
+                 prob = TRUE, train = df.class)
+
+  # Expectations
+  expect_is(pd1, "data.frame")
+  expect_is(pd2, "data.frame")
+  expect_is(pd3, "trellis")
+  expect_true(pd4$yhat >= 0 && pd4$yhat <= 1)
+
+  # Trellis object should still contain partial dependence data
+  expect_is(attr(pd3, "partial.data"), "data.frame")
+  expect_identical(pd1, attr(pd3, "partial.data"))
+
+})
+
+
+test_that("order of pred.grid does not matter", {
 
   # Regression
   df.reg.lm <- lm(y ~ .,
                   data = df.reg)
 
-  # Classification
-  df.class.glm <- glm(y ~ .,
-                      data = df.class,
-                      family = binomial)
-
   # PDPs
   pd1 <- partial(df.reg.lm,
                  pred.var = "rm",
-                 grid.resolution = 1,
-                 train = df.reg)
-  pd2 <- partial(df.reg.lm,
-                 pred.var = "rm",
-                 pred.grid = 1,
+                 pred.grid = data.frame(rm = 1:5),
                  check.class = FALSE,
                  train = df.reg)
-  pd3 <- partial(df.class.glm,
-                 pred.var = "glucose",
-                 grid.resolution = 1,
-                 train = df.class)
+
+  pd2 <- partial(df.reg.lm,
+                 pred.var = "rm",
+                 pred.grid = data.frame(rm = 5:1),
+                 check.class = FALSE,
+                 train = df.reg)
 
   # Expectations
-  expect_is(pd1, "data.frame")
-  expect_is(pd2, "data.frame")
-  expect_is(partial(df.reg.lm, pred.var = "rm", plot = TRUE, train = df.reg),
-            "trellis")
-  expect_is(pd3, "data.frame")
+  expect_identical(pd1, pd2)
 
 })

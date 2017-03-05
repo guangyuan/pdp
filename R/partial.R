@@ -153,6 +153,10 @@
 #' plotPartial(pd, levelplot = FALSE, zlab = "cmedv", drape = TRUE,
 #'             colorkey = FALSE, screen = list(z = -20, x = -60))
 #'
+#' # The autplot function can be used to produce graphics based on ggplot2
+#' autoplot(pd, contour = TRUE, contour.color = "white",
+#'          legend.title = "Partial\ndependence")
+#'
 #' #
 #' # Individual conditional expectation (ICE) curves
 #' #
@@ -160,7 +164,8 @@
 #' # Use partial to obtain ICE curves
 #' pred.ice <- function(object, newdata) predict(object, newdata)
 #' rm.ice <- partial(boston.rf, pred.var = "rm", pred.fun = pred.ice)
-#' plotPartial(rm.ice, rug = TRUE, train = boston, alpha = 0.3)
+#' plotPartial(rm.ice, rug = TRUE, train = boston, alpha = 0.2)
+#' autoplot(rm.ice, center = FALSE, alpha = 0.2, rug = TRUE, train = boston)
 #'
 #' #
 #' # Centered ICE curves (c-ICE curves) (requires dplyr and ggplot2 to run)
@@ -182,6 +187,9 @@
 #'   geom_line(aes(group = yhat.id), alpha = 0.2) +
 #'   stat_summary(fun.y = mean, geom = "line", col = "red", size = 1)
 #' grid.arrange(p1, p2, ncol = 2)
+#'
+#' # Or just use autoplot (the default is to center the curves first)
+#' autoplot(rm.ice, alpha = 0.2, rug = TRUE, train = boston)
 #'
 #' #
 #' # Classification example (requires randomForest package to run)
@@ -260,13 +268,30 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
   }
 
   # Generate grid of predictor values
-  if (missing(pred.grid)) {
-    pred.grid <- predGrid(train = train, pred.var = pred.var,
-                          grid.resolution = grid.resolution,
-                          quantiles = quantiles, probs = probs,
-                          trim.outliers = trim.outliers)
+  pred.grid <- if (missing(pred.grid)) {
+    predGrid(train = train, pred.var = pred.var,
+             grid.resolution = grid.resolution, quantiles = quantiles,
+             probs = probs, trim.outliers = trim.outliers)
+  } else {
+    if (!is.data.frame(pred.grid)) {
+      stop("pred.grid shoud be a data frame.")
+    } else {
+      # Throw error if colnames(pred.grid) does not match pred.var
+      if (!all(pred.var %in% colnames(pred.grid))) {
+        stop(paste(paste(pred.var[!(pred.var %in% colnames(pred.grid))],
+                         collapse = ", "), "not found in pred.grid."))
+      } else {
+        # Throw warning if quantiles or trim.outliers options used
+        if (quantiles || trim.outliers) {
+          warning(paste("Options quantiles and trim.outliers",
+                        "ignored when pred.grid is specified."))
+        }
+        orderGrid(pred.grid)
+      }
+    }
   }
-  # FIXME: Throw error if colnames(pred.grid) does not match pred.var
+
+
 
   # Make sure each column has the correct class, levels, etc.
   if (inherits(train, "data.frame") && check.class) {

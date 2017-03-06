@@ -41,6 +41,8 @@
 #'   required if \code{rug = TRUE} or \code{chull = TRUE}.
 #' @param xlab Charater string specifying the text for the x-axis label.
 #' @param ylab Charater string specifying the text for the y-axis label.
+#' @param main Character string specifying the text for the main title of the
+#'   plot.
 #' @param legend.title Charater string specifying the text for the legend title.
 #'   Default is \code{"yhat"}.
 #' @param ... Additional optional arguments to be passed onto \code{geom_line}.
@@ -60,7 +62,7 @@ autoplot.partial <- function(object, center = TRUE, plot.pdp = TRUE,
                              smooth.method.args = list(), contour = FALSE,
                              contour.color = "white", palette = "Spectral",
                              train = NULL,
-                             xlab = NULL, ylab = NULL, title = NULL,
+                             xlab = NULL, ylab = NULL, main = NULL,
                              legend.title = NULL, ...) {
 
   # Determine of x contains multiple PDPs
@@ -155,10 +157,10 @@ autoplot.partial <- function(object, center = TRUE, plot.pdp = TRUE,
   }
 
   # Return ggplot object
-  if (is.null(title)) {
+  if (is.null(main)) {
     p
   } else {
-    p + ggtitle(title)
+    p + ggtitle(main)
   }
 
 }

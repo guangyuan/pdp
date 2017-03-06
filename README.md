@@ -62,7 +62,7 @@ p1 <- plotPartial(pd, main = "lattice version")
 
 # ggplot2 version
 library(ggplot2)
-p2 <- autoplot(pd, contour = TRUE, title = "ggplot2 version", 
+p2 <- autoplot(pd, contour = TRUE, main = "ggplot2 version", 
                legend.title = "Partial\ndependence")
 
 # Show both plots in one figure
@@ -72,7 +72,6 @@ grid.arrange(p1, p2, ncol = 2)
 ![](README_files/figure-html/unnamed-chunk-1-1.png)<!-- -->
 
 Next, we'll fit a classification model to the Pima Indians Diabetes data.
-
 
 ## Support vector machine (SVM) example
 
@@ -94,8 +93,8 @@ pd.glucose.prob <- partial(pima.svm, pred.var = "glucose", prob = TRUE,
                            train = pima)
 
 # Show both plots in one figure
-grid.arrange(autoplot(pd.glucose, title = "Logit scale"), 
-             autoplot(pd.glucose.prob, title = "Probability scale"), 
+grid.arrange(autoplot(pd.glucose, main = "Logit scale"), 
+             autoplot(pd.glucose.prob, main = "Probability scale"), 
              ncol = 2)
 ```
 

@@ -9,7 +9,7 @@
   smooth.method = "auto", smooth.formula = y ~ x, smooth.span = 0.75,
   smooth.method.args = list(), contour = FALSE, contour.color = "white",
   palette = "Spectral", train = NULL, xlab = NULL, ylab = NULL,
-  title = NULL, legend.title = NULL, ...)
+  main = NULL, legend.title = NULL, ...)
 }
 \arguments{
 \item{object}{An object that inherits from the \code{"partial"} class.}
@@ -66,6 +66,9 @@ required if \code{rug = TRUE} or \code{chull = TRUE}.}
 \item{xlab}{Charater string specifying the text for the x-axis label.}
 
 \item{ylab}{Charater string specifying the text for the y-axis label.}
+
+\item{main}{Character string specifying the text for the main title of the
+plot.}
 
 \item{legend.title}{Charater string specifying the text for the legend title.
 Default is \code{"yhat"}.}

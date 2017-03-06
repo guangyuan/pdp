@@ -9,7 +9,7 @@
   smooth.method = "auto", smooth.formula = y ~ x, smooth.span = 0.75,
   smooth.method.args = list(), contour = FALSE, contour.color = "white",
   palette = "Spectral", train = NULL, xlab = NULL, ylab = NULL,
-  legend.title = NULL, ...)
+  title = NULL, legend.title = NULL, ...)
 }
 \arguments{
 \item{object}{An object that inherits from the \code{"partial"} class.}

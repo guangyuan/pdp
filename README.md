@@ -31,11 +31,10 @@ The `pdp` package is [currently listed on CRAN](https://CRAN.R-project.org/packa
 
 ## Random forest example
 
-As a quick example, we'll fit a random forest to the famous Boston housing data included with the package. In fact the original motivation for this package was to be able to compute two-predictor partial dependence plots from random forest models in R.
-
+As a first example, we'll fit a random forest to the famous Boston housing data included with the package (see `?boston` for details). In fact the original motivation for this package was to be able to compute two-predictor partial dependence plots from random forest models in R. 
 
 ```r
-# Fit a random forest to the boston housing data
+# Fit a random forest to the Boston housing data
 library(randomForest)  # install.packages("randomForest")
 data (boston)  # load the boston housing data
 set.seed(101)  # for reproducibility
@@ -59,14 +58,45 @@ head(pd)  # print first 6 rows
 
 ```r
 # Lattice version
-p1 <- plotPartial(pd)
+p1 <- plotPartial(pd, main = "lattice version")
 
 # ggplot2 version
 library(ggplot2)
-p2 <- autoplot(pd, contour = TRUE, legend.title = "Partial\ndependence")
+p2 <- autoplot(pd, contour = TRUE, title = "ggplot2 version", 
+               legend.title = "Partial\ndependence")
 
 # Show both plots in one figure
 grid.arrange(p1, p2, ncol = 2)
 ```
 
 ![](README_files/figure-html/unnamed-chunk-1-1.png)<!-- -->
+
+Next, we'll fit a classification model to the Pima Indians Diabetes data.
+
+
+## Support vector machine (SVM) example
+
+As a second example, we'll fit an SVM to the Pima Indians diabetes data included with the package (see `?pima` for details). Note that for some fitted model objects (e.g., `"ksvm"` objects) it is necessary to supply the original training data via the `train` argument in the call to `partial`.
+
+
+```r
+# Fit an SVM to the Pima Indians diabetes data
+library(kernlab)  # install.packages("kernlab")
+data (pima)  # load the Pima Indians diabetes data
+pima.svm <- ksvm(diabetes ~ ., data = pima, type = "C-svc", kernel = "rbfdot",
+                 C = 0.5, prob.model = TRUE)
+ 
+# Partial dependence of diabetes test result on glucose (default is logit scale)
+pd.glucose <- partial(pima.svm, pred.var = "glucose", train = pima)
+
+# Partial dependence of diabetes test result on glucose (probability scale)
+pd.glucose.prob <- partial(pima.svm, pred.var = "glucose", prob = TRUE, 
+                           train = pima)
+
+# Show both plots in one figure
+grid.arrange(autoplot(pd.glucose, title = "Logit scale"), 
+             autoplot(pd.glucose.prob, title = "Probability scale"), 
+             ncol = 2)
+```
+
+![](README_files/figure-html/unnamed-chunk-2-1.png)<!-- -->

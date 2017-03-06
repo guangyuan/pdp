@@ -183,6 +183,7 @@ plotPartial(pd, levelplot = FALSE, zlab = "cmedv", drape = TRUE,
             colorkey = FALSE, screen = list(z = -20, x = -60))
 
 # The autplot function can be used to produce graphics based on ggplot2
+library(ggplot2)
 autoplot(pd, contour = TRUE, contour = TRUE,
          legend.title = "Partial\\ndependence")
 

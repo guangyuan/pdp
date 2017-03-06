@@ -48,7 +48,7 @@
 #' @return A \code{"ggplot"} object.
 #'
 #' @importFrom ggplot2 aes_string autoplot facet_wrap geom_contour geom_line
-#' @importFrom ggplot2 geom_point geom_rug geom_smooth geom_tile ggplot
+#' @importFrom ggplot2 geom_point geom_rug geom_smooth geom_tile ggplot ggtitle
 #' @importFrom ggplot2 scale_fill_distiller stat_summary theme_bw xlab ylab
 #'
 #' @rdname autoplot
@@ -60,8 +60,8 @@ autoplot.partial <- function(object, center = TRUE, plot.pdp = TRUE,
                              smooth.method.args = list(), contour = FALSE,
                              contour.color = "white", palette = "Spectral",
                              train = NULL,
-                             xlab = NULL, ylab = NULL, legend.title = NULL,
-                             ...) {
+                             xlab = NULL, ylab = NULL, title = NULL,
+                             legend.title = NULL, ...) {
 
   # Determine of x contains multiple PDPs
   multi <- if ("yhat.id" %in% names(object)) {
@@ -155,7 +155,11 @@ autoplot.partial <- function(object, center = TRUE, plot.pdp = TRUE,
   }
 
   # Return ggplot object
-  p
+  if (is.null(title)) {
+    p
+  } else {
+    p + ggtitle(title)
+  }
 
 }
 

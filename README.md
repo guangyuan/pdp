@@ -13,9 +13,9 @@ A detailed introduction to `pdp` has been accepted for publication in The R Jour
 
 As of right now, `pdp` exports four functions:
 
-* `partial` - compute partial dependence functions (i.e., marginal effects) for various model fitting objects;
-* `plotPartial"` - plot partial dependence functions (i.e., marginal effects) using `lattice` graphics;
-* `autoplot` - plot partial dependence functions (i.e., marginal effects) using `ggplot2` graphics;
+* `partial` - compute partial dependence functions (i.e., objects of class `"partial"`) from various fitted model objects;
+* `plotPartial"` - plot partial dependence functions (i.e., objects of class `"partial"`) using `lattice` graphics;
+* `autoplot` - plot partial dependence functions (i.e., objects of class `"partial"`) using `ggplot2` graphics;
 * `topPredictors` extract most "important" predictors from various types of fitted models.
 
 ## Installation
@@ -29,3 +29,44 @@ The `pdp` package is [currently listed on CRAN](https://CRAN.R-project.org/packa
   devtools::install_github("bgreenwell/pdp")
 ```
 
+## Random forest example
+
+As a quick example, we'll fit a random forest to the famous Boston housing data included with the package. In fact the original motivation for this package was to be able to compute two-predictor partial dependence plots from random forest models in R.
+
+
+```r
+# Fit a random forest to the boston housing data
+library(randomForest)  # install.packages("randomForest")
+data (boston)  # load the boston housing data
+set.seed(101)  # for reproducibility
+boston.rf <- randomForest(cmedv ~ ., data = boston)
+
+# Partial dependence of cmedv on lstat and rm
+library(pdp)
+pd <- partial(boston.rf, pred.var = c("lstat", "rm"), chull = TRUE)
+head(pd)  # print first 6 rows
+```
+
+```
+##     lstat      rm     yhat
+## 1  7.5284 3.66538 24.13683
+## 2  8.2532 3.66538 23.24916
+## 3  8.9780 3.66538 23.13119
+## 4  9.7028 3.66538 22.13531
+## 5 10.4276 3.66538 20.62331
+## 6 11.1524 3.66538 20.51258
+```
+
+```r
+# Lattice version
+p1 <- plotPartial(pd)
+
+# ggplot2 version
+library(ggplot2)
+p2 <- autoplot(pd, contour = TRUE, legend.title = "Partial\ndependence")
+
+# Show both plots in one figure
+grid.arrange(p1, p2, ncol = 2)
+```
+
+![](README_files/figure-html/unnamed-chunk-1-1.png)<!-- -->

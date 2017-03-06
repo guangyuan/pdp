@@ -34,18 +34,12 @@ test_that("partial works correctly for regression", {
   pd4 <- partial(df.reg.lm, pred.var = "rm", quantiles = TRUE, probs = 1:9/10,
                  train = df.reg)
 
-  # Trim outliers first
-  pd5 <- partial(df.reg.lm, pred.var = "rm",
-                 pred.grid = df.reg[,"rm", drop = FALSE], trim.outliers = TRUE,
-                 check.class = FALSE, train = df.reg)
-
   # Expectations
   expect_is(pd1, "data.frame")
   expect_is(pd2, "data.frame")
   expect_is(pd3, "trellis")
   expect_is(pd4, "data.frame")
   expect_identical(pd4$rm, as.numeric(quantile(df.reg$rm, probs = 1:9/10)))
-  expect_identical(pd5$rm, pdp:::trimOutliers(df.reg$rm))
 
   # Trellis object should still contain partial dependence data
   expect_is(attr(pd3, "partial.data"), "data.frame")

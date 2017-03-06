@@ -28,6 +28,9 @@ dependence function when \code{plot.pdp = TRUE}. Default is \code{"red"}.}
 \item{pdp.size}{The line width, a positive number, to use for the partial
 dependence function when \code{plot.pdp = TRUE}. Default is \code{1}.}
 
+\item{rug}{Logical indicating whether or not to include rug marks on the
+predictor axes. Default is \code{FALSE}.}
+
 \item{smooth}{Logical indicating whether or not to overlay a LOESS smooth.
 Default is \code{FALSE}.}
 

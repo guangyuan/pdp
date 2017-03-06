@@ -17,8 +17,10 @@ vector machines.
 The development version can be found on GitHub: https://github.com/bgreenwell/pdp.
 As of right now, \code{pdp} only exports two functions:
 \itemize{
-  \item{\code{partial}} --- Compute partial dependence functions (i.e., marginal effects) for various model fitting objects.
-  \item{\code{plotPartial}} --- Plot partial dependence functions (i.e., marginal effects) using lattice graphics.
+  \item{\code{partial}} - construct partial dependence functions (i.e., objects of class \code{"partial"}) from various fitted model objects;
+  \item{\code{plotPartial}} - plot partial dependence functions (i.e., objects of class \code{"partial"}) using \code{\link[lattice]{lattice}} graphics;
+  \item{\code{autoplot}} - plot partial dependence functions (i.e., objects of class \code{"partial"}) using \code{\link[ggplot2]{ggplot2}} graphics;
+  \item{\code{topPredictors}} - extract most "important" predictors from various types of fitted models.
 }
 }
 

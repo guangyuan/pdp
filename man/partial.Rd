@@ -202,7 +202,7 @@ autoplot(rm.ice, center = FALSE, alpha = 0.2, rug = TRUE, train = boston)
 
 # Post-process rm.ice to obtain c-ICE curves
 library(dplyr)  # for group_by and mutate functions
-rm.ice <- rm.ice \%>\%
+rm.cice <- rm.ice \%>\%
   group_by(yhat.id) \%>\%  # perform next operation within each yhat.id
   mutate(yhat.centered = yhat - first(yhat))  # so each curve starts at yhat = 0
 
@@ -212,7 +212,7 @@ p1 <- ggplot(rm.ice, aes(rm, yhat)) +
   geom_line(aes(group = yhat.id), alpha = 0.2) +
   stat_summary(fun.y = mean, geom = "line", col = "red", size = 1)
 # c-ICE curves with their average
-p2 <- ggplot(rm.ice, aes(rm, yhat.centered)) +
+p2 <- ggplot(rm.cice, aes(rm, yhat.centered)) +
   geom_line(aes(group = yhat.id), alpha = 0.2) +
   stat_summary(fun.y = mean, geom = "line", col = "red", size = 1)
 grid.arrange(p1, p2, ncol = 2)

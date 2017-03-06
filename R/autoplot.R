@@ -14,6 +14,8 @@
 #'   dependence function when \code{plot.pdp = TRUE}. Default is \code{"red"}.
 #' @param pdp.size The line width, a positive number, to use for the partial
 #'   dependence function when \code{plot.pdp = TRUE}. Default is \code{1}.
+#' @param rug Logical indicating whether or not to include rug marks on the
+#'   predictor axes. Default is \code{FALSE}.
 #' @param smooth Logical indicating whether or not to overlay a LOESS smooth.
 #'   Default is \code{FALSE}.
 #' @param smooth.method Character string specifying the smoothing method
@@ -45,9 +47,9 @@
 #'
 #' @return A \code{"ggplot"} object.
 #'
-#' @importFrom ggplot2 aes autoplot geom_contour geom_line geom_point geom_rug
-#' @importFrom ggplot2 geom_smooth geom_tile scale_fill_distiller stat_summary
-#' @importFrom ggplot2 theme_bw xlab ylab
+#' @importFrom ggplot2 aes_string autoplot facet_wrap geom_contour geom_line
+#' @importFrom ggplot2 geom_point geom_rug geom_smooth geom_tile ggplot
+#' @importFrom ggplot2 scale_fill_distiller stat_summary theme_bw xlab ylab
 #'
 #' @rdname autoplot
 #' @export
@@ -122,29 +124,30 @@ autoplot.partial <- function(object, center = TRUE, plot.pdp = TRUE,
                           legend.title = legend.title, ...)
     }
 
-    p <- ggplot(object, aes(x = object[[1L]], y = object[[2L]], z = yhat,
-                            fill = yhat)) +
-      ggplot2::geom_tile()
+    p <- ggplot(object, aes_string(x = names(object)[[1L]],
+                                   y = names(object)[[2L]], z = "yhat",
+                                   fill = "yhat")) +
+      geom_tile()
     if (contour) {
-      p <- p + ggplot2::geom_contour(color = contour.color)
+      p <- p + geom_contour(color = contour.color)
     }
     if (is.null(xlab)) {
-      p <- p + ggplot2::xlab(names(object)[1L])
+      p <- p + xlab(names(object)[1L])
     } else {
-      p <- p + ggplot2::xlab(xlab)
+      p <- p + xlab(xlab)
     }
     if (is.null(ylab)) {
-      p <- p + ggplot2::ylab(names(object)[2L])
+      p <- p + ylab(names(object)[2L])
     } else {
-      p <- p + ggplot2::ylab(ylab)
+      p <- p + ylab(ylab)
     }
     if (is.null(legend.title)) {
-      p <- p + ggplot2::scale_fill_distiller(name = "yhat", palette = palette)
+      p <- p + scale_fill_distiller(name = "yhat", palette = palette)
     } else {
-      p <- p + ggplot2::scale_fill_distiller(name = legend.title,
+      p <- p + scale_fill_distiller(name = legend.title,
                                              palette = palette)
     }
-    p <- p + ggplot2::theme_bw()
+    p <- p + theme_bw()
 
   # More then two predictors
   } else {
@@ -161,8 +164,8 @@ autoplot.partial <- function(object, center = TRUE, plot.pdp = TRUE,
 ggPDPMulti <- function(object, center, plot.pdp, pdp.color, pdp.size, rug, train,
                        xlab, ylab, ...) {
   if (is.factor(object[[1L]])) {
-    p <- ggplot(object, aes(object[[1L]], yhat, group)) +
-      geom_point(aes(group = yhat.id), ...)
+    p <- ggplot(object, aes_string(x = names(object)[[1L]], y = "yhat")) +
+      geom_point(aes_string(group = "yhat.id"), ...)
     if (is.null(xlab)) {
       p <- p + xlab(names(object)[1L])
     } else {
@@ -176,11 +179,11 @@ ggPDPMulti <- function(object, center, plot.pdp, pdp.color, pdp.size, rug, train
   } else {
     if (center) {
       object <- object %>%
-        dplyr::group_by(yhat.id) %>%
-        dplyr::mutate(yhat = yhat - first(yhat))
+        dplyr::group_by_("yhat.id") %>%
+        dplyr::mutate_(yhat = "yhat - first(yhat)")
     }
-    p <- ggplot(object, aes(x = object[[1L]], y = yhat)) +
-      geom_line(aes(group = yhat.id), ...) +
+    p <- ggplot(object, aes_string(x = names(object)[[1L]], y = "yhat")) +
+      geom_line(aes_string(group = "yhat.id"), ...) +
       xlab(names(object)[1L]) +
       ylab("yhat")
     if (plot.pdp) {
@@ -195,7 +198,7 @@ ggPDPMulti <- function(object, center, plot.pdp, pdp.color, pdp.size, rug, train
         x.rug <- data.frame(as.numeric(
           stats::quantile(train[, x.name, drop = TRUE], probs = 0:10/10,
                           na.rm = TRUE)))
-        p <- p + geom_rug(data = x.rug, aes(x = x.rug[, 1L]),
+        p <- p + geom_rug(data = x.rug, aes_string(x = names(x.rug)[1L]),
                           sides = "b", inherit.aes = FALSE)
       }
     }
@@ -205,9 +208,9 @@ ggPDPMulti <- function(object, center, plot.pdp, pdp.color, pdp.size, rug, train
       p <- p + xlab(xlab)
     }
     if (is.null(ylab)) {
-      p <- p + ggplot2::ylab("yhat")
+      p <- p + ylab("yhat")
     } else {
-      p <- p + ggplot2::ylab(ylab)
+      p <- p + ylab(ylab)
     }
   }
   p
@@ -216,7 +219,7 @@ ggPDPMulti <- function(object, center, plot.pdp, pdp.color, pdp.size, rug, train
 
 #' @keywords internal
 ggPDPFactor <- function(object, xlab, ylab, ...) {
-  p <- ggplot(object, aes(object[[1L]], yhat)) +
+  p <- ggplot(object, aes_string(x = names(object)[[1L]], y = "yhat")) +
     geom_point(...)
   if (is.null(xlab)) {
     p <- p + xlab(names(object)[1L])
@@ -236,7 +239,7 @@ ggPDPFactor <- function(object, xlab, ylab, ...) {
 ggPDPNumeric <- function(object, rug, smooth, smooth.method, smooth.formula,
                          smooth.span, smooth.method.args, train, xlab, ylab,
                          ...) {
-  p <- ggplot(object, aes(object[[1L]], yhat)) +
+  p <- ggplot(object, aes_string(x = names(object)[[1L]], y = "yhat")) +
     geom_line(...)
   if (rug) {
     if (is.null(train)) {
@@ -246,15 +249,14 @@ ggPDPNumeric <- function(object, rug, smooth, smooth.method, smooth.formula,
       x.rug <- data.frame(as.numeric(
         stats::quantile(train[, x.name, drop = TRUE], probs = 0:10/10,
                         na.rm = TRUE)))
-      p <- p + geom_rug(data = x.rug, aes(x = x.rug[, 1L]), sides = "b",
-                        inherit.aes = FALSE)
+      p <- p + geom_rug(data = x.rug, aes_string(x = names(x.rug)[1L]),
+                        sides = "b", inherit.aes = FALSE)
     }
   }
   if (smooth) {
-    p <- p + ggplot2::geom_smooth(method = smooth.method,
-                                  formula = smooth.formula,
-                                  span = smooth.span, se = FALSE,
-                                  method.args = smooth.method.args)
+    p <- p + geom_smooth(method = smooth.method, formula = smooth.formula,
+                         span = smooth.span, se = FALSE,
+                         method.args = smooth.method.args)
   }
   if (is.null(xlab)) {
     p <- p + xlab(names(object)[1L])
@@ -262,9 +264,9 @@ ggPDPNumeric <- function(object, rug, smooth, smooth.method, smooth.formula,
     p <- p + xlab(xlab)
   }
   if (is.null(ylab)) {
-    p <- p + ggplot2::ylab("yhat")
+    p <- p + ylab("yhat")
   } else {
-    p <- p + ggplot2::ylab(ylab)
+    p <- p + ylab(ylab)
   }
   p
 }
@@ -272,7 +274,7 @@ ggPDPNumeric <- function(object, rug, smooth, smooth.method, smooth.formula,
 
 #' @keywords internal
 ggPDPFactorFactor <- function(object, xlab, ylab, ...) {
-  p <- ggplot(object, aes(object[[1L]], yhat)) +
+  p <- ggplot(object, aes_string(x = names(object)[[1L]], y = "yhat")) +
     geom_point(...) +
     facet_wrap(~ object[[2L]])
   if (is.null(xlab)) {
@@ -281,9 +283,9 @@ ggPDPFactorFactor <- function(object, xlab, ylab, ...) {
     p <- p + xlab(xlab)
   }
   if (is.null(ylab)) {
-    p <- p + ggplot2::ylab("yhat")
+    p <- p + ylab("yhat")
   } else {
-    p <- p + ggplot2::ylab(ylab)
+    p <- p + ylab(ylab)
   }
   p
 }
@@ -293,14 +295,13 @@ ggPDPFactorFactor <- function(object, xlab, ylab, ...) {
 ggPDPNumericFactor <- function(object, smooth, smooth.method,
                                smooth.formula, smooth.span, smooth.method.args,
                                train, xlab, ylab, ...) {
-  p <- ggplot(object, aes(object[[1L]], yhat)) +
+  p <- ggplot(object, aes_string(x = names(object)[[1L]], y = "yhat")) +
     geom_line(...) +
     facet_wrap(~ object[[2L]])
   if (smooth) {
-    p <- p + ggplot2::geom_smooth(method = smooth.method,
-                                  formula = smooth.formula,
-                                  span = smooth.span, se = FALSE,
-                                  method.args = smooth.method.args)
+    p <- p + geom_smooth(method = smooth.method, formula = smooth.formula,
+                         span = smooth.span, se = FALSE,
+                         method.args = smooth.method.args)
   }
   if (is.null(xlab)) {
     p <- p + xlab(names(object)[1L])
@@ -308,9 +309,9 @@ ggPDPNumericFactor <- function(object, smooth, smooth.method,
     p <- p + xlab(xlab)
   }
   if (is.null(ylab)) {
-    p <- p + ggplot2::ylab("yhat")
+    p <- p + ylab("yhat")
   } else {
-    p <- p + ggplot2::ylab(ylab)
+    p <- p + ylab(ylab)
   }
   p
 }
@@ -320,14 +321,13 @@ ggPDPNumericFactor <- function(object, smooth, smooth.method,
 ggPDPFactorNumeric <- function(object, smooth, smooth.method,
                                smooth.formula, smooth.span, smooth.method.args,
                                train, xlab, ylab, ...) {
-  p <- ggplot(object, aes(object[[2L]], yhat)) +
+  p <- ggplot(object, aes_string(x = names(object)[[2L]], y = "yhat")) +
     geom_line(...) +
     facet_wrap(~ object[[1L]])
   if (smooth) {
-    p <- p + ggplot2::geom_smooth(method = smooth.method,
-                                  formula = smooth.formula,
-                                  span = smooth.span, se = FALSE,
-                                  method.args = smooth.method.args)
+    p <- p + geom_smooth(method = smooth.method, formula = smooth.formula,
+                         span = smooth.span, se = FALSE,
+                         method.args = smooth.method.args)
   }
   if (is.null(xlab)) {
     p <- p + xlab(names(object)[2L])
@@ -335,9 +335,9 @@ ggPDPFactorNumeric <- function(object, smooth, smooth.method,
     p <- p + xlab(xlab)
   }
   if (is.null(ylab)) {
-    p <- p + ggplot2::ylab("yhat")
+    p <- p + ylab("yhat")
   } else {
-    p <- p + ggplot2::ylab(ylab)
+    p <- p + ylab(ylab)
   }
   p
 }
@@ -346,8 +346,9 @@ ggPDPFactorNumeric <- function(object, smooth, smooth.method,
 #' @keywords internal
 ggPDPNumericNumeric <- function(object, contour, contour.color, palette,
                                 train, xlab, ylab, legend.title, ...) {
-  p <- ggplot(object, aes(x = object[[1L]], y = object[[2L]], z = yhat,
-                          fill = yhat)) +
+  p <- ggplot(object, aes_string(x = names(object)[[1L]],
+                                 y = names(object)[[2L]], z = "yhat",
+                                 fill = "yhat")) +
     geom_tile()
   if (contour) {
     p <- p + geom_contour(color = contour.color)
@@ -365,8 +366,7 @@ ggPDPNumericNumeric <- function(object, contour, contour.color, palette,
   if (is.null(legend.title)) {
     p <- p + scale_fill_distiller(name = "yhat", palette = palette)
   } else {
-    p <- p + scale_fill_distiller(name = legend.title,
-                                           palette = palette)
+    p <- p + scale_fill_distiller(name = legend.title, palette = palette)
   }
   p <- p + theme_bw()
 }

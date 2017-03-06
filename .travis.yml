@@ -1,9 +1,11 @@
 language: r
+cache: packages
+sudo: false
+warnings_are_errors: true
+
 r:
   - release
   - devel
-warnings_are_errors: true
-sudo: required
 
 r_github_packages:
   - jimhester/covr

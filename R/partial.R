@@ -41,8 +41,7 @@
 #' @param prob Logical indicating whether or not partial dependence for
 #'   classification problems should be returned on the probability scale, rather
 #'   than the centered logit. If \code{FALSE}, the partial dependence in on a
-#'   scale similar to the logit. See [ADD REF] for details. Default is
-#'   \code{FALSE}.
+#'   scale similar to the logit. Default is \code{FALSE}.
 #' @param recursive Logical indicating whether or not to use the weighted tree
 #'   traversal method described in Friedman (2001). This only applies to objects
 #'   that inherit from class \code{"gbm"}. Default is \code{TRUE} which is much

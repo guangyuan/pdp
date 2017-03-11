@@ -1,5 +1,5 @@
 #' @keywords internal
-#' @useDynLib pdp
+#' @useDynLib pdp, .registration = TRUE
 #' @importFrom Rcpp sourceCpp
 pdGBM <- function(object, pred.var, pred.grid, which.class, prob, ...) {
 
@@ -20,7 +20,7 @@ pdGBM <- function(object, pred.var, pred.grid, which.class, prob, ...) {
   }
 
   # Partial dependence values
-  y <- .Call("gbm_plot",
+  y <- .Call("PartialGBM",
              X = as.double(data.matrix(pred.grid)),
              cRows = as.integer(nrow(pred.grid)),
              cCols = as.integer(ncol(pred.grid)),

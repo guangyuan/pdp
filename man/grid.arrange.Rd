@@ -10,4 +10,3 @@ grid.arrange(..., newpage = TRUE)
 See \code{\link[gridExtra]{grid.arrange}} for more details.
 }
 \keyword{internal}
-

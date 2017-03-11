@@ -82,4 +82,3 @@ A \code{"ggplot"} object.
 Plots partial dependence functions (i.e., marginal effects) using
 \code{ggplot2} graphics.
 }
-

@@ -10,4 +10,3 @@ trellis.last.object(..., prefix)
 See \code{\link[lattice]{trellis.last.object}} for more details.
 }
 \keyword{internal}
-

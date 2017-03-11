@@ -252,4 +252,3 @@ Black Box: Visualizing Statistical Learning With Plots of Individual
 Conditional Expectation. (2014) \emph{Journal of Computational and Graphical
 Statistics}, \bold{24}(1): 44-65, 2015.
 }
-

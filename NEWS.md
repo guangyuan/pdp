@@ -1,5 +1,8 @@
 # NEWS for pdp package
 
+### Changes for version 0.5.1
+* Registered native routines and disabled symbol search
+
 ### Changes for version 0.5.0
 * Added support for `MASS::lda`, `MASS::qda`, and `mda::mars`.
 * New arguments `quantiles`, `probs`, and `trim.outliers` in `partial`. These arguments make it easier to construct PDPs over the relevant range of a numeric predictor without having to specify `pred.grid`, especially when outliers are present in the predictors (which can distort the plotted relationship).

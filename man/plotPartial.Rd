@@ -59,4 +59,3 @@ Plots partial dependence functions (i.e., marginal effects) using
 # See ?partial for examples
 ?partial
 }
-

@@ -1,8 +1,12 @@
-//  GBM by Greg Ridgeway  Copyright (C) 2003
-//  License:    GNU GPL (version 2 or later)
+// Original code by Greg Ridgeway: Copyright (C) 2003
+// License: GNU GPL (version 2 or later)
+// Modified by Brandon Greenwell on 11-Mar-2017
 
-#ifndef BUILDINFO_H
-#define BUILDINFO_H
+//#ifndef BUILDINFO_H
+//#define BUILDINFO_H
+
+#ifndef PARTIALGBM_H
+#define PARTIALGBM_H
 
     #undef ERROR
     #include <R.h>
@@ -23,4 +27,4 @@
 
     // #define NOISY_DEBUG
 
-#endif // BUILDINFO_H
+#endif // PARTIALGBM_H

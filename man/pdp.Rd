@@ -23,4 +23,3 @@ As of right now, \code{pdp} only exports two functions:
   \item{\code{topPredictors}} - extract most "important" predictors from various types of fitted models.
 }
 }
-

@@ -4,7 +4,6 @@ sudo: true
 warnings_are_errors: true
 
 r:
-  - old
   - release
   - devel
 

@@ -10,7 +10,7 @@ output:
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "README-"
+  fig.path = "tools/README-"
 )
 ```
 
@@ -48,7 +48,7 @@ The `pdp` package is [currently listed on CRAN](https://CRAN.R-project.org/packa
 ## Random forest example
 
 As a first example, we'll fit a random forest to the famous Boston housing data included with the package (see `?boston` for details). In fact the original motivation for this package was to be able to compute two-predictor partial dependence plots from random forest models in R. 
-```{r, fig.width=8, fig.height=4, message=FALSE}
+```{r example-rf, fig.width=8, fig.height=4, message=FALSE}
 # Fit a random forest to the Boston housing data
 library(randomForest)  # install.packages("randomForest")
 data (boston)  # load the boston housing data
@@ -78,7 +78,7 @@ Next, we'll fit a classification model to the Pima Indians Diabetes data.
 
 As a second example, we'll fit an SVM to the Pima Indians diabetes data included with the package (see `?pima` for details). Note that for some fitted model objects (e.g., `"ksvm"` objects) it is necessary to supply the original training data via the `train` argument in the call to `partial`.
 
-```{r, fig.width=8, fig.height=4, message=FALSE}
+```{r example-svm, fig.width=8, fig.height=4, message=FALSE}
 # Fit an SVM to the Pima Indians diabetes data
 library(kernlab)  # install.packages("kernlab")
 data (pima)  # load the Pima Indians diabetes data

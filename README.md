@@ -64,7 +64,7 @@ p2 <- autoplot(pd, contour = TRUE, main = "ggplot2 version",
 grid.arrange(p1, p2, ncol = 2)
 ```
 
-![](README-unnamed-chunk-2-1.png)
+![](tools/README-example-rf-1.png)
 
 Next, we'll fit a classification model to the Pima Indians Diabetes data.
 
@@ -93,4 +93,4 @@ grid.arrange(autoplot(pd.glucose, main = "Logit scale"),
              ncol = 2)
 ```
 
-![](README-unnamed-chunk-3-1.png)
+![](tools/README-example-svm-1.png)

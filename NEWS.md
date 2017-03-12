@@ -1,7 +1,11 @@
 # NEWS for pdp package
 
+### Changes for version 0.5.2
+* Fixed minor pandoc conversion issue with `README.md`.
+* Added subdirectory called `tools` to hold figures for `README.md`.
+
 ### Changes for version 0.5.1
-* Registered native routines and disabled symbol search
+* Registered native routines and disabled symbol search.
 
 ### Changes for version 0.5.0
 * Added support for `MASS::lda`, `MASS::qda`, and `mda::mars`.

@@ -183,8 +183,7 @@ plotPartial(pd, levelplot = FALSE, zlab = "cmedv", drape = TRUE,
 
 # The autplot function can be used to produce graphics based on ggplot2
 library(ggplot2)
-autoplot(pd, contour = TRUE, contour = TRUE,
-         legend.title = "Partial\\ndependence")
+autoplot(pd, contour = TRUE, legend.title = "Partial\\ndependence")
 
 #
 # Individual conditional expectation (ICE) curves

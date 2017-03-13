@@ -17,7 +17,7 @@ topPredictors(object, n = 1L, ...)
 \code{"gbm"}, \code{"lm"}, \code{"randomForest"}, etc.).}
 
 \item{n}{Integer specifying the number of predictors to return. Default is
-\code{1}] meaning return the single most important predictor.}
+\code{1} meaning return the single most important predictor.}
 
 \item{...}{Additional optional arguments to be passed onto
 \code{\link[caret]{varImp}}.}

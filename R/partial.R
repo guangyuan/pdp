@@ -34,6 +34,9 @@
 #'   Current options are \code{"auto"}, \code{"regression"} or
 #'   \code{"classification"}. If \code{type = "auto"} then \code{partial} will
 #'   try to extract the necessary information from \code{object}.
+#' @param inv.link Function specifying the transfrmation to be applied to
+#'   the predictions before they are averaged (experimental). Default is
+#'   \code{identity}.
 #' @param which.class Integer specifying which column of the matrix of predicted
 #'   probabilities to use as the "focus" class. Default is to use the first
 #'   class. Only used for classification problems (i.e., when
@@ -224,6 +227,7 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
                             quantiles = FALSE, probs = 1:9/10,
                             trim.outliers = FALSE,
                             type = c("auto", "regression", "classification"),
+                            inv.link = identity,
                             which.class = 1L, prob = FALSE, recursive = TRUE,
                             plot = FALSE, smooth = FALSE, rug = FALSE,
                             chull = FALSE, train, cats = NULL,
@@ -290,8 +294,6 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
     }
   }
 
-
-
   # Make sure each column has the correct class, levels, etc.
   if (inherits(train, "data.frame") && check.class) {
     pred.grid <- copyClasses(pred.grid, train)
@@ -346,6 +348,10 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
     # Use brute force approach to partial dependence
     pd.df <- if (!is.null(pred.fun)) {
 
+      if (!is.null(inv.link)) {
+        warning("`inv.link` ignored whenever `recursive = TRUE`")
+      }
+
       # User-supplied prediction function
       pdManual(object, pred.var = pred.var, pred.grid = pred.grid,
                pred.fun = pred.fun, train = train, progress = progress,
@@ -353,10 +359,20 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
 
     } else if (type == "regression") {
 
-      # Traditional partial dependence based on averaged predictions
-      pdRegression(object, pred.var = pred.var, pred.grid = pred.grid,
-                   pred.fun = pred.fun, train = train, progress = progress,
-                   parallel = parallel, paropts = paropts, ...)
+      if (!is.null(inv.link) && isNonGaussianRegression(object)) {
+        # Traditional partial dependence based on averaged prediction; the
+        # predictions are first transformed via the function inv.link.
+        inv.link <- match.fun(inv.link)  # apply inverse link function first
+        pdInvLinkRegression(object, pred.var = pred.var, pred.grid = pred.grid,
+                            pred.fun = pred.fun, inv.link = inv.link,
+                            train = train, progress = progress,
+                            parallel = parallel, paropts = paropts, ...)
+      } else {
+        # Traditional partial dependence based on averaged predictions
+        pdRegression(object, pred.var = pred.var, pred.grid = pred.grid,
+                     pred.fun = pred.fun, train = train, progress = progress,
+                     parallel = parallel, paropts = paropts, ...)
+      }
 
     } else if (type == "classification") {
 

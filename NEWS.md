@@ -1,5 +1,8 @@
 # NEWS for pdp package
 
+### Changes for version 0.5.3
+* Properly registered native routines and disabled symbol search.
+
 ### Changes for version 0.5.2
 * Fixed minor pandoc conversion issue with `README.md`.
 * Added subdirectory called `tools` to hold figures for `README.md`.

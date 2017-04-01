@@ -72,7 +72,8 @@ superType.earth <- function(object) {
       object$glm.list[[1L]]$family$family == "binomial") {
     "classification"
   } else if (is.null(object$glm.list) ||
-             object$glm.list[[1L]]$family$family == "gaussian") {
+             object$glm.list[[1L]]$family$family %in%
+             c("gaussian", "Gamma", "inverse.gaussian", "poisson")) {
     "regression"
   } else {
     "other"
@@ -82,7 +83,8 @@ superType.earth <- function(object) {
 
 #' @keywords internal
 superType.gbm <- function(object) {
-  if (object$distribution %in% c("gaussian", "laplace", "tdist")) {
+  if (object$distribution %in%
+      c("gaussian", "laplace", "tdist", "gamma", "poisson", "tweedie")) {
     "regression"
   } else if (object$distribution %in%
              c("bernoulli", "huberized", "multinomial", "adaboost")) {
@@ -260,7 +262,8 @@ superType.train <- function(object) {
 
 #' @keywords internal
 superType.xgb.Booster <- function(object) {
-  if (object$params$objective == "reg:linear") {
+  if (object$params$objective %in%
+      c("reg:linear", "count:poisson", "reg:gamma")) {
     "regression"
   } else if (object$params$objective %in%
              c("binary:logistic", "multi:softprob")) {

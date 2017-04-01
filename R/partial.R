@@ -359,7 +359,7 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
 
     } else if (type == "regression") {
 
-      if (!is.null(inv.link) && isNonGaussianRegression(object)) {
+      if (isNonGaussianRegression(object)) {
         # Traditional partial dependence based on averaged prediction; the
         # predictions are first transformed via the function inv.link.
         inv.link <- match.fun(inv.link)  # apply inverse link function first

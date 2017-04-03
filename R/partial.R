@@ -321,6 +321,11 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
   # Calculate partial dependence values
   if (inherits(object, "gbm") && recursive) {  # use weighted tree traversal
 
+    # Warn user if using inv.link when recursive = TRUE
+    if (!is.null(inv.link)) {
+      warning("`inv.link` ignored whenever `recursive = TRUE`")
+    }
+    
     # Stop and notify user that pred.fun cannot be used when recursive = TRUE
     # with "gbm" objects
     if (!is.null(pred.fun)) {
@@ -347,10 +352,6 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
 
     # Use brute force approach to partial dependence
     pd.df <- if (!is.null(pred.fun)) {
-
-      if (!is.null(inv.link)) {
-        warning("`inv.link` ignored whenever `recursive = TRUE`")
-      }
 
       # User-supplied prediction function
       pdManual(object, pred.var = pred.var, pred.grid = pred.grid,

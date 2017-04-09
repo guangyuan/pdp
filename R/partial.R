@@ -36,7 +36,7 @@
 #'   try to extract the necessary information from \code{object}.
 #' @param inv.link Function specifying the transfrmation to be applied to
 #'   the predictions before they are averaged (experimental). Default is
-#'   \code{identity}.
+#'   \code{NULL} (i.e., no transofrmation).
 #' @param which.class Integer specifying which column of the matrix of predicted
 #'   probabilities to use as the "focus" class. Default is to use the first
 #'   class. Only used for classification problems (i.e., when
@@ -227,7 +227,7 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
                             quantiles = FALSE, probs = 1:9/10,
                             trim.outliers = FALSE,
                             type = c("auto", "regression", "classification"),
-                            inv.link = identity,
+                            inv.link = NULL,
                             which.class = 1L, prob = FALSE, recursive = TRUE,
                             plot = FALSE, smooth = FALSE, rug = FALSE,
                             chull = FALSE, train, cats = NULL,
@@ -325,7 +325,7 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
     if (!is.null(inv.link)) {
       warning("`inv.link` ignored whenever `recursive = TRUE`")
     }
-    
+
     # Stop and notify user that pred.fun cannot be used when recursive = TRUE
     # with "gbm" objects
     if (!is.null(pred.fun)) {
@@ -360,7 +360,7 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
 
     } else if (type == "regression") {
 
-      if (isNonGaussianRegression(object)) {
+      if (isNonGaussianRegression(object)  && !is.null(inv.link)) {
         # Traditional partial dependence based on averaged prediction; the
         # predictions are first transformed via the function inv.link.
         inv.link <- match.fun(inv.link)  # apply inverse link function first

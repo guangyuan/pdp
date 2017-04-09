@@ -10,7 +10,7 @@ partial(object, ...)
 \method{partial}{default}(object, pred.var, pred.grid, pred.fun = NULL,
   grid.resolution = NULL, quantiles = FALSE, probs = 1:9/10,
   trim.outliers = FALSE, type = c("auto", "regression", "classification"),
-  inv.link = identity, which.class = 1L, prob = FALSE, recursive = TRUE,
+  inv.link = NULL, which.class = 1L, prob = FALSE, recursive = TRUE,
   plot = FALSE, smooth = FALSE, rug = FALSE, chull = FALSE, train,
   cats = NULL, check.class = TRUE, progress = "none", parallel = FALSE,
   paropts = NULL, ...)
@@ -61,7 +61,7 @@ try to extract the necessary information from \code{object}.}
 
 \item{inv.link}{Function specifying the transfrmation to be applied to
 the predictions before they are averaged (experimental). Default is
-\code{identity}.}
+\code{NULL} (i.e., no transofrmation).}
 
 \item{which.class}{Integer specifying which column of the matrix of predicted
 probabilities to use as the "focus" class. Default is to use the first

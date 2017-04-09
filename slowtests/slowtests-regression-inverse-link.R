@@ -22,7 +22,8 @@ bst %>%
 
 # One variable
 bst %>%
-  partial(pred.var = "mpg", inv.link = exp, train = mtcars[, -11]) %>%
+  partial(pred.var = "mpg", inv.link = exp, train = mtcars[, -11],
+          recursive = FALSE) %>%
   autoplot() +
   ylab("Number of carburetors") +
   theme_light()

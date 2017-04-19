@@ -168,14 +168,14 @@ getPDClassProb.ksvm <- function(object, newdata, which.class, ...) {
 #' @keywords internal
 getPDClassLogit.lda <- function(object, newdata, which.class, ...) {
   pr <- stats::predict(object, newdata = newdata, ...)$posterior
-  avgLogit(cbind(pr, 1 - pr), which.class = which.class)
+  avgLogit(pr, which.class = which.class)
 }
 
 
 #' @keywords internal
 getPDClassProb.lda <- function(object, newdata, which.class, ...) {
   pr <- stats::predict(object, newdata = newdata, ...)$posterior
-  mean(cbind(pr, 1 - pr)[, which.class], na.rm = TRUE)
+  mean(pr[, which.class], na.rm = TRUE)
 }
 
 
@@ -220,14 +220,14 @@ getPDClassProb.nnet <- function(object, newdata, which.class, ...) {
 #' @keywords internal
 getPDClassLogit.qda <- function(object, newdata, which.class, ...) {
   pr <- stats::predict(object, newdata = newdata, ...)$posterior
-  avgLogit(cbind(pr, 1 - pr), which.class = which.class)
+  avgLogit(pr, which.class = which.class)
 }
 
 
 #' @keywords internal
 getPDClassProb.qda <- function(object, newdata, which.class, ...) {
   pr <- stats::predict(object, newdata = newdata, ...)$posterior
-  mean(cbind(pr, 1 - pr)[, which.class], na.rm = TRUE)
+  mean(pr[, which.class], na.rm = TRUE)
 }
 
 
@@ -296,12 +296,10 @@ getPDClassProb.svm <- function(object, newdata, which.class, ...) {
 
 #' @keywords internal
 getPDClassLogit.xgb.Booster <- function(object, newdata, which.class,
-                                                ...) {
-  pr <- stats::predict(object, newdata = newdata, ...)
+                                        ...) {
+  pr <- stats::predict(object, newdata = newdata, reshape = TRUE, ...)
   if (object$params$objective == "binary:logistic") {
     pr <- cbind(pr, 1 - pr)
-  } else {
-    dim(pr) <- c(nrow(newdata), object$params$num_class)  # reshape into matrix
   }
   avgLogit(pr, which.class = which.class)
 }
@@ -309,13 +307,10 @@ getPDClassLogit.xgb.Booster <- function(object, newdata, which.class,
 
 #' @keywords internal
 getPDClassProb.xgb.Booster <- function(object, newdata, which.class,
-                                        ...) {
-  pr <- stats::predict(object, newdata = newdata, ...)
+                                       ...) {
+  pr <- stats::predict(object, newdata = newdata, reshape = TRUE, ...)
   if (object$params$objective == "binary:logistic") {
     pr <- cbind(pr, 1 - pr)
-  } else {
-    dim(pr) <- c(nrow(newdata), object$params$num_class)  # reshape into matrix
   }
   mean(pr[, which.class], na.rm = TRUE)
 }
-

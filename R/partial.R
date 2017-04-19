@@ -3,91 +3,129 @@
 #' Compute partial dependence functions (i.e., marginal effects) for various
 #' model fitting objects.
 #'
-#' @param object A fitted model object of appropriate class (e.g.,
-#'   \code{"gbm"}, \code{"lm"}, \code{"randomForest"}, \code{"train"}, etc.).
-#' @param pred.var Character string giving the names of the predictor
-#'   variables of interest. For reasons of computation/interpretation, this
-#'   should include no more than three variables.
+#' @param object A fitted model object of appropriate class (e.g., \code{"gbm"},
+#' \code{"lm"}, \code{"randomForest"}, \code{"train"}, etc.).
+#'
+#' @param pred.var Character string giving the names of the predictor variables
+#' of interest. For reasons of computation/interpretation, this should include
+#' no more than three variables.
+#'
 #' @param pred.grid Data frame containing the joint values of interest for the
-#'   variables listed in \code{pred.var}.
+#' variables listed in \code{pred.var}.
+#'
 #' @param pred.fun Optional prediction function that requires two arguments:
-#'   \code{object} and \code{newdata}. If specified, then the function must
-#'   return a single prediction or a vector of predictions (i.e., not a matrix
-#'   or data frame). Default is \code{NULL}.
+#' \code{object} and \code{newdata}. If specified, then the function must return
+#' a single prediction or a vector of predictions (i.e., not a matrix or data
+#' frame). Default is \code{NULL}.
+#'
 #' @param grid.resolution Integer giving the number of equally spaced points to
-#'   use (only used for the continuous variables listed in \code{pred.var} when
-#'   \code{pred.grid} is not supplied). If left \code{NULL}, it will default to
-#'   the minimum between \code{51} and the number of unique data points for each
-#'   of the continuous independent variables listed in \code{pred.var}.
+#' use for the continuous variables listed in \code{pred.var} when
+#' \code{pred.grid} is not supplied. If left \code{NULL}, it will default to
+#' the minimum between \code{51} and the number of unique data points for each
+#' of the continuous independent variables listed in \code{pred.var}.
+#'
 #' @param quantiles Logical indicating whether or not to use the sample
-#'   quantiles of the numeric predictors listed in \code{pred.var}. Can only be
-#'   specified when \code{grid.resolution = NULL}.
+#' quantiles of the continuous predictors listed in \code{pred.var}. If
+#' \code{quantiles = TRUE} and \code{grid.resolution = NULL} the sample
+#' quantiles will be used to generate the grid of joint values for which the
+#' partial dependence is computed.
+#'
 #' @param probs Numeric vector of probabilities with values in [0,1]. (Values up
-#'   to 2e-14 outside that range are accepted and moved to the nearby endpoint.)
-#'   Default is \code{1:9/10} which corresponds to the deciles of the predictor
-#'   variables.
+#' to 2e-14 outside that range are accepted and moved to the nearby endpoint.)
+#' Default is \code{1:9/10} which corresponds to the deciles of the predictor
+#' variables. These specify which quantiles to use for the continuous predictors
+#' listed in \code{pred.var} when \code{quantiles = TRUE}.
+#'
 #' @param trim.outliers Logical indicating whether or not to trim off outliers
-#'   from the numeric predictors (using the simple boxplot method) before
-#'   creating the grid of joint values for which the partial dependence is
-#'   computed. Default is \code{FALSE}.
+#' from the continuous predictors listed in \code{pred.var} (using the simple
+#' boxplot method) before generating the grid of joint values for which the
+#' partial dependence is computed. Default is \code{FALSE}.
+#'
 #' @param type Character string specifying the type of supervised learning.
-#'   Current options are \code{"auto"}, \code{"regression"} or
-#'   \code{"classification"}. If \code{type = "auto"} then \code{partial} will
-#'   try to extract the necessary information from \code{object}.
-#' @param inv.link Function specifying the transfrmation to be applied to
-#'   the predictions before they are averaged (experimental). Default is
-#'   \code{NULL} (i.e., no transofrmation).
+#' Current options are \code{"auto"}, \code{"regression"} or
+#' \code{"classification"}. If \code{type = "auto"} then \code{partial} will try
+#' to extract the necessary information from \code{object}.
+#'
+#' @param inv.link Function specifying the transfrmation to be applied to the
+#' predictions when partial dependence is computed (experimental). Default is
+#' \code{NULL} (i.e., no transofrmation). This option is intended to be used for
+#' models that allow for non-Gaussian response variables (e.g., counts). For
+#' these models, predictions are not typically returned on the original response
+#' scale by default. For example, Poisson GBMs typically return predictions on
+#' the log scale. In this case setting \code{inv.link = exp} will return the
+#' partial dependence function on the response (i.e., raw count) scale.
+#'
 #' @param which.class Integer specifying which column of the matrix of predicted
-#'   probabilities to use as the "focus" class. Default is to use the first
-#'   class. Only used for classification problems (i.e., when
-#'   \code{type = "classification"}).
+#' probabilities to use as the "focus" class. Default is to use the first class.
+#' Only used for classification problems (i.e., when
+#' \code{type = "classification"}).
+#'
 #' @param prob Logical indicating whether or not partial dependence for
-#'   classification problems should be returned on the probability scale, rather
-#'   than the centered logit. If \code{FALSE}, the partial dependence in on a
-#'   scale similar to the logit. Default is \code{FALSE}.
+#' classification problems should be returned on the probability scale, rather
+#' than the centered logit. If \code{FALSE}, the partial dependence function is
+#' on a scale similar to the logit. Default is \code{FALSE}.
+#'
 #' @param recursive Logical indicating whether or not to use the weighted tree
-#'   traversal method described in Friedman (2001). This only applies to objects
-#'   that inherit from class \code{"gbm"}. Default is \code{TRUE} which is much
-#'   faster than the exact brute force approach used for all other models.
-#'   (Based on the C++ code behind \code{\link[gbm]{plot.gbm}}.)
+#' traversal method described in Friedman (2001). This only applies to objects
+#' that inherit from class \code{"gbm"}. Default is \code{TRUE} which is much
+#' faster than the exact brute force approach used for all other models. (Based
+#' on the C++ code behind \code{\link[gbm]{plot.gbm}}.)
+#'
 #' @param plot Logical indicating whether to return a data frame containing the
-#'   partial dependence values (\code{FALSE}) or plot the partial dependence
-#'   function directly (\code{TRUE}). Default is \code{FALSE}. See
-#'   \code{\link{plotPartial}} for plotting details.
+#' partial dependence values (\code{FALSE}) or plot the partial dependence
+#' function directly (\code{TRUE}). Default is \code{FALSE}. See
+#' \code{\link{plotPartial}} for plotting details.
+#'
 #' @param smooth Logical indicating whether or not to overlay a LOESS smooth.
-#'   Default is \code{FALSE}.
-#' @param rug Logical indicating whether or not to include rug marks on the
-#'   predictor axes. Only used when \code{plot = TRUE}. Default is \code{FALSE}.
-#' @param chull Logical indicating wether or not to restrict the first
-#'   two variables in \code{pred.var} to lie within the convex hull of their
-#'   training values; this affects \code{pred.grid}. Default is \code{FALSE}.
-#' @param train An optional data frame containing the original training
-#'   data. This may be required depending on the class of \code{object}. For
-#'   objects that do not store a copy of the original training data, this
-#'   argument is required.
+#' Default is \code{FALSE}.
+#'
+#' @param rug Logical indicating whether or not to include a rug display on the
+#' predictor axes. The tick marks indicate the min/max and deciles of the
+#' predictor distributions. This helps reduce the risk of interpreting the
+#' partial dependence plot outside the region of the data (i.e., extrapolating).
+#' Only used when \code{plot = TRUE}. Default is \code{FALSE}.
+#'
+#' @param chull Logical indicating wether or not to restrict the values of the
+#' first two variables in \code{pred.var} to lie within the convex hull of their
+#' training values; this affects \code{pred.grid}. This helps reduce the risk of
+#' interpreting the partial dependence plot outside the region of the data
+#' (i.e., extrapolating).Default is \code{FALSE}.
+#'
+#' @param train An optional data frame, matrix, or sparse matrix containing the
+#' original training data. This may be required depending on the class of
+#' \code{object}. For objects that do not store a copy of the original training
+#' data, this argument is required. For reasons discussed below, it is good
+#' practice to always specify this argument.
+#'
 #' @param cats Character string indicating which columns of \code{train} should
-#'   be treated as categorical variables. Only used when \code{train} inherits
-#'   from class \code{"matrix"} or \code{"dgCMatrix"}.
+#' be treated as categorical variables. Only used when \code{train} inherits
+#' from class \code{"matrix"} or \code{"dgCMatrix"}.
+#'
 #' @param check.class Logical indicating whether or not to make sure each column
-#'   in \code{pred.grid} has the correct class, levels, etc. Default is
-#'   \code{TRUE}.
-#' @param progress Character string giving the name of the progress bar to use.
-#'   See \code{\link[plyr]{create_progress_bar}} for details. Default is
-#'   \code{"none"}.
+#' in \code{pred.grid} has the correct class, levels, etc. Default is
+#' \code{TRUE}.
+#'
+#' @param progress Character string giving the name of the progress bar to use
+#' while constructing the partial dependence function. See
+#' \code{\link[plyr]{create_progress_bar}} for details. Default is
+#' \code{"none"}.
+#'
 #' @param parallel Logical indicating whether or not to run \code{partial} in
-#'   parallel using a backend provided by the \code{foreach} package. Default is
-#'   \code{FALSE}. Default is \code{NULL}.
-#' @param paropts List containing additional options passed onto
-#'   \code{\link[foreach]{foreach}} when \code{parallel = TRUE}.
+#' parallel using a backend provided by the \code{foreach} package. Default is
+#' \code{FALSE}.
+#'
+#' @param paropts List containing additional options to be passed onto
+#' \code{\link[foreach]{foreach}} when \code{parallel = TRUE}.
+#'
 #' @param ... Additional optional arguments to be passed onto
-#'   \code{\link[stats]{predict}}.
+#' \code{\link[stats]{predict}}.
 #'
 #' @return If \code{plot = FALSE} (the default) \code{partial} returns a data
-#' frame with the additional class \code{"partial"} that is specially recognized
-#' by the \code{plotPartial} function. If \code{plot = TRUE} then \code{partial}
-#' returns a "trellis" object (see \code{\link[lattice]{lattice}} for details)
-#' with an additional attribute, \code{"partial.data"}, containing the data
-#' displayed in the plot.
+#' frame with the additional class \code{"partial"}; this class is specially
+#' recognized by the \code{plotPartial} and \code{autoplot} functions. If
+#' \code{plot = TRUE} then \code{partial} returns a "trellis" object (see
+#' \code{\link[lattice]{lattice}} for details) with an additional attribute,
+#' \code{"partial.data"}, containing the data displayed in the plot.
 #'
 #' @note
 #' In some cases it is difficult for \code{partial} to extract the original
@@ -102,7 +140,7 @@
 #' call to \code{partial}.
 #'
 #' It is recommended to call \code{partial} with \code{plot = FALSE} and store
-#' the results; this allows for more flexible plotting, and the user will not
+#' the results. This allows for more flexible plotting, and the user will not
 #' have to waste time calling \code{partial} again if the default plot is not
 #' sufficient.
 #'
@@ -125,7 +163,9 @@
 #' Statistics}, \bold{24}(1): 44-65, 2015.
 #'
 #' @rdname partial
+#'
 #' @export
+#'
 #' @examples
 #' \dontrun{
 #'

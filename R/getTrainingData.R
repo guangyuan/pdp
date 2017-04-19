@@ -1,8 +1,9 @@
 # Error message to display when training data cannot be extracted form object
-mssg <- paste0("The training data could not be extracted from ",
-               deparse(substitute(object)), ". Please supply the raw ",
-               "training data using the `train` argument in the call to ",
-               "`partial`.")
+mssg <- paste0("The training data could not be extracted from object. Please ",
+               "supply the raw training data using the `train` argument in ",
+               "the call to `partial`.")
+
+
 
 #' @keywords internal
 getTrainingData <- function(object) {

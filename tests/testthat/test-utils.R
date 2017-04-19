@@ -44,19 +44,19 @@ test_that("copyClasses works correctly", {
 
 })
 
-test_that("avgLogit works correctly", {
+test_that("multiClassLogit works correctly", {
 
   # Probabilitymatrix/data frame
   pm <- matrix(c(0.1, 0.3, 0.6), nrow = 1, ncol = 3, byrow = TRUE)
   pm.df <- as.data.frame(pm)
 
   # Expectations
-  expect_identical(avgLogit(pm), avgLogit(pm.df))
-  expect_identical(avgLogit(pm, which.class = 1L),
+  expect_identical(multiClassLogit(pm), as.numeric(multiClassLogit(pm.df)))
+  expect_identical(multiClassLogit(pm, which.class = 1L),
                    log(0.1) - (log(0.1) + log(0.3) + log(0.6)) / 3)
-  expect_identical(avgLogit(pm, which.class = 2L),
+  expect_identical(multiClassLogit(pm, which.class = 2L),
                    log(0.3) - (log(0.1) + log(0.3) + log(0.6)) / 3)
-  expect_identical(avgLogit(pm, which.class = 3L),
+  expect_identical(multiClassLogit(pm, which.class = 3L),
                    log(0.6) - (log(0.1) + log(0.3) + log(0.6)) / 3)
 
 })

@@ -263,7 +263,7 @@ partial <- function(object, ...) {
 #' @rdname partial
 #' @export
 partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
-                            grid.resolution = NULL,
+                            grid.resolution = NULL, #ice = FALSE, center = FALSE,
                             quantiles = FALSE, probs = 1:9/10,
                             trim.outliers = FALSE,
                             type = c("auto", "regression", "classification"),

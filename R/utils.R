@@ -84,15 +84,27 @@ copyClasses <- function(x, y) {
 
 
 #' @keywords internal
-avgLogit <- function(x, which.class = 1L) {
+multiClassLogit <- function(x, which.class = 1L) {
   if (is.data.frame(x)) {
     x <- data.matrix(x)
   }
   stopifnot(is.matrix(x))  # x should be a nclass by n probability matrix
   eps <- .Machine$double.eps
-  mean(log(ifelse(x[, which.class] > 0, x[, which.class], eps)) -
-         rowMeans(log(ifelse(x > 0, x, eps))), na.rm = TRUE)
+  log(ifelse(x[, which.class] > 0, x[, which.class], eps)) -
+    rowMeans(log(ifelse(x > 0, x, eps)))
 }
+
+
+#' #' @keywords internal
+#' avgLogit <- function(x, which.class = 1L) {
+#'   if (is.data.frame(x)) {
+#'     x <- data.matrix(x)
+#'   }
+#'   stopifnot(is.matrix(x))  # x should be a nclass by n probability matrix
+#'   eps <- .Machine$double.eps
+#'   mean(log(ifelse(x[, which.class] > 0, x[, which.class], eps)) -
+#'          rowMeans(log(ifelse(x > 0, x, eps))), na.rm = TRUE)
+#' }
 
 
 #' @keywords internal

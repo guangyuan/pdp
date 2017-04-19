@@ -41,8 +41,8 @@ getPDClassProb <- function(object, newdata, which.class, ...) {
 
 #' @keywords internal
 getPDClassLogit.default <- function(object, newdata, which.class, ...) {
-  avgLogit(stats::predict(object, newdata = newdata, type = "prob", ...),
-           which.class = which.class)
+  pr <- stats::predict(object, newdata = newdata, type = "prob", ...)
+  mean(multiClassLogit(pr, which.class = which.class), na.rm = TRUE)
 }
 
 
@@ -56,7 +56,8 @@ getPDClassProb.default <- function(object, newdata, which.class, ...) {
 #' @keywords internal
 getPDClassLogit.BinaryTree <- function(object, newdata, which.class, ...) {
   pr <- stats::predict(object, newdata = newdata, type = "prob", ...)
-  avgLogit(do.call(rbind, pr), which.class = which.class)
+  mean(multiClassLogit(do.call(rbind, pr), which.class = which.class),
+       na.rm = TRUE)
 }
 
 
@@ -69,8 +70,8 @@ getPDClassProb.BinaryTree <- function(object, newdata, which.class, ...) {
 
 #' @keywords internal
 getPDClassLogit.bagging <- function(object, newdata, which.class, ...) {
-  avgLogit(stats::predict(object, newdata = newdata, ...)$prob,
-           which.class = which.class)
+  pr <- stats::predict(object, newdata = newdata, ...)$prob
+  mean(multiClassLogit(pr, which.class = which.class), na.action = TRUE)
 }
 
 
@@ -83,8 +84,8 @@ getPDClassProb.bagging <- function(object, newdata, which.class, ...) {
 
 #' @keywords internal
 getPDClassLogit.boosting <- function(object, newdata, which.class, ...) {
-  avgLogit(stats::predict(object, newdata = newdata, ...)$prob,
-           which.class = which.class)
+  pr <- stats::predict(object, newdata = newdata, ...)$prob
+  mean(multiClassLogit(pr, which.class = which.class), na.rm = TRUE)
 }
 
 
@@ -98,7 +99,8 @@ getPDClassProb.boosting <- function(object, newdata, which.class, ...) {
 #' @keywords internal
 getPDClassLogit.earth <- function(object, newdata, which.class, ...) {
   pr <- stats::predict(object, newdata = newdata, type = "response", ...)
-  avgLogit(cbind(pr, 1 - pr), which.class = which.class)
+  mean(multiClassLogit(cbind(pr, 1 - pr), which.class = which.class),
+       na.rm = TRUE)
 }
 
 
@@ -114,7 +116,8 @@ getPDClassLogit.gbm <- function(object, newdata, which.class, ...) {
   invisible(utils::capture.output(
     pr <- stats::predict(object, newdata = newdata, type = "response", ...)
   ))
-  avgLogit(cbind(pr, 1 - pr), which.class = which.class)
+  mean(multiClassLogit(cbind(pr, 1 - pr), which.class = which.class),
+       na.rm = TRUE)
 }
 
 
@@ -130,7 +133,8 @@ getPDClassProb.gbm <- function(object, newdata, which.class, ...) {
 #' @keywords internal
 getPDClassLogit.glm <- function(object, newdata, which.class, ...) {
   pr <- stats::predict(object, newdata = newdata, type = "response", ...)
-  avgLogit(cbind(pr, 1 - pr), which.class = which.class)
+  mean(multiClassLogit(cbind(pr, 1 - pr), which.class = which.class),
+       na.rm = TRUE)
 }
 
 
@@ -147,9 +151,8 @@ getPDClassLogit.ksvm <- function(object, newdata, which.class, ...) {
     stop(paste("Cannot obtain predicted probabilities from",
                deparse(substitute(object))))
   }
-  avgLogit(kernlab::predict(object, newdata = newdata,
-                            type = "probabilities", ...),
-           which.class = which.class)
+  pr <- kernlab::predict(object, newdata = newdata, type = "probabilities", ...)
+  mean(multiClassLogit(pr, which.class = which.class), na.rm = TRUE)
 }
 
 
@@ -168,7 +171,7 @@ getPDClassProb.ksvm <- function(object, newdata, which.class, ...) {
 #' @keywords internal
 getPDClassLogit.lda <- function(object, newdata, which.class, ...) {
   pr <- stats::predict(object, newdata = newdata, ...)$posterior
-  avgLogit(pr, which.class = which.class)
+  mean(multiClassLogit(pr, which.class = which.class), na.rm = TRUE)
 }
 
 
@@ -191,9 +194,10 @@ getPDClassLogit.nnet <- function(object, newdata, which.class, ...) {
   # the response is binary, a single-columned matrix with no column name is
   # returned.
   if (ncol(pr) == 1) {
-    avgLogit(cbind(pr, 1 - pr), which.class = which.class)
+    mean(multiClassLogit(cbind(pr, 1 - pr), which.class = which.class),
+         na.rm = TRUE)
   } else {
-    avgLogit(pr, which.class = which.class)
+    mean(multiClassLogit(pr, which.class = which.class), na.rm = TRUE)
   }
 }
 
@@ -220,7 +224,7 @@ getPDClassProb.nnet <- function(object, newdata, which.class, ...) {
 #' @keywords internal
 getPDClassLogit.qda <- function(object, newdata, which.class, ...) {
   pr <- stats::predict(object, newdata = newdata, ...)$posterior
-  avgLogit(pr, which.class = which.class)
+  mean(multiClassLogit(pr, which.class = which.class), na.rm = TRUE)
 }
 
 
@@ -233,16 +237,15 @@ getPDClassProb.qda <- function(object, newdata, which.class, ...) {
 
 
 #' @keywords internal
-getPDClassLogit.RandomForest <- function(object, newdata, which.class,
-                                                 ...) {
+getPDClassLogit.RandomForest <- function(object, newdata, which.class, ...) {
   pr <- stats::predict(object, newdata = newdata, type = "prob", ...)
-  avgLogit(do.call(rbind, pr), which.class = which.class)
+  mean(multiClassLogit(do.call(rbind, pr), which.class = which.class),
+       na.rm = TRUE)
 }
 
 
 #' @keywords internal
-getPDClassProb.RandomForest <- function(object, newdata, which.class,
-                                         ...) {
+getPDClassProb.RandomForest <- function(object, newdata, which.class, ...) {
   pr <- stats::predict(object, newdata = newdata, type = "prob", ...)
   mean(do.call(rbind, pr)[, which.class], na.rm = TRUE)
 }
@@ -254,8 +257,8 @@ getPDClassLogit.ranger <- function(object, newdata, which.class, ...) {
     stop(paste("Cannot obtain predicted probabilities from",
                deparse(substitute(object))))
   }
-  avgLogit(stats::predict(object, data = newdata, ...)$predictions,
-           which.class = which.class)
+  pr <- stats::predict(object, data = newdata, ...)$predictions
+  mean(multiClassLogit(pr, which.class = which.class), na.rm = TRUE)
 }
 
 
@@ -276,9 +279,9 @@ getPDClassLogit.svm <- function(object, newdata, which.class, ...) {
     stop(paste("Cannot obtain predicted probabilities from",
                deparse(substitute(object))))
   }
-  avgLogit(attr(stats::predict(object, newdata = newdata, probability = TRUE,
-                               ...),
-                which = "probabilities"), which.class = which.class)
+  pr <- attr(stats::predict(object, newdata = newdata, probability = TRUE, ...),
+             which = "probabilities")
+  mean(multiClassLogit(pr, which.class = which.class), na.rm = TRUE)
 }
 
 
@@ -301,7 +304,7 @@ getPDClassLogit.xgb.Booster <- function(object, newdata, which.class,
   if (object$params$objective == "binary:logistic") {
     pr <- cbind(pr, 1 - pr)
   }
-  avgLogit(pr, which.class = which.class)
+  mean(multiClassLogit(pr, which.class = which.class), na.rm = TRUE)
 }
 
 

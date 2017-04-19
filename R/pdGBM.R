@@ -42,8 +42,9 @@ pdGBM <- function(object, pred.var, pred.grid, which.class, prob, ...) {
       pd.df$yhat <- mean(matrix(y, ncol = object$num.classes)[, which.class],
                          na.rm = TRUE)
     } else {
-      pd.df$yhat <- avgLogit(matrix(y, ncol = object$num.classes),
-                             which.class = which.class)
+      pd.df$yhat <- mean(multiClassLogit(matrix(y, ncol = object$num.classes),
+                                         which.class = which.class),
+                         na.rm = TRUE)
     }
   } else if (object$distribution$name %in% c("bernoulli", "pairwise")) {
     pr <- boot::inv.logit(y)

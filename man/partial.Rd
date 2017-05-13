@@ -8,11 +8,12 @@
 partial(object, ...)
 
 \method{partial}{default}(object, pred.var, pred.grid, pred.fun = NULL,
-  grid.resolution = NULL, quantiles = FALSE, probs = 1:9/10,
-  trim.outliers = FALSE, type = c("auto", "regression", "classification"),
-  inv.link = NULL, which.class = 1L, prob = FALSE, recursive = TRUE,
-  plot = FALSE, smooth = FALSE, rug = FALSE, chull = FALSE, train,
-  cats = NULL, check.class = TRUE, progress = "none", parallel = FALSE,
+  grid.resolution = NULL, ice = FALSE, center = FALSE,
+  quantiles = FALSE, probs = 1:9/10, trim.outliers = FALSE,
+  type = c("auto", "regression", "classification"), inv.link = NULL,
+  which.class = 1L, prob = FALSE, recursive = TRUE, plot = FALSE,
+  smooth = FALSE, rug = FALSE, chull = FALSE, train, cats = NULL,
+  check.class = TRUE, progress = "none", parallel = FALSE,
   paropts = NULL, ...)
 }
 \arguments{
@@ -39,6 +40,14 @@ use for the continuous variables listed in \code{pred.var} when
 \code{pred.grid} is not supplied. If left \code{NULL}, it will default to
 the minimum between \code{51} and the number of unique data points for each
 of the continuous independent variables listed in \code{pred.var}.}
+
+\item{ice}{Logical indicating whether or not to compute individual
+conditional expectation (ICE) curves. Default is \code{FALSE}. See
+Goldstein et al. (2014) for details.}
+
+\item{center}{Logical indicating whether or not to produce centered ICE
+curves (c-ICE curves). Only used when \code{ice = TRUE}. Default is
+\code{FALSE}. See Goldstein et al. (2014) for details.}
 
 \item{quantiles}{Logical indicating whether or not to use the sample
 quantiles of the continuous predictors listed in \code{pred.var}. If
@@ -212,7 +221,7 @@ autoplot(pd, contour = TRUE, legend.title = "Partial\\ndependence")
 pred.ice <- function(object, newdata) predict(object, newdata)
 rm.ice <- partial(boston.rf, pred.var = "rm", pred.fun = pred.ice)
 plotPartial(rm.ice, rug = TRUE, train = boston, alpha = 0.2)
-autoplot(rm.ice, center = FALSE, alpha = 0.2, rug = TRUE, train = boston)
+autoplot(rm.ice, alpha = 0.2, rug = TRUE, train = boston)
 
 #
 # Centered ICE curves (c-ICE curves) (requires dplyr and ggplot2 to run)
@@ -236,7 +245,7 @@ p2 <- ggplot(rm.cice, aes(rm, yhat.centered)) +
 grid.arrange(p1, p2, ncol = 2)
 
 # Or just use autoplot (the default is to center the curves first)
-autoplot(rm.ice, alpha = 0.2, rug = TRUE, train = boston)
+autoplot(rm.ice, center = TRUE, alpha = 0.2, rug = TRUE, train = boston)
 
 #
 # Classification example (requires randomForest package to run)

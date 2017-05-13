@@ -4,7 +4,7 @@
 \alias{autoplot.partial}
 \title{Plotting Partial Dependence Functions}
 \usage{
-\method{autoplot}{partial}(object, center = TRUE, plot.pdp = TRUE,
+\method{autoplot}{partial}(object, center = FALSE, plot.pdp = TRUE,
   pdp.color = "red", pdp.size = 1, rug = FALSE, smooth = FALSE,
   smooth.method = "auto", smooth.formula = y ~ x, smooth.span = 0.75,
   smooth.method.args = list(), contour = FALSE, contour.color = "white",
@@ -15,9 +15,8 @@
 \item{object}{An object that inherits from the \code{"partial"} class.}
 
 \item{center}{Logical indicating whether or not to produce centered ICE
-curves (c-ICE curves). Only useful when \code{object} represents a set of
-ICE curves; see \code{\link[pdp]{partial}} for details. Default is
-\code{TRUE}.}
+curves (c-ICE curves). Only useful when \code{object} represents a set of ICE
+curves; see \code{\link[pdp]{partial}} for details. Default is \code{FALSE}.}
 
 \item{plot.pdp}{Logical indicating whether or not to plot the partial
 dependence function on top of the ICE curves. Default is \code{TRUE}.}
@@ -50,8 +49,7 @@ smoother lines. Default is \code{0.75}.}
 on to the modelling function defined by \code{smooth.method}.}
 
 \item{contour}{Logical indicating whether or not to add contour lines to the
-level plot. Only used when \code{levelplot = TRUE}. Default is
-\code{FALSE}.}
+level plot. Only used when \code{levelplot = TRUE}. Default is \code{FALSE}.}
 
 \item{contour.color}{Character string specifying the color to use for the
 contour lines when \code{contour = TRUE}. Default is \code{"white"}.}
@@ -60,8 +58,8 @@ contour lines when \code{contour = TRUE}. Default is \code{"white"}.}
 index into the list of palettes of appropriate type. Default is
 \code{"Spectral"}.}
 
-\item{train}{Data frame containing the original training data. Only
-required if \code{rug = TRUE} or \code{chull = TRUE}.}
+\item{train}{Data frame containing the original training data. Only required
+if \code{rug = TRUE} or \code{chull = TRUE}.}
 
 \item{xlab}{Charater string specifying the text for the x-axis label.}
 

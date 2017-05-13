@@ -13,8 +13,8 @@ topPredictors(object, n = 1L, ...)
 \method{topPredictors}{train}(object, n = 1L, ...)
 }
 \arguments{
-\item{object}{A fitted model object of appropriate class (e.g.,
-\code{"gbm"}, \code{"lm"}, \code{"randomForest"}, etc.).}
+\item{object}{A fitted model object of appropriate class (e.g., \code{"gbm"},
+\code{"lm"}, \code{"randomForest"}, etc.).}
 
 \item{n}{Integer specifying the number of predictors to return. Default is
 \code{1} meaning return the single most important predictor.}
@@ -33,26 +33,36 @@ sorted at the names of the \code{n} highest scoring predictors are returned.
 }
 \examples{
 \dontrun{
+#
+# Regression example (requires randomForest package to run)
+#
 
-# Fit a random forest to the boston housing data
+Load required packages
+library(ggplot2)
 library(randomForest)
-data (boston)  # load the boston housing data
-set.seed(101)  # for reproducibility
-boston.rf <- randomForest(cmedv ~ ., data = boston)
 
-# What are the top four predictors?
-topPredictors(boston.rf, n = 4)
+# Fit a random forest to the mtcars dataset
+data(mtcars, package = "datasets")
+set.seed(101)
+mtcars.rf <- randomForest(mpg ~ ., data = mtcars, mtry = 5, importance = TRUE)
 
-# Construct PDPs for the top four predictors
-par(mfrow = c(2, 2))
-for (pred in topPredictors(boston.rf, 4)) {
-  plot(partial(boston.rf, pred.var = pred), type = "l")
+# Topfour predictors
+top4 <- topPredictors(mtcars.rf, n = 4)
+
+# Construct partial dependence functions for top four predictors
+pd <- NULL
+for (i in top4) {
+  tmp <- partial(mtcars.rf, pred.var = i)
+  names(tmp) <- c("x", "y")
+  pd <- rbind(pd,  cbind(tmp, predictor = i))
 }
 
-# Construct a two-way PDP for the top two predictors
-boston.rf \%>\%
-  partial(topPredictors(., n = 2), chull = TRUE) \%>\%
-  plotPartial()
+# Display partial dependence functions
+ggplot(pd, aes(x, y)) +
+  geom_line() +
+  facet_wrap(~ predictor, scales = "free") +
+  theme_bw() +
+  ylab("mpg")
 
 }
 }

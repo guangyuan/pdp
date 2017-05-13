@@ -168,7 +168,6 @@ superType.party <- function(object) {
 }
 
 
-
 #' @keywords internal
 superType.ppr <- function(object) {
   if (object$q > 1) {

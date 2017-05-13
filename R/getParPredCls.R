@@ -1,60 +1,31 @@
 #' @keywords internal
-pdClassification <- function(object, pred.var, pred.grid, pred.fun, which.class,
-                             prob, train, progress, parallel, paropts, ...) {
-  if (prob) {  # return partial dependence function on probability scale
-    plyr::adply(pred.grid, .margins = 1, .progress = progress,
-                .parallel = parallel, .paropts = paropts,
-                .fun = function(x) {
-                  temp <- train
-                  temp[, pred.var] <- x
-                  stats::setNames(  # return averaged predicted probabiliy
-                    getPDClassProb(object, newdata = temp,
-                                   which.class = which.class, ...), "yhat"
-                  )
-                }, .id = NULL)
-  } else {  # return partial dependence function on centered logit scale
-    plyr::adply(pred.grid, .margins = 1, .progress = progress,
-                .parallel = parallel, .paropts = paropts,
-                .fun = function(x) {
-                  temp <- train
-                  temp[, pred.var] <- x
-                  stats::setNames(  # return averaged centered logit
-                    getPDClassLogit(object, newdata = temp,
-                                    which.class = which.class, ...), "yhat"
-                  )
-                }, .id = NULL)
-  }
+getParClsLogit <- function(object, newdata, which.class, ...) {
+  UseMethod("getParClsLogit")
 }
 
 
 #' @keywords internal
-getPDClassLogit <- function(object, newdata, which.class, ...) {
-  UseMethod("getPDClassLogit")
+getParClsProb <- function(object, newdata, which.class, ...) {
+  UseMethod("getParClsProb")
 }
 
 
 #' @keywords internal
-getPDClassProb <- function(object, newdata, which.class, ...) {
-  UseMethod("getPDClassProb")
-}
-
-
-#' @keywords internal
-getPDClassLogit.default <- function(object, newdata, which.class, ...) {
+getParClsLogit.default <- function(object, newdata, which.class, ...) {
   pr <- stats::predict(object, newdata = newdata, type = "prob", ...)
   mean(multiClassLogit(pr, which.class = which.class), na.rm = TRUE)
 }
 
 
 #' @keywords internal
-getPDClassProb.default <- function(object, newdata, which.class, ...) {
+getParClsProb.default <- function(object, newdata, which.class, ...) {
   pr <- stats::predict(object, newdata = newdata, type = "prob", ...)
   mean(pr[, which.class], na.rm = TRUE)
 }
 
 
 #' @keywords internal
-getPDClassLogit.BinaryTree <- function(object, newdata, which.class, ...) {
+getParClsLogit.BinaryTree <- function(object, newdata, which.class, ...) {
   pr <- stats::predict(object, newdata = newdata, type = "prob", ...)
   mean(multiClassLogit(do.call(rbind, pr), which.class = which.class),
        na.rm = TRUE)
@@ -62,42 +33,42 @@ getPDClassLogit.BinaryTree <- function(object, newdata, which.class, ...) {
 
 
 #' @keywords internal
-getPDClassProb.BinaryTree <- function(object, newdata, which.class, ...) {
+getParClsProb.BinaryTree <- function(object, newdata, which.class, ...) {
   pr <- stats::predict(object, newdata = newdata, type = "prob", ...)
   mean(do.call(rbind, pr)[, which.class], na.rm = TRUE)
 }
 
 
 #' @keywords internal
-getPDClassLogit.bagging <- function(object, newdata, which.class, ...) {
+getParClsLogit.bagging <- function(object, newdata, which.class, ...) {
   pr <- stats::predict(object, newdata = newdata, ...)$prob
   mean(multiClassLogit(pr, which.class = which.class), na.action = TRUE)
 }
 
 
 #' @keywords internal
-getPDClassProb.bagging <- function(object, newdata, which.class, ...) {
+getParClsProb.bagging <- function(object, newdata, which.class, ...) {
   pr <- stats::predict(object, newdata = newdata, ...)$prob
   mean(pr[, which.class], na.rm = TRUE)
 }
 
 
 #' @keywords internal
-getPDClassLogit.boosting <- function(object, newdata, which.class, ...) {
+getParClsLogit.boosting <- function(object, newdata, which.class, ...) {
   pr <- stats::predict(object, newdata = newdata, ...)$prob
   mean(multiClassLogit(pr, which.class = which.class), na.rm = TRUE)
 }
 
 
 #' @keywords internal
-getPDClassProb.boosting <- function(object, newdata, which.class, ...) {
+getParClsProb.boosting <- function(object, newdata, which.class, ...) {
   pr <- stats::predict(object, newdata = newdata, ...)$prob
   mean(pr[, which.class], na.rm = TRUE)
 }
 
 
 #' @keywords internal
-getPDClassLogit.earth <- function(object, newdata, which.class, ...) {
+getParClsLogit.earth <- function(object, newdata, which.class, ...) {
   pr <- stats::predict(object, newdata = newdata, type = "response", ...)
   mean(multiClassLogit(cbind(pr, 1 - pr), which.class = which.class),
        na.rm = TRUE)
@@ -105,14 +76,14 @@ getPDClassLogit.earth <- function(object, newdata, which.class, ...) {
 
 
 #' @keywords internal
-getPDClassProb.earth <- function(object, newdata, which.class, ...) {
+getParClsProb.earth <- function(object, newdata, which.class, ...) {
   pr <- stats::predict(object, newdata = newdata, type = "response", ...)
   mean(cbind(pr, 1 - pr)[, which.class], na.rm = TRUE)
 }
 
 
 #' @keywords internal
-getPDClassLogit.gbm <- function(object, newdata, which.class, ...) {
+getParClsLogit.gbm <- function(object, newdata, which.class, ...) {
   invisible(utils::capture.output(
     pr <- stats::predict(object, newdata = newdata, type = "response", ...)
   ))
@@ -122,7 +93,7 @@ getPDClassLogit.gbm <- function(object, newdata, which.class, ...) {
 
 
 #' @keywords internal
-getPDClassProb.gbm <- function(object, newdata, which.class, ...) {
+getParClsProb.gbm <- function(object, newdata, which.class, ...) {
   invisible(utils::capture.output(
     pr <- stats::predict(object, newdata = newdata, type = "response", ...)
   ))
@@ -131,7 +102,7 @@ getPDClassProb.gbm <- function(object, newdata, which.class, ...) {
 
 
 #' @keywords internal
-getPDClassLogit.glm <- function(object, newdata, which.class, ...) {
+getParClsLogit.glm <- function(object, newdata, which.class, ...) {
   pr <- stats::predict(object, newdata = newdata, type = "response", ...)
   mean(multiClassLogit(cbind(pr, 1 - pr), which.class = which.class),
        na.rm = TRUE)
@@ -139,14 +110,14 @@ getPDClassLogit.glm <- function(object, newdata, which.class, ...) {
 
 
 #' @keywords internal
-getPDClassProb.glm <- function(object, newdata, which.class, ...) {
+getParClsProb.glm <- function(object, newdata, which.class, ...) {
   pr <- stats::predict(object, newdata = newdata, type = "response", ...)
   mean(cbind(pr, 1 - pr)[, which.class], na.rm = TRUE)
 }
 
 
 #' @keywords internal
-getPDClassLogit.ksvm <- function(object, newdata, which.class, ...) {
+getParClsLogit.ksvm <- function(object, newdata, which.class, ...) {
   if (is.null(object@kcall$prob.model)) {
     stop(paste("Cannot obtain predicted probabilities from",
                deparse(substitute(object))))
@@ -157,7 +128,7 @@ getPDClassLogit.ksvm <- function(object, newdata, which.class, ...) {
 
 
 #' @keywords internal
-getPDClassProb.ksvm <- function(object, newdata, which.class, ...) {
+getParClsProb.ksvm <- function(object, newdata, which.class, ...) {
   if (is.null(object@kcall$prob.model)) {
     stop(paste("Cannot obtain predicted probabilities from",
                deparse(substitute(object))))
@@ -169,21 +140,21 @@ getPDClassProb.ksvm <- function(object, newdata, which.class, ...) {
 
 
 #' @keywords internal
-getPDClassLogit.lda <- function(object, newdata, which.class, ...) {
+getParClsLogit.lda <- function(object, newdata, which.class, ...) {
   pr <- stats::predict(object, newdata = newdata, ...)$posterior
   mean(multiClassLogit(pr, which.class = which.class), na.rm = TRUE)
 }
 
 
 #' @keywords internal
-getPDClassProb.lda <- function(object, newdata, which.class, ...) {
+getParClsProb.lda <- function(object, newdata, which.class, ...) {
   pr <- stats::predict(object, newdata = newdata, ...)$posterior
   mean(pr[, which.class], na.rm = TRUE)
 }
 
 
 #' @keywords internal
-getPDClassLogit.nnet <- function(object, newdata, which.class, ...) {
+getParClsLogit.nnet <- function(object, newdata, which.class, ...) {
   pr <- if (inherits(object, "multinom")) {
     stats::predict(object, newdata = newdata, type = "probs", ...)
   } else {
@@ -203,7 +174,7 @@ getPDClassLogit.nnet <- function(object, newdata, which.class, ...) {
 
 
 #' @keywords internal
-getPDClassProb.nnet <- function(object, newdata, which.class, ...) {
+getParClsProb.nnet <- function(object, newdata, which.class, ...) {
   pr <- if (inherits(object, "multinom")) {
     stats::predict(object, newdata = newdata, type = "probs", ...)
   } else {
@@ -222,14 +193,14 @@ getPDClassProb.nnet <- function(object, newdata, which.class, ...) {
 
 
 #' @keywords internal
-getPDClassLogit.qda <- function(object, newdata, which.class, ...) {
+getParClsLogit.qda <- function(object, newdata, which.class, ...) {
   pr <- stats::predict(object, newdata = newdata, ...)$posterior
   mean(multiClassLogit(pr, which.class = which.class), na.rm = TRUE)
 }
 
 
 #' @keywords internal
-getPDClassProb.qda <- function(object, newdata, which.class, ...) {
+getParClsProb.qda <- function(object, newdata, which.class, ...) {
   pr <- stats::predict(object, newdata = newdata, ...)$posterior
   mean(pr[, which.class], na.rm = TRUE)
 }
@@ -237,7 +208,7 @@ getPDClassProb.qda <- function(object, newdata, which.class, ...) {
 
 
 #' @keywords internal
-getPDClassLogit.RandomForest <- function(object, newdata, which.class, ...) {
+getParClsLogit.RandomForest <- function(object, newdata, which.class, ...) {
   pr <- stats::predict(object, newdata = newdata, type = "prob", ...)
   mean(multiClassLogit(do.call(rbind, pr), which.class = which.class),
        na.rm = TRUE)
@@ -245,14 +216,14 @@ getPDClassLogit.RandomForest <- function(object, newdata, which.class, ...) {
 
 
 #' @keywords internal
-getPDClassProb.RandomForest <- function(object, newdata, which.class, ...) {
+getParClsProb.RandomForest <- function(object, newdata, which.class, ...) {
   pr <- stats::predict(object, newdata = newdata, type = "prob", ...)
   mean(do.call(rbind, pr)[, which.class], na.rm = TRUE)
 }
 
 
 #' @keywords internal
-getPDClassLogit.ranger <- function(object, newdata, which.class, ...) {
+getParClsLogit.ranger <- function(object, newdata, which.class, ...) {
   if (object$treetype != "Probability estimation") {
     stop(paste("Cannot obtain predicted probabilities from",
                deparse(substitute(object))))
@@ -263,7 +234,7 @@ getPDClassLogit.ranger <- function(object, newdata, which.class, ...) {
 
 
 #' @keywords internal
-getPDClassProb.ranger <- function(object, newdata, which.class, ...) {
+getParClsProb.ranger <- function(object, newdata, which.class, ...) {
   if (object$treetype != "Probability estimation") {
     stop(paste("Cannot obtain predicted probabilities from",
                deparse(substitute(object))))
@@ -274,7 +245,7 @@ getPDClassProb.ranger <- function(object, newdata, which.class, ...) {
 
 
 #' @keywords internal
-getPDClassLogit.svm <- function(object, newdata, which.class, ...) {
+getParClsLogit.svm <- function(object, newdata, which.class, ...) {
   if (is.null(object$call$probability)) {
     stop(paste("Cannot obtain predicted probabilities from",
                deparse(substitute(object))))
@@ -286,7 +257,7 @@ getPDClassLogit.svm <- function(object, newdata, which.class, ...) {
 
 
 #' @keywords internal
-getPDClassProb.svm <- function(object, newdata, which.class, ...) {
+getParClsProb.svm <- function(object, newdata, which.class, ...) {
   if (is.null(object$call$probability)) {
     stop(paste("Cannot obtain predicted probabilities from",
                deparse(substitute(object))))
@@ -298,7 +269,7 @@ getPDClassProb.svm <- function(object, newdata, which.class, ...) {
 
 
 #' @keywords internal
-getPDClassLogit.xgb.Booster <- function(object, newdata, which.class,
+getParClsLogit.xgb.Booster <- function(object, newdata, which.class,
                                         ...) {
   pr <- stats::predict(object, newdata = newdata, reshape = TRUE, ...)
   if (object$params$objective == "binary:logistic") {
@@ -309,7 +280,7 @@ getPDClassLogit.xgb.Booster <- function(object, newdata, which.class,
 
 
 #' @keywords internal
-getPDClassProb.xgb.Booster <- function(object, newdata, which.class,
+getParClsProb.xgb.Booster <- function(object, newdata, which.class,
                                        ...) {
   pr <- stats::predict(object, newdata = newdata, reshape = TRUE, ...)
   if (object$params$objective == "binary:logistic") {

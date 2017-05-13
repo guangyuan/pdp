@@ -4,58 +4,78 @@
 #' \code{ggplot2} graphics.
 #'
 #' @param object An object that inherits from the \code{"partial"} class.
+#'
 #' @param center Logical indicating whether or not to produce centered ICE
-#'   curves (c-ICE curves). Only useful when \code{object} represents a set of
-#'   ICE curves; see \code{\link[pdp]{partial}} for details. Default is
-#'   \code{TRUE}.
+#' curves (c-ICE curves). Only useful when \code{object} represents a set of ICE
+#' curves; see \code{\link[pdp]{partial}} for details. Default is \code{FALSE}.
+#'
 #' @param plot.pdp Logical indicating whether or not to plot the partial
-#'   dependence function on top of the ICE curves. Default is \code{TRUE}.
+#' dependence function on top of the ICE curves. Default is \code{TRUE}.
+#'
 #' @param pdp.color Character string specifying the color to use for the partial
-#'   dependence function when \code{plot.pdp = TRUE}. Default is \code{"red"}.
+#' dependence function when \code{plot.pdp = TRUE}. Default is \code{"red"}.
+#'
 #' @param pdp.size The line width, a positive number, to use for the partial
-#'   dependence function when \code{plot.pdp = TRUE}. Default is \code{1}.
+#' dependence function when \code{plot.pdp = TRUE}. Default is \code{1}.
+#'
 #' @param rug Logical indicating whether or not to include rug marks on the
-#'   predictor axes. Default is \code{FALSE}.
+#' predictor axes. Default is \code{FALSE}.
+#'
 #' @param smooth Logical indicating whether or not to overlay a LOESS smooth.
-#'   Default is \code{FALSE}.
+#' Default is \code{FALSE}.
+#'
 #' @param smooth.method Character string specifying the smoothing method
-#'   (function) to use (e.g., \code{"auto"}, \code{"lm"}, \code{"glm"},
-#'   \code{"gam"}, \code{"loess"}, or \code{"rlm"}). Default is \code{"auto"}.
-#'   See \code{\link[ggplot2]{geom_smooth}} for details.
+#' (function) to use (e.g., \code{"auto"}, \code{"lm"}, \code{"glm"},
+#' \code{"gam"}, \code{"loess"}, or \code{"rlm"}). Default is \code{"auto"}.
+#' See \code{\link[ggplot2]{geom_smooth}} for details.
+#'
 #' @param smooth.formula Formula to use in smoothing function (e.g.,
-#'   \code{y ~ x}, \code{y ~ poly(x, 2)}, or \code{y ~ log(x)}).
+#' \code{y ~ x}, \code{y ~ poly(x, 2)}, or \code{y ~ log(x)}).
+#'
 #' @param smooth.span Controls the amount of smoothing for the default loess
-#'   smoother. Smaller numbers produce wigglier lines, larger numbers produce
-#'   smoother lines. Default is \code{0.75}.
+#' smoother. Smaller numbers produce wigglier lines, larger numbers produce
+#' smoother lines. Default is \code{0.75}.
+#'
 #' @param smooth.method.args List containing additional arguments to be passed
-#'   on to the modelling function defined by \code{smooth.method}.
+#' on to the modelling function defined by \code{smooth.method}.
+#'
 #' @param contour Logical indicating whether or not to add contour lines to the
-#'   level plot. Only used when \code{levelplot = TRUE}. Default is
-#'   \code{FALSE}.
+#' level plot. Only used when \code{levelplot = TRUE}. Default is \code{FALSE}.
+#'
 #' @param contour.color Character string specifying the color to use for the
-#'   contour lines when \code{contour = TRUE}. Default is \code{"white"}.
+#' contour lines when \code{contour = TRUE}. Default is \code{"white"}.
+#'
 #' @param palette If a string, will use that named palette. If a number, will
-#'   index into the list of palettes of appropriate type. Default is
-#'   \code{"Spectral"}.
-#' @param train Data frame containing the original training data. Only
-#'   required if \code{rug = TRUE} or \code{chull = TRUE}.
+#' index into the list of palettes of appropriate type. Default is
+#' \code{"Spectral"}.
+#'
+#' @param train Data frame containing the original training data. Only required
+#' if \code{rug = TRUE} or \code{chull = TRUE}.
+#'
 #' @param xlab Charater string specifying the text for the x-axis label.
+#'
 #' @param ylab Charater string specifying the text for the y-axis label.
+#'
 #' @param main Character string specifying the text for the main title of the
-#'   plot.
+#' plot.
+#'
 #' @param legend.title Charater string specifying the text for the legend title.
-#'   Default is \code{"yhat"}.
+#' Default is \code{"yhat"}.
+#'
 #' @param ... Additional optional arguments to be passed onto \code{geom_line}.
 #'
 #' @return A \code{"ggplot"} object.
 #'
 #' @importFrom ggplot2 aes_string autoplot facet_wrap geom_contour geom_line
+#'
 #' @importFrom ggplot2 geom_point geom_rug geom_smooth geom_tile ggplot ggtitle
+#'
 #' @importFrom ggplot2 scale_fill_distiller stat_summary theme_bw xlab ylab
 #'
 #' @rdname autoplot
+#'
 #' @export
-autoplot.partial <- function(object, center = TRUE, plot.pdp = TRUE,
+autoplot.partial <- function(object, center = FALSE, plot.pdp = TRUE,
                              pdp.color = "red", pdp.size = 1, rug = FALSE,
                              smooth = FALSE, smooth.method = "auto",
                              smooth.formula = y ~ x, smooth.span = 0.75,

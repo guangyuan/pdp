@@ -1,7 +1,7 @@
 #' @keywords internal
 #' @useDynLib pdp, .registration = TRUE
 #' @importFrom Rcpp sourceCpp
-pdGBM <- function(object, pred.var, pred.grid, which.class, prob, ...) {
+getParDepGBM <- function(object, pred.var, pred.grid, which.class, prob, ...) {
 
   # Extract number of trees
   dots <- list(...)

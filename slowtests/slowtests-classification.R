@@ -147,9 +147,9 @@ pdp.ipred.bagging <- partial(pima.ipred.bagging, pred.var = x)
 # kernlab::ksvm
 pdp.ksvm <- partial(pima.ksvm, pred.var = x, train = pima)
 
-# nnet
-pdp.nnet <- partial(pima.nnet, pred.var = x, type = "classification",
-                    which.class = 2)
+# # nnet
+# pdp.nnet <- partial(pima.nnet, pred.var = x, type = "classification",
+#                     which.class = 2)
 
 # party::ctree
 pdp.ctree <- partial(pima.ctree, pred.var = x)
@@ -190,7 +190,7 @@ grid.arrange(
   plotPartial(pdp.gbm, main = "gbm"),
   plotPartial(pdp.ipred.bagging, main = "ipred::bagging"),
   plotPartial(pdp.ksvm, main = "kernlab::ksvm"),
-  plotPartial(pdp.nnet, main = "nnet"),
+  # plotPartial(pdp.nnet, main = "nnet"),
   plotPartial(pdp.ctree, main = "party::ctree"),
   plotPartial(pdp.crf, main = "party::cforest"),
   plotPartial(pdp.partykit.ctree, main = "partykit::ctree"),

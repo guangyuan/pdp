@@ -24,6 +24,14 @@
 #' the minimum between \code{51} and the number of unique data points for each
 #' of the continuous independent variables listed in \code{pred.var}.
 #'
+#' @param ice Logical indicating whether or not to compute individual
+#' conditional expectation (ICE) curves. Default is \code{FALSE}. See
+#' Goldstein et al. (2014) for details.
+#'
+#' @param center Logical indicating whether or not to produce centered ICE
+#' curves (c-ICE curves). Only used when \code{ice = TRUE}. Default is
+#' \code{FALSE}. See Goldstein et al. (2014) for details.
+#'
 #' @param quantiles Logical indicating whether or not to use the sample
 #' quantiles of the continuous predictors listed in \code{pred.var}. If
 #' \code{quantiles = TRUE} and \code{grid.resolution = NULL} the sample
@@ -207,7 +215,7 @@
 #' pred.ice <- function(object, newdata) predict(object, newdata)
 #' rm.ice <- partial(boston.rf, pred.var = "rm", pred.fun = pred.ice)
 #' plotPartial(rm.ice, rug = TRUE, train = boston, alpha = 0.2)
-#' autoplot(rm.ice, center = FALSE, alpha = 0.2, rug = TRUE, train = boston)
+#' autoplot(rm.ice, alpha = 0.2, rug = TRUE, train = boston)
 #'
 #' #
 #' # Centered ICE curves (c-ICE curves) (requires dplyr and ggplot2 to run)
@@ -231,7 +239,7 @@
 #' grid.arrange(p1, p2, ncol = 2)
 #'
 #' # Or just use autoplot (the default is to center the curves first)
-#' autoplot(rm.ice, alpha = 0.2, rug = TRUE, train = boston)
+#' autoplot(rm.ice, center = TRUE, alpha = 0.2, rug = TRUE, train = boston)
 #'
 #' #
 #' # Classification example (requires randomForest package to run)
@@ -263,7 +271,7 @@ partial <- function(object, ...) {
 #' @rdname partial
 #' @export
 partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
-                            grid.resolution = NULL, #ice = FALSE, center = FALSE,
+                            grid.resolution = NULL, ice = FALSE, center = FALSE,
                             quantiles = FALSE, probs = 1:9/10,
                             trim.outliers = FALSE,
                             type = c("auto", "regression", "classification"),
@@ -305,9 +313,15 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
                      collapse = ", "), "not found in the training data."))
   }
 
-  # Throw informative error of one of the predictor variables is call "yhat"
+  # Throw an informative error if one of the predictor variables is call "yhat"
   if ("yhat" %in% pred.var) {
     stop("\"yhat\" cannot be a predictor name.")
+  }
+
+  # Throw an informative error if requesting ICE curves with more than one
+  # predictor
+  if (length(pred.var) != 1 && ice) {
+    stop("ICE curves cannot be constructed for multiple predictors.")
   }
 
   # Generate grid of predictor values
@@ -363,7 +377,7 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
 
     # Warn user if using inv.link when recursive = TRUE
     if (!is.null(inv.link)) {
-      warning("`inv.link` ignored whenever `recursive = TRUE`")
+      warning("`inv.link` option ignored whenever `recursive = TRUE`")
     }
 
     # Stop and notify user that pred.fun cannot be used when recursive = TRUE
@@ -384,52 +398,30 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
       stop("Option parallel cannot currently be used when recursive = TRUE.")
     }
 
-    # Use Friedman's weighted tree traversal approach to partial dependence
-    pd.df <- pdGBM(object, pred.var = pred.var, pred.grid = pred.grid,
-                   which.class = which.class, prob = prob, ...)
+    # Use Friedman's weighted tree traversal approach
+    pd.df <- getParDepGBM(object, pred.var = pred.var, pred.grid = pred.grid,
+                          which.class = which.class, prob = prob, ...)
 
   } else {
 
-    # Use brute force approach to partial dependence
-    pd.df <- if (!is.null(pred.fun)) {
-
-      # User-supplied prediction function
-      pdManual(object, pred.var = pred.var, pred.grid = pred.grid,
-               pred.fun = pred.fun, train = train, progress = progress,
-               parallel = parallel, paropts = paropts, ...)
-
+    # Use brute force approach
+    pd.df <- if (!is.null(pred.fun)) {  # user-supplied prediction function
+      getParDepMan(object, pred.var = pred.var, pred.grid = pred.grid,
+                   pred.fun = pred.fun, train = train, progress = progress,
+                   parallel = parallel, paropts = paropts, ...)
     } else if (type == "regression") {
-
-      if (isNonGaussianRegression(object)  && !is.null(inv.link)) {
-        # Traditional partial dependence based on averaged prediction; the
-        # predictions are first transformed via the function inv.link.
-        inv.link <- match.fun(inv.link)  # apply inverse link function first
-        pdInvLinkRegression(object, pred.var = pred.var, pred.grid = pred.grid,
-                            pred.fun = pred.fun, inv.link = inv.link,
-                            train = train, progress = progress,
-                            parallel = parallel, paropts = paropts, ...)
-      } else {
-        # Traditional partial dependence based on averaged predictions
-        pdRegression(object, pred.var = pred.var, pred.grid = pred.grid,
-                     pred.fun = pred.fun, train = train, progress = progress,
-                     parallel = parallel, paropts = paropts, ...)
-      }
-
+      getParDepReg(object, pred.var = pred.var, pred.grid = pred.grid,
+                   inv.link = inv.link, ice = ice, train = train,
+                   progress = progress, parallel = parallel,
+                   paropts = paropts, ...)
     } else if (type == "classification") {
-
-      # Traditional partial dependence based on averaged ceneted logits
-      pdClassification(object, pred.var = pred.var, pred.grid = pred.grid,
-                       pred.fun = pred.fun, which.class = which.class,
-                       prob = prob, train = train, progress = progress,
-                       parallel = parallel, paropts = paropts, ...)
-
+      getParDepCls(object, pred.var = pred.var, pred.grid = pred.grid,
+                   which.class = which.class, prob = prob, ice = ice,
+                   train = train, progress = progress, parallel = parallel,
+                   paropts = paropts, ...)
     } else {
-
-      # Stop and notify user that partil dependence values are only available
-      # for classification and regression problems
       stop(paste("Partial dependence values are currently only available",
                  "for classification and regression problems."))
-
     }
 
     # When train inherits from class "matrix" or "dgCMatrix", pd.df will only
@@ -443,20 +435,36 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
     }
 
     # Construct a "tidy" data frame from the results
-    if (any(grepl("^yhat\\.", names(pd.df)))) {  # multiple curves
+    if (ice || any(grepl("^yhat\\.", names(pd.df)))) {  # multiple curves
+
+      # Convert from wide to long format
       pd.df <- stats::reshape(pd.df,
                               varying = (length(pred.var) + 1):ncol(pd.df),
                               direction = "long")  # wide to long format
       pd.df$id <- NULL  # remove id column
       pd.df <- pd.df[, c(pred.var, "yhat", "time")]  # rearrange columns
       names(pd.df)[ncol(pd.df)] <- "yhat.id"  # rename "time" column
+
+      # c-ICE curves
+      if (center) {
+        pd.df <- pd.df %>%
+          dplyr::group_by_("yhat.id") %>%
+          dplyr::mutate_(yhat = "yhat - first(yhat)")
+        if (type == "classification" && prob) {
+          warning("Centering may cause negative probabilities.")
+          pd.df$yhat <- pd.df$yhat + 0.5
+        }
+      }
+
     } else {  # single curve
       names(pd.df) <- c(pred.var, "yhat")  # rename columns
     }
     rownames(pd.df) <- NULL  # remove row names
+
   }
 
-  class(pd.df) <- c("data.frame", "partial")    # assign classes
+  # Assign class labels
+  class(pd.df) <- c("data.frame", "partial")
 
   # Plot partial dependence function (if requested)
   if (plot) {  # return a graph (i.e., a "trellis" object)
@@ -467,6 +475,7 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
     res <- pd.df
   }
 
-  res  # return results
+  # Return results
+  res
 
 }

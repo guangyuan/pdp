@@ -35,10 +35,10 @@ pd.AveRooms <- partial(cal.gbm, pred.var = "AveRooms", quantiles = TRUE,
 # Partial dependence of AvgValue on AveOccup and HouseAge (together)
 pd.HouseAge.AveOccup <- partial(
   cal.gbm, pred.var = c("HouseAge", "AveOccup"), quantiles = TRUE,
-  probs = 5:95/100, n.trees = best.iter
+  probs = 5:95/100, n.trees = best.iter,
 )
 
-# PDPs
+# Single-predictor PDPs
 ylim <- c(1, 3.5)
 ylab <- "Partial dependence"
 grid.arrange(
@@ -49,6 +49,7 @@ grid.arrange(
   ncol = 2
 )
 
+# Two-predictor PDP
 grid.arrange(
   plotPartial(pd.HouseAge.AveOccup, levelplot = FALSE, zlab = "",
               scales = list(arrows = FALSE),

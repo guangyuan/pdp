@@ -38,13 +38,14 @@ getParDepGBM <- function(object, pred.var, pred.grid, which.class, prob, ...) {
 
   # Transform/rescale predicted values
   if (object$distribution$name == "multinomial") {
-    if (prob) {
-      pd.df$yhat <- mean(matrix(y, ncol = object$num.classes)[, which.class],
-                         na.rm = TRUE)
-    } else {
-      pd.df$yhat <- mean(multiClassLogit(matrix(y, ncol = object$num.classes),
-                                         which.class = which.class),
-                         na.rm = TRUE)
+    y <- matrix(y, ncol = object$num.classes)
+    colnames(y) <- object$classes
+    y <- exp(y)
+    y <- y / matrix(rowSums(y), ncol = ncol(y), nrow = nrow(y))
+    if (prob) {  # use class probabilities
+      pd.df$yhat <- y[, which.class]
+    } else {  # use centered logit
+      pd.df$yhat <- multiClassLogit(y, which.class = which.class)
     }
   } else if (object$distribution$name %in% c("bernoulli", "pairwise")) {
     pr <- boot::inv.logit(y)

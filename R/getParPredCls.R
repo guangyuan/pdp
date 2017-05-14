@@ -87,8 +87,15 @@ getParClsLogit.gbm <- function(object, newdata, which.class, ...) {
   invisible(utils::capture.output(
     pr <- stats::predict(object, newdata = newdata, type = "response", ...)
   ))
-  mean(multiClassLogit(cbind(pr, 1 - pr), which.class = which.class),
-       na.rm = TRUE)
+  # It seems that when the response has more than two levels, predict.gbm
+  # returns an array. When the response is binary, a vector with predictions
+  # for the positive class is returned returned.
+  if (ncol(pr) == 1) {
+    mean(multiClassLogit(cbind(pr, 1 - pr), which.class = which.class),
+         na.rm = TRUE)
+  } else {
+    mean(multiClassLogit(pr[, , 1], which.class = which.class), na.rm = TRUE)
+  }
 }
 
 
@@ -97,7 +104,14 @@ getParClsProb.gbm <- function(object, newdata, which.class, ...) {
   invisible(utils::capture.output(
     pr <- stats::predict(object, newdata = newdata, type = "response", ...)
   ))
-  mean(cbind(pr, 1 - pr)[, which.class], na.rm = TRUE)
+  # It seems that when the response has more than two levels, predict.gbm
+  # returns an array. When the response is binary, a vector with predictions
+  # for the positive class is returned returned.
+  if (ncol(pr) == 1) {
+    mean(cbind(pr, 1 - pr)[, which.class], na.rm = TRUE)
+  } else {
+    mean(pr[, which.class, 1], na.rm = TRUE)
+  }
 }
 
 

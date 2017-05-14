@@ -160,3 +160,35 @@ grid.arrange(
   parDepPlot2(boston.xgb, train = subset(boston, select = -cmedv)),
   ncol = 4
 )
+
+
+################################################################################
+# ICE curves
+################################################################################
+
+# For brevity
+plotIceCurves <- function(object, train = boston, ...) {
+  pd <- partial(object, pred.var = "lstat", grid.resolution = 10, ice = TRUE,
+                train = train, progress = "text", ...)
+  plotPartial(pd, main = deparse(substitute(object)), alpha = 0.25)
+}
+
+# Display PDPs in a rectangular grid
+grid.arrange(
+  plotIceCurves(boston.cubist),
+  plotIceCurves(boston.ctree),
+  plotIceCurves(boston.crf),
+  plotIceCurves(boston.earth),
+  plotIceCurves(boston.gbm, n.trees = best.iter),
+  plotIceCurves(boston.ipred.bagging),
+  plotIceCurves(boston.rf),
+  plotIceCurves(boston.ranger),
+  plotIceCurves(boston.rpart),
+  plotIceCurves(boston.lm),
+  plotIceCurves(boston.glm),
+  plotIceCurves(boston.svm),
+  plotIceCurves(boston.ksvm),
+  # plotIceCurves(boston.nnet),
+  plotIceCurves(boston.xgb, train = subset(boston, select = -cmedv)),
+  ncol = 4
+)

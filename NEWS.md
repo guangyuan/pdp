@@ -2,6 +2,8 @@
 
 ### Changes for version 0.5.3
 * Properly registered native routines and disabled symbol search.
+* Fixed bug for `gbm` objects with the multinomial distribution.
+* Refactored code to improve structure.
 
 ### Changes for version 0.5.2
 * Fixed minor pandoc conversion issue with `README.md`.

@@ -4,6 +4,7 @@
 * Properly registered native routines and disabled symbol search.
 * Fixed bug for `gbm` objects with the multinomial distribution.
 * Refactored code to improve structure.
+* `partial` gained three new options: `inv.link` (experimental), `ice`, and `center`. The latter two have to do with constructing individual conditional expectation (ICE) curves and cetered-ICE curves. The `inv.link` option is for transforming predictions from models that can use non-Gaussian distibutions (e.g., `glm`, `gbm`, and `xgboost`). Note that these options were added for convenience and the same results (plus much more) can still be obtined using the flexible `pred.fun` argument.
 
 ### Changes for version 0.5.2
 * Fixed minor pandoc conversion issue with `README.md`.

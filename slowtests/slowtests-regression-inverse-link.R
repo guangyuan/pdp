@@ -47,5 +47,11 @@ partial(mtcars.gbm, pred.var = "mpg", n.trees = best.iter, plot = TRUE)
 
 # Response scale
 plot(mtcars.gbm, i.var = "mpg", type = "response")
-partial(mtcars.gbm, pred.var = "mpg", recursive = FALSE, inv.link = exp,
-        n.trees = best.iter, plot = TRUE)
+grid.arrange(
+  partial(mtcars.gbm, pred.var = "mpg", recursive = FALSE,
+          n.trees = best.iter, plot = TRUE),
+  partial(mtcars.gbm, pred.var = "mpg", recursive = FALSE, inv.link = exp,
+          n.trees = best.iter, plot = TRUE),
+  ncol = 2
+)
+

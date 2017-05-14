@@ -71,14 +71,15 @@ Current options are \code{"auto"}, \code{"regression"} or
 \code{"classification"}. If \code{type = "auto"} then \code{partial} will try
 to extract the necessary information from \code{object}.}
 
-\item{inv.link}{Function specifying the transfrmation to be applied to the
-predictions when partial dependence is computed (experimental). Default is
-\code{NULL} (i.e., no transofrmation). This option is intended to be used for
-models that allow for non-Gaussian response variables (e.g., counts). For
-these models, predictions are not typically returned on the original response
-scale by default. For example, Poisson GBMs typically return predictions on
-the log scale. In this case setting \code{inv.link = exp} will return the
-partial dependence function on the response (i.e., raw count) scale.}
+\item{inv.link}{Function specifying the transformation to be applied to the
+predictions before the partial dependence function is computed
+(experimental). Default is \code{NULL} (i.e., no transofrmation). This option
+is intended to be used for models that allow for non-Gaussian response
+variables (e.g., counts). For these models, predictions are not typically
+returned on the original response scale by default. For example, Poisson GBMs
+typically return predictions on the log scale. In this case setting
+\code{inv.link = exp} will return the partial dependence function on the
+response (i.e., raw count) scale.}
 
 \item{which.class}{Integer specifying which column of the matrix of predicted
 probabilities to use as the "focus" class. Default is to use the first class.

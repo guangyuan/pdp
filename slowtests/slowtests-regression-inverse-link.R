@@ -46,6 +46,8 @@ plot(mtcars.gbm, i.var = "mpg")
 partial(mtcars.gbm, pred.var = "mpg", n.trees = best.iter, plot = TRUE)
 
 # Response scale
+par(mfrow = c(1, 2))
+plot(mtcars.gbm, i.var = "mpg", type = "link")
 plot(mtcars.gbm, i.var = "mpg", type = "response")
 grid.arrange(
   partial(mtcars.gbm, pred.var = "mpg", recursive = FALSE,

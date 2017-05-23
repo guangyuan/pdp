@@ -28,15 +28,15 @@
 #' Load required packages
 #' library(ggplot2)
 #' library(randomForest)
-#' 
+#'
 #' # Fit a random forest to the mtcars dataset
 #' data(mtcars, package = "datasets")
 #' set.seed(101)
 #' mtcars.rf <- randomForest(mpg ~ ., data = mtcars, mtry = 5, importance = TRUE)
-#' 
+#'
 #' # Topfour predictors
 #' top4 <- topPredictors(mtcars.rf, n = 4)
-#' 
+#'
 #' # Construct partial dependence functions for top four predictors
 #' pd <- NULL
 #' for (i in top4) {
@@ -44,7 +44,7 @@
 #'   names(tmp) <- c("x", "y")
 #'   pd <- rbind(pd,  cbind(tmp, predictor = i))
 #' }
-#' 
+#'
 #' # Display partial dependence functions
 #' ggplot(pd, aes(x, y)) +
 #'   geom_line() +
@@ -61,7 +61,7 @@ topPredictors <- function(object, n = 1L, ...) {
 #' @rdname topPredictors
 #' @export
 topPredictors.default <- function(object, n = 1L, ...) {
-  imp <- caret::varImp(object)
+  imp <- caret::varImp(object, ...)
   if (n > nrow(imp)) {
     n <- nrow(imp)
   }
@@ -73,7 +73,7 @@ topPredictors.default <- function(object, n = 1L, ...) {
 #' @rdname topPredictors
 #' @export
 topPredictors.train <- function(object, n = 1L, ...) {
-  imp <- caret::varImp(object)$importance
+  imp <- caret::varImp(object, ...)$importance
   if (n > nrow(imp)) {
     n <- nrow(imp)
   }

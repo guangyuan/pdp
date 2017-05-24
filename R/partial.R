@@ -283,13 +283,18 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
                             check.class = TRUE, progress = "none",
                             parallel = FALSE, paropts = NULL, ...) {
 
-  # Match prediction function if given
+  # Check prediction function if given
   if (!is.null(pred.fun)) {
     pred.fun <- match.fun(pred.fun)
     if (!identical(names(formals(pred.fun)), c("object", "newdata"))) {
       stop(paste0("pred.fun requires a function with only two arguments: ",
                   "object, and newdata."))
     }
+  }
+
+  # Match inverse link function if given
+  if (!is.null(inv.link)) {
+    inv.link <- match.fun(inv.link)
   }
 
   # Try to extract training data (hard problem) if not provided

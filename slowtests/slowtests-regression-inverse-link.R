@@ -13,26 +13,38 @@ pfun <- function(object, newdata) {
   mean(exp(predict(object, newdata = as.matrix(newdata))))
 }
 
-# One variable
-bst %>%
+# Passing user-specified prediction function
+p1 <- bst %>%
   partial(pred.var = "mpg", pred.fun = pfun, train = mtcars[, -11]) %>%
-  autoplot() +
+  autoplot(main = "Count scale using pred.fun") +
   ylab("Number of carburetors") +
   theme_light()
 
-# One variable
-bst %>%
+# Passing a function to `inv.link`
+p2 <- bst %>%
   partial(pred.var = "mpg", inv.link = exp, train = mtcars[, -11],
           recursive = FALSE) %>%
-  autoplot() +
+  autoplot(main = "Count scale using inv.link: function") +
   ylab("Number of carburetors") +
   theme_light()
 
-bst %>%
-  partial(pred.var = "mpg", train = mtcars[, -11]) %>%
-  autoplot() +
+# Passing a character string to `inv.link`
+p3 <- bst %>%
+  partial(pred.var = "mpg", inv.link = "exp", train = mtcars[, -11],
+          recursive = FALSE) %>%
+  autoplot(main = "Count scale using inv.link: character string") +
   ylab("Number of carburetors") +
   theme_light()
+
+# Passing NULL
+p4 <- bst %>%
+  partial(pred.var = "mpg", train = mtcars[, -11]) %>%
+  autoplot(main = "Default scale") +
+  ylab("Number of carburetors") +
+  theme_light()
+
+# Compare plots
+grid.arrange(p1, p2, p3, p4, ncol = 2)
 
 set.seed(101)
 mtcars.gbm <- gbm(carb ~ ., data = mtcars, distribution = "poisson",

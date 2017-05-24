@@ -79,7 +79,7 @@ getParPredRegInvLink.gbm <- function(object, newdata, inv.link, ...) {
 
 
 #' @keywords internal
-getParPredRegInvLink.ksvm <- function(object, newdata, ...) {
+getParPredRegInvLink.ksvm <- function(object, newdata, inv.link, ...) {
   pred <- kernlab::predict(object, newdata = newdata, ...)[, 1L, drop = TRUE]
   pred <- pred[!is.na(pred)]
   mean(inv.link(pred))
@@ -87,7 +87,7 @@ getParPredRegInvLink.ksvm <- function(object, newdata, ...) {
 
 
 #' @keywords internal
-getParPredRegInvLink.mars <- function(object, newdata, ...) {
+getParPredRegInvLink.mars <- function(object, newdata, inv.link, ...) {
   pred <- stats::predict(object, newdata = data.matrix(newdata),
                          ...)[, 1L, drop = TRUE]
   pred <- pred[!is.na(pred)]
@@ -96,7 +96,7 @@ getParPredRegInvLink.mars <- function(object, newdata, ...) {
 
 
 #' @keywords internal
-getParPredRegInvLink.ranger <- function(object, newdata, ...) {
+getParPredRegInvLink.ranger <- function(object, newdata, inv.link, ...) {
   pred <- stats::predict(object, data = newdata, ...)$predictions
   pred <- pred[!is.na(pred)]
   mean(inv.link(pred))

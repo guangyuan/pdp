@@ -62,7 +62,7 @@ orderGrid <- function(x) {
 
 #' @keywords internal
 orderGrid.data.frame <- function(x) {
-  x[do.call(order, x), ]
+  x[do.call(order, x), , drop = FALSE]
 }
 
 

@@ -211,7 +211,8 @@ superType.randomForest <- function(object) {
 superType.ranger <- function(object) {
   if (object$treetype == "Regression") {
     "regression"
-  } else if (object$treetype == "Probability estimation") {
+  } else if (object$treetype %in% 
+             c("Classification", "Probability estimation")) {
     "classification"
   } else {
     "other"

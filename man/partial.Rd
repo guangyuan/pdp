@@ -144,12 +144,17 @@ parallel using a backend provided by the \code{foreach} package. Default is
 \code{\link[foreach]{foreach}} when \code{parallel = TRUE}.}
 }
 \value{
-If \code{plot = FALSE} (the default) \code{partial} returns a data
-frame with the additional class \code{"partial"}; this class is specially
-recognized by the \code{plotPartial} and \code{autoplot} functions. If
-\code{plot = TRUE} then \code{partial} returns a "trellis" object (see
-\code{\link[lattice]{lattice}} for details) with an additional attribute,
-\code{"partial.data"}, containing the data displayed in the plot.
+By default, \code{partial} returns an object of class
+\code{c("data.frame", "partial")}. If \code{ice = TRUE} and
+\code{center = FALSE} then an object of class \code{c("data.frame", "ice")}
+is returned. If \code{ice = TRUE} and \code{center = TRUE} then an object of
+class \code{c("data.frame", "cice")} is returned. These three classes
+determine the behavior of the \code{plotPartial} function which is
+automatically called whenever \code{plot = TRUE}. Specifically, when
+\code{plot = TRUE}, a \code{"trellis"} object is returned (see
+\code{\link[lattice]{lattice}} for details); the \code{"trellis"} object will
+also include an additional attribute, \code{"partial.data"}, containing the
+data displayed in the plot.
 }
 \description{
 Compute partial dependence functions (i.e., marginal effects) for various
@@ -175,11 +180,11 @@ sufficient.
 It is possible to retrieve the last printed \code{"trellis"} object, such as
 those produced by \code{plotPartial}, using \code{trellis.last.object()}.
 
-If the prediction function given to \code{pred.fun} returns a prediction for
-each observation in \code{newdata}, then the result will be a PDP for each
-observation. These are called individual conditional expectation (ICE)
-curves; see Goldstein et al. (2015) and \code{\link[ICEbox]{ice}} for
-details.
+If \code{ice = TRUE} or the prediction function given to \code{pred.fun}
+returns a prediction for each observation in \code{newdata}, then the result
+will be a curve for each observation. These are called individual conditional
+expectation (ICE) curves; see Goldstein et al. (2015) and
+\code{\link[ICEbox]{ice}} for details.
 }
 \examples{
 \dontrun{

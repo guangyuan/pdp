@@ -5,11 +5,11 @@
 \title{Plotting Partial Dependence Functions}
 \usage{
 \method{autoplot}{partial}(object, center = FALSE, plot.pdp = TRUE,
-  pdp.color = "red", pdp.size = 1, rug = FALSE, smooth = FALSE,
-  smooth.method = "auto", smooth.formula = y ~ x, smooth.span = 0.75,
-  smooth.method.args = list(), contour = FALSE, contour.color = "white",
-  palette = "Spectral", train = NULL, xlab = NULL, ylab = NULL,
-  main = NULL, legend.title = NULL, ...)
+  pdp.color = "red", pdp.size = 1, pdp.linetype = 1, rug = FALSE,
+  smooth = FALSE, smooth.method = "auto", smooth.formula = y ~ x,
+  smooth.span = 0.75, smooth.method.args = list(), contour = FALSE,
+  contour.color = "white", palette = "Spectral", train = NULL,
+  xlab = NULL, ylab = NULL, main = NULL, legend.title = NULL, ...)
 }
 \arguments{
 \item{object}{An object that inherits from the \code{"partial"} class.}
@@ -24,8 +24,11 @@ dependence function on top of the ICE curves. Default is \code{TRUE}.}
 \item{pdp.color}{Character string specifying the color to use for the partial
 dependence function when \code{plot.pdp = TRUE}. Default is \code{"red"}.}
 
-\item{pdp.size}{The line width, a positive number, to use for the partial
-dependence function when \code{plot.pdp = TRUE}. Default is \code{1}.}
+\item{pdp.size}{Positive number specifying the line width to use for the
+partial dependence function when \code{plot.pdp = TRUE}. Default is \code{1}.}
+
+\item{pdp.linetype}{Positive number specifying the line type to use for the
+partial dependence function when \code{plot.pdp = TRUE}. Default is \code{1}.}
 
 \item{rug}{Logical indicating whether or not to include rug marks on the
 predictor axes. Default is \code{FALSE}.}
@@ -78,5 +81,5 @@ A \code{"ggplot"} object.
 }
 \description{
 Plots partial dependence functions (i.e., marginal effects) using
-\code{ggplot2} graphics.
+\code{\link[ggplot2]{ggplot2}} graphics.
 }

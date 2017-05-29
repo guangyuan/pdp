@@ -43,7 +43,7 @@ boston.cubist <- cubist(x = subset(boston, select = -cmedv),
 boston.svm <- svm(cmedv ~ ., data = boston, type = "eps-regression")
 
 # earth
-boston.earth <- earth(cmedv ~ ., data = boston, degree = 1)
+boston.earth <- earth(cmedv ~ ., data = boston, degree = 3)
 
 # gbm
 set.seed(101)
@@ -86,10 +86,10 @@ boston.ranger <- ranger(cmedv ~ ., data = boston)
 boston.rpart <- rpart(cmedv ~ ., data = boston)
 
 # stats::lm
-boston.lm <- lm(cmedv ~ ., data = boston)
+boston.lm <- lm(cmedv ~ .^2, data = boston)
 
 # stats::glm
-boston.glm <- glm(cmedv ~ ., data = boston, family = gaussian)
+boston.glm <- glm(cmedv ~ .^2, data = boston, family = gaussian)
 
 # xgboost
 set.seed(101)
@@ -169,7 +169,7 @@ grid.arrange(
 # For brevity
 plotIceCurves <- function(object, train = boston, ...) {
   pd <- partial(object, pred.var = "lstat", grid.resolution = 10, ice = TRUE,
-                train = train, progress = "text", ...)
+                center = TRUE, train = train, progress = "text", ...)
   plotPartial(pd, main = deparse(substitute(object)), alpha = 0.25)
 }
 

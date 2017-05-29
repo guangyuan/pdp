@@ -129,12 +129,17 @@
 #' @param ... Additional optional arguments to be passed onto
 #' \code{\link[stats]{predict}}.
 #'
-#' @return If \code{plot = FALSE} (the default) \code{partial} returns a data
-#' frame with the additional class \code{"partial"}; this class is specially
-#' recognized by the \code{plotPartial} and \code{autoplot} functions. If
-#' \code{plot = TRUE} then \code{partial} returns a "trellis" object (see
-#' \code{\link[lattice]{lattice}} for details) with an additional attribute,
-#' \code{"partial.data"}, containing the data displayed in the plot.
+#' @return By default, \code{partial} returns an object of class
+#' \code{c("data.frame", "partial")}. If \code{ice = TRUE} and
+#' \code{center = FALSE} then an object of class \code{c("data.frame", "ice")}
+#' is returned. If \code{ice = TRUE} and \code{center = TRUE} then an object of
+#' class \code{c("data.frame", "cice")} is returned. These three classes
+#' determine the behavior of the \code{plotPartial} function which is
+#' automatically called whenever \code{plot = TRUE}. Specifically, when
+#' \code{plot = TRUE}, a \code{"trellis"} object is returned (see
+#' \code{\link[lattice]{lattice}} for details); the \code{"trellis"} object will
+#' also include an additional attribute, \code{"partial.data"}, containing the
+#' data displayed in the plot.
 #'
 #' @note
 #' In some cases it is difficult for \code{partial} to extract the original
@@ -156,11 +161,11 @@
 #' It is possible to retrieve the last printed \code{"trellis"} object, such as
 #' those produced by \code{plotPartial}, using \code{trellis.last.object()}.
 #'
-#' If the prediction function given to \code{pred.fun} returns a prediction for
-#' each observation in \code{newdata}, then the result will be a PDP for each
-#' observation. These are called individual conditional expectation (ICE)
-#' curves; see Goldstein et al. (2015) and \code{\link[ICEbox]{ice}} for
-#' details.
+#' If \code{ice = TRUE} or the prediction function given to \code{pred.fun}
+#' returns a prediction for each observation in \code{newdata}, then the result
+#' will be a curve for each observation. These are called individual conditional
+#' expectation (ICE) curves; see Goldstein et al. (2015) and
+#' \code{\link[ICEbox]{ice}} for details.
 #'
 #' @references
 #' J. H. Friedman. Greedy function approximation: A gradient boosting machine.
@@ -287,7 +292,7 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
   if (!is.null(pred.fun)) {
     pred.fun <- match.fun(pred.fun)
     if (!identical(names(formals(pred.fun)), c("object", "newdata"))) {
-      stop(paste0("pred.fun requires a function with only two arguments: ",
+      stop(paste0("`pred.fun` requires a function with only two arguments: ",
                   "object, and newdata."))
     }
   }
@@ -337,7 +342,7 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
              probs = probs, trim.outliers = trim.outliers)
   } else {
     if (!is.data.frame(pred.grid)) {
-      stop("pred.grid shoud be a data frame.")
+      stop("`pred.grid` shoud be a data frame.")
     } else {
       # Throw error if colnames(pred.grid) does not match pred.var
       if (!all(pred.var %in% colnames(pred.grid))) {
@@ -346,8 +351,8 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
       } else {
         # Throw warning if quantiles or trim.outliers options used
         if (quantiles || trim.outliers) {
-          warning(paste("Options quantiles and trim.outliers",
-                        "ignored when pred.grid is specified."))
+          warning(paste("Options `quantiles` and `trim.outliers`",
+                        "ignored whenever `pred.grid` is specified."))
         }
         orderGrid(pred.grid)
       }
@@ -378,8 +383,14 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
     type <- superType(object)  # determine if regression or classification
   }
 
+  # Display warning for GBM objects when recursive = TRUE and ice = TRUE
+  if (inherits(object, "gbm") && recursive && ice) {
+    warning("Recursive method not available for \"gbm\" objects when `ice = ",
+            "TRUE`. Using brute force method instead.")
+  }
+
   # Calculate partial dependence values
-  if (inherits(object, "gbm") && recursive) {  # use weighted tree traversal
+  if (inherits(object, "gbm") && recursive && !ice) {  # weighted tree traversal
 
     # Warn user if using inv.link when recursive = TRUE
     if (!is.null(inv.link)) {
@@ -389,19 +400,19 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
     # Stop and notify user that pred.fun cannot be used when recursive = TRUE
     # with "gbm" objects
     if (!is.null(pred.fun)) {
-      stop("Option pred.fun cannot currently be used when recursive = TRUE.")
+      stop("Option `pred.fun` cannot currently be used when `recursive = TRUE`.")
     }
 
     # Notify user that progress bars are not avaiable for "gbm" objects when
     # recursive = TRUE
     if (progress != "none") {
-      message("Progress bars are not availble when recursive = TRUE.")
+      message("Progress bars are not availble when `recursive = TRUE`.")
     }
 
     # Stop and notify user that parallel functionality is currently not
     # available for "gbm" objects when recursive = TRUE
     if (parallel) {
-      stop("Option parallel cannot currently be used when recursive = TRUE.")
+      stop("Option `parallel` cannot currently be used when `recursive = TRUE`.")
     }
 
     # Use Friedman's weighted tree traversal approach
@@ -470,12 +481,30 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
   }
 
   # Assign class labels
-  class(pd.df) <- c("data.frame", "partial")
+  class(pd.df) <- if (ice) {
+    if (center) {
+      c("data.frame", "cice")
+    } else {
+      c("data.frame", "ice")
+    }
+  } else {
+    c("data.frame", "partial")
+  }
 
   # Plot partial dependence function (if requested)
   if (plot) {  # return a graph (i.e., a "trellis" object)
-    res <- plotPartial(pd.df, smooth = smooth, rug = rug, train = train,
-                       col.regions = viridis::viridis)  # returns a "trellis" object
+    res <- if (ice) {
+      if (center) {
+        plotPartial(pd.df, plot.pdp = TRUE, rug = rug, train = train,
+                    col.regions = viridis::viridis, alpha = 0.5)
+      } else {
+        plotPartial(pd.df, center = FALSE, plot.pdp = TRUE, rug = rug,
+                    train = train, col.regions = viridis::viridis, alpha = 0.5)
+      }
+    } else {
+      plotPartial(pd.df, smooth = smooth, rug = rug, train = train,
+                  col.regions = viridis::viridis)
+    }
     attr(res, "partial.data") <- pd.df  # attach partial data as an attribute
   } else {  # return a data frame (i.e., a "data.frame" and "partial" object)
     res <- pd.df

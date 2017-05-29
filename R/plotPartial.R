@@ -1,43 +1,73 @@
 #' Plotting Partial Dependence Functions
 #'
 #' Plots partial dependence functions (i.e., marginal effects) using
-#' \code{lattice} graphics.
+#' \code{\link[lattice]{lattice}} graphics.
 #'
 #' @param x An object that inherits from the \code{"partial"} class.
+#'
+#' @param center Logical indicating whether or not to produce centered ICE
+#' curves (c-ICE curves). Only useful when \code{object} represents a set of ICE
+#' curves; see \code{\link[pdp]{partial}} for details. Default is \code{FALSE}.
+#'
+#' @param plot.pdp Logical indicating whether or not to plot the partial
+#' dependence function on top of the ICE curves. Default is \code{TRUE}.
+#'
+#' @param pdp.col Character string specifying the color to use for the partial
+#' dependence function when \code{plot.pdp = TRUE}. Default is \code{"red"}.
+#'
+#' @param pdp.lwd Integer specifying the line width to use for the partial
+#' dependence function when \code{plot.pdp = TRUE}. Default is \code{1}. See
+#' \code{\link[graphics]{par}} for more details.
+#'
+#' @param pdp.lty Integer or character string specifying the line type to use
+#' for the partial dependence function when  \code{plot.pdp = TRUE}. Default is
+#' \code{1}. See \code{\link[graphics]{par}} for more details.
+#'
 #' @param smooth Logical indicating whether or not to overlay a LOESS smooth.
-#'   Default is \code{FALSE}.
+#' Default is \code{FALSE}.
+#'
 #' @param rug Logical indicating whether or not to include rug marks on the
-#'   predictor axes. Default is \code{FALSE}.
-#' @param chull Logical indicating wether or not to restrict the first
-#'   two variables in \code{pred.var} to lie within the convex hull of their
-#'   training values; this affects \code{pred.grid}. Default is \code{FALSE}.
+#' predictor axes. Default is \code{FALSE}.
+#'
+#' @param chull Logical indicating wether or not to restrict the first two
+#' variables in \code{pred.var} to lie within the convex hull of their training
+#' values; this affects \code{pred.grid}. Default is \code{FALSE}.
+#'
 #' @param levelplot Logical indicating whether or not to use a false color level
-#'   plot (\code{TRUE}) or a 3-D surface (\code{FALSE}). Default is \code{TRUE}.
+#' plot (\code{TRUE}) or a 3-D surface (\code{FALSE}). Default is \code{TRUE}.
+#'
 #' @param contour Logical indicating whether or not to add contour lines to the
-#'   level plot. Only used when \code{levelplot = TRUE}. Default is
-#'   \code{FALSE}.
+#' level plot. Only used when \code{levelplot = TRUE}. Default is \code{FALSE}.
+#'
 #' @param number Integer specifying the number of conditional intervals to use
-#'   for the continuous panel variables. See
-#'   \code{\link[graphics]{co.intervals}} and \code{\link[lattice]{equal.count}}
-#'   for further details.
+#' for the continuous panel variables. See \code{\link[graphics]{co.intervals}}
+#' and \code{\link[lattice]{equal.count}} for further details.
+#'
 #' @param overlap The fraction of overlap of the conditioning variables. See
-#'   \code{\link[graphics]{co.intervals}} and \code{\link[lattice]{equal.count}}
-#'   for further details.
-#' @param train Data frame containing the original training data. Only
-#'   required if \code{rug = TRUE} or \code{chull = TRUE}.
+#' \code{\link[graphics]{co.intervals}} and \code{\link[lattice]{equal.count}}
+#' for further details.
+#'
+#' @param train Data frame containing the original training data. Only required
+#' if \code{rug = TRUE} or \code{chull = TRUE}.
+#'
 #' @param col.regions Color vector to be used if \code{levelplot} is
-#'   \code{TRUE}. Defaults to the wonderful Matplotlib 'viridis' color map
-#'   provided by the \code{viridis} package. See \code{\link[viridis]{viridis}}
-#'   for details.
+#' \code{TRUE}. Defaults to the wonderful Matplotlib 'viridis' color map
+#' provided by the \code{viridis} package. See \code{\link[viridis]{viridis}}
+#' for details.
+#'
 #' @param ... Additional optional arguments to be passed onto \code{dotplot},
-#'   \code{levelplot}, \code{xyplot}, or \code{wireframe}.
+#' \code{levelplot}, \code{xyplot}, or \code{wireframe}.
 #'
 #' @importFrom lattice dotplot equal.count levelplot panel.dotplot
+#'
 #' @importFrom lattice panel.levelplot panel.lines panel.loess panel.xyplot
+#'
 #' @importFrom lattice panel.rug wireframe xyplot
 #'
 #' @rdname plotPartial
+#'
 #' @export
+#'
 #' @examples
 #' # See ?partial for examples
 #' ?partial
@@ -48,7 +78,29 @@ plotPartial <- function(x, ...) {
 
 #' @rdname plotPartial
 #' @export
-plotPartial.partial <- function(x, smooth = FALSE, rug = FALSE, chull = FALSE,
+plotPartial.ice <- function(x, center = FALSE, plot.pdp = TRUE,
+                            pdp.col = "red2", pdp.lwd = 2, pdp.lty = 1,
+                            rug = FALSE, train = NULL, ...) {
+  plotIceCurves(x, center = center, plot.pdp = plot.pdp, pdp.col = pdp.col,
+                pdp.lwd = pdp.lwd, pdp.lty = pdp.lty, rug = rug, train = train,
+                ...)
+}
+
+
+#' @rdname plotPartial
+#' @export
+plotPartial.cice <- function(x, plot.pdp = TRUE, pdp.col = "red2", pdp.lwd = 2,
+                             pdp.lty = 1, rug = FALSE, train = NULL, ...) {
+  plotCIceCurves(x, plot.pdp = plot.pdp, pdp.col = pdp.col, pdp.lwd = pdp.lwd,
+                 pdp.lty = pdp.lty, rug = rug, train = train, ...)
+}
+
+
+#' @rdname plotPartial
+#' @export
+plotPartial.partial <- function(x, center = FALSE, plot.pdp = TRUE,
+                                pdp.col = "red2", pdp.lwd = 2, pdp.lty = 1,
+                                smooth = FALSE, rug = FALSE, chull = FALSE,
                                 levelplot = TRUE, contour = FALSE, number = 4,
                                 overlap = 0.1, train = NULL,
                                 col.regions = viridis::viridis,
@@ -77,28 +129,30 @@ plotPartial.partial <- function(x, smooth = FALSE, rug = FALSE, chull = FALSE,
   if (multi) {
 
     # Multiple PDPs for a single predictor
-    p <- pdpMulti(x, rug = rug, train = train, ...)
+    p <- plotMultiPDFs(x, center = center, plot.pdp = plot.pdp,
+                       pdp.col = pdp.col, pdp.lwd = pdp.lwd, pdp.lty = pdp.lty,
+                       rug = rug, train = train, ...)
 
   } else if (nx == 1L) {
 
     # PDP for a single predictor
     p <- if (is.factor(x[[1L]])) {
-      pdpFactor(x, ...)
+      plotFacPDF(x, ...)
     } else {
-      pdpNumeric(x, rug = rug, smooth = smooth, train = train, ...)
+      plotNumPDF(x, rug = rug, smooth = smooth, train = train, ...)
     }
 
   } else if (nx == 2) {
 
     # PDP for two predictors
     p <- if (is.factor(x[[1L]]) && is.factor(x[[2L]])) {
-      pdpFactorFactor(x, ...)
+      plotFacFacPDF(x, ...)
     } else if (is.factor(x[[1L]]) || is.factor(x[[2L]])) {
-      pdpNumericFactor(x, smooth = smooth, rug = rug, train = train, ...)
+      plotNumFacPDF(x, smooth = smooth, rug = rug, train = train, ...)
     } else {
-      pdpNumericNumeric(x, levelplot = levelplot, contour = contour, rug = rug,
-                        chull = chull, train = train, col.regions = col.regions,
-                        ...)
+      plotNumNumPDF(x, levelplot = levelplot, contour = contour, rug = rug,
+                    chull = chull, train = train, col.regions = col.regions,
+                    ...)
     }
 
   } else {
@@ -112,14 +166,13 @@ plotPartial.partial <- function(x, smooth = FALSE, rug = FALSE, chull = FALSE,
 
     # PDP for more than two predictors
     p <- if (is.factor(x[[1L]]) && is.factor(x[[2L]])) {
-      pdpFactorFactorShingle(x, nx = nx, ...)
+      plotFacFacShiPDF(x, nx = nx, ...)
     } else if (is.factor(x[[1L]]) || is.factor(x[[2L]])) {
-      pdpNumericFactorShingle(x, nx = nx, smooth = smooth, rug = rug,
-                              train = train, ...)
+      plotNumFacShiPDF(x, nx = nx, smooth = smooth, rug = rug, train = train,
+                       ...)
     } else {
-      pdpNumericNumericShingle(x, nx = nx, levelplot = levelplot,
-                               contour = contour, col.regions = col.regions,
-                               ...)
+      plotNumNumShiPDF(x, nx = nx, levelplot = levelplot, contour = contour,
+                       col.regions = col.regions, ...)
 
     }
 
@@ -132,7 +185,58 @@ plotPartial.partial <- function(x, smooth = FALSE, rug = FALSE, chull = FALSE,
 
 
 #' @keywords internal
-pdpMulti <- function(x, rug = FALSE, train = NULL, ...) {
+plotIceCurves <- function(x, plot.pdp, center, pdp.col, pdp.lwd, pdp.lty, rug,
+                          train, ...) {
+  if (is.factor(x[[1L]])) {
+    dotplot(stats::as.formula(paste("yhat ~", names(x)[1L])), data = x,
+            groups = x$yhat.id, type = "l", ...,
+            panel = function(xx, yy, ...) {
+              panel.dotplot(xx, yy, col = "black", ...)
+              if (rug) {
+                if (is.null(train)) {
+                  stop("The training data must be supplied for rug display.")
+                } else {
+                  panel.rug(stats::quantile(train[, names(x)[1L]],
+                                            probs = 0:10/10, na.rm = TRUE))
+                }
+              }
+            })
+  } else {
+    if (center) {  # c-ICE curves
+      x <- x %>%
+        dplyr::group_by_("yhat.id") %>%
+        dplyr::mutate_(yhat = "yhat - first(yhat)") %>%
+        ungroup()
+    }
+    xyplot(stats::as.formula(paste("yhat ~", names(x)[1L])), data = x,
+           groups = x$yhat.id, type = "l", ...,
+           panel = function(xx, yy, ...) {
+             panel.xyplot(xx, yy, col = "black", ...)
+             if (plot.pdp) {
+               pd <- x %>%
+                 dplyr::group_by(.[[1L]]) %>%
+                 dplyr::summarize(yhat = mean(yhat, na.rm = TRUE)) %>%
+                 dplyr::ungroup() %>%
+                 dplyr::rename(x = `.[[1L]]`)
+               panel.xyplot(pd$x, pd$yhat, type = "l", col = pdp.col,
+                            lwd = pdp.lwd, lty = pdp.lty)
+             }
+             if (rug) {
+               if (is.null(train)) {
+                 stop("The training data must be supplied for rug display.")
+               } else {
+                 panel.rug(stats::quantile(train[, names(x)[1L]],
+                                           probs = 0:10/10, na.rm = TRUE))
+               }
+             }
+           })
+  }
+}
+
+
+#' @keywords internal
+plotCIceCurves <- function(x, plot.pdp, pdp.col, pdp.lwd, pdp.lty, rug, train,
+                           ...) {
   if (is.factor(x[[1L]])) {
     dotplot(stats::as.formula(paste("yhat ~", names(x)[1L])), data = x,
             groups = x$yhat.id, type = "l", ...,
@@ -152,6 +256,15 @@ pdpMulti <- function(x, rug = FALSE, train = NULL, ...) {
            groups = x$yhat.id, type = "l", ...,
            panel = function(xx, yy, ...) {
              panel.xyplot(xx, yy, col = "black", ...)
+             if (plot.pdp) {
+               pd <- x %>%
+                 dplyr::group_by(.[[1L]]) %>%
+                 dplyr::summarize(yhat = mean(yhat, na.rm = TRUE)) %>%
+                 dplyr::ungroup() %>%
+                 dplyr::rename(x = `.[[1L]]`)
+               panel.xyplot(pd$x, pd$yhat, type = "l", col = pdp.col,
+                            lwd = pdp.lwd, lty = pdp.lty)
+             }
              if (rug) {
                if (is.null(train)) {
                  stop("The training data must be supplied for rug display.")
@@ -166,7 +279,57 @@ pdpMulti <- function(x, rug = FALSE, train = NULL, ...) {
 
 
 #' @keywords internal
-pdpNumeric <- function(x, smooth, rug, train = NULL, ...) {
+plotMultiPDFs <- function(x, plot.pdp, center, pdp.col, pdp.lwd, pdp.lty, rug,
+                          train, ...) {
+  if (is.factor(x[[1L]])) {
+    dotplot(stats::as.formula(paste("yhat ~", names(x)[1L])), data = x,
+            groups = x$yhat.id, type = "l", ...,
+            panel = function(xx, yy, ...) {
+              panel.dotplot(xx, yy, col = "black", ...)
+              if (rug) {
+                if (is.null(train)) {
+                  stop("The training data must be supplied for rug display.")
+                } else {
+                  panel.rug(stats::quantile(train[, names(x)[1L]],
+                                            probs = 0:10/10, na.rm = TRUE))
+                }
+              }
+            })
+  } else {
+    if (center) {
+      x <- x %>%
+        dplyr::group_by_("yhat.id") %>%
+        dplyr::mutate_(yhat = "yhat - first(yhat)") %>%
+        ungroup()
+    }
+    xyplot(stats::as.formula(paste("yhat ~", names(x)[1L])), data = x,
+           groups = x$yhat.id, type = "l", ...,
+           panel = function(xx, yy, ...) {
+             panel.xyplot(xx, yy, col = "black", ...)
+             if (plot.pdp) {
+               pd <- x %>%
+                 group_by(.[[1L]]) %>%
+                 summarize(yhat = mean(yhat, na.rm = TRUE)) %>%
+                 ungroup() %>%
+                 rename(x = `.[[1L]]`)
+               panel.xyplot(pd$x, pd$yhat, type = "l", col = pdp.col,
+                            lwd = pdp.lwd, lty = pdp.lty)
+             }
+             if (rug) {
+               if (is.null(train)) {
+                 stop("The training data must be supplied for rug display.")
+               } else {
+                 panel.rug(stats::quantile(train[, names(x)[1L]],
+                                           probs = 0:10/10, na.rm = TRUE))
+               }
+             }
+           })
+  }
+}
+
+
+#' @keywords internal
+plotNumPDF <- function(x, smooth, rug, train = NULL, ...) {
   xyplot(stats::as.formula(paste("yhat ~", names(x)[1L])), data = x,
          type = "l", ..., panel = function(xx, yy, ...) {
            panel.xyplot(xx, yy, col = "black", ...)
@@ -186,13 +349,13 @@ pdpNumeric <- function(x, smooth, rug, train = NULL, ...) {
 
 
 #' @keywords internal
-pdpFactor <- function(x, ...) {
+plotFacPDF <- function(x, ...) {
   dotplot(stats::as.formula(paste("yhat ~", names(x)[1L])), data = x, ...)
 }
 
 
 #' @keywords internal
-pdpFactorFactor <- function(x, ...) {
+plotFacFacPDF <- function(x, ...) {
   dotplot(stats::as.formula(paste("yhat ~",
                                   paste(names(x)[1L:2L], collapse = "|"))),
           data = x, ...)
@@ -200,7 +363,7 @@ pdpFactorFactor <- function(x, ...) {
 
 
 #' @keywords internal
-pdpNumericFactor <- function(x, smooth, rug, train, ...) {
+plotNumFacPDF <- function(x, smooth, rug, train, ...) {
 
   # Lattice plot formula
   form <- if (is.factor(x[[1L]])) {
@@ -230,8 +393,8 @@ pdpNumericFactor <- function(x, smooth, rug, train, ...) {
 
 
 #' @keywords internal
-pdpNumericNumeric <- function(x, levelplot, rug, chull, train, contour,
-                              col.regions, ...) {
+plotNumNumPDF <- function(x, levelplot, rug, chull, train, contour, col.regions,
+                          ...) {
 
   # Lattice plot formula
   form <- stats::as.formula(paste("yhat ~",
@@ -270,7 +433,7 @@ pdpNumericNumeric <- function(x, levelplot, rug, chull, train, contour,
                 }
               })
 
-  # Wireframe
+    # Wireframe
   } else {
 
     # Lattice-based three-dimensional wireframe plot
@@ -282,7 +445,7 @@ pdpNumericNumeric <- function(x, levelplot, rug, chull, train, contour,
 
 
 #' @keywords internal
-pdpFactorFactorShingle <- function(x, nx, ...) {
+plotFacFacShiPDF <- function(x, nx, ...) {
 
   # Produce a paneled dotplot
   dotplot(stats::as.formula(paste("yhat ~", names(x)[1L], "|",
@@ -293,7 +456,7 @@ pdpFactorFactorShingle <- function(x, nx, ...) {
 
 
 #' @keywords internal
-pdpNumericFactorShingle <- function(x, nx, smooth, rug, train, ...) {
+plotNumFacShiPDF <- function(x, nx, smooth, rug, train, ...) {
 
   # Lattice plot formula
   form <- if (is.factor(x[[1L]])) {
@@ -325,8 +488,7 @@ pdpNumericFactorShingle <- function(x, nx, smooth, rug, train, ...) {
 
 
 #' @keywords internal
-pdpNumericNumericShingle <- function(x, nx, levelplot, contour, col.regions,
-                                     ...) {
+plotNumNumShiPDF <- function(x, nx, levelplot, contour, col.regions, ...) {
 
   # Lattice plot formula
   form <- stats::as.formula(paste("yhat ~",

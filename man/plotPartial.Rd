@@ -2,14 +2,25 @@
 % Please edit documentation in R/plotPartial.R
 \name{plotPartial}
 \alias{plotPartial}
+\alias{plotPartial.ice}
+\alias{plotPartial.cice}
 \alias{plotPartial.partial}
 \title{Plotting Partial Dependence Functions}
 \usage{
 plotPartial(x, ...)
 
-\method{plotPartial}{partial}(x, smooth = FALSE, rug = FALSE,
-  chull = FALSE, levelplot = TRUE, contour = FALSE, number = 4,
-  overlap = 0.1, train = NULL, col.regions = viridis::viridis, ...)
+\method{plotPartial}{ice}(x, center = FALSE, plot.pdp = TRUE,
+  pdp.col = "red2", pdp.lwd = 2, pdp.lty = 1, rug = FALSE,
+  train = NULL, ...)
+
+\method{plotPartial}{cice}(x, plot.pdp = TRUE, pdp.col = "red2",
+  pdp.lwd = 2, pdp.lty = 1, rug = FALSE, train = NULL, ...)
+
+\method{plotPartial}{partial}(x, center = FALSE, plot.pdp = TRUE,
+  pdp.col = "red2", pdp.lwd = 2, pdp.lty = 1, smooth = FALSE,
+  rug = FALSE, chull = FALSE, levelplot = TRUE, contour = FALSE,
+  number = 4, overlap = 0.1, train = NULL,
+  col.regions = viridis::viridis, ...)
 }
 \arguments{
 \item{x}{An object that inherits from the \code{"partial"} class.}
@@ -17,34 +28,50 @@ plotPartial(x, ...)
 \item{...}{Additional optional arguments to be passed onto \code{dotplot},
 \code{levelplot}, \code{xyplot}, or \code{wireframe}.}
 
-\item{smooth}{Logical indicating whether or not to overlay a LOESS smooth.
-Default is \code{FALSE}.}
+\item{center}{Logical indicating whether or not to produce centered ICE
+curves (c-ICE curves). Only useful when \code{object} represents a set of ICE
+curves; see \code{\link[pdp]{partial}} for details. Default is \code{FALSE}.}
+
+\item{plot.pdp}{Logical indicating whether or not to plot the partial
+dependence function on top of the ICE curves. Default is \code{TRUE}.}
+
+\item{pdp.col}{Character string specifying the color to use for the partial
+dependence function when \code{plot.pdp = TRUE}. Default is \code{"red"}.}
+
+\item{pdp.lwd}{Integer specifying the line width to use for the partial
+dependence function when \code{plot.pdp = TRUE}. Default is \code{1}. See
+\code{\link[graphics]{par}} for more details.}
+
+\item{pdp.lty}{Integer or character string specifying the line type to use
+for the partial dependence function when  \code{plot.pdp = TRUE}. Default is
+\code{1}. See \code{\link[graphics]{par}} for more details.}
 
 \item{rug}{Logical indicating whether or not to include rug marks on the
 predictor axes. Default is \code{FALSE}.}
 
-\item{chull}{Logical indicating wether or not to restrict the first
-two variables in \code{pred.var} to lie within the convex hull of their
-training values; this affects \code{pred.grid}. Default is \code{FALSE}.}
+\item{train}{Data frame containing the original training data. Only required
+if \code{rug = TRUE} or \code{chull = TRUE}.}
+
+\item{smooth}{Logical indicating whether or not to overlay a LOESS smooth.
+Default is \code{FALSE}.}
+
+\item{chull}{Logical indicating wether or not to restrict the first two
+variables in \code{pred.var} to lie within the convex hull of their training
+values; this affects \code{pred.grid}. Default is \code{FALSE}.}
 
 \item{levelplot}{Logical indicating whether or not to use a false color level
 plot (\code{TRUE}) or a 3-D surface (\code{FALSE}). Default is \code{TRUE}.}
 
 \item{contour}{Logical indicating whether or not to add contour lines to the
-level plot. Only used when \code{levelplot = TRUE}. Default is
-\code{FALSE}.}
+level plot. Only used when \code{levelplot = TRUE}. Default is \code{FALSE}.}
 
 \item{number}{Integer specifying the number of conditional intervals to use
-for the continuous panel variables. See
-\code{\link[graphics]{co.intervals}} and \code{\link[lattice]{equal.count}}
-for further details.}
+for the continuous panel variables. See \code{\link[graphics]{co.intervals}}
+and \code{\link[lattice]{equal.count}} for further details.}
 
 \item{overlap}{The fraction of overlap of the conditioning variables. See
 \code{\link[graphics]{co.intervals}} and \code{\link[lattice]{equal.count}}
 for further details.}
-
-\item{train}{Data frame containing the original training data. Only
-required if \code{rug = TRUE} or \code{chull = TRUE}.}
 
 \item{col.regions}{Color vector to be used if \code{levelplot} is
 \code{TRUE}. Defaults to the wonderful Matplotlib 'viridis' color map
@@ -53,7 +80,7 @@ for details.}
 }
 \description{
 Plots partial dependence functions (i.e., marginal effects) using
-\code{lattice} graphics.
+\code{\link[lattice]{lattice}} graphics.
 }
 \examples{
 # See ?partial for examples

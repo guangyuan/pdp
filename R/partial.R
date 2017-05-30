@@ -466,7 +466,7 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
       if (center) {
         pd.df <- pd.df %>%
           dplyr::group_by_("yhat.id") %>%
-          dplyr::mutate_(yhat = "yhat - first(yhat)")
+          dplyr::mutate_("yhat" = "yhat - first(yhat)")
         if (type == "classification" && prob) {
           warning("Centering may cause negative probabilities.")
           pd.df$yhat <- pd.df$yhat + 0.5

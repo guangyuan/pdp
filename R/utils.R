@@ -38,6 +38,25 @@ NULL
 
 
 #' @keywords internal
+averageIceCurves <- function(x) {
+  UseMethod("averageIceCurves")
+}
+
+
+#' @keywords internal
+averageIceCurves.ice <- function(x) {
+  pred.name <- names(x)[1L]  # store predictor name
+  names(x)[1L] <- "x"  # use generic name for predictor
+  x <- x %>%  # average curves together
+    dplyr::group_by_("x") %>%
+    dplyr::summarize_("yhat" = "mean(yhat, na.rm = TRUE)") %>%
+    dplyr::ungroup()
+  names(x)[1L] <- pred.name  # restore predictor name
+  x
+}
+
+
+#' @keywords internal
 copyClasses <- function(x, y) {
   x.names <- names(x)
   y.names <- names(y)

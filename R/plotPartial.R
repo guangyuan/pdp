@@ -205,19 +205,15 @@ plotIceCurves <- function(x, plot.pdp, center, pdp.col, pdp.lwd, pdp.lty, rug,
     if (center) {  # c-ICE curves
       x <- x %>%
         dplyr::group_by_("yhat.id") %>%
-        dplyr::mutate_(yhat = "yhat - first(yhat)") %>%
-        ungroup()
+        dplyr::mutate_("yhat" = "yhat - first(yhat)") %>%
+        dplyr::ungroup()
     }
     xyplot(stats::as.formula(paste("yhat ~", names(x)[1L])), data = x,
            groups = x$yhat.id, type = "l", ...,
            panel = function(xx, yy, ...) {
              panel.xyplot(xx, yy, col = "black", ...)
              if (plot.pdp) {
-               pd <- x %>%
-                 dplyr::group_by(.[[1L]]) %>%
-                 dplyr::summarize(yhat = mean(yhat, na.rm = TRUE)) %>%
-                 dplyr::ungroup() %>%
-                 dplyr::rename(x = `.[[1L]]`)
+               pd <- averageIceCurves(x)
                panel.xyplot(pd$x, pd$yhat, type = "l", col = pdp.col,
                             lwd = pdp.lwd, lty = pdp.lty)
              }
@@ -257,11 +253,7 @@ plotCIceCurves <- function(x, plot.pdp, pdp.col, pdp.lwd, pdp.lty, rug, train,
            panel = function(xx, yy, ...) {
              panel.xyplot(xx, yy, col = "black", ...)
              if (plot.pdp) {
-               pd <- x %>%
-                 dplyr::group_by(.[[1L]]) %>%
-                 dplyr::summarize(yhat = mean(yhat, na.rm = TRUE)) %>%
-                 dplyr::ungroup() %>%
-                 dplyr::rename(x = `.[[1L]]`)
+               pd <- averageIceCurves(x)
                panel.xyplot(pd$x, pd$yhat, type = "l", col = pdp.col,
                             lwd = pdp.lwd, lty = pdp.lty)
              }
@@ -300,18 +292,14 @@ plotMultiPDFs <- function(x, plot.pdp, center, pdp.col, pdp.lwd, pdp.lty, rug,
       x <- x %>%
         dplyr::group_by_("yhat.id") %>%
         dplyr::mutate_(yhat = "yhat - first(yhat)") %>%
-        ungroup()
+        dplyr::ungroup()
     }
     xyplot(stats::as.formula(paste("yhat ~", names(x)[1L])), data = x,
            groups = x$yhat.id, type = "l", ...,
            panel = function(xx, yy, ...) {
              panel.xyplot(xx, yy, col = "black", ...)
              if (plot.pdp) {
-               pd <- x %>%
-                 group_by(.[[1L]]) %>%
-                 summarize(yhat = mean(yhat, na.rm = TRUE)) %>%
-                 ungroup() %>%
-                 rename(x = `.[[1L]]`)
+               pd <- averageIceCurves(x)
                panel.xyplot(pd$x, pd$yhat, type = "l", col = pdp.col,
                             lwd = pdp.lwd, lty = pdp.lty)
              }

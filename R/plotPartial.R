@@ -107,11 +107,7 @@ plotPartial.partial <- function(x, center = FALSE, plot.pdp = TRUE,
                                 ...) {
 
   # Determine of x contains multiple PDPs
-  multi <- if ("yhat.id" %in% names(x)) {
-    TRUE
-  } else {
-    FALSE
-  }
+  multi <- "yhat.id" %in% names(x)
 
   # Determine number of variables to plot
   nx <- if (multi) {
@@ -203,10 +199,7 @@ plotIceCurves <- function(x, plot.pdp, center, pdp.col, pdp.lwd, pdp.lty, rug,
             })
   } else {
     if (center) {  # c-ICE curves
-      x <- x %>%
-        dplyr::group_by_("yhat.id") %>%
-        dplyr::mutate_("yhat" = "yhat - first(yhat)") %>%
-        dplyr::ungroup()
+      x <- centerIceCurves(x)
     }
     xyplot(stats::as.formula(paste("yhat ~", names(x)[1L])), data = x,
            groups = x$yhat.id, type = "l", ...,
@@ -289,10 +282,7 @@ plotMultiPDFs <- function(x, plot.pdp, center, pdp.col, pdp.lwd, pdp.lty, rug,
             })
   } else {
     if (center) {
-      x <- x %>%
-        dplyr::group_by_("yhat.id") %>%
-        dplyr::mutate_(yhat = "yhat - first(yhat)") %>%
-        dplyr::ungroup()
+      x <- centerIceCurves(x)
     }
     xyplot(stats::as.formula(paste("yhat ~", names(x)[1L])), data = x,
            groups = x$yhat.id, type = "l", ...,

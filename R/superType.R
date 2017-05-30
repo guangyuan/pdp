@@ -82,6 +82,12 @@ superType.earth <- function(object) {
 
 
 #' @keywords internal
+superType.fda<- function(object) {
+  "classification"
+}
+
+
+#' @keywords internal
 superType.gbm <- function(object) {
   if (object$distribution %in%
       c("gaussian", "laplace", "tdist", "gamma", "poisson", "tweedie")) {
@@ -211,7 +217,7 @@ superType.randomForest <- function(object) {
 superType.ranger <- function(object) {
   if (object$treetype == "Regression") {
     "regression"
-  } else if (object$treetype %in% 
+  } else if (object$treetype %in%
              c("Classification", "Probability estimation")) {
     "classification"
   } else {

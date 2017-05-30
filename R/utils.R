@@ -49,11 +49,42 @@ averageIceCurves.ice <- function(x) {
   names(x)[1L] <- "x"  # use generic name for predictor
   x <- x %>%  # average curves together
     dplyr::group_by_("x") %>%
-    dplyr::summarize_("yhat" = "mean(yhat, na.rm = TRUE)") %>%
+    dplyr::summarize_("yhat" = "mean(yhat)") %>%
     dplyr::ungroup()
-  names(x)[1L] <- pred.name  # restore predictor name
+  class(x) <- c("data.frame", "ice")
   x
 }
+
+
+#' @keywords internal
+averageIceCurves.cice <- function(x) {
+  pred.name <- names(x)[1L]  # store predictor name
+  names(x)[1L] <- "x"  # use generic name for predictor
+  x <- x %>%  # average curves together
+    dplyr::group_by_("x") %>%
+    dplyr::summarize_("yhat" = "mean(yhat)") %>%
+    dplyr::ungroup()
+  class(x) <- c("data.frame", "cice")
+  x
+}
+
+
+#' @keywords internal
+centerIceCurves <- function(x) {
+  UseMethod("centerIceCurves")
+}
+
+
+#' @keywords internal
+centerIceCurves.ice <- function(x) {
+  x <- x %>%
+    dplyr::group_by_("yhat.id") %>%
+    dplyr::mutate_("yhat" = "yhat - first(yhat)") %>%
+    dplyr::ungroup()
+  class(x) <- c("data.frame", "cice")
+  x
+}
+
 
 
 #' @keywords internal

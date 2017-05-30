@@ -88,12 +88,8 @@ autoplot.partial <- function(object, center = FALSE, plot.pdp = TRUE,
                              xlab = NULL, ylab = NULL, main = NULL,
                              legend.title = NULL, ...) {
 
-  # Determine of x contains multiple PDPs
-  multi <- if ("yhat.id" %in% names(object)) {
-    TRUE
-  } else {
-    FALSE
-  }
+  # Determine if object contains an ID column (i.e., multiple curves)
+  multi <- "yhat.id" %in% names(object)
 
   # Determine number of variables to plot
   nx <- if (multi) {
@@ -102,123 +98,92 @@ autoplot.partial <- function(object, center = FALSE, plot.pdp = TRUE,
     ncol(object) - 1  # don't count yhat
   }
 
-  # Multiple curves
+  # Generate plot
   if (multi) {
-
-    p <- ggPDPMulti(object, center = center, plot.pdp = plot.pdp,
+    ggPlotIceCurves(object, center = center, plot.pdp = plot.pdp,
                     pdp.color = pdp.color, pdp.size = pdp.size, rug = rug,
-                    train = train, xlab = xlab, ylab = ylab, ...)
-
-  # One predictor
-  } else if (nx == 1L) {
-
-    p <- if (is.factor(object[[1L]])) {
-      ggPDPFactor(object, xlab = xlab, ylab = ylab, ...)
-    } else {
-      ggPDPNumeric(object, rug = rug, smooth = smooth,
-                   smooth.method = smooth.method,
-                   smooth.formula = smooth.formula,
-                   smooth.span = smooth.span,
-                   smooth.method.args = smooth.method.args, train = train,
-                   xlab = xlab, ylab = ylab, ...)
-    }
-
-  # Two predictors
-  } else if (nx == 2L) {
-
-    p <- if (is.factor(object[[1L]]) && is.factor(object[[2L]])) {
-      ggPDPFactorFactor(object, xlab = xlab, ylab = ylab, ...)
-    } else if (is.factor(object[[1L]]) && !is.factor(object[[2L]])) {
-      ggPDPFactorNumeric(object, smooth = smooth,
-                         smooth.method = smooth.method,
-                         smooth.formula = smooth.formula,
-                         smooth.span = smooth.span,
-                         smooth.method.args = smooth.method.args, train = train,
-                         xlab = xlab, ylab = ylab, ...)
-    } else if (!is.factor(object[[1L]]) && is.factor(object[[2L]])) {
-      ggPDPNumericFactor(object, smooth = smooth,
-                         smooth.method = smooth.method,
-                         smooth.formula = smooth.formula,
-                         smooth.span = smooth.span,
-                         smooth.method.args = smooth.method.args, train = train,
-                         xlab = xlab, ylab = ylab, ...)
-    } else {
-      ggPDPNumericNumeric(object, contour = contour,
-                          contour.color = contour.color, palette = palette,
-                          train = train, xlab = xlab, ylab = ylab,
-                          legend.title = legend.title, ...)
-    }
-
-    p <- ggplot(object, aes_string(x = names(object)[[1L]],
-                                   y = names(object)[[2L]], z = "yhat",
-                                   fill = "yhat")) +
-      geom_tile()
-    if (contour) {
-      p <- p + geom_contour(color = contour.color)
-    }
-    if (is.null(xlab)) {
-      p <- p + xlab(names(object)[1L])
-    } else {
-      p <- p + xlab(xlab)
-    }
-    if (is.null(ylab)) {
-      p <- p + ylab(names(object)[2L])
-    } else {
-      p <- p + ylab(ylab)
-    }
-    if (is.null(legend.title)) {
-      p <- p + scale_fill_distiller(name = "yhat", palette = palette)
-    } else {
-      p <- p + scale_fill_distiller(name = legend.title,
-                                             palette = palette)
-    }
-    p <- p + theme_bw()
-
-  # More then two predictors
-  } else {
+                    train = train, xlab = xlab, ylab = ylab, main = main,
+                         ...)
+  } else if (nx == 1L) {  # single predictor
+    ggPlotOnePredictorPDP(object, rug = rug, smooth = smooth,
+                          smooth.method = smooth.method,
+                          smooth.formula = smooth.formula,
+                          smooth.span = smooth.span,
+                          smooth.method.args = smooth.method.args,
+                          train = train, xlab = xlab, ylab = ylab, main = main,
+                          ...)
+  } else if (nx == 2L) {  # two predictors
+    ggPlotTwoPredictorPDP(rug = rug, smooth = smooth,
+                          smooth.method = smooth.method,
+                          smooth.formula = smooth.formula,
+                          smooth.span = smooth.span,
+                          smooth.method.args = smooth.method.args,
+                          contour = contour, contour.color = contour.color,
+                          palette = palette, train = train, xlab = xlab,
+                          ylab = ylab, main = main, legend.title = legend.title,
+                          ...)
+  } else {  # more than two predictors
     stop("autoplot does not currently support more than two predictors")
-  }
-
-  # Return ggplot object
-  if (is.null(main)) {
-    p
-  } else {
-    p + ggtitle(main)
   }
 
 }
 
 
+#' @rdname autoplot
+autoplot.ice <- function(object, center = FALSE, plot.pdp = TRUE,
+                         pdp.color = "red", pdp.size = 1, pdp.linetype = 1,
+                         rug = FALSE, train = NULL, xlab = NULL, ylab = NULL,
+                         main = NULL, ...) {
+  ggPlotIceCurves(object, center = center, plot.pdp = plot.pdp,
+                  pdp.color = pdp.color, pdp.size = pdp.size,
+                  pdp.linetype = pdp.linetype, rug = rug, train = train,
+                  xlab = xlab, ylab = ylab, main = main, ...)
+}
+
+
+#' @rdname autoplot
+autoplot.cice <- function(object, plot.pdp = TRUE, pdp.color = "red",
+                          pdp.size = 1, pdp.linetype = 1, rug = FALSE,
+                          train = NULL, xlab = NULL, ylab = NULL, main = NULL,
+                          ...) {
+  ggPlotIceCurves(object, center = FALSE, plot.pdp = plot.pdp,
+                  pdp.color = pdp.color, pdp.size = pdp.size,
+                  pdp.linetype = pdp.linetype, rug = rug, train = train,
+                  xlab = xlab, ylab = ylab, main = main, ...)
+}
+
+
 #' @keywords internal
-ggPDPMulti <- function(object, center, plot.pdp, pdp.color, pdp.size, rug, train,
-                       xlab, ylab, ...) {
+ggPlotIceCurves <- function(object, center, plot.pdp, pdp.color, pdp.size,
+                            pdp.linetype, rug, train, xlab, ylab, main, ...) {
+
+  # Use the first column to determine which type of plot to construct
   if (is.factor(object[[1L]])) {
+
+    # Draw scatterplots
     p <- ggplot(object, aes_string(x = names(object)[[1L]], y = "yhat")) +
       geom_point(aes_string(group = "yhat.id"), ...)
-    if (is.null(xlab)) {
-      p <- p + xlab(names(object)[1L])
-    } else {
-      p <- p + xlab(xlab)
-    }
-    if (is.null(ylab)) {
-      p <- p + ylab("yhat")
-    } else {
-      p <- p + ylab(ylab)
-    }
+
   } else {
+
+    # Should the curves be centered to start at yhat = 0?
     if (center) {
-      object <- object %>%
-        dplyr::group_by_("yhat.id") %>%
-        dplyr::mutate_(yhat = "yhat - first(yhat)")
+      object <- centerIceCurves(object)
     }
+
+    # Draw lineplots
     p <- ggplot(object, aes_string(x = names(object)[[1L]], y = "yhat")) +
       geom_line(aes_string(group = "yhat.id"), ...) +
       xlab(names(object)[1L]) +
       ylab("yhat")
+
+    # Should the PDP be displayed too?
     if (plot.pdp) {
       p <- p + stat_summary(fun.y = mean, geom = "line", col = pdp.color,
                             size = pdp.size)
     }
+
+    # Add rug plot to x-axis
     if (rug) {
       if (is.null(train)) {
         stop("The training data must be supplied for rug display.")
@@ -231,25 +196,73 @@ ggPDPMulti <- function(object, center, plot.pdp, pdp.color, pdp.size, rug, train
                           sides = "b", inherit.aes = FALSE)
       }
     }
-    if (is.null(xlab)) {
-      p <- p + xlab(names(object)[1L])
-    } else {
-      p <- p + xlab(xlab)
+
+  }
+
+  # Add axis labels and title
+  if (is.null(xlab)) {
+    p <- p + xlab(names(object)[1L])
+  } else {
+    p <- p + xlab(xlab)
+  }
+  if (is.null(ylab)) {
+    p <- p + ylab("yhat")
+  } else {
+    p <- p + ylab(ylab)
+  }
+  if (!is.null(main)) {
+    p <- p + ggtitle(main)
+  }
+
+  # Return "ggplot" object
+  p
+
+}
+
+
+#' @keywords internal
+ggPlotOnePredictorPDP <- function(object, rug, smooth, smooth.method,
+                                  smooth.formula, smooth.span,
+                                  smooth.method.args, train, xlab, ylab, main,
+                                  ...) {
+
+  # Use the first column to determine which type of plot to construct
+  if (is.factor(object[[1L]])) {
+
+    # Draw a scatterplot
+    p <- ggplot(object, aes_string(x = names(object)[[1L]], y = "yhat")) +
+      geom_point(...)
+
+  } else {
+
+    # Draw a lineplot
+    p <- ggplot(object, aes_string(x = names(object)[[1L]], y = "yhat")) +
+      geom_line(...)
+
+    # Add rug plot to x-axis
+    if (rug) {
+      if (is.null(train)) {
+        stop("The training data must be supplied for rug display.")
+      } else {
+        x.name <- which(names(train) == names(object)[[1L]])
+        x.rug <- data.frame(as.numeric(
+          stats::quantile(train[, x.name, drop = TRUE], probs = 0:10/10,
+                          na.rm = TRUE)))
+        p <- p + geom_rug(data = x.rug, aes_string(x = names(x.rug)[1L]),
+                          sides = "b", inherit.aes = FALSE)
+      }
     }
-    if (is.null(ylab)) {
-      p <- p + ylab("yhat")
-    } else {
-      p <- p + ylab(ylab)
+
+    # Add smoother
+    if (smooth) {
+      p <- p + geom_smooth(method = smooth.method, formula = smooth.formula,
+                           span = smooth.span, se = FALSE,
+                           method.args = smooth.method.args)
     }
+
   }
-  p
-}
 
-
-#' @keywords internal
-ggPDPFactor <- function(object, xlab, ylab, ...) {
-  p <- ggplot(object, aes_string(x = names(object)[[1L]], y = "yhat")) +
-    geom_point(...)
+  # Add axis labels and title
   if (is.null(xlab)) {
     p <- p + xlab(names(object)[1L])
   } else {
@@ -260,33 +273,113 @@ ggPDPFactor <- function(object, xlab, ylab, ...) {
   } else {
     p <- p + ylab(ylab)
   }
+  if (!is.null(main)) {
+    p <- p + ggtitle(main)
+  }
+
+  # Return "ggplot" object
   p
+
 }
 
 
 #' @keywords internal
-ggPDPNumeric <- function(object, rug, smooth, smooth.method, smooth.formula,
-                         smooth.span, smooth.method.args, train, xlab, ylab,
-                         ...) {
-  p <- ggplot(object, aes_string(x = names(object)[[1L]], y = "yhat")) +
-    geom_line(...)
-  if (rug) {
-    if (is.null(train)) {
-      stop("The training data must be supplied for rug display.")
-    } else {
-      x.name <- which(names(train) == names(object)[[1L]])
-      x.rug <- data.frame(as.numeric(
-        stats::quantile(train[, x.name, drop = TRUE], probs = 0:10/10,
-                        na.rm = TRUE)))
-      p <- p + geom_rug(data = x.rug, aes_string(x = names(x.rug)[1L]),
-                        sides = "b", inherit.aes = FALSE)
+ggPlotTwoPredictorPDP <- function(object, rug, smooth, smooth.method,
+                                  smooth.formula, smooth.span,
+                                  smooth.method.args, contour, contour.color,
+                                  palette, train, xlab, ylab, main,
+                                  legend.title, ...) {
+
+  # Use the first two columns to determine which type of plot to construct
+  if (is.factor(object[[1L]]) && is.factor(object[[2L]])) {
+
+    # Draw a faceted scatterplot
+    p <- ggplot(object, aes_string(x = names(object)[[1L]], y = "yhat")) +
+      geom_point(...) +
+      facet_wrap(~ object[[2L]])
+
+  } else if (is.factor(object[[1L]]) && !is.factor(object[[2L]])) {
+
+    # Draw a faceted lineplot
+    p <- ggplot(object, aes_string(x = names(object)[[2L]], y = "yhat")) +
+      geom_line(...) +
+      facet_wrap(~ object[[1L]])
+
+    # Add rug plot to the x-axis
+    if (rug) {
+      if (is.null(train)) {
+        stop("The training data must be supplied for rug display.")
+      } else {
+        x.name <- which(names(train) == names(object)[[2L]])
+        x.rug <- data.frame(as.numeric(
+          stats::quantile(train[, x.name, drop = TRUE], probs = 0:10/10,
+                          na.rm = TRUE)))
+        p <- p + geom_rug(data = x.rug, aes_string(x = names(x.rug)[1L]),
+                          sides = "b", inherit.aes = FALSE)
+      }
     }
+
+    # Add smoother
+    if (smooth) {
+      p <- p + geom_smooth(method = smooth.method, formula = smooth.formula,
+                           span = smooth.span, se = FALSE,
+                           method.args = smooth.method.args)
+    }
+
+  } else if (!is.factor(object[[1L]]) && is.factor(object[[2L]])) {
+
+    # Draw a faceted lineplot
+    p <- ggplot(object, aes_string(x = names(object)[[1L]], y = "yhat")) +
+      geom_line(...) +
+      facet_wrap(~ object[[2L]])
+
+    # Add rug plot to x-axis
+    if (rug) {
+      if (is.null(train)) {
+        stop("The training data must be supplied for rug display.")
+      } else {
+        x.name <- which(names(train) == names(object)[[1L]])
+        x.rug <- data.frame(as.numeric(
+          stats::quantile(train[, x.name, drop = TRUE], probs = 0:10/10,
+                          na.rm = TRUE)))
+        p <- p + geom_rug(data = x.rug, aes_string(x = names(x.rug)[1L]),
+                          sides = "b", inherit.aes = FALSE)
+      }
+    }
+
+    # Add smoother
+    if (smooth) {
+      p <- p + geom_smooth(method = smooth.method, formula = smooth.formula,
+                           span = smooth.span, se = FALSE,
+                           method.args = smooth.method.args)
+    }
+
+  } else {
+
+    # Draw a false color level plot
+    p <- ggplot(object, aes_string(x = names(object)[[1L]],
+                                   y = names(object)[[2L]],
+                                   z = "yhat",
+                                   fill = "yhat")) +
+      geom_tile()
+
+    # Add contour lines
+    if (contour) {
+      p <- p + geom_contour(color = contour.color)
+    }
+
+    # Add legend title and theme
+    if (is.null(legend.title)) {
+      p <- p + scale_fill_distiller(name = "yhat", palette = palette)
+    } else {
+      p <- p + scale_fill_distiller(name = legend.title, palette = palette)
+    }
+    p <- p + theme_bw()
+
   }
-  if (smooth) {
-    p <- p + geom_smooth(method = smooth.method, formula = smooth.formula,
-                         span = smooth.span, se = FALSE,
-                         method.args = smooth.method.args)
-  }
+
+
+  # Add axis labels and title
   if (is.null(xlab)) {
     p <- p + xlab(names(object)[1L])
   } else {
@@ -297,105 +390,11 @@ ggPDPNumeric <- function(object, rug, smooth, smooth.method, smooth.formula,
   } else {
     p <- p + ylab(ylab)
   }
+  if (!is.null(main)) {
+    p <- p + ggtitle(main)
+  }
+
+  # Return "ggplot" object
   p
-}
 
-
-#' @keywords internal
-ggPDPFactorFactor <- function(object, xlab, ylab, ...) {
-  p <- ggplot(object, aes_string(x = names(object)[[1L]], y = "yhat")) +
-    geom_point(...) +
-    facet_wrap(~ object[[2L]])
-  if (is.null(xlab)) {
-    p <- p + xlab(names(object)[1L])
-  } else {
-    p <- p + xlab(xlab)
-  }
-  if (is.null(ylab)) {
-    p <- p + ylab("yhat")
-  } else {
-    p <- p + ylab(ylab)
-  }
-  p
-}
-
-
-#' @keywords internal
-ggPDPNumericFactor <- function(object, smooth, smooth.method,
-                               smooth.formula, smooth.span, smooth.method.args,
-                               train, xlab, ylab, ...) {
-  p <- ggplot(object, aes_string(x = names(object)[[1L]], y = "yhat")) +
-    geom_line(...) +
-    facet_wrap(~ object[[2L]])
-  if (smooth) {
-    p <- p + geom_smooth(method = smooth.method, formula = smooth.formula,
-                         span = smooth.span, se = FALSE,
-                         method.args = smooth.method.args)
-  }
-  if (is.null(xlab)) {
-    p <- p + xlab(names(object)[1L])
-  } else {
-    p <- p + xlab(xlab)
-  }
-  if (is.null(ylab)) {
-    p <- p + ylab("yhat")
-  } else {
-    p <- p + ylab(ylab)
-  }
-  p
-}
-
-
-#' @keywords internal
-ggPDPFactorNumeric <- function(object, smooth, smooth.method,
-                               smooth.formula, smooth.span, smooth.method.args,
-                               train, xlab, ylab, ...) {
-  p <- ggplot(object, aes_string(x = names(object)[[2L]], y = "yhat")) +
-    geom_line(...) +
-    facet_wrap(~ object[[1L]])
-  if (smooth) {
-    p <- p + geom_smooth(method = smooth.method, formula = smooth.formula,
-                         span = smooth.span, se = FALSE,
-                         method.args = smooth.method.args)
-  }
-  if (is.null(xlab)) {
-    p <- p + xlab(names(object)[2L])
-  } else {
-    p <- p + xlab(xlab)
-  }
-  if (is.null(ylab)) {
-    p <- p + ylab("yhat")
-  } else {
-    p <- p + ylab(ylab)
-  }
-  p
-}
-
-
-#' @keywords internal
-ggPDPNumericNumeric <- function(object, contour, contour.color, palette,
-                                train, xlab, ylab, legend.title, ...) {
-  p <- ggplot(object, aes_string(x = names(object)[[1L]],
-                                 y = names(object)[[2L]], z = "yhat",
-                                 fill = "yhat")) +
-    geom_tile()
-  if (contour) {
-    p <- p + geom_contour(color = contour.color)
-  }
-  if (is.null(xlab)) {
-    p <- p + xlab(names(object)[1L])
-  } else {
-    p <- p + xlab(xlab)
-  }
-  if (is.null(ylab)) {
-    p <- p + ylab(names(object)[2L])
-  } else {
-    p <- p + ylab(ylab)
-  }
-  if (is.null(legend.title)) {
-    p <- p + scale_fill_distiller(name = "yhat", palette = palette)
-  } else {
-    p <- p + scale_fill_distiller(name = legend.title, palette = palette)
-  }
-  p <- p + theme_bw()
 }

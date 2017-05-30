@@ -83,6 +83,21 @@ getParClsProb.earth <- function(object, newdata, which.class, ...) {
 
 
 #' @keywords internal
+getParClsLogit.fda <- function(object, newdata, which.class, ...) {
+  pr <- stats::predict(object, newdata = newdata, type = "posterior", ...)
+  mean(multiClassLogit(pr, which.class = which.class),
+       na.rm = TRUE)
+}
+
+
+#' @keywords internal
+getParClsProb.fda <- function(object, newdata, which.class, ...) {
+  pr <- stats::predict(object, newdata = newdata, type = "posterior", ...)
+  mean(pr[, which.class], na.rm = TRUE)
+}
+
+
+#' @keywords internal
 getParClsLogit.gbm <- function(object, newdata, which.class, ...) {
   invisible(utils::capture.output(
     pr <- stats::predict(object, newdata = newdata, type = "response", ...)

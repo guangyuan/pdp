@@ -81,6 +81,20 @@ getIceClsProb.earth <- function(object, newdata, which.class, ...) {
 
 
 #' @keywords internal
+getIceClsLogit.fda <- function(object, newdata, which.class, ...) {
+  pr <- stats::predict(object, newdata = newdata, type = "posterior", ...)
+  multiClassLogit(pr, which.class = which.class)
+}
+
+
+#' @keywords internal
+getIceClsProb.fda <- function(object, newdata, which.class, ...) {
+  pr <- stats::predict(object, newdata = newdata, type = "posterior", ...)
+  pr[, which.class]
+}
+
+
+#' @keywords internal
 getIceClsLogit.gbm <- function(object, newdata, which.class, ...) {
   invisible(utils::capture.output(
     pr <- stats::predict(object, newdata = newdata, type = "response", ...)

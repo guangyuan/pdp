@@ -2,6 +2,8 @@
 % Please edit documentation in R/autoplot.R
 \name{autoplot.partial}
 \alias{autoplot.partial}
+\alias{autoplot.ice}
+\alias{autoplot.cice}
 \title{Plotting Partial Dependence Functions}
 \usage{
 \method{autoplot}{partial}(object, center = FALSE, plot.pdp = TRUE,
@@ -10,6 +12,14 @@
   smooth.span = 0.75, smooth.method.args = list(), contour = FALSE,
   contour.color = "white", palette = "Spectral", train = NULL,
   xlab = NULL, ylab = NULL, main = NULL, legend.title = NULL, ...)
+
+\method{autoplot}{ice}(object, center = FALSE, plot.pdp = TRUE,
+  pdp.color = "red", pdp.size = 1, pdp.linetype = 1, rug = FALSE,
+  train = NULL, xlab = NULL, ylab = NULL, main = NULL, ...)
+
+\method{autoplot}{cice}(object, plot.pdp = TRUE, pdp.color = "red",
+  pdp.size = 1, pdp.linetype = 1, rug = FALSE, train = NULL,
+  xlab = NULL, ylab = NULL, main = NULL, ...)
 }
 \arguments{
 \item{object}{An object that inherits from the \code{"partial"} class.}

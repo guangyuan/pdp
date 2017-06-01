@@ -75,9 +75,39 @@
 #'
 #' @importFrom ggplot2 scale_fill_distiller stat_summary theme_bw xlab ylab
 #'
-#' @rdname autoplot
+#' @rdname autoplot.partial
 #'
 #' @export
+#'
+#' @examples
+#'
+#' #
+#' # Regression example (requires randomForest package to run)
+#' #
+#'
+#' # Fit a random forest to the boston housing data
+#' library(randomForest)
+#' data (boston)  # load the boston housing data
+#' set.seed(101)  # for reproducibility
+#' boston.rf <- randomForest(cmedv ~ ., data = boston)
+#'
+#' # Partial dependence of cmedv on lstat
+#' boston.rf %>%
+#'   partial(pred.var = "lstat") %>%
+#'   autoplot(rug = TRUE, train = boston)
+#'
+#' # Partial dependence of cmedv on lstat and rm
+#' boston.rf %>%
+#'   partial(pred.var = c("lstat", "rm"), chull = TRUE) %>%
+#'   autoplot(contour = TRUE, legend.title = "rm)
+#'
+#' # ICE curves and c-ICE curves
+#' age.ice <- partial(boston.rf, pred.var = "lstat", ice = TRUE)
+#' grid.arrange(
+#'   autoplot(age.ice, alpha = 0.5),                 # ICE curves
+#'   autoplot(age.ice, center = TRUE, alpha = 0.5),  # c-ICE curves
+#'   ncol = 2
+#' )
 autoplot.partial <- function(object, center = FALSE, plot.pdp = TRUE,
                              pdp.color = "red", pdp.size = 1, pdp.linetype = 1,
                              rug = FALSE, smooth = FALSE,
@@ -113,7 +143,7 @@ autoplot.partial <- function(object, center = FALSE, plot.pdp = TRUE,
                           train = train, xlab = xlab, ylab = ylab, main = main,
                           ...)
   } else if (nx == 2L) {  # two predictors
-    ggPlotTwoPredictorPDP(rug = rug, smooth = smooth,
+    ggPlotTwoPredictorPDP(object, rug = rug, smooth = smooth,
                           smooth.method = smooth.method,
                           smooth.formula = smooth.formula,
                           smooth.span = smooth.span,
@@ -129,7 +159,8 @@ autoplot.partial <- function(object, center = FALSE, plot.pdp = TRUE,
 }
 
 
-#' @rdname autoplot
+#' @rdname autoplot.partial
+#' @export
 autoplot.ice <- function(object, center = FALSE, plot.pdp = TRUE,
                          pdp.color = "red", pdp.size = 1, pdp.linetype = 1,
                          rug = FALSE, train = NULL, xlab = NULL, ylab = NULL,
@@ -141,7 +172,8 @@ autoplot.ice <- function(object, center = FALSE, plot.pdp = TRUE,
 }
 
 
-#' @rdname autoplot
+#' @rdname autoplot.partial
+#' @export
 autoplot.cice <- function(object, plot.pdp = TRUE, pdp.color = "red",
                           pdp.size = 1, pdp.linetype = 1, rug = FALSE,
                           train = NULL, xlab = NULL, ylab = NULL, main = NULL,
@@ -157,30 +189,36 @@ autoplot.cice <- function(object, plot.pdp = TRUE, pdp.color = "red",
 ggPlotIceCurves <- function(object, center, plot.pdp, pdp.color, pdp.size,
                             pdp.linetype, rug, train, xlab, ylab, main, ...) {
 
+  # Should the curves be centered to start at yhat = 0?
+  if (center) {
+    object <- centerIceCurves(object)
+  }
+
   # Use the first column to determine which type of plot to construct
   if (is.factor(object[[1L]])) {
 
     # Draw scatterplots
-    p <- ggplot(object, aes_string(x = names(object)[[1L]], y = "yhat")) +
-      geom_point(aes_string(group = "yhat.id"), ...)
-
-  } else {
-
-    # Should the curves be centered to start at yhat = 0?
-    if (center) {
-      object <- centerIceCurves(object)
-    }
-
-    # Draw lineplots
-    p <- ggplot(object, aes_string(x = names(object)[[1L]], y = "yhat")) +
+    p <- ggplot(object,
+                aes_string(x = names(object)[[1L]], y = "yhat", group = 1)) +
       geom_line(aes_string(group = "yhat.id"), ...) +
-      xlab(names(object)[1L]) +
-      ylab("yhat")
+      geom_point(aes_string(group = "yhat.id"), alpha = 1)
 
     # Should the PDP be displayed too?
     if (plot.pdp) {
       p <- p + stat_summary(fun.y = mean, geom = "line", col = pdp.color,
-                            size = pdp.size)
+                            size = pdp.size, linetype = pdp.linetype)
+    }
+
+  } else {
+
+    # Draw lineplots
+    p <- ggplot(object, aes_string(x = names(object)[[1L]], y = "yhat")) +
+      geom_line(aes_string(group = "yhat.id"), ...)
+
+    # Should the PDP be displayed too?
+    if (plot.pdp) {
+      p <- p + stat_summary(fun.y = mean, geom = "line", col = pdp.color,
+                            size = pdp.size, linetype = pdp.linetype)
     }
 
     # Add rug plot to x-axis
@@ -381,7 +419,11 @@ ggPlotTwoPredictorPDP <- function(object, rug, smooth, smooth.method,
 
   # Add axis labels and title
   if (is.null(xlab)) {
-    p <- p + xlab(names(object)[1L])
+    p <- if (is.factor(object[[1L]]) && !is.factor(object[[2L]])) {
+      p + xlab(names(object)[2L])
+    } else {
+      p + xlab(names(object)[1L])
+    }
   } else {
     p <- p + xlab(xlab)
   }

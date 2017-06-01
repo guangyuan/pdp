@@ -91,8 +91,9 @@ plotPartial.ice <- function(x, center = FALSE, plot.pdp = TRUE,
 #' @export
 plotPartial.cice <- function(x, plot.pdp = TRUE, pdp.col = "red2", pdp.lwd = 2,
                              pdp.lty = 1, rug = FALSE, train = NULL, ...) {
-  plotCIceCurves(x, plot.pdp = plot.pdp, pdp.col = pdp.col, pdp.lwd = pdp.lwd,
-                 pdp.lty = pdp.lty, rug = rug, train = train, ...)
+  plotIceCurves(x, plot.pdp = plot.pdp, center = FALSE, pdp.col = pdp.col,
+                pdp.lwd = pdp.lwd, pdp.lty = pdp.lty, rug = rug, train = train,
+                ...)
 }
 
 
@@ -125,18 +126,15 @@ plotPartial.partial <- function(x, center = FALSE, plot.pdp = TRUE,
   if (multi) {
 
     # Multiple PDPs for a single predictor
-    p <- plotMultiPDFs(x, center = center, plot.pdp = plot.pdp,
+    p <- plotIceCurves(x, center = center, plot.pdp = plot.pdp,
                        pdp.col = pdp.col, pdp.lwd = pdp.lwd, pdp.lty = pdp.lty,
                        rug = rug, train = train, ...)
 
   } else if (nx == 1L) {
 
     # PDP for a single predictor
-    p <- if (is.factor(x[[1L]])) {
-      plotFacPDF(x, ...)
-    } else {
-      plotNumPDF(x, rug = rug, smooth = smooth, train = train, ...)
-    }
+    p <- plotOnePredictorPDP(x, smooth = smooth, rug = rug, train = train, ...)
+
 
   } else if (nx == 2) {
 
@@ -224,31 +222,13 @@ plotIceCurves <- function(x, plot.pdp, center, pdp.col, pdp.lwd, pdp.lty, rug,
 
 
 #' @keywords internal
-plotCIceCurves <- function(x, plot.pdp, pdp.col, pdp.lwd, pdp.lty, rug, train,
-                           ...) {
+plotOnePredictorPDP <- function(x, smooth, rug, train = NULL, ...) {
   if (is.factor(x[[1L]])) {
-    dotplot(stats::as.formula(paste("yhat ~", names(x)[1L])), data = x,
-            groups = x$yhat.id, type = "l", ...,
-            panel = function(xx, yy, ...) {
-              panel.dotplot(xx, yy, col = "black", ...)
-              if (rug) {
-                if (is.null(train)) {
-                  stop("The training data must be supplied for rug display.")
-                } else {
-                  panel.rug(stats::quantile(train[, names(x)[1L]],
-                                            probs = 0:10/10, na.rm = TRUE))
-                }
-              }
-            })
-  } else {
     xyplot(stats::as.formula(paste("yhat ~", names(x)[1L])), data = x,
-           groups = x$yhat.id, type = "l", ...,
-           panel = function(xx, yy, ...) {
+           type = "l", ..., panel = function(xx, yy, ...) {
              panel.xyplot(xx, yy, col = "black", ...)
-             if (plot.pdp) {
-               pd <- averageIceCurves(x)
-               panel.xyplot(pd$x, pd$yhat, type = "l", col = pdp.col,
-                            lwd = pdp.lwd, lty = pdp.lty)
+             if (smooth) {
+               panel.loess(xx, yy, ...)
              }
              if (rug) {
                if (is.null(train)) {
@@ -259,84 +239,18 @@ plotCIceCurves <- function(x, plot.pdp, pdp.col, pdp.lwd, pdp.lty, rug, train,
                }
              }
            })
-  }
-}
-
-
-#' @keywords internal
-plotMultiPDFs <- function(x, plot.pdp, center, pdp.col, pdp.lwd, pdp.lty, rug,
-                          train, ...) {
-  if (is.factor(x[[1L]])) {
-    dotplot(stats::as.formula(paste("yhat ~", names(x)[1L])), data = x,
-            groups = x$yhat.id, type = "l", ...,
-            panel = function(xx, yy, ...) {
-              panel.dotplot(xx, yy, col = "black", ...)
-              if (rug) {
-                if (is.null(train)) {
-                  stop("The training data must be supplied for rug display.")
-                } else {
-                  panel.rug(stats::quantile(train[, names(x)[1L]],
-                                            probs = 0:10/10, na.rm = TRUE))
-                }
-              }
-            })
   } else {
-    if (center) {
-      x <- centerIceCurves(x)
-    }
-    xyplot(stats::as.formula(paste("yhat ~", names(x)[1L])), data = x,
-           groups = x$yhat.id, type = "l", ...,
-           panel = function(xx, yy, ...) {
-             panel.xyplot(xx, yy, col = "black", ...)
-             if (plot.pdp) {
-               pd <- averageIceCurves(x)
-               panel.xyplot(pd$x, pd$yhat, type = "l", col = pdp.col,
-                            lwd = pdp.lwd, lty = pdp.lty)
-             }
-             if (rug) {
-               if (is.null(train)) {
-                 stop("The training data must be supplied for rug display.")
-               } else {
-                 panel.rug(stats::quantile(train[, names(x)[1L]],
-                                           probs = 0:10/10, na.rm = TRUE))
-               }
-             }
-           })
-  }
-}
-
-
-#' @keywords internal
-plotNumPDF <- function(x, smooth, rug, train = NULL, ...) {
-  xyplot(stats::as.formula(paste("yhat ~", names(x)[1L])), data = x,
-         type = "l", ..., panel = function(xx, yy, ...) {
-           panel.xyplot(xx, yy, col = "black", ...)
-           if (smooth) {
-             panel.loess(xx, yy, ...)
-           }
-           if (rug) {
-             if (is.null(train)) {
-               stop("The training data must be supplied for rug display.")
-             } else {
-               panel.rug(stats::quantile(train[, names(x)[1L]],
-                                         probs = 0:10/10, na.rm = TRUE))
-             }
-           }
-         })
-}
-
-
-#' @keywords internal
-plotFacPDF <- function(x, ...) {
-  dotplot(stats::as.formula(paste("yhat ~", names(x)[1L])), data = x, ...)
+    dotplot(stats::as.formula(
+              paste("yhat ~", paste(names(x)[1L:2L], collapse = "|"))
+            ), data = x, ...)  }
 }
 
 
 #' @keywords internal
 plotFacFacPDF <- function(x, ...) {
-  dotplot(stats::as.formula(paste("yhat ~",
-                                  paste(names(x)[1L:2L], collapse = "|"))),
-          data = x, ...)
+  dotplot(stats::as.formula(
+            paste("yhat ~", paste(names(x)[1L:2L], collapse = "|"))
+          ), data = x, ...)
 }
 
 

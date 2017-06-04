@@ -91,7 +91,7 @@ plotPartial.ice <- function(x, center = FALSE, plot.pdp = TRUE,
 #' @export
 plotPartial.cice <- function(x, plot.pdp = TRUE, pdp.col = "red2", pdp.lwd = 2,
                              pdp.lty = 1, rug = FALSE, train = NULL, ...) {
-  plotIceCurves(x, plot.pdp = plot.pdp, center = FALSE, pdp.col = pdp.col,
+  plotIceCurves(x, center = FALSE, plot.pdp = plot.pdp, pdp.col = pdp.col,
                 pdp.lwd = pdp.lwd, pdp.lty = pdp.lty, rug = rug, train = train,
                 ...)
 }
@@ -107,10 +107,10 @@ plotPartial.partial <- function(x, center = FALSE, plot.pdp = TRUE,
                                 col.regions = viridis::viridis,
                                 ...) {
 
-  # Determine of x contains multiple PDPs
+  # Determine of x contains multiple curves
   multi <- "yhat.id" %in% names(x)
 
-  # Determine number of variables to plot
+  # Determine number of predictors
   nx <- if (multi) {
     ncol(x) - 2  # don't count yhat or yhat.id
   } else {
@@ -122,58 +122,35 @@ plotPartial.partial <- function(x, center = FALSE, plot.pdp = TRUE,
     stop("Too many variables to plot. Try using lattice or ggplot2 directly.")
   }
 
-  # Determine which type of plot to produce
+  # Determine which type of plot to draw based on the number of predictors
   if (multi) {
 
-    # Multiple PDPs for a single predictor
-    p <- plotIceCurves(x, center = center, plot.pdp = plot.pdp,
-                       pdp.col = pdp.col, pdp.lwd = pdp.lwd, pdp.lty = pdp.lty,
-                       rug = rug, train = train, ...)
+    # Multiple curves from user-specified prediction function
+    plotIceCurves(x, center = center, plot.pdp = plot.pdp, pdp.col = pdp.col,
+                  pdp.lwd = pdp.lwd, pdp.lty = pdp.lty, rug = rug,
+                  train = train, ...)
 
   } else if (nx == 1L) {
 
-    # PDP for a single predictor
-    p <- plotOnePredictorPDP(x, smooth = smooth, rug = rug, train = train, ...)
-
+    # Single predictor
+    plotOnePredictorPDP(x, smooth = smooth, rug = rug, train = train, ...)
 
   } else if (nx == 2) {
 
-    # PDP for two predictors
-    p <- if (is.factor(x[[1L]]) && is.factor(x[[2L]])) {
-      plotFacFacPDF(x, ...)
-    } else if (is.factor(x[[1L]]) || is.factor(x[[2L]])) {
-      plotNumFacPDF(x, smooth = smooth, rug = rug, train = train, ...)
-    } else {
-      plotNumNumPDF(x, levelplot = levelplot, contour = contour, rug = rug,
-                    chull = chull, train = train, col.regions = col.regions,
-                    ...)
-    }
+    # Two predictors
+    plotTwoPredictorPDP(x, smooth = smooth, levelplot = levelplot, rug = rug,
+                        chull = chull, train = train, contour = contour,
+                        col.regions = col.regions, ...)
 
   } else {
 
-    # Convert additional predictors to factors using the equal count algorithm
-    for (i in 3:nx) {
-      if (!is.factor(x[[i]])) {
-        x[[i]] <- equal.count(x[[i]], number = number, overlap = overlap)
-      }
-    }
-
-    # PDP for more than two predictors
-    p <- if (is.factor(x[[1L]]) && is.factor(x[[2L]])) {
-      plotFacFacShiPDF(x, nx = nx, ...)
-    } else if (is.factor(x[[1L]]) || is.factor(x[[2L]])) {
-      plotNumFacShiPDF(x, nx = nx, smooth = smooth, rug = rug, train = train,
-                       ...)
-    } else {
-      plotNumNumShiPDF(x, nx = nx, levelplot = levelplot, contour = contour,
-                       col.regions = col.regions, ...)
-
-    }
+    # Three predictors (paneled version of plotTwoPredictorPDP)
+    plotThreePredictorPDP(x, nx = nx, smooth = smooth, levelplot = levelplot,
+                          rug = rug, chull = chull, train = train,
+                          contour = contour, col.regions = col.regions,
+                          number = number, overlap = overlap, ...)
 
   }
-
-  # Print and return (invisibly) the "trellis" object
-  p
 
 }
 
@@ -181,49 +158,49 @@ plotPartial.partial <- function(x, center = FALSE, plot.pdp = TRUE,
 #' @keywords internal
 plotIceCurves <- function(x, plot.pdp, center, pdp.col, pdp.lwd, pdp.lty, rug,
                           train, ...) {
-  if (is.factor(x[[1L]])) {
-    dotplot(stats::as.formula(paste("yhat ~", names(x)[1L])), data = x,
-            groups = x$yhat.id, type = "l", ...,
-            panel = function(xx, yy, ...) {
-              panel.dotplot(xx, yy, col = "black", ...)
-              if (rug) {
-                if (is.null(train)) {
-                  stop("The training data must be supplied for rug display.")
-                } else {
-                  panel.rug(stats::quantile(train[, names(x)[1L]],
-                                            probs = 0:10/10, na.rm = TRUE))
-                }
-              }
-            })
-  } else {
-    if (center) {  # c-ICE curves
-      x <- centerIceCurves(x)
-    }
-    xyplot(stats::as.formula(paste("yhat ~", names(x)[1L])), data = x,
-           groups = x$yhat.id, type = "l", ...,
-           panel = function(xx, yy, ...) {
-             panel.xyplot(xx, yy, col = "black", ...)
-             if (plot.pdp) {
-               pd <- averageIceCurves(x)
-               panel.xyplot(pd$x, pd$yhat, type = "l", col = pdp.col,
-                            lwd = pdp.lwd, lty = pdp.lty)
-             }
-             if (rug) {
-               if (is.null(train)) {
-                 stop("The training data must be supplied for rug display.")
-               } else {
-                 panel.rug(stats::quantile(train[, names(x)[1L]],
-                                           probs = 0:10/10, na.rm = TRUE))
-               }
-             }
-           })
+
+  # Determine if ICE curves should be centered
+  if (center) {
+    x <- centerIceCurves(x)  # converts ICE curves to c-ICE curves
   }
+
+  # Determine plot type
+  plot.type <- if (is.factor(x[[1L]])) {
+    "b"  # draw lines and points
+  } else {
+    "l"  # draw lines
+  }
+
+  # Draw ICE curves
+  xyplot(stats::as.formula(paste("yhat ~", names(x)[1L])), data = x,
+         groups = x$yhat.id, type = plot.type, ...,
+         panel = function(xx, yy, ...) {
+           panel.xyplot(xx, yy, col = "black", ...)
+           if (plot.pdp) {
+             pd <- averageIceCurves(x)
+             panel.xyplot(pd$x, pd$yhat, type = "l", col = pdp.col,
+                          lwd = pdp.lwd, lty = pdp.lty)
+           }
+           if (rug && is.numeric(x[[1L]])) {
+             if (is.null(train)) {
+               stop("The training data must be supplied for rug display.")
+             } else {
+               panel.rug(stats::quantile(train[, names(x)[1L]],
+                                         probs = 0:10/10, na.rm = TRUE))
+             }
+           }
+         })
+
 }
 
 
 #' @keywords internal
 plotOnePredictorPDP <- function(x, smooth, rug, train = NULL, ...) {
-  if (is.factor(x[[1L]])) {
+
+  # Use the first column to determine which type of plot to construct
+  if (is.numeric(x[[1L]])) {
+
+    # Draw a line plot
     xyplot(stats::as.formula(paste("yhat ~", names(x)[1L])), data = x,
            type = "l", ..., panel = function(xx, yy, ...) {
              panel.xyplot(xx, yy, col = "black", ...)
@@ -239,161 +216,178 @@ plotOnePredictorPDP <- function(x, smooth, rug, train = NULL, ...) {
                }
              }
            })
+
   } else {
+
+    # Draw a Cleveland dot plot
+    dotplot(stats::as.formula(paste("yhat ~", names(x)[1L])), data = x, ...)
+
+  }
+}
+
+
+#' @keywords internal
+plotTwoPredictorPDP <- function(x, smooth, levelplot, rug, chull, train,
+                                contour, col.regions, ...) {
+
+  # Use the first two columns to determine which type of plot to construct
+  if (is.factor(x[[1L]]) && is.factor(x[[2L]])) {
+
+    # Draw a Cleveland dot plot
     dotplot(stats::as.formula(
-              paste("yhat ~", paste(names(x)[1L:2L], collapse = "|"))
-            ), data = x, ...)  }
-}
+      paste("yhat ~", paste(names(x)[1L:2L], collapse = "|"))
+    ), data = x, ...)
 
+  } else if (is.factor(x[[1L]]) || is.factor(x[[2L]])) {
 
-#' @keywords internal
-plotFacFacPDF <- function(x, ...) {
-  dotplot(stats::as.formula(
-            paste("yhat ~", paste(names(x)[1L:2L], collapse = "|"))
-          ), data = x, ...)
-}
+    # Lattice plot formula
+    form <- if (is.factor(x[[1L]])) {
+      stats::as.formula(paste("yhat ~", paste(names(x)[2L:1L], collapse = "|")))
+    } else {
+      stats::as.formula(paste("yhat ~", paste(names(x)[1L:2L], collapse = "|")))
+    }
 
-
-#' @keywords internal
-plotNumFacPDF <- function(x, smooth, rug, train, ...) {
-
-  # Lattice plot formula
-  form <- if (is.factor(x[[1L]])) {
-    stats::as.formula(paste("yhat ~", paste(names(x)[2L:1L], collapse = "|")))
-  } else {
-    stats::as.formula(paste("yhat ~", paste(names(x)[1L:2L], collapse = "|")))
-  }
-
-  # Produce a paneled lineplot
-  xyplot(form, data = x, type = "l", ...,
-         panel = function(xx, yy, ...) {
-           panel.xyplot(xx, yy, col = "black", ...)
-           if (smooth) {
-             panel.loess(xx, yy, ...)
-           }
-           if (rug) {
-             if (is.null(train)) {
-               stop("The training data must be supplied for rug display.")
-             } else {
-               panel.rug(stats::quantile(train[, names(x)[1L]],
-                                         probs = 0:10/10, na.rm = TRUE))
+    # Draw a paneled line plot
+    xyplot(form, data = x, type = "l", ...,
+           panel = function(xx, yy, ...) {
+             panel.xyplot(xx, yy, col = "black", ...)
+             if (smooth) {
+               panel.loess(xx, yy, ...)
              }
-           }
-         })
-
-}
-
-
-#' @keywords internal
-plotNumNumPDF <- function(x, levelplot, rug, chull, train, contour, col.regions,
-                          ...) {
-
-  # Lattice plot formula
-  form <- stats::as.formula(paste("yhat ~",
-                                  paste(names(x)[1L:2L], collapse = "*")))
-
-  # False color level plot
-  if (levelplot) {
-
-    # Lattice-based false color level plot
-    levelplot(form, data = x, col.regions = col.regions, contour = contour,
-              ...,
-              panel = function(x1, y1, ...) {
-                panel.levelplot(x1, y1, ...)
-                if (rug || chull) {
-                  if (is.null(train)) {
-                    stop("The training data must be supplied for convex hull display.")
-                  }
-                }
-                # Add a rug display
-                if (rug) {
-                  panel.rug(stats::quantile(train[, names(x)[1L]],
-                                            probs = 0:10/10, na.rm = TRUE),
-                            stats::quantile(train[, names(x)[2L]],
-                                            probs = 0:10/10, na.rm = TRUE),
-                            col = "black")
-                }
-                # Plot the convex hull of the predictor space of interest
-                if (chull) {
-                  if (is.null(train)) {
-                    stop("The training data must be supplied for convex hull display.")
-                  }
-                  hpts <- grDevices::chull(stats::na.omit(train[names(x)[1L:2L]]))
-                  hpts <- c(hpts, hpts[1])
-                  panel.lines(train[hpts, names(x)[1L:2L]],
-                              col = "black")
-                }
-              })
-
-    # Wireframe
-  } else {
-
-    # Lattice-based three-dimensional wireframe plot
-    wireframe(form, data = x, ...)
-
-  }
-
-}
-
-
-#' @keywords internal
-plotFacFacShiPDF <- function(x, nx, ...) {
-
-  # Produce a paneled dotplot
-  dotplot(stats::as.formula(paste("yhat ~", names(x)[1L], "|",
-                                  paste(names(x)[2L:nx], collapse = "*"))),
-          data = x, ...)
-
-}
-
-
-#' @keywords internal
-plotNumFacShiPDF <- function(x, nx, smooth, rug, train, ...) {
-
-  # Lattice plot formula
-  form <- if (is.factor(x[[1L]])) {
-    stats::as.formula(paste("yhat ~", names(x)[2L], "|",
-                            paste(names(x)[c(1L, 3L:nx)], collapse = "*")))
-  } else {
-    stats::as.formula(paste("yhat ~", names(x)[1L], "|",
-                            paste(names(x)[2L:nx], collapse = "*")))
-  }
-
-  # Produce a paneled lineplot
-  xyplot(form, data = x, type = "p", ...,
-         panel = function(xx, yy, ...) {
-           panel.xyplot(xx, yy, col = "black", ...)
-           if (smooth) {
-             panel.loess(xx, yy, ...)
-           }
-           if (rug) {
-             if (is.null(train)) {
-               stop("The training data must be supplied for rug display.")
-             } else {
-               panel.rug(stats::quantile(train[, names(x)[1L]],
-                                         probs = 0:10/10, na.rm = TRUE))
+             if (rug) {
+               if (is.null(train)) {
+                 stop("The training data must be supplied for rug display.")
+               } else {
+                 panel.rug(stats::quantile(train[, names(x)[1L]],
+                                           probs = 0:10/10, na.rm = TRUE))
+               }
              }
-           }
-         })
+           })
 
+    } else {
+
+      # Lattice plot formula
+      form <- stats::as.formula(
+        paste("yhat ~", paste(names(x)[1L:2L], collapse = "*"))
+      )
+
+      # Draw a three-dimensional surface
+      if (levelplot) {
+
+        # Draw a false color level plot
+        levelplot(form, data = x, col.regions = col.regions, contour = contour,
+                  ...,
+                  panel = function(x1, y1, ...) {
+                    panel.levelplot(x1, y1, ...)
+                    if (rug || chull) {
+                      if (is.null(train)) {
+                        stop("The training data must be supplied for convex hull display.")
+                      }
+                    }
+                    # Add a rug display
+                    if (rug) {
+                      panel.rug(stats::quantile(train[, names(x)[1L]],
+                                                probs = 0:10/10, na.rm = TRUE),
+                                stats::quantile(train[, names(x)[2L]],
+                                                probs = 0:10/10, na.rm = TRUE),
+                                col = "black")
+                    }
+                    # Plot the convex hull of the predictor space of interest
+                    if (chull) {
+                      if (is.null(train)) {
+                        stop("The training data must be supplied for convex hull display.")
+                      }
+                      hpts <- grDevices::chull(stats::na.omit(train[names(x)[1L:2L]]))
+                      hpts <- c(hpts, hpts[1])
+                      panel.lines(train[hpts, names(x)[1L:2L]],
+                                  col = "black")
+                    }
+                  })
+
+      } else {
+
+        # Draw a wireframe plot
+        wireframe(form, data = x, ...)
+
+      }
+
+  }
 }
 
 
 #' @keywords internal
-plotNumNumShiPDF <- function(x, nx, levelplot, contour, col.regions, ...) {
+plotThreePredictorPDP <- function(x, nx, smooth, levelplot, rug, chull, train,
+                                  contour, col.regions, number, overlap, ...) {
 
-  # Lattice plot formula
-  form <- stats::as.formula(paste("yhat ~",
-                                  paste(names(x)[1L:2L], collapse = "*"),
-                                  "|",
-                                  paste(names(x)[3L:nx], collapse = "*")))
+  # Convert third predictor to a factor using the equal count algorithm
+  if (is.numeric(x[[3L]])) {
+    x[[3L]] <- equal.count(x[[3L]], number = number, overlap = overlap)
+  }
 
-  # Produce a false color level plot or three-dimensional plot
-  if (levelplot) {
-    levelplot(form, data = x, col.regions = col.regions, contour = contour,
-              ...)
+  if (is.factor(x[[1L]]) && is.factor(x[[2L]])) {
+
+    # Lattice plot formula
+    form <- stats::as.formula(
+      paste("yhat ~", names(x)[1L], "|", paste(names(x)[2L:nx], collapse = "*"))
+    )
+
+    # Produce a paneled dotplot
+    dotplot(form, data = x, ...)
+
+  } else if (is.factor(x[[1L]]) || is.factor(x[[2L]])) {
+
+    # Lattice plot formula
+    form <- if (is.factor(x[[1L]])) {
+      stats::as.formula(
+        paste("yhat ~", names(x)[2L], "|",
+              paste(names(x)[c(1L, 3L:nx)], collapse = "*"))
+      )
+    } else {
+      stats::as.formula(
+        paste("yhat ~", names(x)[1L], "|",
+              paste(names(x)[2L:nx], collapse = "*"))
+      )
+    }
+
+    # Produce a paneled lineplot
+    xyplot(form, data = x, type = "p", ...,
+           panel = function(xx, yy, ...) {
+             panel.xyplot(xx, yy, col = "black", ...)
+             if (smooth) {
+               panel.loess(xx, yy, ...)
+             }
+             if (rug) {
+               if (is.null(train)) {
+                 stop("The training data must be supplied for rug display.")
+               } else {
+                 panel.rug(stats::quantile(train[, names(x)[1L]],
+                                           probs = 0:10/10, na.rm = TRUE))
+               }
+             }
+           })
+
   } else {
-    wireframe(form, data = x, ...)
+
+    # Lattice plot formula
+    form <- stats::as.formula(
+      paste("yhat ~", paste(names(x)[1L:2L], collapse = "*"), "|",
+            paste(names(x)[3L:nx], collapse = "*"))
+    )
+
+    # Draw a three-dimensional surface
+    if (levelplot) {
+
+      # Draw a false color level plot
+      levelplot(form, data = x, col.regions = col.regions, contour = contour,
+                ...)
+
+    } else {
+
+      # Draw a wireframe plot
+      wireframe(form, data = x, ...)
+
+    }
+
   }
 
 }

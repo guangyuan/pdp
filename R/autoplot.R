@@ -85,8 +85,11 @@
 #' # Regression example (requires randomForest package to run)
 #' #
 #'
-#' # Fit a random forest to the boston housing data
+#' # Load required packages
+#' library(ggplot2)  # required to use autoplot
 #' library(randomForest)
+#'
+#' # Fit a random forest to the Boston housing data
 #' data (boston)  # load the boston housing data
 #' set.seed(101)  # for reproducibility
 #' boston.rf <- randomForest(cmedv ~ ., data = boston)
@@ -99,7 +102,7 @@
 #' # Partial dependence of cmedv on lstat and rm
 #' boston.rf %>%
 #'   partial(pred.var = c("lstat", "rm"), chull = TRUE) %>%
-#'   autoplot(contour = TRUE, legend.title = "rm)
+#'   autoplot(contour = TRUE, legend.title = "rm")
 #'
 #' # ICE curves and c-ICE curves
 #' age.ice <- partial(boston.rf, pred.var = "lstat", ice = TRUE)

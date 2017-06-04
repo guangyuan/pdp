@@ -93,3 +93,36 @@ A \code{"ggplot"} object.
 Plots partial dependence functions (i.e., marginal effects) using
 \code{\link[ggplot2]{ggplot2}} graphics.
 }
+\examples{
+
+#
+# Regression example (requires randomForest package to run)
+#
+
+# Load required packages
+library(ggplot2)  # required to use autoplot
+library(randomForest)
+
+# Fit a random forest to the Boston housing data
+data (boston)  # load the boston housing data
+set.seed(101)  # for reproducibility
+boston.rf <- randomForest(cmedv ~ ., data = boston)
+
+# Partial dependence of cmedv on lstat
+boston.rf \%>\%
+  partial(pred.var = "lstat") \%>\%
+  autoplot(rug = TRUE, train = boston)
+
+# Partial dependence of cmedv on lstat and rm
+boston.rf \%>\%
+  partial(pred.var = c("lstat", "rm"), chull = TRUE) \%>\%
+  autoplot(contour = TRUE, legend.title = "rm")
+
+# ICE curves and c-ICE curves
+age.ice <- partial(boston.rf, pred.var = "lstat", ice = TRUE)
+grid.arrange(
+  autoplot(age.ice, alpha = 0.5),                 # ICE curves
+  autoplot(age.ice, center = TRUE, alpha = 0.5),  # c-ICE curves
+  ncol = 2
+)
+}

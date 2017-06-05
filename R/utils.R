@@ -45,39 +45,18 @@ averageIceCurves <- function(object) {
 
 #' @keywords internal
 averageIceCurves.ice <- function(object) {
-  # names(object)[1L] <- "x"  # use generic name for predictor
-  # res <- object %>%  # average curves together
-  #   dplyr::group_by_("x") %>%
-  #   dplyr::summarize_("yhat" = "mean(yhat)") %>%
-  #   dplyr::ungroup()
-  # class(res) <- c("data.frame", "ice")
-  # res
   yhat <- tapply(object[["yhat"]], INDEX = as.factor(object[[1L]]),
                  FUN = mean, simplify = FALSE)
   res <- data.frame("x" = object[seq_len(length(yhat)), 1L, drop = TRUE],
                     "yhat" = unlist(yhat))
   names(res)[1L] <- names(object)[1L]
-  class(res) <- c("data.frame", "ice")
   res
 }
 
 
 #' @keywords internal
 averageIceCurves.cice <- function(object) {
-  # names(object)[1L] <- "x"  # use generic name for predictor
-  # res <- object %>%  # average curves together
-  #   dplyr::group_by_("x") %>%
-  #   dplyr::summarize_("yhat" = "mean(yhat)") %>%
-  #   dplyr::ungroup()
-  # class(res) <- c("data.frame", "cice")
-  # res
-  yhat <- tapply(object[["yhat"]], INDEX = as.factor(object[[1L]]),
-                 FUN = mean, simplify = FALSE)
-  res <- data.frame("x" = object[seq_len(length(yhat)), 1L, drop = TRUE],
-                    "yhat" = unlist(yhat))
-  names(res)[1L] <- names(object)[1L]
-  class(res) <- c("data.frame", "ice")
-  res
+  averageIceCurves.ice(object)
 }
 
 

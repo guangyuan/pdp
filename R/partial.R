@@ -462,6 +462,9 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
       pd.df <- pd.df[, c(pred.var, "yhat", "time")]  # rearrange columns
       names(pd.df)[ncol(pd.df)] <- "yhat.id"  # rename "time" column
 
+      # Assign class labels
+      class(pd.df) <- c("data.frame", "ice")
+      
       # c-ICE curves
       if (center) {
         pd.df <- centerIceCurves(pd.df)
@@ -473,20 +476,10 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
 
     } else {  # single curve
       names(pd.df) <- c(pred.var, "yhat")  # rename columns
+      class(pd.df) <- c("data.frame", "partial")  # assign class labels
     }
     rownames(pd.df) <- NULL  # remove row names
 
-  }
-
-  # Assign class labels
-  class(pd.df) <- if (ice) {
-    if (center) {
-      c("data.frame", "cice")
-    } else {
-      c("data.frame", "ice")
-    }
-  } else {
-    c("data.frame", "partial")
   }
 
   # Plot partial dependence function (if requested)

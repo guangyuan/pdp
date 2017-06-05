@@ -67,19 +67,6 @@ centerIceCurves <- function(object) {
 
 
 #' @keywords internal
-centerIceCurves.data.frame <- function(object) {
-  yhat <- tapply(object[["yhat"]], INDEX = as.factor(object[["yhat.id"]]),
-                 FUN = function(x) x - x[1L], simplify = FALSE)
-  res <- data.frame("x" = object[[1L]],
-                    "yhat" = unlist(yhat),
-                    "yhat.id" = object["yhat.id"])
-  names(res)[1L] <- names(object)[1L]
-  class(res) <- c("data.frame", "cice")
-  res
-}
-
-
-#' @keywords internal
 centerIceCurves.ice <- function(object) {
   # res <- object %>%
   #   dplyr::group_by_("yhat.id") %>%

@@ -224,7 +224,7 @@
 #' autoplot(rm.ice, alpha = 0.2, rug = TRUE, train = boston)
 #'
 #' #
-#' # Centered ICE curves (c-ICE curves) (requires dplyr and ggplot2 to run)
+#' # Centered ICE curves (c-ICE curves) (requires ggplot2 to run)
 #' #
 #'
 #' # Post-process rm.ice to obtain c-ICE curves
@@ -464,9 +464,7 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
 
       # c-ICE curves
       if (center) {
-        pd.df <- pd.df %>%
-          dplyr::group_by_("yhat.id") %>%
-          dplyr::mutate_("yhat" = "yhat - first(yhat)")
+        pd.df <- centerIceCurves(pd.df)
         if (type == "classification" && prob) {
           warning("Centering may result in probabilities outside of [0, 1].")
           pd.df$yhat <- pd.df$yhat + 0.5

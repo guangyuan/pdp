@@ -178,7 +178,7 @@ plotIceCurves <- function(x, plot.pdp, center, pdp.col, pdp.lwd, pdp.lty, rug,
            panel.xyplot(xx, yy, col = "black", ...)
            if (plot.pdp) {
              pd <- averageIceCurves(x)
-             panel.xyplot(pd$x, pd$yhat, type = "l", col = pdp.col,
+             panel.xyplot(pd[[1L]], pd$yhat, type = "l", col = pdp.col,
                           lwd = pdp.lwd, lty = pdp.lty)
            }
            if (rug && is.numeric(x[[1L]])) {

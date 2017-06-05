@@ -38,53 +38,85 @@ NULL
 
 
 #' @keywords internal
-averageIceCurves <- function(x) {
+averageIceCurves <- function(object) {
   UseMethod("averageIceCurves")
 }
 
 
 #' @keywords internal
-averageIceCurves.ice <- function(x) {
-  pred.name <- names(x)[1L]  # store predictor name
-  names(x)[1L] <- "x"  # use generic name for predictor
-  x <- x %>%  # average curves together
-    dplyr::group_by_("x") %>%
-    dplyr::summarize_("yhat" = "mean(yhat)") %>%
-    dplyr::ungroup()
-  class(x) <- c("data.frame", "ice")
-  x
+averageIceCurves.ice <- function(object) {
+  # names(object)[1L] <- "x"  # use generic name for predictor
+  # res <- object %>%  # average curves together
+  #   dplyr::group_by_("x") %>%
+  #   dplyr::summarize_("yhat" = "mean(yhat)") %>%
+  #   dplyr::ungroup()
+  # class(res) <- c("data.frame", "ice")
+  # res
+  yhat <- tapply(object[["yhat"]], INDEX = as.factor(object[[1L]]),
+                 FUN = mean, simplify = FALSE)
+  res <- data.frame("x" = object[seq_len(length(yhat)), 1L, drop = TRUE],
+                    "yhat" = unlist(yhat))
+  names(res)[1L] <- names(object)[1L]
+  class(res) <- c("data.frame", "ice")
+  res
 }
 
 
 #' @keywords internal
-averageIceCurves.cice <- function(x) {
-  pred.name <- names(x)[1L]  # store predictor name
-  names(x)[1L] <- "x"  # use generic name for predictor
-  x <- x %>%  # average curves together
-    dplyr::group_by_("x") %>%
-    dplyr::summarize_("yhat" = "mean(yhat)") %>%
-    dplyr::ungroup()
-  class(x) <- c("data.frame", "cice")
-  x
+averageIceCurves.cice <- function(object) {
+  # names(object)[1L] <- "x"  # use generic name for predictor
+  # res <- object %>%  # average curves together
+  #   dplyr::group_by_("x") %>%
+  #   dplyr::summarize_("yhat" = "mean(yhat)") %>%
+  #   dplyr::ungroup()
+  # class(res) <- c("data.frame", "cice")
+  # res
+  yhat <- tapply(object[["yhat"]], INDEX = as.factor(object[[1L]]),
+                 FUN = mean, simplify = FALSE)
+  res <- data.frame("x" = object[seq_len(length(yhat)), 1L, drop = TRUE],
+                    "yhat" = unlist(yhat))
+  names(res)[1L] <- names(object)[1L]
+  class(res) <- c("data.frame", "ice")
+  res
 }
 
 
 #' @keywords internal
-centerIceCurves <- function(x) {
+centerIceCurves <- function(object) {
   UseMethod("centerIceCurves")
 }
 
 
 #' @keywords internal
-centerIceCurves.ice <- function(x) {
-  x <- x %>%
-    dplyr::group_by_("yhat.id") %>%
-    dplyr::mutate_("yhat" = "yhat - first(yhat)") %>%
-    dplyr::ungroup()
-  class(x) <- c("data.frame", "cice")
-  x
+centerIceCurves.data.frame <- function(object) {
+  yhat <- tapply(object[["yhat"]], INDEX = as.factor(object[["yhat.id"]]),
+                 FUN = function(x) x - x[1L], simplify = FALSE)
+  res <- data.frame("x" = object[[1L]],
+                    "yhat" = unlist(yhat),
+                    "yhat.id" = object["yhat.id"])
+  names(res)[1L] <- names(object)[1L]
+  class(res) <- c("data.frame", "cice")
+  res
 }
 
+
+#' @keywords internal
+centerIceCurves.ice <- function(object) {
+  # res <- object %>%
+  #   dplyr::group_by_("yhat.id") %>%
+  #   dplyr::mutate_("yhat" = "yhat - first(yhat)") %>%
+  #   dplyr::ungroup()
+  # class(res) <- c("data.frame", "cice")
+  # res
+  yhat <- tapply(object[["yhat"]], INDEX = as.factor(object[["yhat.id"]]),
+                 FUN = function(x) x - x[1L], simplify = FALSE)
+  res <- data.frame("x" = object[[1L]],
+                    "yhat" = unlist(yhat),
+                    "yhat.id" = object["yhat.id"])
+  names(res)[1L] <- names(object)[1L]
+  class(res) <- c("data.frame", "cice")
+  res
+}
 
 
 #' @keywords internal

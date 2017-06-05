@@ -230,7 +230,7 @@ plotPartial(rm.ice, rug = TRUE, train = boston, alpha = 0.2)
 autoplot(rm.ice, alpha = 0.2, rug = TRUE, train = boston)
 
 #
-# Centered ICE curves (c-ICE curves) (requires dplyr and ggplot2 to run)
+# Centered ICE curves (c-ICE curves) (requires ggplot2 to run)
 #
 
 # Post-process rm.ice to obtain c-ICE curves

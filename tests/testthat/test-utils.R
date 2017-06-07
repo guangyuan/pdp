@@ -383,19 +383,19 @@ test_that("superType works correctly", {
   ##############################################################################
 
   # Package: e1071 -------------------------------------------------------------
-  if (require(e1071, quietly = TRUE)) {
-
-    # Regression
-    svm.reg <- svm(y ~ ., data = df.reg)
-
-    # Classification
-    svm.class <- svm(y ~ ., data = df.class)
-
-    # Expectations
-    expect_identical(superType(svm.reg), "regression")
-    expect_identical(superType(svm.class), "classification")
-
-  }
+  #if (require(e1071, quietly = TRUE)) {
+  #
+  #  # Regression
+  #  svm.reg <- svm(y ~ ., data = df.reg)
+  #
+  #  # Classification
+  #  svm.class <- svm(y ~ ., data = df.class)
+  #
+  #  # Expectations
+  #  expect_identical(superType(svm.reg), "regression")
+  #  expect_identical(superType(svm.class), "classification")
+  #
+  #}
 
   # Package: kernlab -----------------------------------------------------------
   if (require(kernlab, quietly = TRUE)) {

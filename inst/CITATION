@@ -1,0 +1,18 @@
+citHeader("To cite pdp in publications use:")
+
+citEntry(entry = "Article",
+  title        = "pdp: An R Package for Constructing Partial Dependence Plots",
+  author       = personList(as.person("Brandon M. Greenwell")),
+  journal      = "The R Journal",
+  year         = "2017",
+  volume       = "TBD",
+  number       = "TBD",
+  pages        = "TBD",
+  url          = "https://journal.r-project.org/archive/2017/RJ-2017-016/index.html",
+
+  textVersion  =
+  paste("Brandon M. Greenwell (2017).",
+        "pdp: An R Package for Constructing Partial Dependence Plots.",
+        "The R Journal, ?(?), ?-?.",
+        "URL https://journal.r-project.org/archive/2017/RJ-2017-016/index.html.")
+)

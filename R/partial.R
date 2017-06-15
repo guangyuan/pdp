@@ -389,7 +389,7 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
     # Use Friedman's weighted tree traversal approach
     pd.df <- getParDepGBM(object, pred.var = pred.var, pred.grid = pred.grid,
                           which.class = which.class, prob = prob, ...)
-    class(pd.df) <- c("data.frame", "ice")  # assign class labels
+    class(pd.df) <- c("data.frame", "partial")  # assign class labels
     names(pd.df) <- c(pred.var, "yhat")  # rename columns
     rownames(pd.df) <- NULL  # remove row names
     

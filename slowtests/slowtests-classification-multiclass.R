@@ -1,3 +1,4 @@
+
 #-------------------------------------------------------------------------------
 #
 # Slow tests for the pdp package
@@ -24,6 +25,7 @@ library(C50)
 library(earth)
 library(e1071)
 library(gbm)
+library(ggplot2)
 library(ipred)
 library(kernlab)
 # library(MASS)  # commented out to avoid NS conflicts with randomForest pkg

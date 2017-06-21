@@ -1,10 +1,37 @@
+#-------------------------------------------------------------------------------
+#
+# Slow tests for the pdp package
+#
+# Description: Testing pdp with XGBoost using three different training data 
+# formats: 
+#
+#   (1) "matrix" - base R;
+#   (2) "dgCMatrix" (sparce matrix format from Matrix pkg);
+#   (3) "xgb.DMatrix" (XGBoost matrix format).
+#
+# WARNING: This is simply a test file. These models are not trained to be 
+# "optimal" in any sense.
+#
+#-------------------------------------------------------------------------------
+
+
+################################################################################
+# Setup
+################################################################################
+
 # Load required packages
+library(ggplot2)
 library(Matrix)
 library(pdp)
 library(xgboost)
 
 # Load the data
 data(pima)
+
+
+################################################################################
+# Fit models
+################################################################################
 
 # Set up training data
 X <- subset(pima, select = -diabetes)
@@ -34,23 +61,29 @@ set.seed(101)
 bst.xgb.DMatrix <- xgboost(data = xgb.DMatrix(data.matrix(X), label = y),
                            params = plist, nrounds = 100)
 
-# Try all nine combnations
+
+################################################################################
+# Construct and display partial dependence plots
+################################################################################
+
+# Function to construct a PDP for glucose on the probability scale
+parDepPlot <- function(object, train, ...) {
+  pd <- partial(object, pred.var = "glucose", prob = TRUE, train = train)
+  label <- paste(deparse(substitute(object)), "with", deparse(substitute(train)))
+  autoplot(pd, main = label) +
+    theme_light()
+}
+
+# Try all nine combnations (should all look exactly the same!)
 grid.arrange(
-  partial(bst.matrix, pred.var = "glucose", plot = TRUE, train = X),
-  partial(bst.matrix, pred.var = "glucose", plot = TRUE, train = X.matrix),
-  partial(bst.matrix, pred.var = "glucose", plot = TRUE, train = X.dgCMatrix),
-  partial(bst.dgCMatrix, pred.var = "glucose", plot = TRUE, train = X),
-  partial(bst.dgCMatrix, pred.var = "glucose", plot = TRUE, train = X.matrix),
-  partial(bst.dgCMatrix, pred.var = "glucose", plot = TRUE, train = X.dgCMatrix),
-  partial(bst.xgb.DMatrix, pred.var = "glucose", plot = TRUE, train = X),
-  partial(bst.xgb.DMatrix, pred.var = "glucose", plot = TRUE, train = X.matrix),
-  partial(bst.xgb.DMatrix, pred.var = "glucose", plot = TRUE, train = X.dgCMatrix),
+  parDepPlot(bst.matrix, train = X),
+  parDepPlot(bst.matrix, train = X.matrix),
+  parDepPlot(bst.matrix, train = X.dgCMatrix),
+  parDepPlot(bst.dgCMatrix, train = X),
+  parDepPlot(bst.dgCMatrix, train = X.matrix),
+  parDepPlot(bst.dgCMatrix, train = X.dgCMatrix),
+  parDepPlot(bst.xgb.DMatrix, train = X),
+  parDepPlot(bst.xgb.DMatrix, train = X.matrix),
+  parDepPlot(bst.xgb.DMatrix, train = X.dgCMatrix),
   ncol = 3
 )
-
-# Plot probability instead
-pfun <- function(object, newdata) {
-  stats::predict(object, newdata = newdata)
-}
-partial(bst.matrix, pred.var = "glucose", pred.fun = pfun, plot = TRUE,
-        train = X, progress = "text")

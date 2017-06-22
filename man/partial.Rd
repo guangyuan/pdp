@@ -223,34 +223,9 @@ autoplot(pd, contour = TRUE, legend.title = "Partial\\ndependence")
 # Individual conditional expectation (ICE) curves
 #
 
-# Use partial to obtain ICE curves
-pred.ice <- function(object, newdata) predict(object, newdata)
-rm.ice <- partial(boston.rf, pred.var = "rm", pred.fun = pred.ice)
+# Use partial to obtain ICE/c-ICE curves
+rm.ice <- partial(boston.rf, pred.var = "rm", ice = TRUE)
 plotPartial(rm.ice, rug = TRUE, train = boston, alpha = 0.2)
-autoplot(rm.ice, alpha = 0.2, rug = TRUE, train = boston)
-
-#
-# Centered ICE curves (c-ICE curves) (requires ggplot2 to run)
-#
-
-# Post-process rm.ice to obtain c-ICE curves
-library(dplyr)  # for group_by and mutate functions
-rm.cice <- rm.ice \%>\%
-  group_by(yhat.id) \%>\%  # perform next operation within each yhat.id
-  mutate(yhat.centered = yhat - first(yhat))  # so each curve starts at yhat = 0
-
-# ICE curves with their average
-library(ggplot2)
-p1 <- ggplot(rm.ice, aes(rm, yhat)) +
-  geom_line(aes(group = yhat.id), alpha = 0.2) +
-  stat_summary(fun.y = mean, geom = "line", col = "red", size = 1)
-# c-ICE curves with their average
-p2 <- ggplot(rm.cice, aes(rm, yhat.centered)) +
-  geom_line(aes(group = yhat.id), alpha = 0.2) +
-  stat_summary(fun.y = mean, geom = "line", col = "red", size = 1)
-grid.arrange(p1, p2, ncol = 2)
-
-# Or just use autoplot (the default is to center the curves first)
 autoplot(rm.ice, center = TRUE, alpha = 0.2, rug = TRUE, train = boston)
 
 #
@@ -262,17 +237,13 @@ data (pima)  # load the boston housing data
 set.seed(102)  # for reproducibility
 pima.rf <- randomForest(diabetes ~ ., data = pima, na.action = na.omit)
 
-# Partial dependence of diabetes test result (neg/pos) on glucose
-partial(pima.rf, pred.var = c("glucose", "age"), plot = TRUE, chull = TRUE,
+# Partial dependence of positive test result on glucose (default logit scale)
+partial(pima.rf, pred.var = "glucose", plot = TRUE, chull = TRUE,
         progress = "text")
 
-# Partial dependence of positive diabetes test result on glucose, plotted on
-# the probability scale, rather than the centered logit
-pfun <- function(object, newdata) {
-  mean(predict(object, newdata, type = "prob")[, "pos"], ne.rm = TRUE)
-}
-partial(pima.rf, pred.var = "glucose", pred.fun = pfun,
-        plot = TRUE, chull = TRUE, progress = "text")
+# Partial dependence of positive test result on glucose (probability scale)
+partial(pima.rf, pred.var = "glucose", prob = TRUE, plot = TRUE, 
+        chull = TRUE, progress = "text")
 
 }
 }

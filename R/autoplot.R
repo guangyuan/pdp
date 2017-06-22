@@ -134,9 +134,9 @@ autoplot.partial <- function(object, center = FALSE, plot.pdp = TRUE,
   # Generate plot
   if (multi) {
     ggPlotIceCurves(object, center = center, plot.pdp = plot.pdp,
-                    pdp.color = pdp.color, pdp.size = pdp.size, rug = rug,
-                    train = train, xlab = xlab, ylab = ylab, main = main,
-                         ...)
+                    pdp.color = pdp.color, pdp.size = pdp.size,
+                    pdp.linetype = 1, rug = rug, train = train, xlab = xlab,
+                    ylab = ylab, main = main, ...)
   } else if (nx == 1L) {  # single predictor
     ggPlotOnePredictorPDP(object, rug = rug, smooth = smooth,
                           smooth.method = smooth.method,

@@ -61,6 +61,12 @@ averageIceCurves.cice <- function(object) {
 
 
 #' @keywords internal
+averageIceCurves.partial <- function(object) {
+  averageIceCurves.ice(object)
+}
+
+
+#' @keywords internal
 centerIceCurves <- function(object) {
   UseMethod("centerIceCurves")
 }

@@ -431,7 +431,11 @@ ggPlotTwoPredictorPDP <- function(object, rug, smooth, smooth.method,
     p <- p + xlab(xlab)
   }
   if (is.null(ylab)) {
-    p <- p + ylab("yhat")
+    p <- if (!is.factor(object[[1L]]) && !is.factor(object[[2L]])) {
+      p + ylab(names(object)[2L])
+    } else {
+      p + ylab("yhat")
+    }
   } else {
     p <- p + ylab(ylab)
   }

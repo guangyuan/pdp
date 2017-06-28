@@ -4,7 +4,7 @@
 * Properly registered native routines and disabled symbol search.
 * Fixed bug for `gbm` objects with the multinomial distribution.
 * Refactored code to improve structure.
-* `partial` gained three new options: `inv.link` (experimental), `ice`, and `center`. The latter two have to do with constructing individual conditional expectation (ICE) curves and cetered ICE (c-ICE) curves. The `inv.link` option is for transforming predictions from models that can use non-Gaussian distibutions (e.g., `glm`, `gbm`, and `xgboost`). Note that these options were added for convenience and the same results (plus much more) can still be obtained using the flexible `pred.fun` argument.
+* `partial` gained three new options: `inv.link` (experimental), `ice`, and `center`. The latter two have to do with constructing individual conditional expectation (ICE) curves and cetered ICE (c-ICE) curves. The `inv.link` option is for transforming predictions from models that can use non-Gaussian distibutions (e.g., `glm`, `gbm`, and `xgboost`). Note that these options were added for convenience and the same results (plus much more) can still be obtained using the flexible `pred.fun` argument. [(#36)](https://github.com/bgreenwell/pdp/issues/36).
 * `plotPartial` gained five new options: `center`, `plot.pdp`, `pdp.col`, `pdp.lwd`, and `pdp.lty`; see `?plotPartial` for details.
 * Fixed default y-axis label for `autoplot` with two numeric predictors [(#48)](https://github.com/bgreenwell/pdp/issues/48).
 

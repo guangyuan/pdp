@@ -5,14 +5,14 @@ citEntry(entry = "Article",
   author       = personList(as.person("Brandon M. Greenwell")),
   journal      = "The R Journal",
   year         = "2017",
-  volume       = "TBD",
-  number       = "TBD",
-  pages        = "TBD",
+  volume       = "9",
+  number       = "1",
+  pages        = "421--436",
   url          = "https://journal.r-project.org/archive/2017/RJ-2017-016/index.html",
 
   textVersion  =
   paste("Brandon M. Greenwell (2017).",
         "pdp: An R Package for Constructing Partial Dependence Plots.",
-        "The R Journal, ?(?), ?-?.",
+        "The R Journal, 9(1), 421--436.",
         "URL https://journal.r-project.org/archive/2017/RJ-2017-016/index.html.")
 )

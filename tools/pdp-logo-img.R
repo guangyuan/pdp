@@ -34,7 +34,7 @@ pdp <- autoplot(pd, contour = TRUE, contour.color = "black") +
 pdp  # text will look smaller
 
 # Save logo image
-ggsave("/home/w108bmg/Desktop/Dropbox/devel/pdp/tools/pdp-logo.png",
+ggsave("/home/w108bmg/Desktop/Dropbox/devel/pdp/tools/pdp-logo-img.png",
        plot = pdp,
        device = NULL,
        path = NULL,

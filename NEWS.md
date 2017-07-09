@@ -8,6 +8,7 @@
 * `plotPartial` gained five new options: `center`, `plot.pdp`, `pdp.col`, `pdp.lwd`, and `pdp.lty`; see `?plotPartial` for details.
 * Fixed default y-axis label for `autoplot` with two numeric predictors [(#48)](https://github.com/bgreenwell/pdp/issues/48).
 * Added `CITATION` file.
+* Added AppVeyor support for continuous building/testing on a Microsoft Windows virtual machine.
 
 ### Changes for version 0.5.2
 * Fixed minor pandoc conversion issue with `README.md`.

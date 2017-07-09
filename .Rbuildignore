@@ -6,3 +6,4 @@
 ^data-raw$
 ^tests/testthat/Rplots\.pdf$
 ^slowtests$
+^appveyor\.yml$

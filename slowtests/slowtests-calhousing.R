@@ -1,3 +1,24 @@
+#-------------------------------------------------------------------------------
+#
+# Slow tests for the pdp package
+#
+# Description: Reproducing the California housing example from Section 14.1 of
+# Chapter 10 in
+#
+#   Hastie, Trevor, Robert Tibshirani, and J. H. Friedman. The elements of 
+#   statistical learning : data mining, inference, and prediction. New York: 
+#   Springer, 2009. Print.
+#
+# WARNING: This is simply a test file. These models are not trained to be 
+# "optimal" in any sense.
+#
+#-------------------------------------------------------------------------------
+
+
+################################################################################
+# Setup
+################################################################################
+
 # Load required packages
 library(gbm)
 library(pdp)
@@ -10,7 +31,12 @@ devtools::source_gist(url, filename = "fetchCaliforniaHousingData.R")
 cal <- fetchCaliforniaHousingData()
 head(cal)
 
-# Run GBM
+
+################################################################################
+# Fit models
+################################################################################
+
+# Fit a GBM with the same parameters as in Hastie et al. (2009, pp 371-375)
 set.seed(102)
 cal.gbm <- gbm(AvgValue ~ ., data = cal,
                distribution = "laplace",
@@ -21,6 +47,19 @@ cal.gbm <- gbm(AvgValue ~ ., data = cal,
                train.fraction = 0.8,
                verbose = TRUE)
 best.iter <- gbm.perf(cal.gbm, method = "test")
+
+
+################################################################################
+# Construct and display partial dependence plots
+################################################################################
+
+# There seems to be a fair amount of outliers in the datset so we have two
+# options: 
+#
+#   (1) use the quantiles options with specific probabilities;
+#   (2) use the trim.outliers option.
+#
+# Below we elect to use option (1).
 
 # Partial dependence of AvgValue on MedInc, AveOccup, HouseAge, and AveRooms
 pd.MedInc <- partial(cal.gbm, pred.var = "MedInc", quantiles = TRUE,
@@ -35,7 +74,7 @@ pd.AveRooms <- partial(cal.gbm, pred.var = "AveRooms", quantiles = TRUE,
 # Partial dependence of AvgValue on AveOccup and HouseAge (together)
 pd.HouseAge.AveOccup <- partial(
   cal.gbm, pred.var = c("HouseAge", "AveOccup"), quantiles = TRUE,
-  probs = 5:95/100, n.trees = best.iter,
+  probs = 5:95/100, n.trees = best.iter
 )
 
 # Single-predictor PDPs

@@ -1,5 +1,14 @@
+
 #-------------------------------------------------------------------------------
+#
 # Slow tests for the pdp package
+#
+# Description: Testing pdp with various classification models for multiclass 
+# (i.e., > 2 classes) classification.
+#
+# WARNING: This is simply a test file. These models are not trained to be 
+# "optimal" in any sense.
+#
 #-------------------------------------------------------------------------------
 
 
@@ -16,12 +25,13 @@ library(C50)
 library(earth)
 library(e1071)
 library(gbm)
+library(ggplot2)
 library(ipred)
 library(kernlab)
-# library(MASS)  # for lda() and qda()
+# library(MASS)  # commented out to avoid NS conflicts with randomForest pkg
 library(nnet)
 library(party)
-# library(partykit)
+# library(partykit)  # commented out to avoid NS conflicts with party pkg
 library(pdp)
 library(randomForest)
 library(ranger)
@@ -80,8 +90,13 @@ iris.lda <- MASS::lda(Species ~ ., data = iris)
 # MASS::qda
 iris.qda <- MASS::qda(Species ~ ., data = iris)
 
-# # nnet
-# iris.nnet <- nnet(Species ~ ., data = iris, size = 10, decay = 0.1, maxit = 500)
+# nnet
+set.seed(101)
+iris.nnet <- nnet(Species ~ ., data = iris, size = 10, decay = 0.1, maxit = 500)
+
+# nnet::multinom
+set.seed(101)
+iris.multinom <- multinom(Species ~ ., data = iris)
 
 # party::ctree
 iris.ctree <- ctree(Species ~ ., data = iris)
@@ -120,61 +135,75 @@ iris.xgb <- xgboost(data = data.matrix(subset(iris, select = -Species)),
 
 
 ################################################################################
-# PDPs for a single predictor (centered logit scale)
+# Construct partial dependence plots 
 ################################################################################
 
-# For brevity
-parDepPlot3 <- function(object, train = iris, ...) {
-  pd <- partial(object, pred.var = "Petal.Length", grid.resolution = 10,
-                which.class = 3, prob = TRUE, train = train, progress = "text",
-                ...)
-  plotPartial(pd, main = deparse(substitute(object)))
+# Function to construct a PDP for each class on the probability scale, then
+# display all in one plot.
+parDepPlot <- function(object, train = iris, ...) {
+  pd1 <- partial(object, pred.var = "Petal.Length", grid.resolution = 10,
+                 which.class = 1, prob = TRUE, train = train, progress = "text",
+                 ...)
+  pd2 <- partial(object, pred.var = "Petal.Length", grid.resolution = 10,
+                 which.class = 2, prob = TRUE, train = train, progress = "text",
+                 ...)
+  pd3 <- partial(object, pred.var = "Petal.Length", grid.resolution = 10,
+                 which.class = 3, prob = TRUE, train = train, progress = "text",
+                 ...)
+  pd <- rbind(cbind(pd1, "Class" = "1"), 
+              cbind(pd2, "Class" = "2"), 
+              cbind(pd3, "Class" = "3"))
+  ggplot(pd, aes(x = Petal.Length, y = yhat, color = Class)) +
+    geom_line() +
+    xlab("Petal length") +
+    ylab("Probability") +
+    ggtitle(deparse(substitute(object))) +
+    theme_light()
 }
 
-# Display PDPs
+# Construct and store individual plots
+iris.bagging.pdp <- parDepPlot(iris.bagging)
+iris.boosting.pdp <- parDepPlot(iris.boosting)
+iris.C5.0.pdp <- parDepPlot(iris.C5.0)
+iris.svm.pdp <- parDepPlot(iris.svm)
+iris.earth.pdp <- parDepPlot(iris.earth)  # can only use binomial
+iris.gbm.pdp <- parDepPlot(iris.gbm, recursive = FALSE, n.trees = best.iter)
+iris.ipred.bagging.pdp <- parDepPlot(iris.ipred.bagging)
+iris.ksvm.pdp <- parDepPlot(iris.ksvm)
+iris.lda.pdp <- parDepPlot(iris.lda)
+iris.qda.pdp <- parDepPlot(iris.qda)
+iris.nnet.pdp <- parDepPlot(iris.nnet)
+iris.multinom <- parDepPlot(iris.multinom)
+iris.ctree.pdp <- parDepPlot(iris.ctree)
+iris.crf.pdp <- parDepPlot(iris.crf)
+iris.partykit.ctree.pdp <- parDepPlot(iris.partykit.ctree)
+iris.partykit.crf.pdp <- parDepPlot(iris.partykit.crf)
+iris.rf.pdp <- parDepPlot(iris.rf)
+iris.ranger.pdp <- parDepPlot(iris.ranger)
+iris.rpart.pdp <- parDepPlot(iris.rpart)
+iris.xgb.pdp <- parDepPlot(iris.xgb, subset(iris, select = -Species))
+
+# Display all plots on one graph
 grid.arrange(
-  parDepPlot(iris.bagging),
-  parDepPlot(iris.boosting),
-  parDepPlot(iris.C5.0),
-  parDepPlot(iris.svm),
-  parDepPlot(iris.earth),
-  parDepPlot(iris.gbm, recursive = FALSE, n.trees = best.iter),
-  parDepPlot(iris.ipred.bagging),
-  parDepPlot(iris.ksvm),
-  parDepPlot(iris.lda),
-  parDepPlot(iris.qda),
-  # parDepPlot(iris.nnet),
-  parDepPlot(iris.ctree),
-  parDepPlot(iris.crf),
-  parDepPlot(iris.partykit.ctree),
-  parDepPlot(iris.partykit.crf),
-  parDepPlot(iris.rf),
-  parDepPlot(iris.ranger),
-  parDepPlot(iris.rpart),
-  parDepPlot(iris.xgb, subset(iris, select = -Species)),
+  iris.bagging.pdp,
+  iris.boosting.pdp,
+  iris.C5.0.pdp,
+  iris.svm.pdp,
+  iris.earth.pdp,
+  iris.gbm.pdp,
+  iris.ipred.bagging.pdp,
+  iris.ksvm.pdp,
+  iris.lda.pdp,
+  iris.qda.pdp,
+  iris.nnet.pdp,
+  iris.multinom,
+  iris.ctree.pdp,
+  iris.crf.pdp,
+  iris.partykit.ctree.pdp,
+  iris.partykit.crf.pdp,
+  iris.rf.pdp,
+  iris.ranger.pdp,
+  iris.rpart.pdp,
+  iris.xgb.pdp,
   ncol = 5
 )
-
-# Plot all three classes: XGBoost
-plot(partial(iris.xgb, pred.var = x, which.class = 1,
-             train = subset(iris, select = -Species)), type = "l")
-lines(partial(iris.xgb, pred.var = x, which.class = 2,
-             train = subset(iris, select = -Species)), type = "l", col = 2)
-lines(partial(iris.xgb, pred.var = x, which.class = 3,
-             train = subset(iris, select = -Species)), type = "l", col = 3)
-
-# Plot all three classes: GBM (weighted tree traversal)
-plot(partial(iris.gbm, pred.var = "Petal.Length", which.class = 1,
-             n.trees = best.iter), type = "l")
-lines(partial(iris.gbm, pred.var = "Petal.Length", which.class = 2,
-              n.trees = best.iter), type = "l", col = 2)
-lines(partial(iris.gbm, pred.var = "Petal.Length", which.class = 3,
-              n.trees = best.iter), type = "l", col = 3)
-
-# Plot all three classes: GBM (brute force)
-plot(partial(iris.gbm, pred.var = "Petal.Length", which.class = 1,
-             recursive = FALSE, n.trees = best.iter), type = "l")
-lines(partial(iris.gbm, pred.var = "Petal.Length", which.class = 2,
-              recursive = FALSE, n.trees = best.iter), type = "l", col = 2)
-lines(partial(iris.gbm, pred.var = "Petal.Length", which.class = 3,
-              recursive = FALSE, n.trees = best.iter), type = "l", col = 3)

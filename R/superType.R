@@ -161,6 +161,16 @@ superType.nls <- function(object) {
 }
 
 
+#' @keywords internal
+superType.nnet <- function(object) {
+  if (is.null(object$lev)) {
+    "regression"
+  } else {
+    "classification"
+  }
+}
+
+
 superType.party <- function(object) {
   if (attr(object$terms, "response") == 1 &&
       attr(object$terms, "dataClasses")[1L] == "numeric") {

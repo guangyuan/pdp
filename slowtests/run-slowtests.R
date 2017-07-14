@@ -84,6 +84,26 @@ pimaIndiansTest <- function(object) {
 }
 
 
+# Function to run tests for a fitted model object using the iris data
+irisTest <- function(object, ...) {
+  pd1 <- partial(object, pred.var = "Petal.Length", grid.resolution = 51,
+                 which.class = 1, prob = TRUE, train = iris, ...)
+  pd2 <- partial(object, pred.var = "Petal.Length", grid.resolution = 51,
+                 which.class = 2, prob = TRUE, train = iris, ...)
+  pd3 <- partial(object, pred.var = "Petal.Length", grid.resolution = 51,
+                 which.class = 3, prob = TRUE, train = iris, ...)
+  pd <- rbind(cbind(pd1, "Class" = "1"),
+              cbind(pd2, "Class" = "2"),
+              cbind(pd3, "Class" = "3"))
+  ggplot(pd, aes(x = Petal.Length, y = yhat, color = Class)) +
+    geom_line() +
+    xlab("Petal length") +
+    ylab("Probability") +
+    ggtitle(deparse(substitute(object))) +
+    theme_light()
+}
+
+
 data(boston)
 data(pima)
 

@@ -3,10 +3,10 @@
 #
 # Slow tests for the pdp package
 #
-# Description: Testing pdp with various classification models for multiclass 
+# Description: Testing pdp with various classification models for multiclass
 # (i.e., > 2 classes) classification.
 #
-# WARNING: This is simply a test file. These models are not trained to be 
+# WARNING: This is simply a test file. These models are not trained to be
 # "optimal" in any sense.
 #
 #-------------------------------------------------------------------------------
@@ -135,53 +135,30 @@ iris.xgb <- xgboost(data = data.matrix(subset(iris, select = -Species)),
 
 
 ################################################################################
-# Construct partial dependence plots 
+# Construct partial dependence plots
 ################################################################################
 
-# Function to construct a PDP for each class on the probability scale, then
-# display all in one plot.
-parDepPlot <- function(object, train = iris, ...) {
-  pd1 <- partial(object, pred.var = "Petal.Length", grid.resolution = 10,
-                 which.class = 1, prob = TRUE, train = train, progress = "text",
-                 ...)
-  pd2 <- partial(object, pred.var = "Petal.Length", grid.resolution = 10,
-                 which.class = 2, prob = TRUE, train = train, progress = "text",
-                 ...)
-  pd3 <- partial(object, pred.var = "Petal.Length", grid.resolution = 10,
-                 which.class = 3, prob = TRUE, train = train, progress = "text",
-                 ...)
-  pd <- rbind(cbind(pd1, "Class" = "1"), 
-              cbind(pd2, "Class" = "2"), 
-              cbind(pd3, "Class" = "3"))
-  ggplot(pd, aes(x = Petal.Length, y = yhat, color = Class)) +
-    geom_line() +
-    xlab("Petal length") +
-    ylab("Probability") +
-    ggtitle(deparse(substitute(object))) +
-    theme_light()
-}
-
 # Construct and store individual plots
-iris.bagging.pdp <- parDepPlot(iris.bagging)
-iris.boosting.pdp <- parDepPlot(iris.boosting)
-iris.C5.0.pdp <- parDepPlot(iris.C5.0)
-iris.svm.pdp <- parDepPlot(iris.svm)
-iris.earth.pdp <- parDepPlot(iris.earth)  # can only use binomial
-iris.gbm.pdp <- parDepPlot(iris.gbm, recursive = FALSE, n.trees = best.iter)
-iris.ipred.bagging.pdp <- parDepPlot(iris.ipred.bagging)
-iris.ksvm.pdp <- parDepPlot(iris.ksvm)
-iris.lda.pdp <- parDepPlot(iris.lda)
-iris.qda.pdp <- parDepPlot(iris.qda)
-iris.nnet.pdp <- parDepPlot(iris.nnet)
-iris.multinom <- parDepPlot(iris.multinom)
-iris.ctree.pdp <- parDepPlot(iris.ctree)
-iris.crf.pdp <- parDepPlot(iris.crf)
-iris.partykit.ctree.pdp <- parDepPlot(iris.partykit.ctree)
-iris.partykit.crf.pdp <- parDepPlot(iris.partykit.crf)
-iris.rf.pdp <- parDepPlot(iris.rf)
-iris.ranger.pdp <- parDepPlot(iris.ranger)
-iris.rpart.pdp <- parDepPlot(iris.rpart)
-iris.xgb.pdp <- parDepPlot(iris.xgb, subset(iris, select = -Species))
+iris.bagging.pdp <- irisTest(iris.bagging)
+iris.boosting.pdp <- irisTest(iris.boosting)
+iris.C5.0.pdp <- irisTest(iris.C5.0)
+iris.svm.pdp <- irisTest(iris.svm)
+iris.earth.pdp <- irisTest(iris.earth)  # can only use binomial
+iris.gbm.pdp <- irisTest(iris.gbm, recursive = FALSE, n.trees = best.iter)
+iris.ipred.bagging.pdp <- irisTest(iris.ipred.bagging)
+iris.ksvm.pdp <- irisTest(iris.ksvm)
+iris.lda.pdp <- irisTest(iris.lda)
+iris.qda.pdp <- irisTest(iris.qda)
+iris.nnet.pdp <- irisTest(iris.nnet)
+iris.multinom.pdp <- irisTest(iris.multinom)
+iris.ctree.pdp <- irisTest(iris.ctree)
+iris.crf.pdp <- irisTest(iris.crf)
+iris.partykit.ctree.pdp <- irisTest(iris.partykit.ctree)
+iris.partykit.crf.pdp <- irisTest(iris.partykit.crf)
+iris.rf.pdp <- irisTest(iris.rf)
+iris.ranger.pdp <- irisTest(iris.ranger)
+iris.rpart.pdp <- irisTest(iris.rpart)
+iris.xgb.pdp <- irisTest(iris.xgb, subset(iris, select = -Species))
 
 # Display all plots on one graph
 grid.arrange(

@@ -1,7 +1,7 @@
 Package: pdp
 Type: Package
 Title: Partial Dependence Plots
-Version: 0.5.2.9000
+Version: 0.6.0
 Authors@R: person("Brandon", "Greenwell", email = "greenwell.brandon@gmail.com",
   role = c("aut", "cre"))
 Description: A general framework for constructing partial dependence (i.e., 
@@ -32,7 +32,6 @@ Suggests:
     testthat,
     xgboost (>= 0.6-0)
 Imports:
-    boot,
     ggplot2 (>= 0.9.0),
     grDevices,
     gridExtra,
@@ -42,7 +41,6 @@ Imports:
     mgcv,
     plyr,
     Rcpp (>= 0.11.5),
-    rlang,
     stats,
     viridis,
     utils

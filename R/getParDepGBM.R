@@ -48,7 +48,7 @@ getParDepGBM <- function(object, pred.var, pred.grid, which.class, prob, ...) {
       pd.df$yhat <- multiClassLogit(y, which.class = which.class)
     }
   } else if (object$distribution$name %in% c("bernoulli", "pairwise")) {
-    pr <- boot::inv.logit(y)
+    pr <- stats::plogis(y)
     pr <- cbind(pr, 1 - pr)
     if (prob) {
       pd.df$yhat <- pr[, which.class]
@@ -56,7 +56,7 @@ getParDepGBM <- function(object, pred.var, pred.grid, which.class, prob, ...) {
       eps <- .Machine$double.eps
       pd.df$yhat <- log(ifelse(pr[, which.class] > 0, pr[, which.class], eps)) -
         rowMeans(log(ifelse(pr > 0, pr, eps)))
-    } # pd.df$yhat <- boot::logit(cbind(pr, 1 - pr)[, which.class])
+    }
   } else {
     pd.df$yhat <- y
   }

@@ -1,6 +1,6 @@
 # NEWS for pdp package
 
-### Changes for version 0.5.3
+### Changes for version 0.6.0
 * Properly registered native routines and disabled symbol search.
 * Fixed a bug for `gbm` models using the multinomial distribution.
 * Refactored code to improve structure.

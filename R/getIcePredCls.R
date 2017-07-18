@@ -173,8 +173,9 @@ getIceClsLogit.nnet <- function(object, newdata, which.class, ...) {
   # It seems that when the response has more than two levels, predict.nnet
   # returns a matrix whose column names are the same as the factor levels. When
   # the response is binary, a single-columned matrix with no column name is
-  # returned.
-  if (ncol(pr) == 1) {
+  # returned. For multinomial models, a vector is returned when the response has
+  # only two classes.
+  if (is.null(ncol(pr)) || ncol(pr) == 1) {
     multiClassLogit(cbind(pr, 1 - pr), which.class = which.class)
   } else {
     multiClassLogit(pr, which.class = which.class)
@@ -192,8 +193,9 @@ getIceClsProb.nnet <- function(object, newdata, which.class, ...) {
   # It seems that when the response has more than two levels, predict.nnet
   # returns a matrix whose column names are the same as the factor levels. When
   # the response is binary, a single-columned matrix with no column name is
-  # returned.
-  if (ncol(pr) == 1) {
+  # returned. For multinomial models, a vector is returned when the response has
+  # only two classes.
+  if (is.null(ncol(pr)) || ncol(pr) == 1) {
     cbind(pr, 1 - pr)[, which.class]
   } else {
     pr[, which.class]

@@ -68,4 +68,3 @@ grid.arrange(
           n.trees = best.iter, plot = TRUE),
   ncol = 2
 )
-

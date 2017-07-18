@@ -1,5 +1,6 @@
 .Rproj.user
 .Rhistory
 .RData
+slowtests/*.html
 src/*.o
 src/*.so

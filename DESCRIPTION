@@ -45,4 +45,3 @@ Imports:
     utils
 LazyData: TRUE
 RoxygenNote: 6.0.1
-LinkingTo: Rcpp

@@ -1,6 +1,5 @@
 #' @keywords internal
 #' @useDynLib pdp, .registration = TRUE
-#' @importFrom Rcpp sourceCpp
 getParDepGBM <- function(object, pred.var, pred.grid, which.class, prob, ...) {
 
   # Extract number of trees

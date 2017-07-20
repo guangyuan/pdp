@@ -49,9 +49,9 @@ bostonHousingTest <- function(object, ...) {
 ```
 
 
-## Cubist
+# Cubist
 
-# `Cubist` package
+## `Cubist` package
 
 ```{r}
 boston.cubist <- Cubist::cubist(x = subset(boston, select = -cmedv),
@@ -60,23 +60,23 @@ bostonHousingTest(boston.cubist)
 ```
 
 
-## Decision trees
+# Decision trees
 
-# `rpart` package
+## `rpart` package
 
 ```{r}
 boston.rpart <- rpart::rpart(cmedv ~ ., data = boston)
 bostonHousingTest(boston.rpart)
 ```
 
-# `party` package
+## `party` package
 
 ```{r}
 boston.ctree <- party::ctree(cmedv ~ ., data = boston)
 bostonHousingTest(boston.ctree)
 ```
 
-# `partykit` package
+## `partykit` package
 
 ```{r}
 boston.ctree2 <- partykit::ctree(cmedv ~ ., data = boston)
@@ -84,9 +84,9 @@ bostonHousingTest(boston.ctree2)
 ```
 
 
-## Bagging
+# Bagging
 
-# `ipred` package
+## `ipred` package
 
 ```{r}
 set.seed(101)
@@ -94,9 +94,9 @@ boston.ipred <- ipred::bagging(cmedv ~ ., data = boston, nbagg = 500)
 bostonHousingTest(boston.ipred)
 ```
 
-## Random forests
+# Random forests
 
-# `randomForest` package
+## `randomForest` package
 
 ```{r}
 set.seed(101)
@@ -105,7 +105,7 @@ bostonHousingTest(boston.rf)
 ```
 
 
-# `party` package
+## `party` package
 
 ```{r}
 set.seed(101)
@@ -113,7 +113,7 @@ boston.crf <- party::cforest(cmedv ~ ., data = boston)
 bostonHousingTest(boston.crf, quantiles = TRUE)
 ```
 
-# `ranger` package
+## `ranger` package
 
 ```{r}
 set.seed(101)
@@ -122,9 +122,9 @@ bostonHousingTest(boston.ranger)
 ```
 
 
-## Boosting
+# Boosting
 
-# `gbm` package
+## `gbm` package
 
 ```{r}
 set.seed(101)
@@ -135,7 +135,7 @@ best.iter <- gbm::gbm.perf(boston.gbm, method = "OOB", plot.it = FALSE)
 bostonHousingTest(boston.gbm, n.trees = best.iter)
 ```
 
-# `xgboost` package
+## `xgboost` package
 ```{r}
 set.seed(101)
 boston.xgb <- xgboost::xgboost(
@@ -147,9 +147,9 @@ boston.xgb <- xgboost::xgboost(
 bostonHousingTest(boston.xgb)
 ```
 
-## Neural networks
+# Neural networks
 
-# `nnet` package
+## `nnet` package
 ```{r}
 set.seed(101)
 boston.nnet <- nnet::nnet(cmedv ~ ., data = boston, size = 6, decay = 0.1,
@@ -158,16 +158,16 @@ bostonHousingTest(boston.nnet)
 ```
 
 
-## Support vector machines
+# Support vector machines
 
-# `e1071` package
+## `e1071` package
 
 ```{r}
 boston.svm <- e1071::svm(cmedv ~ ., data = boston, type = "eps-regression")
 bostonHousingTest(boston.svm)
 ```
 
-# `kernlab` package
+## `kernlab` package
 
 ```{r}
 boston.ksvm <- kernlab::ksvm(cmedv ~ ., data = boston, type= "eps-svr")
@@ -175,9 +175,9 @@ bostonHousingTest(boston.ksvm)
 ```
 
 
-## Linear/generalized linear models
+# Linear/generalized linear models
 
-# `stats` package
+## `stats` package
 
 ```{r}
 boston.lm <- lm(cmedv ~ . ^ 2, data = boston)
@@ -190,16 +190,16 @@ bostonHousingTest(boston.glm)
 ```
 
 
-## Multivariate adaptive regression splines
+# Multivariate adaptive regression splines
 
-# `earth` package
+## `earth` package
 
 ```{r}
 boston.earth <- earth::earth(cmedv ~ ., degree = 3, data = boston)
 bostonHousingTest(boston.earth)
 ```
 
-# `mda` package
+## `mda` package
 
 ```{r}
 boston.mars <- mda::mars(x = subset(boston, select = - cmedv), 

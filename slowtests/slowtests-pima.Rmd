@@ -195,15 +195,15 @@ pimaIndiansTest(pima.boosting, quantiles = TRUE, prob = TRUE)
 
 ```{r}
 set.seed(101)
-pima.gbm <- gbm::gbm(diabetes ~ ., 
+pima.gbm <- gbm::gbm(unclass(diabetes) - 1 ~ ., 
                      data = na.omit(pima),
-                     distribution = "multinomial",
+                     distribution = "bernoulli",
                      n.trees = 5000,
                      interaction.depth = 3,
                      shrinkage = 0.001,
-                     cv.folds = 5,
+                     # cv.folds = 5,
                      verbose = FALSE)
-best.iter <- gbm::gbm.perf(pima.gbm, method = "cv", plot.it = FALSE)
+best.iter <- gbm::gbm.perf(pima.gbm, method = "OOB", plot.it = FALSE)
 pimaIndiansTest(pima.gbm, n.trees = best.iter)
 pimaIndiansTest(pima.gbm, n.trees = best.iter, prob = TRUE)
 ```

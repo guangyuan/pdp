@@ -2,14 +2,14 @@
 #
 # Slow tests for the pdp package
 #
-# Description: Testing pdp with XGBoost using three different training data 
-# formats: 
+# Description: Testing pdp with XGBoost using three different training data
+# formats:
 #
 #   (1) "matrix" - base R;
 #   (2) "dgCMatrix" (sparce matrix format from Matrix pkg);
 #   (3) "xgb.DMatrix" (XGBoost matrix format).
 #
-# WARNING: This is simply a test file. These models are not trained to be 
+# WARNING: This is simply a test file. These models are not trained to be
 # "optimal" in any sense.
 #
 #-------------------------------------------------------------------------------
@@ -49,17 +49,18 @@ plist <- list(
 
 # Fit an XGBoost model with trainind data stored as a "matrix"
 set.seed(101)
-bst.matrix <- xgboost(data = X.matrix, label = y, params = plist, nrounds = 100)
+bst.matrix <- xgboost(data = X.matrix, label = y, params = plist, nrounds = 100,
+                      save_period = NULL)
 
 # Fit an XGBoost model with trainind data stored as a "dgCMatrix"
 set.seed(101)
 bst.dgCMatrix <- xgboost(data = X.dgCMatrix, label = y, params = plist,
-                         nrounds = 100)
+                         nrounds = 100, save_period = NULL)
 
 # Fit an XGBoost model with trainind data stored as an "xgb.DMatrix"
 set.seed(101)
 bst.xgb.DMatrix <- xgboost(data = xgb.DMatrix(data.matrix(X), label = y),
-                           params = plist, nrounds = 100)
+                           params = plist, nrounds = 100, save_period = NULL)
 
 
 ################################################################################

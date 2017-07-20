@@ -80,7 +80,7 @@
 #' @export
 #'
 #' @examples
-#'
+#' \dontrun{
 #' #
 #' # Regression example (requires randomForest package to run)
 #' #
@@ -101,7 +101,7 @@
 #'
 #' # Partial dependence of cmedv on lstat and rm
 #' boston.rf %>%
-#'   partial(pred.var = c("lstat", "rm"), chull = TRUE) %>%
+#'   partial(pred.var = c("lstat", "rm"), chull = TRUE, progress = "text") %>%
 #'   autoplot(contour = TRUE, legend.title = "rm")
 #'
 #' # ICE curves and c-ICE curves
@@ -111,6 +111,7 @@
 #'   autoplot(age.ice, center = TRUE, alpha = 0.5),  # c-ICE curves
 #'   ncol = 2
 #' )
+#' }
 autoplot.partial <- function(object, center = FALSE, plot.pdp = TRUE,
                              pdp.color = "red", pdp.size = 1, pdp.linetype = 1,
                              rug = FALSE, smooth = FALSE,

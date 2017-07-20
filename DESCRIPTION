@@ -40,7 +40,6 @@ Imports:
     methods,
     mgcv,
     plyr,
-    Rcpp (>= 0.11.5),
     stats,
     viridis,
     utils

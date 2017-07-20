@@ -69,8 +69,36 @@
 #' @export
 #'
 #' @examples
-#' # See ?partial for examples
-#' ?partial
+#' \dontrun{
+#' #
+#' # Regression example (requires randomForest package to run)
+#' #
+#'
+#' # Load required packages
+#' library(ggplot2)  # required to use autoplot
+#' library(randomForest)
+#'
+#' # Fit a random forest to the Boston housing data
+#' data (boston)  # load the boston housing data
+#' set.seed(101)  # for reproducibility
+#' boston.rf <- randomForest(cmedv ~ ., data = boston)
+#'
+#' # Partial dependence of cmedv on lstat
+#' boston.rf %>%
+#'   partial(pred.var = "lstat") %>%
+#'   plotPartial(rug = TRUE, train = boston)
+#'
+#' # Partial dependence of cmedv on lstat and rm
+#' boston.rf %>%
+#'   partial(pred.var = c("lstat", "rm"), chull = TRUE, progress = "text") %>%
+#'   plotPartial(contour = TRUE, legend.title = "rm")
+#'
+#' # ICE curves and c-ICE curves
+#' age.ice <- partial(boston.rf, pred.var = "lstat", ice = TRUE)
+#' p1 <- plotPartial(age.ice, alpha = 0.5)
+#' p2 <- plotPartial(age.ice, center = TRUE, alpha = 0.5)
+#' grid.arrange(p1, p2, ncol = 2)
+#' }
 plotPartial <- function(x, ...) {
   UseMethod("plotPartial")
 }

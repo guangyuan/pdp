@@ -182,7 +182,6 @@
 #'
 #' @examples
 #' \dontrun{
-#'
 #' #
 #' # Regression example (requires randomForest package to run)
 #' #
@@ -236,9 +235,8 @@
 #'         progress = "text")
 #'
 #' # Partial dependence of positive test result on glucose (probability scale)
-#' partial(pima.rf, pred.var = "glucose", prob = TRUE, plot = TRUE, 
+#' partial(pima.rf, pred.var = "glucose", prob = TRUE, plot = TRUE,
 #'         chull = TRUE, progress = "text")
-#'
 #' }
 partial <- function(object, ...) {
   UseMethod("partial")
@@ -392,7 +390,7 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
     class(pd.df) <- c("data.frame", "partial")  # assign class labels
     names(pd.df) <- c(pred.var, "yhat")  # rename columns
     rownames(pd.df) <- NULL  # remove row names
-    
+
   } else {
 
     # Use brute force approach
@@ -438,7 +436,7 @@ partial.default <- function(object, pred.var, pred.grid, pred.fun = NULL,
 
       # Assign class labels
       class(pd.df) <- c("data.frame", "ice")
-      
+
       # c-ICE curves
       if (center) {
         pd.df <- centerIceCurves(pd.df)

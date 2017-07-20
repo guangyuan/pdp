@@ -188,7 +188,6 @@ expectation (ICE) curves; see Goldstein et al. (2015) and
 }
 \examples{
 \dontrun{
-
 #
 # Regression example (requires randomForest package to run)
 #
@@ -242,9 +241,8 @@ partial(pima.rf, pred.var = "glucose", plot = TRUE, chull = TRUE,
         progress = "text")
 
 # Partial dependence of positive test result on glucose (probability scale)
-partial(pima.rf, pred.var = "glucose", prob = TRUE, plot = TRUE, 
+partial(pima.rf, pred.var = "glucose", prob = TRUE, plot = TRUE,
         chull = TRUE, progress = "text")
-
 }
 }
 \references{

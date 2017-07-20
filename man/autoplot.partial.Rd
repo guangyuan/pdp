@@ -94,7 +94,7 @@ Plots partial dependence functions (i.e., marginal effects) using
 \code{\link[ggplot2]{ggplot2}} graphics.
 }
 \examples{
-
+\dontrun{
 #
 # Regression example (requires randomForest package to run)
 #
@@ -115,7 +115,7 @@ boston.rf \%>\%
 
 # Partial dependence of cmedv on lstat and rm
 boston.rf \%>\%
-  partial(pred.var = c("lstat", "rm"), chull = TRUE) \%>\%
+  partial(pred.var = c("lstat", "rm"), chull = TRUE, progress = "text") \%>\%
   autoplot(contour = TRUE, legend.title = "rm")
 
 # ICE curves and c-ICE curves
@@ -125,4 +125,5 @@ grid.arrange(
   autoplot(age.ice, center = TRUE, alpha = 0.5),  # c-ICE curves
   ncol = 2
 )
+}
 }
